@@ -22,7 +22,7 @@ echo '# ssml2voice'
 docker run --rm -it -v $PWD/work:/work listening-paperback-python /bin/sh -c "python ssml2voice.py ${2} ${3}" || exit 1
 
 echo '# postprocessing'
-cid=`git log -n 1 --format=%h`
+cid=`git log -n 1 --format=%ad-%h --date=format:'%Y%m%d'`
 rm -rf ./projects/${1}/output_${cid}
 
 mkdir ./projects/${1}/output_${cid}
