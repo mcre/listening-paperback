@@ -19,7 +19,8 @@ docker run --rm -it -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -pn
 echo '# tex2ssml'
 docker run --rm -it -v $PWD/work:/work listening-paperback-python /bin/sh -c "python tex2ssml.py" || exit 1
 echo '# ssml2voice'
-docker run --rm -it -v $PWD/work:/work listening-paperback-python /bin/sh -c "python ssml2voice.py ${2} ${3}" || exit 1
+mkdir ./work/voices ./work/marks & cp ./tmp/voices/* ./work/voices/ & cp ./tmp/marks/* ./work/marks/ # debug
+# docker run --rm -it -v $PWD/work:/work listening-paperback-python /bin/sh -c "python ssml2voice.py ${2} ${3}" || exit 1
 
 echo '# postprocessing'
 cid=`git log -n 1 --format=%ad-%h --date=format:'%Y%m%d'`
