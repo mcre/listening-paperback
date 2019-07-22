@@ -1,5 +1,4 @@
 import string
-import sys
 
 import regex as re
 
