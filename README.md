@@ -1,8 +1,9 @@
 ## 使い方
 
-```
-batch.sh hogehoge # `./input` にいれた青空文庫形式ファイル 拡張子不要
-```
+1. `./projects` にディレクトリを作る(例: `mkdir ./projects/gongitsune`)。以下プロジェクトと呼ぶ。
+2. プロジェクトに青空文庫テキストをSJISのまま `novel.txt` として置く。
+3. `batch.sh {プロジェクト名}`を実行
+4. プロジェクトの`output_{git_commit_id}`以下に一部の中間ファイル、出力ファイルが出力される
 
 ## メモ
 

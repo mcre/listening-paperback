@@ -1,7 +1,7 @@
-import os
-import regex as re
 import string
 import sys
+
+import regex as re
 
 PATTERNS = {
     'about': re.compile(r'^-+$'),
@@ -82,10 +82,10 @@ def ruby(line):
 def bouten(line):
     return PATTERNS['bouten'].sub(r'\\kenten{\1}', line)
 
-def main(input_filename):
+def main():
     with open('template.tex', 'r', encoding='utf-8') as f:
         template = f.read()
-    with open(input_filename, 'r', encoding='shift_jis') as f:
+    with open('novel.txt', 'r', encoding='shift_jis') as f:
         aozora_lines = [line.strip() for line in f.readlines()]
 
     head = aozora_lines[:50]
@@ -111,8 +111,8 @@ def main(input_filename):
         'meta_data': '\n'.join([f'\\{k}{{{v}}}' for k, v in meta_data.items()]),
         'body': '\n\n'.join(body_lines),
     })
-    with open(os.path.splitext(input_filename)[0] + '.tex', 'w', encoding='utf-8') as f:
+    with open('novel.tex', 'w', encoding='utf-8') as f:
         f.write(tex)
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    main()
