@@ -15,7 +15,7 @@ echo '# tex2pdf'
 docker run --rm -it -v $PWD/work:/work paperist/alpine-texlive-ja /bin/bash -c "cd /work && uplatex novel.tex && dvipdfmx novel.dvi" || exit 1
 echo '# pdf2png'
 mkdir ./work/pages
-docker run --rm -it -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r 200 /work/novel.pdf /work/pages/output" || exit 1
+docker run --rm -it -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r 200 /work/novel.pdf /work/pages/novel" || exit 1
 echo '# tex2ssml'
 docker run --rm -it -v $PWD/work:/work listening-paperback-python /bin/sh -c "python tex2ssml.py" || exit 1
 echo '# ssml2voice'
@@ -27,7 +27,7 @@ rm -rf ./projects/${1}/output_${cid}
 
 mkdir ./projects/${1}/output_${cid}
 cd ./projects/${1}/output_${cid}
-mkdir ssml voices marks
+mkdir ssml pages voices marks
 cd ../../../
 
 cp ./work/novel.tex ./projects/${1}/output_${cid}/
