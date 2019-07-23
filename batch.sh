@@ -2,13 +2,13 @@ echo '# docker-build'
 docker build -t listening-paperback-python ./Dockerfiles/python || exit 1
 
 echo '# preprocessing'
-rm -rf ./work
-mkdir ./work
-mkdir ./work/musics
-cp ./materials/fonts/* ./work
-cp ./src/* ./work/
-cp ./materials/musics/* ./work/musics
-cp ./projects/${1}/novel.txt ./work/
+rm -rf ./work || exit 1
+mkdir ./work || exit 1
+cp ./src/* ./work/ || exit 1
+cp ./projects/${1}/novel.txt ./work/ || exit 1
+cp ./projects/${1}/config.json ./work/ || exit 1
+
+cp ./materials/fonts/`cat ./projects/${1}/config.json | jq -r .font` ./work/font.ttf || exit 1
 
 echo '# az2tex'
 docker run --rm -it -v $PWD/work:/work listening-paperback-python /bin/sh -c "python az2tex.py" || exit 1
@@ -20,23 +20,26 @@ docker run --rm -it -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -pn
 echo '# tex2ssml'
 docker run --rm -it -v $PWD/work:/work listening-paperback-python /bin/sh -c "python tex2ssml.py" || exit 1
 echo '# ssml2voice'
-mkdir ./work/voices ./work/marks & cp ./tmp/voices/* ./work/voices/ & cp ./tmp/marks/* ./work/marks/ # debug
+mkdir ./work/voices ./work/marks & cp ./tmp/voices/* ./work/voices/ & cp ./tmp/marks/* ./work/marks/ || exit 1 # debug
 # docker run --rm -it -v $PWD/work:/work listening-paperback-python /bin/sh -c "python ssml2voice.py ${2} ${3}" || exit 1
 echo '# buildmovie'
 docker run --rm -it -v $PWD/work:/work listening-paperback-python /bin/sh -c "python buildmovie.py" || exit 1
 
 echo '# postprocessing'
 cid=`git log -n 1 --format=%ad-%h --date=format:'%Y%m%d'`
-rm -rf ./projects/${1}/output_${cid}
+rm -rf ./projects/${1}/output_${cid} || exit 1
 
-mkdir ./projects/${1}/output_${cid}
+mkdir ./projects/${1}/output_${cid} || exit 1
 cd ./projects/${1}/output_${cid}
-mkdir ssml pages voices marks
+mkdir ssml pages voices marks || exit 1
 cd ../../../
 
-cp ./work/novel.tex ./projects/${1}/output_${cid}/
-cp ./work/novel.pdf ./projects/${1}/output_${cid}/
-cp ./work/pages/* ./projects/${1}/output_${cid}/pages/
-cp ./work/ssml/* ./projects/${1}/output_${cid}/ssml/
-cp ./work/voices/* ./projects/${1}/output_${cid}/voices/
-cp ./work/marks/* ./projects/${1}/output_${cid}/marks/
+cp ./work/config.json ./projects/${1}/output_${cid}/ || exit 1
+cp ./work/novel.tex ./projects/${1}/output_${cid}/ || exit 1
+cp ./work/novel.pdf ./projects/${1}/output_${cid}/ || exit 1
+cp ./work/novel.mp4 ./projects/${1}/output_${cid}/ || exit 1
+
+cp ./work/pages/* ./projects/${1}/output_${cid}/pages/ || exit 1
+cp ./work/ssml/* ./projects/${1}/output_${cid}/ssml/ || exit 1
+cp ./work/voices/* ./projects/${1}/output_${cid}/voices/ || exit 1
+cp ./work/marks/* ./projects/${1}/output_${cid}/marks/ || exit 1
