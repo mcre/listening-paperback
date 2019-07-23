@@ -3,10 +3,13 @@ FROM python:3.8.0b2-alpine
 WORKDIR /work
 
 RUN \
-    # regex dependencies
-    apk add --no-cache --virtual .build-deps gcc musl-dev && \
-    # Pillow dependencies
-    apk add --no-cache --virtual jpeg-dev zlib-dev freetype-dev lcms2-dev openjpeg-dev tiff-dev tk-dev tcl-dev harfbuzz-dev fribidi-dev && \
+    apk update && \
     pip install --upgrade pip && \
+    # regex build tools
+    apk add --no-cache --virtual .build-deps gcc musl-dev && \
+    # moviepy dependencies
+    apk add --no-cache ffmpeg openjpeg-dev tiff-dev jpeg-dev zlib-dev freetype-dev lcms2-dev tiff-dev tk-dev tcl-dev harfbuzz-dev fribidi-dev && \
+    # apps
     pip install regex boto3 moviepy && \
-    apk del .build-deps gcc musl-dev jpeg-dev zlib-dev freetype-dev lcms2-dev openjpeg-dev tiff-dev tk-dev tcl-dev harfbuzz-dev fribidi-dev
+    # clean build tools
+    apk del .build-deps gcc musl-dev

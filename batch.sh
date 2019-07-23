@@ -4,10 +4,11 @@ docker build -t listening-paperback-python ./Dockerfiles/python || exit 1
 echo '# preprocessing'
 rm -rf ./work
 mkdir ./work
-cp ./fonts/* ./work
-cp ./*.py ./work
-cp ./template.tex ./work
-cp ./projects/${1}/novel.txt ./work
+mkdir ./work/musics
+cp ./materials/fonts/* ./work
+cp ./src/* ./work/
+cp ./materials/musics/* ./work/musics
+cp ./projects/${1}/novel.txt ./work/
 
 echo '# az2tex'
 docker run --rm -it -v $PWD/work:/work listening-paperback-python /bin/sh -c "python az2tex.py" || exit 1
@@ -21,6 +22,8 @@ docker run --rm -it -v $PWD/work:/work listening-paperback-python /bin/sh -c "py
 echo '# ssml2voice'
 mkdir ./work/voices ./work/marks & cp ./tmp/voices/* ./work/voices/ & cp ./tmp/marks/* ./work/marks/ # debug
 # docker run --rm -it -v $PWD/work:/work listening-paperback-python /bin/sh -c "python ssml2voice.py ${2} ${3}" || exit 1
+echo '# buildmovie'
+docker run --rm -it -v $PWD/work:/work listening-paperback-python /bin/sh -c "python buildmovie.py" || exit 1
 
 echo '# postprocessing'
 cid=`git log -n 1 --format=%ad-%h --date=format:'%Y%m%d'`
