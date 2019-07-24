@@ -31,6 +31,12 @@ docker run --rm -it -v $PWD/work:/work lp-python-movie /bin/sh -c "python3 build
 
 echo '# postprocessing'
 cid=`git log -n 1 --format=%ad-%h --date=format:'%Y%m%d'`
+ntc=`git status | grep 'nothing to commit' -c`
+if [ $ntc = 1 ]; then
+  cid="${cid}"
+else
+  cid="${cid}_work"
+fi
 rm -rf ./projects/${1}/output_${cid} || exit 1
 
 mkdir ./projects/${1}/output_${cid} || exit 1
