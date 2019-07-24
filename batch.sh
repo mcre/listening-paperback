@@ -9,6 +9,7 @@ cp ./projects/${1}/novel.txt ./work/ || exit 1
 cp ./projects/${1}/config.json ./work/ || exit 1
 
 cp ./materials/fonts/`cat ./projects/${1}/config.json | jq -r .font` ./work/font.ttf || exit 1
+cp ./materials/musics/`cat ./projects/${1}/config.json | jq -r .music` ./work/music.mp3 || exit 1
 
 echo '# az2tex'
 docker run --rm -it -v $PWD/work:/work listening-paperback-python /bin/sh -c "python az2tex.py" || exit 1
@@ -37,7 +38,7 @@ cd ../../../
 cp ./work/config.json ./projects/${1}/output_${cid}/ || exit 1
 cp ./work/novel.tex ./projects/${1}/output_${cid}/ || exit 1
 cp ./work/novel.pdf ./projects/${1}/output_${cid}/ || exit 1
-cp ./work/novel.mp4 ./projects/${1}/output_${cid}/ || exit 1
+cp ./work/novel.avi ./projects/${1}/output_${cid}/ || exit 1
 
 cp ./work/pages/* ./projects/${1}/output_${cid}/pages/ || exit 1
 cp ./work/ssml/* ./projects/${1}/output_${cid}/ssml/ || exit 1
