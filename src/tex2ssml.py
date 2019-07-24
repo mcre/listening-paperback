@@ -11,7 +11,7 @@ prefix =  '''<?xml version="1.0"?>
     xml:lang="ja-JP"><prosody rate="95%">
 '''
 postfix = '\n</prosody></speak>'
-ignore_list = ['\\documentclass', '\\usepackage', '\\setminchofont', '\\setgothicfont', '\\rubysetup', '\\ModifyHeading', '\\NewPageStyle', '\\pagestyle', '\\date', '\\begin', '\\maketitle', '\\end']
+ignore_list = ['\\documentclass', '\\usepackage', '\\setminchofont', '\\setgothicfont', '\\rubysetup', '\\ModifyHeading', '\\NewPageStyle', '\\pagestyle', '\\date', '\\begin', '\\maketitle', '\\end', '\\showoutput']
 PATTERNS = {
     'ruby': re.compile(r'\\ruby{(.*?)}{(.*?)}'),
     'command': re.compile(r'\\.*?{(.*?)}'),

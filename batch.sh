@@ -15,7 +15,9 @@ cp ./materials/musics/`cat ./projects/${1}/config.json | jq -r .music` ./work/mu
 echo '# az2tex'
 docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python az2tex.py" || exit 1
 echo '# tex2pdf'
-docker run --rm -it -v $PWD/work:/work paperist/alpine-texlive-ja /bin/bash -c "cd /work && uplatex novel.tex && dvipdfmx novel.dvi" || exit 1
+docker run --rm -it -v $PWD/work:/work paperist/alpine-texlive-ja /bin/bash -c "cd /work && uplatex novel.tex > tex_output.txt" || exit 1
+docker run --rm -it -v $PWD/work:/work paperist/alpine-texlive-ja /bin/bash -c "cd /work && dvipdfmx novel.dvi" || exit 1
+docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python parse_tex_output.py" || exit 1
 echo '# pdf2png'
 mkdir ./work/pages
 docker run --rm -it -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r 200 /work/novel.pdf /work/pages/novel" || exit 1
@@ -38,6 +40,7 @@ cd ../../../
 
 cp ./work/config.json ./projects/${1}/output_${cid}/ || exit 1
 cp ./work/novel.tex ./projects/${1}/output_${cid}/ || exit 1
+cp ./work/pages.json ./projects/${1}/output_${cid}/ || exit 1
 cp ./work/novel.pdf ./projects/${1}/output_${cid}/ || exit 1
 cp ./work/novel.mp4 ./projects/${1}/output_${cid}/ || exit 1
 
