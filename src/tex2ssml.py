@@ -8,9 +8,9 @@ prefix =  '''<?xml version="1.0"?>
     xmlns="http://www.w3.org/2001/10/synthesis"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="http://www.w3.org/2001/10/synthesis http://www.w3.org/TR/speech-synthesis11/synthesis.xsd"
-    xml:lang="ja-JP">
+    xml:lang="ja-JP"><prosody rate="95%">
 '''
-postfix = '\n</speak>'
+postfix = '\n</prosody></speak>'
 ignore_list = ['\\documentclass', '\\usepackage', '\\setminchofont', '\\setgothicfont', '\\rubysetup', '\\ModifyHeading', '\\NewPageStyle', '\\pagestyle', '\\date', '\\begin', '\\maketitle', '\\end']
 PATTERNS = {
     'ruby': re.compile(r'\\ruby{(.*?)}{(.*?)}'),
