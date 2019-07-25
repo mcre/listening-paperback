@@ -26,8 +26,10 @@ docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python tex2ssml.py"
 echo '# ssml2voice'
 mkdir ./work/voices ./work/marks & cp ./tmp/voices/* ./work/voices/ & cp ./tmp/marks/* ./work/marks/ || exit 1 # debug
 # docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python ssml2voice.py ${2} ${3}" || exit 1
-echo '# buildmovie'
-docker run --rm -it -v $PWD/work:/work lp-python-movie /bin/sh -c "python3 buildmovie.py" || exit 1
+echo '# build_pagefeeds'
+docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python build_pagefeeds.py" || exit 1
+echo '# build_movie'
+docker run --rm -it -v $PWD/work:/work lp-python-movie /bin/sh -c "python3 build_movie.py" || exit 1
 
 echo '# postprocessing'
 cid=`git log -n 1 --format=%ad-%h --date=format:'%Y%m%d'`

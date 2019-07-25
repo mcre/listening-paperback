@@ -12,10 +12,14 @@ def main():
 
     video_clips = []
     for i, page in enumerate(sorted(glob.glob('pages/novel*.png'))):
-        duration = 1
+        start_offset = 0
+        if i == 0:
+            start_offset = consts['start_voice_interval']
+
+        pf = pagefeeds[i]
         clip = ImageClip(page) \
-            .set_start(i * (duration - consts['cross_fade_time'])) \
-            .set_duration(duration) \
+            .set_start(pf['start'] - start_offset) \
+            .set_duration(start_offset + pf['duration'] + 2 * consts['cross_fade_time']) \
             .crossfadein(consts['cross_fade_time']) \
             .crossfadeout(consts['cross_fade_time'])
         video_clips.append(clip)

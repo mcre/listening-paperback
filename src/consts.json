@@ -4,6 +4,6 @@
     "cross_fade_time": 0.15,
     "start_voice_interval": 2,
     "voice_interval": 1,
-    "music_volume": 0.15,
+    "music_volume": 0.05,
     "music_fadeout_time": 5
 }
