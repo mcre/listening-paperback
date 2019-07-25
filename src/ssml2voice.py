@@ -7,8 +7,8 @@ import time
 
 import boto3
 
-BUCKET_NAME = 'jp.mcreplannnig.polly'
-S3_OBJ_PREFIX = 'lp'
+with open('consts.json', 'r') as f:
+    consts = json.load(f)
 
 def basename(path):
     return os.path.splitext(os.path.basename(path))[0]
@@ -20,7 +20,7 @@ def start_task(ssml_path, polly, text, output_format):
     response = polly.start_speech_synthesis_task(
         OutputFormat=output_format,
         VoiceId='Mizuki',
-        OutputS3BucketName=BUCKET_NAME, OutputS3KeyPrefix=S3_OBJ_PREFIX,
+        OutputS3BucketName=consts['bucket_name'], OutputS3KeyPrefix=consts['s3_obj_prefix'],
         SpeechMarkTypes=smt,
         TextType='ssml',
         Text=text,
@@ -40,7 +40,7 @@ def main(aws_access_key_id, aws_secret_access_key):
     
     session = boto3.Session(aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, region_name='ap-northeast-1')
     polly = session.client('polly')
-    bucket = session.resource('s3').Bucket(BUCKET_NAME)
+    bucket = session.resource('s3').Bucket(consts['bucket_name'])
     ssml_list = sorted(glob.glob('ssml/*.xml'))
 
     tasks = []
