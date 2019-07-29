@@ -11,17 +11,19 @@ def main():
         pagefeeds = json.load(f)
 
     video_clips = []
-    for i, page in enumerate(sorted(glob.glob('pages/novel*.png'))):
-        start_offset = 0
-        if i == 0:
-            start_offset = consts['start_voice_interval']
-
+    pages = sorted(glob.glob('pages/novel*.png'))
+    for i, page in enumerate(pages):
+        cft = consts['cross_fade_time']
         pf = pagefeeds[i]
-        clip = ImageClip(page) \
-            .set_start(pf['start'] - start_offset) \
-            .set_duration(start_offset + pf['duration'] + 2 * consts['cross_fade_time']) \
-            .crossfadein(consts['cross_fade_time']) \
-            .crossfadeout(consts['cross_fade_time'])
+        clip = ImageClip(page).set_start(pf['start']).set_duration(pf['duration'])
+        if i == 0: #start
+            it = consts['start_voice_interval']
+            clip = clip.set_start(clip.start - it).set_duration(it + clip.duration + cft).crossfadeout(cft)
+        elif i == len(pages) - 1: # end
+            clip = clip.set_duration(clip.duration + cft).crossfadein(cft)
+        else:
+            clip = clip.set_duration(clip.duration + cft * 2).crossfadein(cft).crossfadeout(cft)
+
         video_clips.append(clip)
     video_clip = CompositeVideoClip(video_clips, bg_color=(255, 255, 255))
 
