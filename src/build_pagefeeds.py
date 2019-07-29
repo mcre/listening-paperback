@@ -64,9 +64,14 @@ def main():
             'text': page,
             'start': st,
             'end': en,
-            'duration': en - st,
             'words': page_words,
         })
+
+    for i, pagefeed in enumerate(pagefeeds):
+        pagefeed['next_start'] = pagefeeds[i + 1]['start'] if i + 1 < len(pagefeeds) else pagefeed['end']
+        pagefeed['duration'] = pagefeed['next_start'] - pagefeed['start']
+        pagefeeds[i] = pagefeed
+
     with open(f'pagefeeds.json', 'w') as f:
         json.dump(pagefeeds, f, ensure_ascii=False, indent=2)
 
