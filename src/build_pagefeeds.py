@@ -8,17 +8,17 @@ with open('consts.json', 'r') as f:
 
 def main():
     voice_num = len(glob.glob('voices/*.mp3'))
-    voices = []
+    voice_durations = []
     words_list = []
     for i in range(voice_num):
-        voices.append(mutagen.mp3.MP3(f'voices/{i:0>5}.mp3').info.length)
+        voice_durations.append(mutagen.mp3.MP3(f'voices/{i:0>5}.mp3').info.length)
         with open(f'marks/{i:0>5}.json', 'r') as f:
             marks = json.load(f)
             words_list.append([mark for mark in marks if mark['type'] == 'word'])
 
     words_tmp = [{
         'voice_id': voice_id,
-        'voice_sec': voices[voice_id],
+        'voice_sec': voice_durations[voice_id],
         'word_num_in_voice': len(words_in_voice),
         'word_id_in_voice': word_id_in_voice,
         'start_in_voice': word['time'] / 1000,
@@ -74,6 +74,8 @@ def main():
 
     with open(f'pagefeeds.json', 'w') as f:
         json.dump(pagefeeds, f, ensure_ascii=False, indent=2)
+    with open(f'voice_durations.json', 'w') as f:
+        json.dump(voice_durations, f, ensure_ascii=False, indent=2)
 
 if __name__ == '__main__':
     main()
