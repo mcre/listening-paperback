@@ -2,6 +2,11 @@ import glob
 import json
 
 import mutagen.mp3
+import regex as re
+
+PATTERNS = {
+    'tag': re.compile(r'''<("[^"]*"|'[^']*'|[^'">])*>'''),
+}
 
 with open('consts.json', 'r') as f:
     consts = json.load(f)
@@ -51,7 +56,7 @@ def main():
         page_words = []
         remain = f'{remain}{page}'
         while len(remain) > 0 and cur < len(words):
-            w = words[cur]['text']
+            w = PATTERNS['tag'].sub('', words[cur]['text'])
             if (loc := remain.find(w)) >= 0:
                 remain = remain[loc + len(w):]
                 page_words.append(words[cur])

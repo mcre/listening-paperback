@@ -1,5 +1,6 @@
 echo '# docker-build'
 docker build -t lp-python ./Dockerfiles/python || exit 1
+docker build -t lp-python-mecab ./Dockerfiles/python_mecab || exit 1
 docker build -t lp-python-movie ./Dockerfiles/python_movie || exit 1
 
 echo '# preprocessing'
@@ -22,7 +23,7 @@ echo '# pdf2png'
 mkdir ./work/pages
 docker run --rm -it -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r 200 /work/novel.pdf /work/pages/novel" || exit 1
 echo '# tex2ssml'
-docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python tex2ssml.py" || exit 1
+docker run --rm -it -v $PWD/work:/work lp-python-mecab /bin/sh -c "python tex2ssml.py" || exit 1
 echo '# ssml2voice'
 mkdir ./work/voices ./work/marks & cp ./tmp/voices/* ./work/voices/ & cp ./tmp/marks/* ./work/marks/ || exit 1 # debug
 # docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python ssml2voice.py ${2} ${3}" || exit 1
@@ -49,6 +50,8 @@ cd ../../../
 cp ./work/config.json ./projects/${1}/output_${cid}/ || exit 1
 cp ./work/novel.tex ./projects/${1}/output_${cid}/ || exit 1
 cp ./work/pages.json ./projects/${1}/output_${cid}/ || exit 1
+cp ./work/pagefeeds.json ./projects/${1}/output_${cid}/ || exit 1
+cp ./work/voice_durations.json ./projects/${1}/output_${cid}/ || exit 1
 cp ./work/novel.pdf ./projects/${1}/output_${cid}/ || exit 1
 cp ./work/novel.mp4 ./projects/${1}/output_${cid}/ || exit 1
 
