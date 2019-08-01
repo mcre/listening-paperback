@@ -64,9 +64,13 @@ def list_rubies(lines):
             if r is not None:
                 rp = lambda x: x.replace('|', '')
                 if len(r[1]) > 0: # 後方なし
-                    rubies[f'{r[0]}{r[1]}'] = f'{rp(r[0])}<sub alias="{jaconv.hira2kata(rp(r[2]))}">{rp(r[1])}</sub>'
+                    if len(r[0]) > 0: # 前方あり
+                        alias = rp(r[2])
+                    else: # 前方なし
+                        alias = jaconv.hira2kata(rp(r[2]))
+                    rubies[f'{r[0]}{r[1]}'] = f'{rp(r[0])}<sub alias="{alias}">{rp(r[1])}</sub>'
                 else: # 後方あり
-                    rubies[f'{r[3]}{r[4]}{r[6]}'] = f'{rp(r[3])}<sub alias="{jaconv.hira2kata(rp(r[5]))}">{rp(r[4])}</sub>{rp(r[6])}'
+                    rubies[f'{r[3]}{r[4]}{r[6]}'] = f'{rp(r[3])}<sub alias="{rp(r[5])}">{rp(r[4])}</sub>{rp(r[6])}'
     return rubies
 
 def main():
