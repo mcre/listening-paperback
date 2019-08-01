@@ -2,6 +2,7 @@
     "s3_bucket_name": "jp.mcreplannnig.polly",
     "s3_obj_prefix": "lp",
     "cross_fade_time": 0.15,
+    "voice_id": "Mizuki",
     "start_voice_interval": 2,
     "voice_interval": 1,
     "music_volume": 0.05,

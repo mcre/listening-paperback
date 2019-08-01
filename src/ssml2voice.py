@@ -1,7 +1,9 @@
 import os
 import glob
+import hashlib
 import json
 import os.path
+import shutil
 import sys
 import time
 
@@ -13,13 +15,13 @@ with open('consts.json', 'r') as f:
 def basename(path):
     return os.path.splitext(os.path.basename(path))[0]
 
-def start_task(ssml_path, polly, text, output_format):
+def start_task(ssml_path, cache_path, polly, text, output_format):
     smt = []
     if output_format == 'json':
         smt = ['sentence', 'ssml', 'word']
     response = polly.start_speech_synthesis_task(
         OutputFormat=output_format,
-        VoiceId='Mizuki',
+        VoiceId=consts['voice_id'],
         OutputS3BucketName=consts['s3_bucket_name'], OutputS3KeyPrefix=consts['s3_obj_prefix'],
         SpeechMarkTypes=smt,
         TextType='ssml',
@@ -28,6 +30,7 @@ def start_task(ssml_path, polly, text, output_format):
     rs = response['SynthesisTask']
     return {
         'task_id': rs['TaskId'],
+        'cache_path': cache_path,
         'id': int(basename(ssml_path)),
         's3_basename': basename(rs['OutputUri']),
         'format': rs['OutputFormat'],
@@ -41,14 +44,24 @@ def main(aws_access_key_id, aws_secret_access_key):
     session = boto3.Session(aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, region_name='ap-northeast-1')
     polly = session.client('polly')
     bucket = session.resource('s3').Bucket(consts['s3_bucket_name'])
-    ssml_list = sorted(glob.glob('ssml/*.xml'))
+    ssml_num = len(sorted(glob.glob('ssml/*.xml')))
 
     tasks = []
-    for ssml in ssml_list:
+    for i in range(ssml_num):
+        ssml = f'ssml/{i:0>5}.xml'
         with open(ssml, 'r') as f:
             text = f.read()
-            tasks.append(start_task(ssml, polly, text, 'mp3'))
-            tasks.append(start_task(ssml, polly, text, 'json'))
+            md5 = hashlib.md5(text.encode()).hexdigest()
+            cache_path = f'cache/{consts["voice_id"]}/{md5}'
+            if not os.path.isdir(cache_path):
+                os.makedirs(cache_path, exist_ok=True)
+                shutil.copy(ssml, f'{cache_path}/voice.xml')
+                tasks.append(start_task(ssml, f'{cache_path}/voice.mp3', polly, text, 'mp3'))
+                tasks.append(start_task(ssml, f'{cache_path}/voice.json', polly, text, 'json'))
+            else:
+                shutil.copy(f'{cache_path}/voice.mp3', f'voices/{i:0>5}.mp3')
+                shutil.copy(f'{cache_path}/voice.json', f'marks/{i:0>5}.json')
+
     print(f'polly: {len(tasks) // 2} * 2 tasks')
     for task in tasks:
         while True:
@@ -57,9 +70,16 @@ def main(aws_access_key_id, aws_secret_access_key):
             if st == 'completed':
                 print(f'polly: success ({task["format"]}, {task["id"]})')
                 if task['format'] == 'mp3':
-                    bucket.download_file(f'{task["s3_basename"]}.mp3', f'voices/{task["id"]:0>5}.mp3')
+                    p = f'voices/{task["id"]:0>5}.mp3'
+                    bucket.download_file(f'{task["s3_basename"]}.mp3', p)
+                    shutil.copy(p, task['cache_path'])
                 if task['format'] == 'json':
-                    bucket.download_file(f'{task["s3_basename"]}.marks', f'marks_tmp/{task["id"]:0>5}.marks')
+                    p1 = f'marks_tmp/{task["id"]:0>5}.marks'
+                    p2 = f'marks/{task["id"]:0>5}.json'
+                    bucket.download_file(f'{task["s3_basename"]}.marks', p1)
+                    with open(p1, 'r', encoding='utf-8') as fr, open(p2, 'w', encoding='utf-8') as fw:
+                        json.dump([json.loads(line) for line in fr.readlines()], fw, ensure_ascii=False, indent=2)
+                    shutil.copy(p2, task['cache_path'])
                 break
             elif st == 'failed':
                 print(f'polly: failed!!! ({task["format"]}, {task["id"]})')
@@ -67,10 +87,6 @@ def main(aws_access_key_id, aws_secret_access_key):
             else:
                 print(f'polly: wait... ({task["format"]}, {task["id"]})')
                 time.sleep(10)
-
-    for marks in glob.glob('marks_tmp/*.marks'):
-        with open(marks, 'r', encoding='utf-8') as fr, open(f'marks/{basename(marks)}.json', 'w', encoding='utf-8') as fw:
-            json.dump([json.loads(line) for line in fr.readlines()], fw, ensure_ascii=False, indent=2)
 
 if __name__ == '__main__':
     main(sys.argv[1], sys.argv[2])
