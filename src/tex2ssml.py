@@ -1,3 +1,4 @@
+import json
 import os
 import re
 import sys
@@ -76,10 +77,13 @@ def list_rubies(lines):
 def main():
     os.makedirs('ssml', exist_ok=True)
 
-    with open('novel.tex', 'r') as fr:
-        lines = fr.readlines()
+    with open('novel.tex', 'r') as f:
+        lines = f.readlines()
 
     rubies = list_rubies(lines)
+
+    with open('rubies.json', 'w') as f:
+        json.dump(rubies, f, ensure_ascii=False, indent=2)
 
     clines = []
     for line in lines:

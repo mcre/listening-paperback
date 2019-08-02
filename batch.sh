@@ -53,6 +53,7 @@ cp ./work/config.json ./projects/${1}/output_${cid}/ || exit 1
 cp ./work/novel.tex ./projects/${1}/output_${cid}/ || exit 1
 cp ./work/pages.json ./projects/${1}/output_${cid}/ || exit 1
 cp ./work/pagefeeds.json ./projects/${1}/output_${cid}/ || exit 1
+cp ./work/rubies.json ./projects/${1}/output_${cid}/ || exit 1
 cp ./work/voice_durations.json ./projects/${1}/output_${cid}/ || exit 1
 cp ./work/novel.pdf ./projects/${1}/output_${cid}/ || exit 1
 cp ./work/novel.mp4 ./projects/${1}/output_${cid}/ || exit 1
