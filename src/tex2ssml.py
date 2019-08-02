@@ -43,7 +43,7 @@ def plain(line):
     return PATTERNS['ruby'].sub(r'\1', ret)
 
 def list_rubies(lines):
-    rubies = {}
+    rubies = []
     for line in lines:
         pline = plain(line)
         if pline is None:
@@ -69,10 +69,16 @@ def list_rubies(lines):
                         alias = rp(r[2])
                     else: # 前方なし
                         alias = jaconv.hira2kata(rp(r[2]))
-                    rubies[f'{r[0]}{r[1]}'] = f'{rp(r[0])}<sub alias="{alias}">{rp(r[1])}</sub>'
+                    rubies.append({
+                        'kanji': f'{r[0]}{r[1]}',
+                        'ruby': f'{rp(r[0])}<sub alias="{alias}">{rp(r[1])}</sub>',
+                    })
                 else: # 後方あり
-                    rubies[f'{r[3]}{r[4]}{r[6]}'] = f'{rp(r[3])}<sub alias="{rp(r[5])}">{rp(r[4])}</sub>{rp(r[6])}'
-    return rubies
+                    rubies.append({
+                        'kanji': f'{r[3]}{r[4]}{r[6]}',
+                        'ruby': f'{rp(r[3])}<sub alias="{rp(r[5])}">{rp(r[4])}</sub>{rp(r[6])}',
+                    })
+    return sorted(rubies, key=lambda x: len(x['kanji']), reverse=True)
 
 def main():
     os.makedirs('ssml', exist_ok=True)
@@ -91,8 +97,8 @@ def main():
         if pline is None:
             continue
         replaced = '|' + '|'.join(wakati(pline)) + '|'
-        for ruby in rubies.keys():
-            replaced = replaced.replace('|' + ruby + '|', '|' + rubies[ruby] + '|')
+        for ruby in rubies:
+            replaced = replaced.replace('|' + ruby['kanji'] + '|', '|' + ruby['ruby'] + '|')
         clines.append(replaced.replace('|', ''))
 
     for i, cline in enumerate(clines):
