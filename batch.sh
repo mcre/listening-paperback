@@ -13,13 +13,14 @@ cp ./projects/${1}/novel.txt ./work/ || exit 1
 cp ./projects/${1}/config.json ./work/ || exit 1
 cp -r ./cache/* ./work/cache
 
+cp ./materials/covers/`cat ./projects/${1}/config.json | jq -r .cover` ./work/cover.png || exit 1
 cp ./materials/fonts/`cat ./projects/${1}/config.json | jq -r .font` ./work/font.ttf || exit 1
 cp ./materials/musics/`cat ./projects/${1}/config.json | jq -r .music` ./work/music.mp3 || exit 1
 
 echo '# az2tex'
 docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python az2tex.py" || exit 1
 echo '# tex2pdf'
-docker run --rm -it -v $PWD/work:/work paperist/alpine-texlive-ja /bin/bash -c "cd /work && uplatex novel.tex > tex_output.txt" || exit 1
+docker run --rm -it -v $PWD/work:/work paperist/alpine-texlive-ja /bin/bash -c "cd /work && uplatex -halt-on-error novel.tex > tex_output.txt" || exit 1
 docker run --rm -it -v $PWD/work:/work paperist/alpine-texlive-ja /bin/bash -c "cd /work && dvipdfmx novel.dvi" || exit 1
 docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python parse_tex_output.py" || exit 1
 echo '# pdf2png'
@@ -29,6 +30,7 @@ echo '# tex2ssml'
 docker run --rm -it -v $PWD/work:/work lp-python-mecab /bin/sh -c "python tex2ssml.py" || exit 1
 echo '# ssml2voice'
 docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python ssml2voice.py ${2} ${3}" || exit 1
+cp -r ./work/cache/* ./cache || exit 1
 echo '# build_pagefeeds'
 docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python build_pagefeeds.py" || exit 1
 echo '# build_movie'
@@ -63,4 +65,3 @@ cp ./work/ssml/* ./projects/${1}/output_${cid}/ssml/ || exit 1
 cp ./work/voices/* ./projects/${1}/output_${cid}/voices/ || exit 1
 cp ./work/marks/* ./projects/${1}/output_${cid}/marks/ || exit 1
 
-cp -r ./work/cache/* ./cache || exit 1

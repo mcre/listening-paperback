@@ -1,3 +1,4 @@
+import json
 import string
 
 import regex as re
@@ -24,6 +25,9 @@ PATTERNS = {
     'bouten': re.compile(r'(.+?)［＃.*?「\1」に傍点］'),
 }
 
+with open('config.json', 'r') as f:
+    config = json.load(f)
+
 class Template(string.Template):
     delimiter = '@'
 
@@ -42,14 +46,14 @@ def get_meta_data(lines):
     ret = {}
     if l == 0:
         return ret
-    ret['title'] = metas[0]
+    ret['title'] = {'size': config.get('title_size', ''), 'data': metas[0]}
     if l == 2:
-        ret['author'] = metas[1]
+        ret['author'] = {'data': metas[1]}
     if l >= 3:
-        ret['subtitle'] = metas[1]
-        ret['author'] = metas[2]
+        ret['subtitle'] = {'data': metas[1]}
+        ret['author'] = {'data': metas[2]}
     if l >= 4:
-        ret['subauthor'] = metas[3]
+        ret['subauthor'] = {'data': metas[3]}
     return ret
 
 def get_first_line_index(lines):
@@ -106,8 +110,11 @@ def main():
     for index, line in enumerate(body_lines):
         body_lines[index] = bouten(line)
 
+    bs = '\\'
     tex = Template(template).substitute({
-        'meta_data': '\n'.join([f'\\{k}{{{v}}}' for k, v in meta_data.items()]),
+        'meta_data': '\n'.join([f'\\{k}{{{bs + v["size"] + " " if v.get("size", False) else ""}{v["data"]}}}' for k, v in meta_data.items()]),
+        'text_color': config['text_color'],
+        'background_color': config['background_color'],
         'body': '\n\n'.join(body_lines),
     })
     with open('novel.tex', 'w', encoding='utf-8') as f:

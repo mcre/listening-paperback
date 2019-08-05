@@ -1,4 +1,4 @@
-\documentclass[uplatex, tate, book, oneside, paper={6.4in,3.6in}, fontsize=14pt, number_of_lines=18, line_length=2.8in, open_bracket_pos=nibu_tentsuki, hanging_punctuation]{jlreq}
+\documentclass[uplatex, tate, book, oneside, paper={6.4in, 3.6in}, fontsize=14pt, number_of_lines=18, line_length=2.8in, open_bracket_pos=nibu_tentsuki, hanging_punctuation]{jlreq}
 \usepackage{bxpapersize}
 
 \usepackage[noalphabet]{pxchfon}
@@ -7,6 +7,16 @@
 
 \usepackage{pxrubrica}
 \rubysetup{<cJ>}
+
+\usepackage{xcolor}
+\definecolor{text_color}{HTML}{@{text_color}}
+\definecolor{background_color}{HTML}{@{background_color}}
+\color{text_color}
+\pagecolor{background_color}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{watermark}
+\thiswatermark{\put(-28.85, -242){\includegraphics[width=6.4in, height=3.6in]{cover.png}}}
 
 \ModifyHeading{chapter}{indent=1zw, number=false, format={\Large #2}, pagebreak=clearpage}
 \NewPageStyle{defaultPageStyle}{nombre_position=bottom-left, nombre_font=\tiny, running_head_position=top-left, running_head_font=\scriptsize, mark_format={_chapter={#1}}, odd_running_head={_chapter}}

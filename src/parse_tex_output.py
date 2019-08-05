@@ -4,7 +4,7 @@ import regex as re
 
 PATTERNS = {
     'page': re.compile(r'Completed box being shipped out.*?\|\.\\special{'),
-    'text': re.compile(r'\JT2/mc/m/n/(?:14|19\.6|23\.8)\s(\S+?)'),
+    'text': re.compile(r'\JT2/mc/m/n/(?:14|19\.6|23\.8|35)\s(\S+?)'),
 }
 
 def main():

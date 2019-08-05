@@ -15,11 +15,17 @@ prefix =  '''<?xml version="1.0"?>
     xml:lang="ja-JP"><prosody rate="95%">
 '''
 postfix = '\n</prosody></speak>'
-ignore_list = ['\\documentclass', '\\usepackage', '\\setminchofont', '\\setgothicfont', '\\rubysetup', '\\ModifyHeading', '\\NewPageStyle', '\\pagestyle', '\\date', '\\begin', '\\maketitle', '\\end', '\\showoutput']
+ignore_list = [
+    '\\tiny', '\\scriptsize', '\\footnotesize', '\\small', '\\normalsize', '\\large', '\\Large', '\\LARGE', '\\huge', '\\Huge', 
+    '\\documentclass', '\\usepackage', '\\setminchofont', '\\setgothicfont', '\\rubysetup',
+    '\\ModifyHeading', '\\NewPageStyle', '\\pagestyle', '\\date', '\\begin', '\\maketitle',
+    '\\end', '\\showoutput', '\\definecolor', '\\pagecolor', '\\color' ,'\\thiswatermark',
+]
 PATTERNS = {
     'ruby': re.compile(r'\\ruby{(.*?)}{(.*?)}'),
     'wakati_ruby': re.compile(r'(?:(?<=(?:\||\}))([^\|]*?)\\ruby{([^\{\}]*?)\|}{([^\{\}]*?)}|(?<=(?:\||\}))([^\|]*?)\\ruby{([^\{\}]*?[^\|])}{([^\{\}]*?)}([^\|]*?)(?=(?:\||\\)))'),
     'command': re.compile(r'\\(?!ruby).*?{(.*?)}'),
+    'command_no_params': re.compile(r'\\(?!ruby)\S*?\s'),
     'remove_marks': re.compile(r'[「」『』]'),
 }
 
@@ -34,7 +40,9 @@ def plain_except_ruby(line):
     for ig in ignore_list:
         if ret.startswith(ig):
             return None
-    return PATTERNS['command'].sub(r'\1', ret)
+    ret = PATTERNS['command'].sub(r'\1', ret)
+    ret = PATTERNS['command_no_params'].sub('', ret)
+    return ret
 
 def plain(line):
     ret = plain_except_ruby(line)
