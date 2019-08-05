@@ -91,10 +91,14 @@ def list_rubies(lines):
 def main():
     os.makedirs('ssml', exist_ok=True)
 
+    with open('config.json', 'r') as f:
+        config = json.load(f)
+
     with open('novel.tex', 'r') as f:
         lines = f.readlines()
 
-    rubies = list_rubies(lines)
+    rubies = config.get('special_rubies', [])
+    rubies.extend(list_rubies(lines))
 
     with open('rubies.json', 'w') as f:
         json.dump(rubies, f, ensure_ascii=False, indent=2)
