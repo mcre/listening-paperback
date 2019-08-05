@@ -19,8 +19,7 @@ def main():
         pf = pagefeeds[i]
         clip = ImageClip(page).set_start(pf['start']).set_duration(pf['duration'])
         if i == 0: #start
-            it = consts['start_voice_interval']
-            clip = clip.set_start(clip.start - it).set_duration(it + clip.duration + cft).crossfadeout(cft)
+            clip = clip.set_start(0).set_duration(pf['start'] + clip.duration + cft).crossfadeout(cft)
         elif i == len(pages) - 1: # end
             clip = clip.set_duration(clip.duration + cft).crossfadein(cft)
         else:
