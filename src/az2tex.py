@@ -114,7 +114,6 @@ def main():
     tex = Template(template).substitute({
         'meta_data': '\n'.join([f'\\{k}{{{bs + v["size"] + " " if v.get("size", False) else ""}{v["data"]}}}' for k, v in meta_data.items()]),
         'text_color': config['text_color'],
-        'text_shadow_color': config['text_shadow_color'],
         'background_color': config['background_color'],
         'body': '\n\n'.join(body_lines),
     })
