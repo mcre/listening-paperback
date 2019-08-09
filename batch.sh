@@ -2,6 +2,7 @@ echo '# docker-build'
 docker build -t lp-python ./Dockerfiles/python || exit 1
 docker build -t lp-python-mecab ./Dockerfiles/python_mecab || exit 1
 docker build -t lp-python-movie ./Dockerfiles/python_movie || exit 1
+docker build -t lp-python-pymupdf ./Dockerfiles/python_pymupdf || exit 1
 
 echo '# preprocessing'
 rm -rf ./work || exit 1
@@ -33,6 +34,10 @@ docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python ssml2voice.p
 cp -r ./work/cache/* ./cache || exit 1
 echo '# build_pagefeeds'
 docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python build_pagefeeds.py" || exit 1
+echo '# build_animation'
+docker run --rm -it -v $PWD/work:/work lp-python-pymupdf /bin/sh -c "python build_animation.py" || exit 1
+echo '# build_animation_pdf2png'
+docker run --rm -it -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "cd /work && ./animation_pdf2png.sh" || exit 1
 echo '# build_movie'
 docker run --rm -it -v $PWD/work:/work lp-python-movie /bin/sh -c "python3 build_movie.py" || exit 1
 

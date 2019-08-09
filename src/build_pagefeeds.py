@@ -54,13 +54,20 @@ def main():
     remain = ''
     for page in pages:
         page_words = []
+        index_in_page = - len(remain)
         remain = f'{remain}{page}'
         while len(remain) > 0 and cur < len(words):
             w = PATTERNS['tag'].sub('', words[cur]['text'])
             if (loc := remain.find(w)) >= 0:
-                remain = remain[loc + len(w):]
+                l = loc + len(w)
+                words[cur]['skipped_text'] = remain[:loc]
+                words[cur]['start_index_in_page'] = index_in_page + loc
+                words[cur]['end_index_in_page'] = index_in_page + l
+                words[cur]['skipped_start_index_in_page'] = index_in_page
                 page_words.append(words[cur])
+                remain = remain[l:]
                 cur += 1
+                index_in_page += l
             else:
                 break
         st = page_words[0]['start']
