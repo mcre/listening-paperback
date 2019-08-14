@@ -4,6 +4,7 @@ import sys
 
 import fitz
 
+opacity = 0.20 # 既読に背景色をかぶせるときの不透明度 = 既読文字の薄さ
 adj = {'x0': 3, 'y0': 2, 'x1': 0, 'y1': 3} # offsetは文字サイズ(文字幅？)に対する割合にしたほうがいいかも
 ignore_width = [ # この幅に一致する場合は既読の対象にしない、小数点以下1桁の文字列で指定する
     '24.9', # 傍点
@@ -23,7 +24,7 @@ def read(page, rect):
     # annot.setColors({'fill': (0, 0, 0)}) # 黒表示、枠のデバッグ用
     annot.setColors({'fill': hex_to_rgb(config['background_color'])})
     annot.setBorder({'width': 100}) # こうすると何故か枠が消える
-    annot.setOpacity(0.25)
+    annot.setOpacity(opacity)
     annot.update()
 
 def cut_rects(rects): # 「す」で検索すると「すすき」の「すす」が一つの枠で出現してしまうので、連続した場合は等分する
@@ -46,7 +47,7 @@ def cut_rects(rects): # 「す」で検索すると「すすき」の「すす�
     return ret
 
 def main():
-    os.makedirs('animations', exist_ok=True)
+    os.makedirs('animation_images', exist_ok=True)
     with open('pagefeeds.json', 'r') as f:
         pagefeeds = json.load(f)
     original_pdf = fitz.open('novel.pdf')
@@ -72,7 +73,7 @@ def main():
                 already_read_rects.append(rects[appear[char]])
             for rect in already_read_rects:
                 read(page, rect)
-            pdf.save(f'animations/novel_{page_id:0>5}_{word_id:0>5}.pdf', garbage=4, deflate=True, clean=True)
+            pdf.save(f'animation_images/novel_{page_id:0>5}_{word_id:0>5}.pdf', garbage=4, deflate=True, clean=True)
 
 if __name__ == '__main__':
     main()

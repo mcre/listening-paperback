@@ -31,14 +31,14 @@ def main():
     } for voice_id, words_in_voice in enumerate(words_list) for word_id_in_voice, word in enumerate(words_in_voice)]
 
     words = []
-    for i, word in enumerate(words_tmp):
+    for word_id, word in enumerate(words_tmp):
         if word['word_id_in_voice'] == 0:
-            start_this_voice = words[i - 1]['end'] + consts['voice_interval'] if i > 0 else consts['start_voice_interval']
+            start_this_voice = words[word_id - 1]['end'] + consts['voice_interval'] if word_id > 0 else consts['start_voice_interval']
         start = start_this_voice + word['start_in_voice']
         if word['word_id_in_voice'] + 1 == word['word_num_in_voice']:
             end = start_this_voice + word['voice_sec']
         else:
-            end = start_this_voice + words_tmp[i + 1]['start_in_voice']
+            end = start_this_voice + words_tmp[word_id + 1]['start_in_voice']
         words.append({
             'text': word['text'],
             'start': round(start, 3),
@@ -79,10 +79,17 @@ def main():
             'words': page_words,
         })
 
-    for i, pagefeed in enumerate(pagefeeds):
-        pagefeed['next_start'] = pagefeeds[i + 1]['start'] if i + 1 < len(pagefeeds) else pagefeed['end']
-        pagefeed['duration'] = pagefeed['next_start'] - pagefeed['start']
-        pagefeeds[i] = pagefeed
+    for page_id, pagefeed in enumerate(pagefeeds):
+        pagefeed['next_page_start'] = pagefeeds[page_id + 1]['start'] if page_id + 1 < len(pagefeeds) else pagefeed['end']
+        pagefeed['duration_to_next_page_start'] = round(pagefeed['next_page_start'] - pagefeed['start'], 3)
+        pagefeeds[page_id] = pagefeed
+
+    for pagefeed in pagefeeds:
+        for word_id, word in enumerate(pagefeed['words']):
+            word['next_word_start'] = pagefeed['words'][word_id + 1]['start'] if word_id + 1 < len(pagefeed['words']) else pagefeed['next_page_start']
+            word['duration_to_next_word_start'] = round(word['next_word_start'] - word['start'], 3)
+            word['next_word_duration'] = pagefeed['words'][word_id + 1]['duration'] if word_id + 1 < len(pagefeed['words']) else 0
+            pagefeed['words'][word_id] = word
 
     with open(f'pagefeeds.json', 'w') as f:
         json.dump(pagefeeds, f, ensure_ascii=False, indent=2)
