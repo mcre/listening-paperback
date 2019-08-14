@@ -36,8 +36,6 @@ echo '# build_pagefeeds'
 docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python build_pagefeeds.py" || exit 1
 echo '# build_animation_images'
 docker run --rm -it -v $PWD/work:/work lp-python-pymupdf /bin/sh -c "python build_animation_images.py" || exit 1
-echo '# build_animation_images_pdf2png'
-docker run --rm -it -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "cd /work && ./animation_pdf2png.sh" || exit 1
 echo '# build_movie'
 docker run --rm -it -v $PWD/work:/work lp-python-movie /bin/sh -c "python3 build_movie.py" || exit 1
 
