@@ -26,6 +26,7 @@ PATTERNS = {
     'wakati_ruby': re.compile(r'(?:(?<=(?:\||\}))([^\|]*?)\\ruby{([^\{\}]*?)\|}{([^\{\}]*?)}|(?<=(?:\||\}))([^\|]*?)\\ruby{([^\{\}]*?[^\|])}{([^\{\}]*?)}([^\|]*?)(?=(?:\||\\)))'),
     'command': re.compile(r'\\(?!ruby).*?{(.*?)}'),
     'command_no_params': re.compile(r'\\(?!ruby)\S*?\s'),
+    'dialogue': re.compile(r'「(.*?)」'),
     'remove_marks': re.compile(r'[「」『』]'),
 }
 
@@ -111,6 +112,7 @@ def main():
         replaced = '|' + '|'.join(wakati(pline)) + '|'
         for ruby in rubies:
             replaced = replaced.replace('|' + ruby['kanji'] + '|', '|' + ruby['ruby'] + '|')
+        replaced = PATTERNS['dialogue'].sub(r'<prosody pitch="+10%">\1</prosody>', replaced)
         clines.append(replaced.replace('|', ''))
 
     for i, cline in enumerate(clines):
