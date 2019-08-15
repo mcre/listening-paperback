@@ -42,7 +42,7 @@ def generate_page_movie(page_id, page_path):
         clip = ImageClip(f'animation_images/novel_{page_id:0>5}_{word_id:0>5}.png') \
             .set_start(word['start'] - st) \
             .set_duration(word['duration_to_next_word_start'] + word['next_word_duration']) \
-            .crossfadein(word['duration'])
+            .crossfadein(word['duration'] * 0.5) # durationそのままにすると、色の変化が声に対して若干遅く感じるので調整する
         video_clips.append(clip)
     video_clip = CompositeVideoClip(video_clips)
     write_video(f'page_movies/{page_id:0>5}.mp4', video_clip)
@@ -60,7 +60,6 @@ def main():
 
     cft = consts['cross_fade_time']
     video_clips = [VideoFileClip('page_movies/cover.mp4')]
-    # to_ImageClip
     for page_id in range(pages_num):
         pf = pagefeeds[page_id]
         st = pf['start']
@@ -69,11 +68,6 @@ def main():
         if page_id > 0: # start 以外はクロスフェードインする
             clip = ImageClip(pages[page_id]) \
                 .set_start(st - cft).set_duration(cft).crossfadein(cft)
-            video_clips.append(clip)
-        if page_id < pages_num - 1: # end 以外はクロスフェードアウトする
-            word_id = len(pf['words']) - 1
-            clip = ImageClip(f'animation_images/novel_{page_id:0>5}_{word_id:0>5}.png') \
-                .set_start(st + clip.duration).set_duration(cft).crossfadeout(cft)
             video_clips.append(clip)
             
     video_clip = CompositeVideoClip(video_clips)

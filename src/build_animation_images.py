@@ -6,8 +6,10 @@ import sys
 import fitz
 import PIL.Image
 import PIL.ImageDraw
+import PIL.ImageOps
+import PIL.ImageEnhance
 
-opacity = 50 # 既読に背景色をかぶせるときの不透明度 = 既読文字の薄さ
+read_brightness = 0.25 # 既読文字の明るさ倍率(1以上で明るく、1以下で暗くなる)
 adj = {'x0': 0.3, 'y0': 0, 'x1': -0.02, 'y1': 0.1} # 文字の幅・高さの何％を増減させるか
 ignore_width = [ # この幅に一致する場合は既読の対象にしない、小数点以下1桁の文字列で指定する
     '24.9', # 傍点
@@ -39,6 +41,13 @@ def cut_rects(rects): # 「す」で検索すると「すすき」の「すす�
             print('4文字以上連続した場合の処理を作る必要がある')
             sys.exit(1)
     return ret
+
+def conv(x):
+    if x > 240:
+        return 255
+    if x == 0:
+        return 255
+    return x
 
 def main():
     os.makedirs('animation_images', exist_ok=True)
@@ -74,8 +83,14 @@ def main():
                 draw.rectangle((
                     (rect.x0 + cw * adj['x0']) * w_scale, (rect.y0 + ch * adj['y0']) * h_scale, 
                     (rect.x1 + cw * adj['x1']) * w_scale, (rect.y1 + ch * adj['y1']) * h_scale
-                ), fill=(col[0], col[1], col[2], opacity))
-            PIL.Image.alpha_composite(page_image, canvas).save(f'animation_images/novel_{page_id:0>5}_{word_id:0>5}.png')
+                ), fill=(col[0], col[1], col[2], 255))
+            square = PIL.ImageChops.darker(page_image, canvas) # 既読の四角の部分のみを抜き出す
+            alpha = PIL.ImageOps.invert(square.convert('L').point(conv)) # 文字部分のみのアルファチャンネルを作る(背景色(薄い色)と真っ黒(もと透過部分)を白に置換し,反転)
+            target = page_image.convert('RGB')
+            target.putalpha(alpha) # 文字部分以外を透過したものができる
+            dark_target = PIL.ImageEnhance.Brightness(target).enhance(read_brightness)# 明るさ調整
+            dark_page_image = PIL.Image.alpha_composite(page_image, dark_target) # 暗い文字を重ねる
+            dark_page_image.save(f'animation_images/novel_{page_id:0>5}_{word_id:0>5}.png')
 
 if __name__ == '__main__':
     main()
