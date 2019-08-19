@@ -31,7 +31,7 @@ def start_task(ssml_path, cache_path, polly, text, output_format):
     return {
         'task_id': rs['TaskId'],
         'cache_path': cache_path,
-        'id': int(basename(ssml_path)),
+        'name': basename(ssml_path),
         's3_basename': basename(rs['OutputUri']),
         'format': rs['OutputFormat'],
     }
@@ -44,11 +44,9 @@ def main(aws_access_key_id, aws_secret_access_key):
     session = boto3.Session(aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, region_name='ap-northeast-1')
     polly = session.client('polly')
     bucket = session.resource('s3').Bucket(consts['s3_bucket_name'])
-    ssml_num = len(sorted(glob.glob('ssml/*.xml')))
 
     tasks = []
-    for i in range(ssml_num):
-        ssml = f'ssml/{i:0>5}.xml'
+    for ssml in sorted(glob.glob('ssml/*.xml')):
         with open(ssml, 'r') as f:
             text = f.read()
             md5 = hashlib.md5(text.encode()).hexdigest()
@@ -59,8 +57,8 @@ def main(aws_access_key_id, aws_secret_access_key):
                 tasks.append(start_task(ssml, f'{cache_path}/voice.mp3', polly, text, 'mp3'))
                 tasks.append(start_task(ssml, f'{cache_path}/voice.json', polly, text, 'json'))
             else:
-                shutil.copy(f'{cache_path}/voice.mp3', f'voices/{i:0>5}.mp3')
-                shutil.copy(f'{cache_path}/voice.json', f'marks/{i:0>5}.json')
+                shutil.copy(f'{cache_path}/voice.mp3', f'voices/{basename(ssml)}.mp3')
+                shutil.copy(f'{cache_path}/voice.json', f'marks/{basename(ssml)}.json')
 
     print(f'polly: {len(tasks) // 2} * 2 tasks')
     for task in tasks:
@@ -68,24 +66,24 @@ def main(aws_access_key_id, aws_secret_access_key):
             response = polly.get_speech_synthesis_task(TaskId=task['task_id'])
             st = response['SynthesisTask']['TaskStatus']
             if st == 'completed':
-                print(f'polly: success ({task["format"]}, {task["id"]})')
+                print(f'polly: success ({task["format"]}, {task["name"]})')
                 if task['format'] == 'mp3':
-                    p = f'voices/{task["id"]:0>5}.mp3'
+                    p = f'voices/{task["name"]}.mp3'
                     bucket.download_file(f'{task["s3_basename"]}.mp3', p)
                     shutil.copy(p, task['cache_path'])
                 if task['format'] == 'json':
-                    p1 = f'marks_tmp/{task["id"]:0>5}.marks'
-                    p2 = f'marks/{task["id"]:0>5}.json'
+                    p1 = f'marks_tmp/{task["name"]}.marks'
+                    p2 = f'marks/{task["name"]}.json'
                     bucket.download_file(f'{task["s3_basename"]}.marks', p1)
                     with open(p1, 'r', encoding='utf-8') as fr, open(p2, 'w', encoding='utf-8') as fw:
                         json.dump([json.loads(line) for line in fr.readlines()], fw, ensure_ascii=False, indent=2)
                     shutil.copy(p2, task['cache_path'])
                 break
             elif st == 'failed':
-                print(f'polly: failed!!! ({task["format"]}, {task["id"]})')
+                print(f'polly: failed!!! ({task["format"]}, {task["name"]})')
                 break
             else:
-                print(f'polly: wait... ({task["format"]}, {task["id"]})')
+                print(f'polly: wait... ({task["format"]}, {task["name"]})')
                 time.sleep(10)
 
 if __name__ == '__main__':

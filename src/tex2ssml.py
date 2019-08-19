@@ -53,7 +53,8 @@ def plain(line):
 
 def list_rubies(lines):
     rubies = []
-    for line in lines:
+    for l in lines:
+        line = l['line']
         pline = plain(line)
         if pline is None:
             continue
@@ -96,7 +97,16 @@ def main():
         config = json.load(f)
 
     with open('novel.tex', 'r') as f:
-        lines = f.readlines()
+        lines = [{'filename': f'num', 'line': line} for i, line in enumerate(f.readlines())]
+    
+    # linesにタイトルなどを追加
+    for i in range(0, config['estimated_max_num_of_parts']):
+        lines.append({'filename': f'part{i:0>5}', 'line': f'第{i + 1}回'})
+    lines.append({'filename': 'title', 'line': config['title']})
+    lines.append({'filename': 'channel', 'line': '聴く、名作文庫'})
+    lines.append({'filename': 'next', 'line': 'つづく'})
+    lines.append({'filename': 'end', 'line': '終わり'})
+    lines.append({'filename': 'please', 'line': 'チャンネル登録お願いします！'})
 
     rubies = config.get('special_rubies', [])
     rubies.extend(list_rubies(lines))
@@ -106,20 +116,21 @@ def main():
 
     clines = []
     for line in lines:
-        pline = plain(line)
+        pline = plain(line['line'])
         if pline is None:
             continue
         replaced = '|' + '|'.join(wakati(pline)) + '|'
         for ruby in rubies:
             replaced = replaced.replace('|' + ruby['kanji'] + '|', '|' + ruby['ruby'] + '|')
         replaced = PATTERNS['dialogue'].sub(r'<prosody pitch="+10%">\1</prosody>', replaced)
-        clines.append(replaced.replace('|', ''))
+        replaced = PATTERNS['remove_marks'].sub('', replaced) # pollyのバグで、「<sub alias=\"カスケ\">加助"」等でmarksで余分なものが出るので記号系を置換しておく
+        clines.append({'filename': line['filename'], 'line': replaced.replace('|', '')})
 
     for i, cline in enumerate(clines):
-        with open(f'ssml/{i:0>5}.xml', 'w') as fw:
-            cline = PATTERNS['remove_marks'].sub('', cline) # pollyのバグで、「<sub alias=\"カスケ\">加助"」等でmarksで余分なものが出るので記号系を置換しておく
+        fn = f'text{i:0>5}' if cline['filename'] == 'num' else cline['filename']
+        with open(f'ssml/{fn}.xml', 'w') as fw:
             fw.write(prefix)
-            fw.write(cline)
+            fw.write(cline['line'])
             fw.write(postfix)
 
 if __name__ == '__main__':

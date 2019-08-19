@@ -25,19 +25,25 @@ docker run --rm -it -v $PWD/work:/work paperist/alpine-texlive-ja /bin/bash -c "
 docker run --rm -it -v $PWD/work:/work paperist/alpine-texlive-ja /bin/bash -c "cd /work && dvipdfmx novel.dvi" || exit 1
 docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python parse_tex_output.py" || exit 1
 echo '# pdf2png'
-mkdir ./work/pages
-docker run --rm -it -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r 200 /work/novel.pdf /work/pages/novel" || exit 1
+mkdir ./work/page_images
+docker run --rm -it -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r 200 /work/novel.pdf /work/page_images/novel" || exit 1
 echo '# tex2ssml'
 docker run --rm -it -v $PWD/work:/work lp-python-mecab /bin/sh -c "python tex2ssml.py" || exit 1
 echo '# ssml2voice'
 docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python ssml2voice.py ${2} ${3}" || exit 1
 cp -r ./work/cache/* ./cache || exit 1
-echo '# build_pagefeeds'
-docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python build_pagefeeds.py" || exit 1
+echo '# build_timekeeper'
+docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python build_timekeeper.py" || exit 1
+echo '# create_cover_images'
+docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python create_cover_images.py" || exit 1
 echo '# build_animation_images'
 docker run --rm -it -v $PWD/work:/work lp-python-pymupdf /bin/sh -c "python build_animation_images.py" || exit 1
-echo '# build_movie'
-docker run --rm -it -v $PWD/work:/work lp-python-movie /bin/sh -c "python3 build_movie.py" || exit 1
+echo '# build_page_movies'
+docker run --rm -it -v $PWD/work:/work lp-python-movie /bin/sh -c "python build_page_movies.py" || exit 1
+echo '# build_chapter_movies'
+docker run --rm -it -v $PWD/work:/work lp-python-movie /bin/sh -c "python build_chapter_movies.py" || exit 1
+echo '# build_part_movies'
+docker run --rm -it -v $PWD/work:/work lp-python-movie /bin/sh -c "python3 build_part_movies.py" || exit 1
 
 echo '# postprocessing'
 cid=`git log -n 1 --format=%ad-%h --date=format:'%Y%m%d'`
@@ -51,19 +57,17 @@ rm -rf ./projects/${1}/output_${cid} || exit 1
 
 mkdir ./projects/${1}/output_${cid} || exit 1
 cd ./projects/${1}/output_${cid}
-mkdir ssml pages voices marks || exit 1
+mkdir ssml page_images chapter_movies voices marks || exit 1
 cd ../../../
 
 cp ./work/config.json ./projects/${1}/output_${cid}/ || exit 1
 cp ./work/novel.tex ./projects/${1}/output_${cid}/ || exit 1
-cp ./work/pages.json ./projects/${1}/output_${cid}/ || exit 1
-cp ./work/pagefeeds.json ./projects/${1}/output_${cid}/ || exit 1
+cp ./work/timekeeper.json ./projects/${1}/output_${cid}/ || exit 1
 cp ./work/rubies.json ./projects/${1}/output_${cid}/ || exit 1
-cp ./work/voice_durations.json ./projects/${1}/output_${cid}/ || exit 1
 cp ./work/novel.pdf ./projects/${1}/output_${cid}/ || exit 1
-cp ./work/novel.mp4 ./projects/${1}/output_${cid}/ || exit 1
 
-cp ./work/pages/* ./projects/${1}/output_${cid}/pages/ || exit 1
+cp ./work/page_images/* ./projects/${1}/output_${cid}/page_images/ || exit 1
+cp ./work/chapter_movies/* ./projects/${1}/output_${cid}/chapter_movies/ || exit 1
 cp ./work/ssml/* ./projects/${1}/output_${cid}/ssml/ || exit 1
 cp ./work/voices/* ./projects/${1}/output_${cid}/voices/ || exit 1
 cp ./work/marks/* ./projects/${1}/output_${cid}/marks/ || exit 1

@@ -28,33 +28,15 @@ PATTERNS = {
 with open('config.json', 'r') as f:
     config = json.load(f)
 
+with open('consts.json', 'r') as f:
+    consts = json.load(f)
+
 class Template(string.Template):
     delimiter = '@'
 
 def read(filename, encoding=None):
     with open(filename, 'r', encoding=encoding) as f:
         return f.read()
-
-def get_meta_data(lines):
-    metas = []
-    for line in lines:
-        if PATTERNS['about'].fullmatch(line):
-            break
-        if line:
-            metas.append(line)
-    l = len(metas)
-    ret = {}
-    if l == 0:
-        return ret
-    ret['title'] = {'size': config.get('title_size', ''), 'data': metas[0]}
-    if l == 2:
-        ret['author'] = {'data': metas[1]}
-    if l >= 3:
-        ret['subtitle'] = {'data': metas[1]}
-        ret['author'] = {'data': metas[2]}
-    if l >= 4:
-        ret['subauthor'] = {'data': metas[3]}
-    return ret
 
 def get_first_line_index(lines):
     count = 0
@@ -92,7 +74,6 @@ def main():
         aozora_lines = [line.strip() for line in f.readlines()]
 
     head = aozora_lines[:50]
-    meta_data = get_meta_data(head)
     body_lines = aozora_lines[get_first_line_index(head):get_last_line_index(aozora_lines[-50:])]
 
     for index, line in enumerate(body_lines):
@@ -112,9 +93,8 @@ def main():
 
     bs = '\\'
     tex = Template(template).substitute({
-        'meta_data': '\n'.join([f'\\{k}{{{bs + v["size"] + " " if v.get("size", False) else ""}{v["data"]}}}' for k, v in meta_data.items()]),
-        'text_color': config['text_color'],
-        'background_color': config['background_color'],
+        'text_color': consts['text_color'],
+        'background_color': consts['background_color'],
         'body': '\n\n'.join(body_lines),
     })
     with open('novel.tex', 'w', encoding='utf-8') as f:

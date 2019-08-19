@@ -14,18 +14,11 @@
 \color{text_color}
 \pagecolor{background_color}
 
-\usepackage[dvipdfmx]{graphicx}
-\usepackage{watermark}
-\thiswatermark{\put(-28.85, -242){\includegraphics[width=6.4in, height=3.6in]{cover.png}}}
-
 \ModifyHeading{chapter}{indent=1zw, number=false, format={\Large #2}, pagebreak=clearpage}
 \NewPageStyle{defaultPageStyle}{nombre_position=bottom-left, nombre_font=\tiny, running_head_position=top-left, running_head_font=\scriptsize, mark_format={_chapter={#1}}, odd_running_head={_chapter}}
 \pagestyle{defaultPageStyle}
-@{meta_data}
 \date{}
 \begin{document}
 \showoutput
-\maketitle
 @{body}
-\chapter{終わり}
 \end{document}
