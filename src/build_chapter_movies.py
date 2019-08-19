@@ -30,7 +30,7 @@ def main():
     os.makedirs('chapter_movies', exist_ok=True)
 
     cft = consts['cross_fade_time']
-    ci = consts['chapter_interval']
+    ci = consts['chapter_interval'] / 2
     for chapter in timekeeper['chapters']:
         first_page = chapter['pages'][0]
         last_page = chapter['pages'][-1]

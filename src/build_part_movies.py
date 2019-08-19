@@ -16,7 +16,7 @@ def hex_to_rgb(hex):
     return tuple(int(hex[i:i+2], 16) for i in range(0, 6, 2))
 
 cft = consts['cross_fade_time']
-ci = consts['chapter_interval']
+ci = consts['chapter_interval'] / 2
 vi = consts['voice_interval']
 bg = hex_to_rgb(consts['background_color'])
 
