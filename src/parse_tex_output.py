@@ -19,6 +19,7 @@ def plain(text):
     ret = PATTERNS['command_no_params'].sub('', ret)
     return ret
 
+
 def main():
     with open('tex_output.txt', 'r') as f:
         output = f.read()
@@ -52,6 +53,7 @@ def main():
 
     with open('chapters_and_pages.json', 'w') as f:
         json.dump(chapters, f, ensure_ascii=False, indent=2)
+
 
 if __name__ == '__main__':
     main()

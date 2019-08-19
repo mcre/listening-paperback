@@ -14,12 +14,12 @@ PATTERNS = {
         re.compile(r'［＃(?:この行)?.*?([１２３４５６７８９０一二三四五六七八九〇十]*)字下げ］'),
     ],
     'rubies': [
-	    re.compile(r'｜(.+?)《(.+?)》'),
+        re.compile(r'｜(.+?)《(.+?)》'),
         re.compile(r'([\p{Han}]+?)《(.+?)》'),
-	    re.compile(r'([\p{Hiragana}]+?)《(.+?)》'),
-	    re.compile(r'([\p{Katakana}]+?)《(.+?)》'),
-	    re.compile(r'([Ａ-Ｚａ-ｚΑ-Ωα-ωА-Яа-я・]+?)《(.+?)》'),
-	    re.compile(r'([A-Za-z0-9#\-\;\&. ]+?)《(.+?)》'),
+        re.compile(r'([\p{Hiragana}]+?)《(.+?)》'),
+        re.compile(r'([\p{Katakana}]+?)《(.+?)》'),
+        re.compile(r'([Ａ-Ｚａ-ｚΑ-Ωα-ωА-Яа-я・]+?)《(.+?)》'),
+        re.compile(r'([A-Za-z0-9#\-\;\&. ]+?)《(.+?)》'),
     ],
     'remaining_ruby': re.compile(r'《.*?》'),
     'bouten': re.compile(r'(.+?)［＃.*?「\1」に傍点］'),
@@ -31,12 +31,15 @@ with open('config.json', 'r') as f:
 with open('consts.json', 'r') as f:
     consts = json.load(f)
 
+
 class Template(string.Template):
     delimiter = '@'
+
 
 def read(filename, encoding=None):
     with open(filename, 'r', encoding=encoding) as f:
         return f.read()
+
 
 def get_first_line_index(lines):
     count = 0
@@ -47,6 +50,7 @@ def get_first_line_index(lines):
             count += 1
     return 0
 
+
 def get_last_line_index(lines):
     matched = False
     for index, line in enumerate(reversed(lines)):
@@ -56,6 +60,7 @@ def get_last_line_index(lines):
             matched = True
     return None
 
+
 def ruby(line):
     ret = line
     for p in PATTERNS['rubies']:
@@ -64,8 +69,10 @@ def ruby(line):
         print(f'処理できていないルビあり: {obj.group()}')
     return ret
 
+
 def bouten(line):
     return PATTERNS['bouten'].sub(r'\\kenten{\1}', line)
+
 
 def main():
     with open('template.tex', 'r', encoding='utf-8') as f:
@@ -87,7 +94,7 @@ def main():
 
     for index, line in enumerate(body_lines):
         body_lines[index] = ruby(line)
-    
+
     for index, line in enumerate(body_lines):
         body_lines[index] = bouten(line)
 
@@ -99,6 +106,7 @@ def main():
     })
     with open('novel.tex', 'w', encoding='utf-8') as f:
         f.write(tex)
+
 
 if __name__ == '__main__':
     main()

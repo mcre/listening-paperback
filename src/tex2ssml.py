@@ -1,14 +1,13 @@
 import json
 import os
 import re
-import sys
 
 import jaconv
 import MeCab
 
-prefix =  '''<?xml version="1.0"?>
+prefix = '''<?xml version="1.0"?>
 <speak
-    version="1.1" 
+    version="1.1"
     xmlns="http://www.w3.org/2001/10/synthesis"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="http://www.w3.org/2001/10/synthesis http://www.w3.org/TR/speech-synthesis11/synthesis.xsd"
@@ -30,9 +29,11 @@ PATTERNS = {
     'remove_marks': re.compile(r'[「」『』]'),
 }
 
+
 def wakati(line):
     mecab = MeCab.Tagger('-d /usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd -Owakati')
     return mecab.parse(line).strip().split(' ')
+
 
 def plain_except_ruby(line):
     ret = line.strip()
@@ -45,11 +46,17 @@ def plain_except_ruby(line):
     ret = PATTERNS['command_no_params'].sub('', ret)
     return ret
 
+
 def plain(line):
     ret = plain_except_ruby(line)
     if ret is None:
         return None
     return PATTERNS['ruby'].sub(r'\1', ret)
+
+
+def rp(x):
+    return x.replace('|', '')
+
 
 def list_rubies(lines):
     rubies = []
@@ -63,7 +70,7 @@ def list_rubies(lines):
         cur = 0
         for morpheme in wakati(pline):
             for char in morpheme:
-                loc = ruby_line.find(char, cur) #ふりがなの読みの中にcharがあるとダメ
+                loc = ruby_line.find(char, cur)  # ふりがなの読みの中にcharがあるとダメ
                 if loc >= 0:
                     tmp.append(ruby_line[cur: loc + 1])
                     cur = loc + 1
@@ -73,22 +80,22 @@ def list_rubies(lines):
             tmp.append('|')
         for r in PATTERNS['wakati_ruby'].findall(''.join(tmp)):
             if r is not None:
-                rp = lambda x: x.replace('|', '')
-                if len(r[1]) > 0: # 後方なし
-                    if len(r[0]) > 0: # 前方あり
+                if len(r[1]) > 0:  # 後方なし
+                    if len(r[0]) > 0:  # 前方あり
                         alias = rp(r[2])
-                    else: # 前方なし
+                    else:  # 前方なし
                         alias = jaconv.hira2kata(rp(r[2]))
                     rubies.append({
                         'kanji': f'{r[0]}{r[1]}',
                         'ruby': f'{rp(r[0])}<sub alias="{alias}">{rp(r[1])}</sub>',
                     })
-                else: # 後方あり
+                else:  # 後方あり
                     rubies.append({
                         'kanji': f'{r[3]}{r[4]}{r[6]}',
                         'ruby': f'{rp(r[3])}<sub alias="{rp(r[5])}">{rp(r[4])}</sub>{rp(r[6])}',
                     })
     return sorted(rubies, key=lambda x: len(x['kanji']), reverse=True)
+
 
 def main():
     os.makedirs('ssml', exist_ok=True)
@@ -98,7 +105,7 @@ def main():
 
     with open('novel.tex', 'r') as f:
         lines = [{'filename': f'num', 'line': line} for i, line in enumerate(f.readlines())]
-    
+
     # linesにタイトルなどを追加
     for i in range(0, config['estimated_max_num_of_parts']):
         lines.append({'filename': f'part{i:0>5}', 'line': f'第{i + 1}回'})
@@ -123,7 +130,7 @@ def main():
         for ruby in rubies:
             replaced = replaced.replace('|' + ruby['kanji'] + '|', '|' + ruby['ruby'] + '|')
         replaced = PATTERNS['dialogue'].sub(r'<prosody pitch="+10%">\1</prosody>', replaced)
-        replaced = PATTERNS['remove_marks'].sub('', replaced) # pollyのバグで、「<sub alias=\"カスケ\">加助"」等でmarksで余分なものが出るので記号系を置換しておく
+        replaced = PATTERNS['remove_marks'].sub('', replaced)  # pollyのバグで、「<sub alias=\"カスケ\">加助"」等でmarksで余分なものが出るので記号系を置換しておく
         clines.append({'filename': line['filename'], 'line': replaced.replace('|', '')})
 
     for i, cline in enumerate(clines):
@@ -132,6 +139,7 @@ def main():
             fw.write(prefix)
             fw.write(cline['line'])
             fw.write(postfix)
+
 
 if __name__ == '__main__':
     main()

@@ -9,8 +9,10 @@ with open('consts.json', 'r') as f:
 with open(f'timekeeper.json', 'r') as f:
     timekeeper = json.load(f)
 
+
 def write_video(path, video_clip):
     video_clip.write_videofile(path, fps=30, codec='libx264', audio_codec='libfdk_aac', audio_bitrate='384k')
+
 
 def main():
     os.makedirs('page_movies', exist_ok=True)
@@ -23,7 +25,7 @@ def main():
                 clip = ImageClip(word['animation_image_path']) \
                     .set_start(word['start'] - page['start']) \
                     .set_duration(word['duration_to_next_word_start'] + word['next_word_duration']) \
-                    .crossfadein(word['duration'] * 0.5) # durationそのままにすると、色の変化が声に対して若干遅く感じるので調整する
+                    .crossfadein(word['duration'] * 0.5)  # durationそのままにすると、色の変化が声に対して若干遅く感じるので調整する
                 video_clips.append(clip)
                 clip = None
                 gc.collect()
@@ -31,6 +33,7 @@ def main():
             write_video(page['movie_path'], video_clip)
             video_clip = None
             gc.collect()
+
 
 if __name__ == '__main__':
     main()

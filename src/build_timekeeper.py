@@ -12,8 +12,10 @@ PATTERNS = {
 with open('consts.json', 'r') as f:
     consts = json.load(f)
 
+
 def basename(path):
     return os.path.splitext(os.path.basename(path))[0]
+
 
 def main():
     # chapter と pages の対応を作成()
@@ -29,7 +31,7 @@ def main():
             'words': [],
         } for page_id, page in enumerate(pages)],
     } for chapter_id, pages in enumerate(chapters_and_pages)]
-    
+
     # page に image_path, serial_page_id(chapterによらないページ通し番号)を設定
     cursor = 0
     page_image_paths = sorted(glob.glob('page_images/novel*.png'))
@@ -46,7 +48,7 @@ def main():
         'marks_path': f'marks/{basename(voice_path)}.json',
         'duration': mutagen.mp3.MP3(voice_path).info.length,
     } for voice_id, voice_path in enumerate(sorted(glob.glob('voices/text*.mp3')))]
-    
+
     # all_words を作成(これをpageごとに分解してぶら下げる)
     words_in_voices = []
     for voice in all_voices:
@@ -74,17 +76,17 @@ def main():
                 word = all_words[cur]
                 w = PATTERNS['tag'].sub('', word['text'])
                 if (loc := remain.find(w)) >= 0:
-                    l = loc + len(w)
+                    ll = loc + len(w)
                     word['word_id'] = word_id
                     word['animation_image_path'] = f'animation_images/{chapter["chapter_id"]:0>5}_{page["page_id"]:0>5}_{word_id:0>5}.png'
                     word['skipped_text'] = remain[:loc]
                     word['start_index_in_page'] = index_in_page + loc
-                    word['end_index_in_page'] = index_in_page + l
+                    word['end_index_in_page'] = index_in_page + ll
                     word['skipped_start_index_in_page'] = index_in_page
                     page['words'].append(word)
-                    remain = remain[l:]
+                    remain = remain[ll:]
                     cur += 1
-                    index_in_page += l
+                    index_in_page += ll
                     word_id += 1
                 else:
                     break
@@ -112,13 +114,13 @@ def main():
         for page in chapter['pages']:
             all_words_in_chapter.extend(page['words'])
         for i, word in enumerate(all_words_in_chapter):
-            if word['word_id_in_voice'] + 1 != word['word_num_in_voice']: # 通常
-                word['end'] = word['voice_start'] + all_words_in_chapter[i + 1]['start_in_voice'] # 次のwordの開始時刻
-            else: # voice の中の最後の wordの場合
-                word['end'] = word['voice_start'] + word['voice_duration'] # voice の開始 + voice の長さを end とする
+            if word['word_id_in_voice'] + 1 != word['word_num_in_voice']:  # 通常
+                word['end'] = word['voice_start'] + all_words_in_chapter[i + 1]['start_in_voice']  # 次のwordの開始時刻
+            else:  # voice の中の最後の wordの場合
+                word['end'] = word['voice_start'] + word['voice_duration']  # voice の開始 + voice の長さを end とする
             word['duration'] = word['end'] - word['start']
             word['duration_to_next_word_start'] = 0
-            if i + 1 < len(all_words_in_chapter): # 最後のwordじゃない場合
+            if i + 1 < len(all_words_in_chapter):  # 最後のwordじゃない場合
                 next_word_start = all_words_in_chapter[i + 1]['start']
                 word['duration_to_next_word_start'] = next_word_start - word['start']
 
@@ -129,7 +131,7 @@ def main():
             all_words_in_chapter.extend(page['words'])
         for i, word in enumerate(all_words_in_chapter):
             word['next_word_duration'] = 0
-            if i + 1 < len(all_words_in_chapter): # 最後のwordじゃない場合
+            if i + 1 < len(all_words_in_chapter):  # 最後のwordじゃない場合
                 word['next_word_duration'] = all_words_in_chapter[i + 1]['duration']
 
     # 各 page に時刻を追加
@@ -161,6 +163,7 @@ def main():
     # 書き込み
     with open(f'timekeeper.json', 'w') as f:
         json.dump({'chapters': chapters}, f, ensure_ascii=False, indent=2)
+
 
 if __name__ == '__main__':
     main()

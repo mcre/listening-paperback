@@ -12,8 +12,10 @@ import boto3
 with open('consts.json', 'r') as f:
     consts = json.load(f)
 
+
 def basename(path):
     return os.path.splitext(os.path.basename(path))[0]
+
 
 def start_task(ssml_path, cache_path, polly, text, output_format):
     smt = []
@@ -35,6 +37,7 @@ def start_task(ssml_path, cache_path, polly, text, output_format):
         's3_basename': basename(rs['OutputUri']),
         'format': rs['OutputFormat'],
     }
+
 
 def main(aws_access_key_id, aws_secret_access_key):
     os.makedirs('voices', exist_ok=True)
@@ -85,6 +88,7 @@ def main(aws_access_key_id, aws_secret_access_key):
             else:
                 print(f'polly: wait... ({task["format"]}, {task["name"]})')
                 time.sleep(10)
+
 
 if __name__ == '__main__':
     main(sys.argv[1], sys.argv[2])
