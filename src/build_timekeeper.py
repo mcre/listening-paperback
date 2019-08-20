@@ -41,7 +41,7 @@ def main():
             page['serial_page_id'] = cursor
             cursor += 1
 
-    # all_voices を作成(これをchapterごとに分解してぶら下げる) 
+    # all_voices を作成(これをchapterごとに分解してぶら下げる)
     all_voices = [{
         'voice_id': voice_id,
         'voice_path': voice_path,
