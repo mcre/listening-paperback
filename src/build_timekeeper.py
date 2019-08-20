@@ -116,13 +116,17 @@ def main():
         for i, word in enumerate(all_words_in_chapter):
             if word['word_id_in_voice'] + 1 != word['word_num_in_voice']:  # 通常
                 word['end'] = word['voice_start'] + all_words_in_chapter[i + 1]['start_in_voice']  # 次のwordの開始時刻
-            else:  # voice の中の最後の wordの場合
+            else:  # voice の中の最後の word の場合
                 word['end'] = word['voice_start'] + word['voice_duration']  # voice の開始 + voice の長さを end とする
             word['duration'] = word['end'] - word['start']
-            word['duration_to_next_word_start'] = 0
-            if i + 1 < len(all_words_in_chapter):  # 最後のwordじゃない場合
+
+            if i + 1 < len(all_words_in_chapter):  # ページの最後の word じゃない場合
                 next_word_start = all_words_in_chapter[i + 1]['start']
                 word['duration_to_next_word_start'] = next_word_start - word['start']
+            elif word['word_id_in_voice'] + 1 == word['word_num_in_voice']:  # ページの最後の word だけど voice の最後の word のとき
+                word['duration_to_next_word_start'] = word['duration']
+            else:  # ページの最後の word のとき
+                word['duration_to_next_word_start'] = 0
 
     # 各 word のさらに↑を使うのを計算
     for chapter in chapters:

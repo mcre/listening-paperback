@@ -35,6 +35,8 @@ def divide_parts():
     if len(part) > 0:
         parts.append(part)
     # 最後のパートが min_part_durationにも達していない場合はその前に足し込む
+    if len(parts) <= 1:  # 1個しかないときは戻る
+        return parts
     last_part_duration = sum(x['duration'] for x in parts[-1])
     if last_part_duration < consts['min_part_duration']:
         parts[-2].extend(parts[-1])
