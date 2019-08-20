@@ -81,8 +81,6 @@ def main():
                     word['animation_image_path'] = f'animation_images/{chapter["chapter_id"]:0>5}_{page["page_id"]:0>5}_{word_id:0>5}.png'
                     word['skipped_text'] = remain[:loc]
                     word['start_index_in_page'] = index_in_page + loc
-                    word['end_index_in_page'] = index_in_page + ll
-                    word['skipped_start_index_in_page'] = index_in_page
                     page['words'].append(word)
                     remain = remain[ll:]
                     cur += 1
@@ -90,6 +88,30 @@ def main():
                     word_id += 1
                 else:
                     break
+    chapters[-1]['pages'][-1]['words'][-1]['text'] += remain  # 最後の word に残りの文字を追加
+
+    # skipped_textを前後に振り分ける
+    for chapter in chapters:
+        for page in chapter['pages']:
+            for word_id, word in enumerate(page['words']):
+                if len(word['skipped_text']) > 0:
+                    cnt = 0
+                    for char in word['skipped_text']:
+                        if char in ('、', '。', '」', '？', '！', '』', '）'):
+                            cnt += 1
+                        else:
+                            break
+                    bef = word['skipped_text'][:cnt]
+                    aft = word['skipped_text'][cnt:]
+                    if before_word_pointer is not None:
+                        before_word_pointer['text'] = f"{before_word_pointer['text']}{bef}"
+                    if word_id + 1 < len(page['words']):
+                        word['text'] = f"{aft}{word['text']}"
+                        word['start_index_in_page'] -= len(aft)
+                before_word_pointer = word
+
+    with open(f'tmp.json', 'w') as f:
+        json.dump({'chapters': chapters}, f, ensure_ascii=False, indent=2)
 
     # all_voices を分解しながら chapter に voices としてぶら下げる。start(chapter内の音声再生開始時刻)も計算
     for chapter in chapters:
@@ -157,7 +179,7 @@ def main():
             for key in ['start', 'end', 'duration']:
                 page[key] = round(page[key], 3)
             for word in page['words']:
-                del word['voice_duration'], word['word_num_in_voice'], word['start_in_voice'], word['start_index_in_page'], word['end_index_in_page'], word['voice_start']
+                del word['voice_duration'], word['word_num_in_voice'], word['start_in_voice'], word['skipped_text'], word['voice_start']
                 for key in ['start', 'end', 'duration', 'duration_to_next_word_start', 'next_word_duration']:
                     word[key] = round(word[key], 3)
         for voice in chapter['voices'].values():

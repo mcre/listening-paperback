@@ -71,9 +71,9 @@ def main():
             w_scale = page_image.width / pdf_page.rect.x1
             h_scale = page_image.height / pdf_page.rect.y1
             for word in page['words']:
-                w = word['skipped_text'] + word['text']
-                if word['skipped_start_index_in_page'] < 0:  # ページ切り替えで前ページに余った文字を既読にするとずれるので、調整する
-                    w = w[- word['skipped_start_index_in_page']:]
+                w = word['text']
+                if word['start_index_in_page'] < 0:  # ページ切り替えで前ページに余った文字を既読にするとずれるので、調整する
+                    w = w[- word['start_index_in_page']:]
                 for char in w:
                     rects = pdf_page.searchFor(char, hit_max=100)
                     rects = cut_rects(rects)
