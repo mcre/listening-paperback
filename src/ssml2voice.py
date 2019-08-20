@@ -43,7 +43,7 @@ def main(aws_access_key_id, aws_secret_access_key):
     os.makedirs('voices', exist_ok=True)
     os.makedirs('marks_tmp', exist_ok=True)
     os.makedirs('marks', exist_ok=True)
-    
+
     session = boto3.Session(aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, region_name='ap-northeast-1')
     polly = session.client('polly')
     bucket = session.resource('s3').Bucket(consts['s3_bucket_name'])

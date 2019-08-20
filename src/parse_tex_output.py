@@ -23,7 +23,7 @@ def plain(text):
 def main():
     with open('tex_output.txt', 'r') as f:
         output = f.read()
-    
+
     output = output.replace('\n', '|')
     pages = PATTERNS['page'].findall(output)
     texts = []

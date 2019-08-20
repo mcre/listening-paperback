@@ -87,7 +87,7 @@ def main():
                     ch = rect.y1 - rect.y0
                     col = hex_to_rgb(consts['background_color'])
                     draw.rectangle((
-                        (rect.x0 + cw * adj['x0']) * w_scale, (rect.y0 + ch * adj['y0']) * h_scale, 
+                        (rect.x0 + cw * adj['x0']) * w_scale, (rect.y0 + ch * adj['y0']) * h_scale,
                         (rect.x1 + cw * adj['x1']) * w_scale, (rect.y1 + ch * adj['y1']) * h_scale
                     ), fill=(col[0], col[1], col[2], 255))
                 square = PIL.ImageChops.darker(page_image, canvas)  # 既読の四角の部分のみを抜き出す
