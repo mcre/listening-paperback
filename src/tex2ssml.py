@@ -129,7 +129,7 @@ def main():
         replaced = '|' + '|'.join(wakati(pline)) + '|'
         for ruby in rubies:
             replaced = replaced.replace('|' + ruby['kanji'] + '|', '|' + ruby['ruby'] + '|')
-        replaced = PATTERNS['dialogue'].sub(r'<prosody pitch="+10%">\1</prosody>', replaced)
+        replaced = PATTERNS['dialogue'].sub(r'<break strength="weak"/><prosody pitch="+10%">\1</prosody><break strength="weak"/>', replaced)
         replaced = PATTERNS['remove_marks'].sub('', replaced)  # pollyのバグで、「<sub alias=\"カスケ\">加助"」等でmarksで余分なものが出るので記号系を置換しておく
         clines.append({'filename': line['filename'], 'line': replaced.replace('|', '')})
 
