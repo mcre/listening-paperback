@@ -80,6 +80,7 @@ def main():
     parts = divide_parts()
 
     for part_id, part in enumerate(parts):
+        os.makedirs(f'part_movies/{part_id:0>5}', exist_ok=True)
         video_clips = [build_cover_clip(part_id)]
         for chapter in part:
             video_clips.append(VideoFileClip(chapter['movie_path']).fadein(cft, bg).fadeout(cft, bg))
@@ -91,7 +92,7 @@ def main():
             .volumex(consts['music_volume'])
         audio_clip = CompositeAudioClip([video_clip.audio, music_clip])
         video_clip = video_clip.set_audio(audio_clip)
-        write_video(f'part_movies/{part_id:0>5}.mp4', video_clip)
+        write_video(f'part_movies/{part_id:0>5}/movie.mp4', video_clip)
 
 
 if __name__ == '__main__':

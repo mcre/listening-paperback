@@ -1,0 +1,17 @@
+【「聴く」名作文庫】${author}『${title}』${part_text}
+###############################################
+著作権が切れた日本の名作を「聴きやすく」動画にまとめます。
+通勤中、運転中、就寝前などにご活用ください。
+
+【プレイリスト】
+${title}：${play_list}
+
+【素材】
+・文章：青空文庫 https://www.aozora.gr.jp/
+・音声：Amazon Polly https://aws.amazon.com/jp/polly/
+・音楽：${music_author} ${music_url}
+・表紙：${cover_author} ${cover_url}
+------
+version.${version}
+###############################################
+オーディブル,オーディオブック,名作,名著,青空文庫,文庫,${author},${title},朗読,聴く

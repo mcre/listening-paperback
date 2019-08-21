@@ -110,9 +110,6 @@ def main():
                         word['start_index_in_page'] -= len(aft)
                 before_word_pointer = word
 
-    with open(f'tmp.json', 'w') as f:
-        json.dump({'chapters': chapters}, f, ensure_ascii=False, indent=2)
-
     # all_voices を分解しながら chapter に voices としてぶら下げる。start(chapter内の音声再生開始時刻)も計算
     for chapter in chapters:
         voice_ids = [word['voice_id'] for page in chapter['pages'] for word in page['words']]
