@@ -63,15 +63,15 @@ mkdir ./projects/${1}/output/${cid} || exit 1
 cd ./projects/${1}/output/${cid} || exit 1
 mkdir input work || exit 1
 mkdir work/ssml work/marks work/page_movies || exit 1
-cd ../../../ || exit 1
+cd ../../../../ || exit 1
 
-cd ./work/
+cd ./work/ || exit 1
 cp -r part_movies/* ../projects/${1}/output/${cid}/ || exit 1
 cp novel.tex config.json ../projects/${1}/output/${cid}/input || exit 1
 cp rubies.json tex_output.txt novel.pdf chapters_and_pages.json timekeeper.json ../projects/${1}/output/${cid}/work || exit 1
 cp ssml/* ../projects/${1}/output/${cid}/work/ssml/ || exit 1
 cp marks/* ../projects/${1}/output/${cid}/work/marks/ || exit 1
 cp page_movies/* ../projects/${1}/output/${cid}/work/page_movies/ || exit 1
-cd ..
+cd .. || exit 1
 
 echo '# done !!!'
