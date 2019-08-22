@@ -88,7 +88,10 @@ def main():
                     word_id += 1
                 else:
                     break
-    chapters[-1]['pages'][-1]['words'][-1]['text'] += remain  # 最後の word に残りの文字を追加
+    try:
+        chapters[-1]['pages'][-1]['words'][-1]['text'] += remain  # 最後の word に残りの文字を追加
+    except Exception as e:
+        pass
 
     # skipped_textを前後に振り分ける
     for chapter in chapters:
@@ -113,6 +116,8 @@ def main():
     # all_voices を分解しながら chapter に voices としてぶら下げる。start(chapter内の音声再生開始時刻)も計算
     for chapter in chapters:
         voice_ids = [word['voice_id'] for page in chapter['pages'] for word in page['words']]
+        if len(voice_ids) < 1:
+            continue
         voices = {voice_id: all_voices[voice_id] for voice_id in range(min(voice_ids), max(voice_ids) + 1)}
         s = 0
         for voice in voices.values():
@@ -160,13 +165,18 @@ def main():
     # 各 page に時刻を追加
     for chapter in chapters:
         for page in chapter['pages']:
+            if len(page['words']) < 1:
+                page['start'], page['end'], page['duration'] = 0, 0, 0
+                continue
             page['start'] = page['words'][0]['start']
             page['end'] = page['words'][len(page['words']) - 1]['end']
             page['duration'] = page['end'] - page['start']
 
     # 各chapter に duration を追加
     for chapter in chapters:
-        chapter['duration'] = chapter['pages'][len(chapter['pages']) - 1]['end'] - chapter['pages'][0]['start']
+        start = chapter['pages'][0]['start'] if 'start' in chapter['pages'][0] else 0
+        end = chapter['pages'][-1]['end'] if 'end' in chapter['pages'][-1] else 0
+        chapter['duration'] = end - start
 
     # 不要な変数を削除、整形
     for chapter in chapters:
@@ -174,12 +184,14 @@ def main():
             chapter[key] = round(chapter[key], 3)
         for page in chapter['pages']:
             for key in ['start', 'end', 'duration']:
-                page[key] = round(page[key], 3)
+                if key in page:
+                    page[key] = round(page[key], 3)
             for word in page['words']:
                 del word['voice_duration'], word['word_num_in_voice'], word['start_in_voice'], word['skipped_text'], word['voice_start']
                 for key in ['start', 'end', 'duration', 'duration_to_next_word_start', 'next_word_duration']:
-                    word[key] = round(word[key], 3)
-        for voice in chapter['voices'].values():
+                    if key in word:
+                        word[key] = round(word[key], 3)
+        for voice in chapter.get('voices', {}).values():
             for key in ['start', 'duration']:
                 voice[key] = round(voice[key], 3)
 

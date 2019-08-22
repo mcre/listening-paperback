@@ -50,18 +50,24 @@ def main(aws_access_key_id, aws_secret_access_key):
 
     tasks = []
     for ssml in sorted(glob.glob('ssml/*.xml')):
-        with open(ssml, 'r') as f:
-            text = f.read()
-            md5 = hashlib.md5(text.encode()).hexdigest()
-            cache_path = f'cache/{consts["voice_id"]}/{md5}'
-            if not os.path.isdir(cache_path):
-                os.makedirs(cache_path, exist_ok=True)
-                shutil.copy(ssml, f'{cache_path}/voice.xml')
-                tasks.append(start_task(ssml, f'{cache_path}/voice.mp3', polly, text, 'mp3'))
-                tasks.append(start_task(ssml, f'{cache_path}/voice.json', polly, text, 'json'))
-            else:
-                shutil.copy(f'{cache_path}/voice.mp3', f'voices/{basename(ssml)}.mp3')
-                shutil.copy(f'{cache_path}/voice.json', f'marks/{basename(ssml)}.json')
+        try:
+            with open(ssml, 'r') as f:
+                text = f.read()
+                md5 = hashlib.md5(text.encode()).hexdigest()
+                cache_path = f'cache/{consts["voice_id"]}/{md5}'
+                if not os.path.isdir(cache_path):
+                    os.makedirs(cache_path, exist_ok=True)
+                    shutil.copy(ssml, f'{cache_path}/voice.xml')
+                    tasks.append(start_task(ssml, f'{cache_path}/voice.mp3', polly, text, 'mp3'))
+                    tasks.append(start_task(ssml, f'{cache_path}/voice.json', polly, text, 'json'))
+                else:
+                    shutil.copy(f'{cache_path}/voice.mp3', f'voices/{basename(ssml)}.mp3')
+                    shutil.copy(f'{cache_path}/voice.json', f'marks/{basename(ssml)}.json')
+        except Exception as e:  # ここで落ちるとAWS料金的に痛いのでエラーはとりあえずスルーする
+            print(e)
+
+    with open('polly_tasks.json', 'w') as f:  # 落ちた時のために！
+        json.dump(tasks, f, ensure_ascii=False, indent=2)
 
     print(f'polly: {len(tasks) // 2} * 2 tasks')
     for task in tasks:
