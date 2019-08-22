@@ -22,8 +22,9 @@ PATTERNS = {
     'bouten': re.compile(r'(.+?)［＃.*?「\1」に傍点］'),
     'frame_start': re.compile('［＃ここから罫囲み］'),
     'frame_end': re.compile('［＃ここで罫囲み終わり］'),
+    'oneline_indent': re.compile('［＃(?:この行)?([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),
     'ignores': [
-        re.compile(r'［＃(?:この行)?.*?([１２３４５６７８９０一二三四五六七八九〇十]*)字下げ］'),
+        # re.compile(r'［＃(?:この行)?.*?([１２３４５６７８９０一二三四五六七八九〇十]*)字下げ］'),
     ],
 }
 
@@ -72,6 +73,22 @@ def ruby(line):
     return ret
 
 
+def zenkaku_to_int(zenkaku):
+    table = str.maketrans({
+        '〇': '0', '一': '1', '二': '2', '三': '3', '四': '4', '五': '5', '六': '6', '七': '7', '八': '8', '九': '9',
+        '０': '0', '１': '1', '２': '2', '３': '3', '４': '4', '５': '5', '６': '6', '７': '7', '８': '8', '９': '9',
+    })
+    return int(str(zenkaku).translate(table))
+
+
+def oneline_indent(line):
+    ret = line
+    if (obj := PATTERNS['oneline_indent'].search(ret)):
+        num = zenkaku_to_int(obj.group(1))
+        ret = PATTERNS['oneline_indent'].sub(r'\\noindent' + r'\\　' * num, ret)
+    return ret
+
+
 def main():
     with open('template.tex', 'r', encoding='utf-8') as f:
         template = f.read()
@@ -97,6 +114,7 @@ def main():
         body_lines[index] = PATTERNS['bouten'].sub(r'\\kenten{\1}', body_lines[index])
         body_lines[index] = PATTERNS['frame_start'].sub(r'\\begin{oframed}', body_lines[index])
         body_lines[index] = PATTERNS['frame_end'].sub(r'\\end{oframed}', body_lines[index])
+        body_lines[index] = oneline_indent(body_lines[index])
 
     bs = '\\'
     tex = Template(template).substitute({
