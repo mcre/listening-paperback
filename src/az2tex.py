@@ -22,7 +22,8 @@ PATTERNS = {
     'bouten': re.compile(r'(.+?)［＃.*?「\1」に傍点］'),
     'frame_start': re.compile('［＃ここから罫囲み］'),
     'frame_end': re.compile('［＃ここで罫囲み終わり］'),
-    'oneline_indent': re.compile('［＃(?:この行)?([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),
+    'oneline_indent': re.compile(r'［＃(?:この行)?([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),
+    'oneline_indent_bottom': re.compile(r'［＃地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］(.+)$'),
     'ignores': [
         # re.compile(r'［＃(?:この行)?.*?([１２３４５６７８９０一二三四五六七八九〇十]*)字下げ］'),
     ],
@@ -81,14 +82,6 @@ def zenkaku_to_int(zenkaku):
     return int(str(zenkaku).translate(table))
 
 
-def oneline_indent(line):
-    ret = line
-    if (obj := PATTERNS['oneline_indent'].search(ret)):
-        num = zenkaku_to_int(obj.group(1))
-        ret = PATTERNS['oneline_indent'].sub(r'\\noindent' + r'\\　' * num, ret)
-    return ret
-
-
 def main():
     with open('template.tex', 'r', encoding='utf-8') as f:
         template = f.read()
@@ -114,7 +107,8 @@ def main():
         body_lines[index] = PATTERNS['bouten'].sub(r'\\kenten{\1}', body_lines[index])
         body_lines[index] = PATTERNS['frame_start'].sub(r'\\begin{oframed}', body_lines[index])
         body_lines[index] = PATTERNS['frame_end'].sub(r'\\end{oframed}', body_lines[index])
-        body_lines[index] = oneline_indent(body_lines[index])
+        body_lines[index] = PATTERNS['oneline_indent'].sub(r'\\noindent\\　', body_lines[index])  # 字下げは１字固定(普通の本より縦が短いので)
+        body_lines[index] = PATTERNS['oneline_indent_bottom'].sub(r'\\noindent\\rightline{\2\\　}', body_lines[index])  # 地上げは下寄せ空白１字固定
 
     bs = '\\'
     tex = Template(template).substitute({
