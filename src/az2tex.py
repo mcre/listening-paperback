@@ -10,9 +10,6 @@ PATTERNS = {
         re.compile(r'(.*)［＃「(.*?)」は中見出し］'),
         re.compile(r'［＃中見出し］(.*?)［＃中見出し終わり］'),
     ],
-    'ignores': [
-        re.compile(r'［＃(?:この行)?.*?([１２３４５６７８９０一二三四五六七八九〇十]*)字下げ］'),
-    ],
     'rubies': [
         re.compile(r'｜(.+?)《(.+?)》'),
         re.compile(r'([\p{Han}]+?)《(.+?)》'),
@@ -23,6 +20,11 @@ PATTERNS = {
     ],
     'remaining_ruby': re.compile(r'《.*?》'),
     'bouten': re.compile(r'(.+?)［＃.*?「\1」に傍点］'),
+    'frame_start': re.compile('［＃ここから罫囲み］'),
+    'frame_end': re.compile('［＃ここで罫囲み終わり］'),
+    'ignores': [
+        re.compile(r'［＃(?:この行)?.*?([１２３４５６７８９０一二三四五六七八九〇十]*)字下げ］'),
+    ],
 }
 
 with open('config.json', 'r') as f:
@@ -70,10 +72,6 @@ def ruby(line):
     return ret
 
 
-def bouten(line):
-    return PATTERNS['bouten'].sub(r'\\kenten{\1}', line)
-
-
 def main():
     with open('template.tex', 'r', encoding='utf-8') as f:
         template = f.read()
@@ -95,8 +93,10 @@ def main():
     for index, line in enumerate(body_lines):
         body_lines[index] = ruby(line)
 
-    for index, line in enumerate(body_lines):
-        body_lines[index] = bouten(line)
+    for index in range(len(body_lines)):
+        body_lines[index] = PATTERNS['bouten'].sub(r'\\kenten{\1}', body_lines[index])
+        body_lines[index] = PATTERNS['frame_start'].sub(r'\\begin{oframed}', body_lines[index])
+        body_lines[index] = PATTERNS['frame_end'].sub(r'\\end{oframed}', body_lines[index])
 
     bs = '\\'
     tex = Template(template).substitute({
