@@ -25,7 +25,7 @@ PATTERNS = {
     'oneline_indent': re.compile(r'［＃(?:この行)?([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),
     'oneline_indent_bottom': re.compile(r'［＃地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］(.+)$'),
     'ignores': [
-        re.compile(r'［＃(?:この行)?.*?([１２３４５６７８９０一二三四五六七八九〇十]*)字下げ］'),  # 字下げは \\leftskip = 1zw でできるけど、違和感激しいので無視。
+        re.compile(r'［＃ここから([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),  # 字下げは \\leftskip = 1zw でできるけど、違和感激しいので無視。
         re.compile(r'［＃ここで字下げ終わり］'),
     ],
 
@@ -86,10 +86,6 @@ def main():
     body_lines = aozora_lines[get_first_line_index(head):get_last_line_index(aozora_lines[-50:])]
 
     for index, line in enumerate(body_lines):
-        for pattern_ignore in PATTERNS['ignores']:
-            body_lines[index] = pattern_ignore.sub('', line)
-
-    for index, line in enumerate(body_lines):
         for pattern_chapter in PATTERNS['chapters']:
             if (obj := pattern_chapter.search(line)):
                 body_lines[index] = f'\\chapter{{{obj.group(1)}}}'
@@ -103,6 +99,8 @@ def main():
         body_lines[index] = PATTERNS['frame_end'].sub(r'\\end{oframed}', body_lines[index])
         body_lines[index] = PATTERNS['oneline_indent'].sub(r'\\noindent\\　', body_lines[index])  # 字下げは１字固定(普通の本より縦が短いので)以下同様
         body_lines[index] = PATTERNS['oneline_indent_bottom'].sub(r'\\noindent\\rightline{\2\\　}', body_lines[index])
+        for pattern_ignore in PATTERNS['ignores']:
+            body_lines[index] = pattern_ignore.sub('', body_lines[index])
 
     bs = '\\'
     tex = Template(template).substitute({
