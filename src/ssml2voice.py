@@ -63,11 +63,17 @@ def main(aws_access_key_id, aws_secret_access_key):
                 else:
                     shutil.copy(f'{cache_path}/voice.mp3', f'voices/{basename(ssml)}.mp3')
                     shutil.copy(f'{cache_path}/voice.json', f'marks/{basename(ssml)}.json')
-        except Exception as e:  # ここで落ちるとAWS料金的に痛いのでエラーはとりあえずスルーする
+        except Exception as e:  # エラーはとりあえずスルーする
             print(e)
 
     with open('polly_tasks.json', 'w') as f:  # 落ちた時のために！
         json.dump(tasks, f, ensure_ascii=False, indent=2)
+
+    if len(tasks) > 10:
+        input_text = input('polly変換数が10を超えました。そのまま続ける場合はyを入力してください\n input: ')
+        if input_text != 'y':
+            print('終了します')
+            return
 
     print(f'polly: {len(tasks) // 2} * 2 tasks')
     for task in tasks:
