@@ -25,8 +25,9 @@ PATTERNS = {
     'oneline_indent': re.compile(r'［＃(?:この行)?([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),
     'oneline_indent_bottom': re.compile(r'［＃地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］(.+)$'),
     'ignores': [
-        # re.compile(r'［＃(?:この行)?.*?([１２３４５６７８９０一二三四五六七八九〇十]*)字下げ］'),
-    ],
+        re.compile(r'［＃(?:この行)?.*?([１２３４５６７８９０一二三四五六七八九〇十]*)字下げ］'),
+    ],  # 字下げは \\leftskip = 1zw でできるけど、違和感激しいので無視。
+
 }
 
 with open('config.json', 'r') as f:
@@ -74,14 +75,6 @@ def ruby(line):
     return ret
 
 
-def zenkaku_to_int(zenkaku):
-    table = str.maketrans({
-        '〇': '0', '一': '1', '二': '2', '三': '3', '四': '4', '五': '5', '六': '6', '七': '7', '八': '8', '九': '9',
-        '０': '0', '１': '1', '２': '2', '３': '3', '４': '4', '５': '5', '６': '6', '７': '7', '８': '8', '９': '9',
-    })
-    return int(str(zenkaku).translate(table))
-
-
 def main():
     with open('template.tex', 'r', encoding='utf-8') as f:
         template = f.read()
@@ -107,8 +100,8 @@ def main():
         body_lines[index] = PATTERNS['bouten'].sub(r'\\kenten{\1}', body_lines[index])
         body_lines[index] = PATTERNS['frame_start'].sub(r'\\begin{oframed}', body_lines[index])
         body_lines[index] = PATTERNS['frame_end'].sub(r'\\end{oframed}', body_lines[index])
-        body_lines[index] = PATTERNS['oneline_indent'].sub(r'\\noindent\\　', body_lines[index])  # 字下げは１字固定(普通の本より縦が短いので)
-        body_lines[index] = PATTERNS['oneline_indent_bottom'].sub(r'\\noindent\\rightline{\2\\　}', body_lines[index])  # 地上げは下寄せ空白１字固定
+        body_lines[index] = PATTERNS['oneline_indent'].sub(r'\\noindent\\　', body_lines[index])  # 字下げは１字固定(普通の本より縦が短いので)以下同様
+        body_lines[index] = PATTERNS['oneline_indent_bottom'].sub(r'\\noindent\\rightline{\2\\　}', body_lines[index])
 
     bs = '\\'
     tex = Template(template).substitute({
