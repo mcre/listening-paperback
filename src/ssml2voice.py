@@ -55,7 +55,7 @@ def main(aws_access_key_id, aws_secret_access_key):
                 text = f.read()
                 md5 = hashlib.md5(text.encode()).hexdigest()
                 cache_path = f'cache/{consts["voice_id"]}/{md5}'
-                if not os.path.isdir(cache_path):
+                if not os.path.isfile(f'{cache_path}/voice.mp3') or not os.path.isfile(f'{cache_path}/voice.json'):
                     os.makedirs(cache_path, exist_ok=True)
                     shutil.copy(ssml, f'{cache_path}/voice.xml')
                     tasks.append(start_task(ssml, f'{cache_path}/voice.mp3', polly, text, 'mp3'))

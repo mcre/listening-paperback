@@ -24,8 +24,8 @@ cp ./materials/musics/`cat ./projects/${1}/config.json | jq -r .music.file` ./wo
 echo '# az2tex'
 docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python az2tex.py" || exit 1
 echo '# tex2pdf'
-docker run --rm -it -v $PWD/work:/work paperist/alpine-texlive-ja /bin/bash -c "cd /work && uplatex -halt-on-error novel.tex > tex_output.txt" || exit 1
-docker run --rm -it -v $PWD/work:/work paperist/alpine-texlive-ja /bin/bash -c "cd /work && dvipdfmx novel.dvi" || exit 1
+docker run --rm -it -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && uplatex -halt-on-error novel.tex > tex_output.txt" || exit 1
+docker run --rm -it -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && dvipdfmx novel.dvi" || exit 1
 docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python parse_tex_output.py" || exit 1
 echo '# pdf2png'
 mkdir ./work/page_images
