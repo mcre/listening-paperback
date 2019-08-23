@@ -70,7 +70,7 @@ def main(aws_access_key_id, aws_secret_access_key):
         json.dump(tasks, f, ensure_ascii=False, indent=2)
 
     if len(tasks) > 10:
-        input_text = input('polly変換数が10を超えました。そのまま続ける場合はyを入力してください\n input: ')
+        input_text = input(f'polly変換数が10を超えました({len(tasks)})。そのまま続ける場合はyを入力してください\n input: ')
         if input_text != 'y':
             print('終了します')
             return

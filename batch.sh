@@ -22,33 +22,33 @@ cp ./materials/covers/`cat ./projects/${1}/config.json | jq -r .cover.file` ./wo
 cp ./materials/musics/`cat ./projects/${1}/config.json | jq -r .music.file` ./work/music.mp3 || exit 1
 
 echo '# az2tex'
-docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python az2tex.py" || exit 1
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python az2tex.py" || exit 1
 echo '# tex2pdf'
-docker run --rm -it -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && uplatex -halt-on-error novel.tex > tex_output.txt" || exit 1
-docker run --rm -it -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && dvipdfmx novel.dvi" || exit 1
-docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python parse_tex_output.py" || exit 1
+docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && uplatex -halt-on-error novel.tex > tex_output.txt" || exit 1
+docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && dvipdfmx novel.dvi" || exit 1
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python parse_tex_output.py" || exit 1
 echo '# pdf2png'
 mkdir ./work/page_images
-docker run --rm -it -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r 200 /work/novel.pdf /work/page_images/novel" || exit 1
+docker run --rm -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r 200 /work/novel.pdf /work/page_images/novel" || exit 1
 echo '# tex2ssml'
-docker run --rm -it -v $PWD/work:/work lp-python-mecab /bin/sh -c "python tex2ssml.py" || exit 1
+docker run --rm -v $PWD/work:/work lp-python-mecab /bin/sh -c "python tex2ssml.py" || exit 1
 echo '# ssml2voice'
-docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python ssml2voice.py ${2} ${3}" || exit 1
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python ssml2voice.py ${2} ${3}" || exit 1
 cp -r ./work/cache/* ./cache || exit 1
 echo '# build_timekeeper'
-docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python build_timekeeper.py" || exit 1
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python build_timekeeper.py" || exit 1
 echo '# create_cover_images'
-docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python create_cover_images.py" || exit 1
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python create_cover_images.py" || exit 1
 echo '# build_animation_images'
-docker run --rm -it -v $PWD/work:/work lp-python-pymupdf /bin/sh -c "python build_animation_images.py" || exit 1
+docker run --rm -v $PWD/work:/work lp-python-pymupdf /bin/sh -c "python build_animation_images.py" || exit 1
 echo '# build_page_movies'
-docker run --rm -it -v $PWD/work:/work lp-python-movie /bin/sh -c "python build_page_movies.py" || exit 1
+docker run --rm -v $PWD/work:/work lp-python-movie /bin/sh -c "python build_page_movies.py" || exit 1
 echo '# build_chapter_movies'
-docker run --rm -it -v $PWD/work:/work lp-python-movie /bin/sh -c "python build_chapter_movies.py" || exit 1
+docker run --rm -v $PWD/work:/work lp-python-movie /bin/sh -c "python build_chapter_movies.py" || exit 1
 echo '# build_part_movies'
-docker run --rm -it -v $PWD/work:/work lp-python-movie /bin/sh -c "python3 build_part_movies.py" || exit 1
+docker run --rm -v $PWD/work:/work lp-python-movie /bin/sh -c "python3 build_part_movies.py" || exit 1
 echo '# generate_descriptions'
-docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python generate_descriptions.py ${cid}" || exit 1
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python generate_descriptions.py ${cid}" || exit 1
 
 echo '# postprocessing'
 if [ $ntc = 1 ]; then
