@@ -33,17 +33,16 @@ def cut_rects(rects):  # 「す」で検索すると「すすき」の「すす�
         ratio = (rect.y1 - rect.y0) / (rect.x1 - rect.x0) / 0.693  # 1文字の場合はおよそ1になる
         if ratio < 1.5:  # 1文字
             ret.append(rect)
-        elif ratio < 2.5:  # 2文字
-            h = (rect.y1 - rect.y0) / 2
-            for i in range(2):
-                ret.append(fitz.fitz.Rect(rect.x0, rect.y0 + i * h, rect.x1, rect.y0 + (i + 1) * h))
-        elif ratio < 3.5:  # 3文字
-            h = (rect.y1 - rect.y0) / 3
-            for i in range(3):
-                ret.append(fitz.fitz.Rect(rect.x0, rect.y0 + i * h, rect.x1, rect.y0 + (i + 1) * h))
         else:
-            print('4文字以上連続した場合の処理を作る必要がある')
-            sys.exit(1)
+            for num in range(2, 10):
+                if ratio < num + 0.5:
+                    h = (rect.y1 - rect.y0) / num
+                    for i in range(num):
+                        ret.append(fitz.fitz.Rect(rect.x0, rect.y0 + i * h, rect.x1, rect.y0 + (i + 1) * h))
+                    break
+            else:
+                print('10文字以上連続した場合の処理を作る必要がある')
+                sys.exit(1)
     return ret
 
 
