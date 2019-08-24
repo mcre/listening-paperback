@@ -7,7 +7,7 @@ PATTERNS = {
     'about': re.compile(r'^-+$'),
     'teihon': re.compile(r'^底本[：]'),
     'chapters': [
-        re.compile(r'(.*)［＃「(.*?)」は中見出し］'),
+        re.compile(r'(?:［＃(?:[１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］)?(.*)［＃「(.*?)」は中見出し］'),
         re.compile(r'［＃中見出し］(.*?)［＃中見出し終わり］'),
     ],
     'rubies': [

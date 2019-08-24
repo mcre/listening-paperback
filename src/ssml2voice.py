@@ -70,7 +70,9 @@ def main(aws_access_key_id, aws_secret_access_key):
         json.dump(tasks, f, ensure_ascii=False, indent=2)
 
     if len(tasks) > 10:
-        print('自動実行の場合はエラーが発生します。エラーが発生した場合は手動で実行してください。その際はdockerのパラメータに -it を付ける必要があります。')
+        print('自動実行の場合はエラーが発生します。エラーが発生した場合は手動で実行してください。手動実行方法↓')
+        print(f'docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python ssml2voice.py {aws_access_key_id} {aws_secret_access_key}"')
+        print('cp -r ./work/cache/* ./cache\n')
         input_text = input(f'polly変換数が10を超えました({len(tasks)})。そのまま続ける場合はyを入力してください\n input: ')
         if input_text != 'y':
             print('終了します')
