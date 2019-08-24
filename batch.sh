@@ -33,7 +33,9 @@ docker run --rm -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r
 echo '# tex2ssml'
 docker run --rm -v $PWD/work:/work lp-python-mecab /bin/sh -c "python tex2ssml.py" || exit 1
 echo '# ssml2voice'
-docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python ssml2voice.py ${2} ${3}" || exit 1
+aws_access_key_id=`cat ./certs/aws_credentials.json | jq -r .aws_access_key_id`
+aws_secret_access_key=`cat ./certs/aws_credentials.json | jq -r .aws_secret_access_key`
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python ssml2voice.py ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
 cp -r ./work/cache/* ./cache || exit 1
 echo '# build_timekeeper'
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python build_timekeeper.py" || exit 1
