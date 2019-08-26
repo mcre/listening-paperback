@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 
 from moviepy.editor import AudioClip, CompositeAudioClip, ImageClip, AudioFileClip, VideoFileClip, concatenate_videoclips, concatenate_audioclips
 
@@ -21,27 +22,6 @@ cft = consts['cross_fade_time']
 ci = consts['chapter_interval'] / 2
 vi = consts['voice_interval']
 bg = hex_to_rgb(consts['background_color'])
-
-
-def divide_parts():
-    parts = []
-    part, duration = [], 0
-    for chapter in timekeeper['chapters']:
-        part.append(chapter)
-        duration += chapter['duration']
-        if duration > consts['part_duration']:
-            parts.append(part)
-            part, duration = [], 0
-    if len(part) > 0:
-        parts.append(part)
-    # 最後のパートが min_part_durationにも達していない場合はその前に足し込む
-    if len(parts) <= 1:  # 1個しかないときは戻る
-        return parts
-    last_part_duration = sum(x['duration'] for x in parts[-1])
-    if last_part_duration < consts['min_part_duration']:
-        parts[-2].extend(parts[-1])
-        del parts[-1]
-    return parts
 
 
 def silence_clip(duration):
@@ -75,25 +55,26 @@ def build_end_clip(kind):
     return clip
 
 
-def main():
+def main(part_id):
     os.makedirs('part_movies', exist_ok=True)
-    parts = divide_parts()
 
-    for part_id, part in enumerate(parts):
-        os.makedirs(f'part_movies/{part_id:0>5}', exist_ok=True)
-        video_clips = [build_cover_clip(part_id)]
-        for chapter in part:
-            video_clips.append(VideoFileClip(chapter['movie_path']).fadein(cft, bg).fadeout(cft, bg))
-        video_clips.append(build_end_clip('next' if part_id < len(parts) - 1 else 'end'))
-        video_clip = concatenate_videoclips(video_clips)
-        music_clip = AudioFileClip('music.mp3') \
-            .audio_loop(duration=video_clip.duration) \
-            .audio_fadeout(duration=consts['music_fadeout_time']) \
-            .volumex(consts['music_volume'])
-        audio_clip = CompositeAudioClip([video_clip.audio, music_clip])
-        video_clip = video_clip.set_audio(audio_clip)
-        write_video(f'part_movies/{part_id:0>5}/movie.mp4', video_clip)
+    parts = timekeeper['parts']
+    part = parts[part_id]
+
+    os.makedirs(f'part_movies/{part_id:0>5}', exist_ok=True)
+    video_clips = [build_cover_clip(part_id)]
+    for chapter in part['chapters']:
+        video_clips.append(VideoFileClip(chapter['movie_path']).fadein(cft, bg).fadeout(cft, bg))
+    video_clips.append(build_end_clip('next' if part_id < len(parts) - 1 else 'end'))
+    video_clip = concatenate_videoclips(video_clips)
+    music_clip = AudioFileClip('music.mp3') \
+        .audio_loop(duration=video_clip.duration) \
+        .audio_fadeout(duration=consts['music_fadeout_time']) \
+        .volumex(consts['music_volume'])
+    audio_clip = CompositeAudioClip([video_clip.audio, music_clip])
+    video_clip = video_clip.set_audio(audio_clip)
+    write_video(f'part_movies/{part_id:0>5}/movie.mp4', video_clip)
 
 
 if __name__ == '__main__':
-    main()
+    main(int(sys.argv[1]))

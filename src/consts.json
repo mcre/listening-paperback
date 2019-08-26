@@ -8,7 +8,5 @@
     "voice_interval": 1.2,
     "chapter_interval": 2.0,
     "music_volume": 0.01,
-    "music_fadeout_time": 5,
-    "part_duration": 600,
-    "min_part_duration": 240
+    "music_fadeout_time": 5
 }

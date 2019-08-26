@@ -11,7 +11,11 @@
 2. プロジェクトに青空文庫テキストをSJISのまま `novel.txt` として置く。
 3. 他プロジェクトを参考に、 `config.json` を作成。 
 4. `./batch.sh {プロジェクト名}`を実行
-5. プロジェクトの`output_{git_commit_id}`以下に一部の中間ファイル、出力ファイルが出力される
+    - 1つのpartのみをbuildする場合
+        - `./batch.sh {プロジェクト名} {part_id}`
+    - 複数のpartをbuildする場合
+        - `./batch.sh {プロジェクト名} {start_part_id} {end_part_id}`
+5. プロジェクトの`output_{git_commit_id}_{part_id_or_range}`以下に一部の中間ファイル、出力ファイルが出力される
 
 ### youtube upload
 

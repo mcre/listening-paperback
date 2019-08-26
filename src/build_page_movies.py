@@ -1,6 +1,7 @@
 import gc
 import json
 import os
+import sys
 
 from moviepy.editor import CompositeVideoClip, ImageClip
 
@@ -14,10 +15,11 @@ def write_video(path, video_clip):
     video_clip.write_videofile(path, fps=30, codec='libx264', audio_codec='libfdk_aac', audio_bitrate='384k')
 
 
-def main():
+def main(part_id):
     os.makedirs('page_movies', exist_ok=True)
 
-    for chapter in timekeeper['chapters']:
+    chapters = timekeeper['parts'][part_id]['chapters']
+    for chapter in chapters:
         for page in chapter['pages']:
             video_clips = [ImageClip(page['image_path']).set_duration(page['duration'])]
             for word in page['words']:
@@ -36,4 +38,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main(int(sys.argv[1]))

@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 
 from moviepy.editor import AudioClip, CompositeVideoClip, CompositeAudioClip, ImageClip, AudioFileClip, VideoFileClip, concatenate_videoclips
 
@@ -28,12 +29,13 @@ def generate_voice_clip(voices, video_clip_duration):
     return voice_clip
 
 
-def main():
+def main(part_id):
     os.makedirs('chapter_movies', exist_ok=True)
 
     cft = consts['cross_fade_time']
     ci = consts['chapter_interval'] / 2
-    for chapter in timekeeper['chapters']:
+    chapters = timekeeper['parts'][part_id]['chapters']
+    for chapter in chapters:
         first_page = chapter['pages'][0]
         last_page = chapter['pages'][-1]
         video_clips = [ImageClip(first_page['image_path']).set_duration(first_page['start'])]  # 最初一瞬真っ黒になるのを防ぐ
@@ -54,4 +56,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main(int(sys.argv[1]))

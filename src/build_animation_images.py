@@ -54,13 +54,14 @@ def conv(x):
     return x
 
 
-def main():
+def main(part_id):
     os.makedirs('animation_images', exist_ok=True)
     with open('timekeeper.json', 'r') as f:
         timekeeper = json.load(f)
     pdf = fitz.open('novel.pdf')
 
-    for chapter in timekeeper['chapters']:
+    chapters = timekeeper['parts'][part_id]['chapters']
+    for chapter in chapters:
         for page in chapter['pages']:
             page_image = PIL.Image.open(page['image_path']).convert('RGBA')
             canvas = PIL.Image.new('RGBA', page_image.size)
@@ -99,4 +100,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main(int(sys.argv[1]))

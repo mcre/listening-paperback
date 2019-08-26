@@ -12,6 +12,9 @@ PATTERNS = {
 with open('consts.json', 'r') as f:
     consts = json.load(f)
 
+with open('config.json', 'r') as f:
+    config = json.load(f)
+
 
 def basename(path):
     return os.path.splitext(os.path.basename(path))[0]
@@ -195,9 +198,34 @@ def main():
             for key in ['start', 'duration']:
                 voice[key] = round(voice[key], 3)
 
+    # chapters から parts を構成
+    chapters_in_parts = []
+    part, duration = [], 0
+    for chapter in chapters:
+        part.append(chapter)
+        duration += chapter['duration']
+        if duration > config['part_duration']:
+            chapters_in_parts.append(part)
+            part, duration = [], 0
+    if len(part) > 0:
+        chapters_in_parts.append(part)
+    if len(chapters_in_parts) > 1:  # 2個以上のときの処理
+        # 最後のパートが min_part_durationにも達していない場合はその前に足し込む
+        last_part_duration = sum(x['duration'] for x in chapters_in_parts[-1])
+        if last_part_duration < config['min_part_duration']:
+            chapters_in_parts[-2].extend(chapters_in_parts[-1])
+            del chapters_in_parts[-1]
+    parts = [{'chapters': chapters} for chapters in chapters_in_parts]
+
+    for part_id, part in enumerate(parts):
+        part['part_id'] = part_id
+        part['duration'] = sum([chapter['duration'] for chapter in part['chapters']])
+        chapter_ids = ', '.join([str(chapter['chapter_id']) for chapter in part['chapters']])
+        print(f'part_id:{part_id:>3}, duration: {int(part["duration"] / 60):0>2}:{int(part["duration"] % 60):0>2}, chapter_ids: [{chapter_ids}]')
+
     # 書き込み
     with open(f'timekeeper.json', 'w') as f:
-        json.dump({'chapters': chapters}, f, ensure_ascii=False, indent=2)
+        json.dump({'parts': parts}, f, ensure_ascii=False, indent=2)
 
 
 if __name__ == '__main__':

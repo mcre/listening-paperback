@@ -11,6 +11,9 @@ with open('config.json', 'r') as f:
 with open('consts.json', 'r') as f:
     consts = json.load(f)
 
+with open(f'timekeeper.json', 'r') as f:
+    timekeeper = json.load(f)
+
 
 def hex_to_rgb(hex):
     return tuple(int(hex[i: i + 2], 16) for i in range(0, 6, 2))
@@ -58,13 +61,13 @@ def num_to_kanji(num):
 def main():
     os.makedirs('cover_images', exist_ok=True)
     size = (1280, 720)
-    for i in range(0, config['estimated_max_num_of_parts']):
+    for part in timekeeper['parts']:
         back = PIL.Image.open('cover.png')
         draw_text(back, '「聴く」名作文庫', loc={'type': 'x_center', 'y': 80, 'size': 100})
         draw_text(back, config['title'], loc={'type': 'in_rect', 'rect': (180, 220, size[0] - 180, 450)}, shadow=True)
-        draw_text(back, f'第{num_to_kanji(i + 1)}回', loc={'type': 'x_center', 'y': 480, 'size': 50})
+        draw_text(back, f'第{num_to_kanji(part["part_id"] + 1)}回', loc={'type': 'x_center', 'y': 480, 'size': 50})
         draw_text(back, config['author'], loc={'type': 'right_bottom', 'right': 1100, 'bottom': 600, 'size': 50})
-        back.save(f'cover_images/{i:0>5}.png')
+        back.save(f'cover_images/{part["part_id"]:0>5}.png')
 
     loc = {'type': 'right_bottom', 'right': size[0] - 50, 'bottom': size[1] - 50, 'size': 100}
     bc = hex_to_rgb(consts['background_color'])

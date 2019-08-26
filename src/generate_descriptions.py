@@ -14,7 +14,7 @@ def num_to_kanji(num):
     return str(num).translate(table)
 
 
-def main(version):
+def main(part_id, version):
     with open('template_description.txt', 'r') as f:
         template = f.read()
 
@@ -36,4 +36,4 @@ def main(version):
 
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    main(sys.argv[1], sys.argv[2])
