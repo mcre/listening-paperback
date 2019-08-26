@@ -1,25 +1,38 @@
 import datetime as dt
 import json
+import os
 import subprocess
 import sys
 
 
 def main(project, version, start_publish_at, start_part_id, end_part_id):
+    os.makedirs('tmp', exist_ok=True)    
+
     path = f'./projects/{project}/output/{version}'
     with open(f'{path}/input/config.json', 'r') as f:
         config = json.load(f)
     publish_at = dt.datetime.fromisoformat(f'{start_publish_at}+09:00')
 
     for part_id in range(start_part_id, end_part_id + 1):
-        print(f'\n==========\npart_id: {part_id}')
         part_path = f'{path}/{part_id:0>5}'
         with open(f'{part_path}/description.txt', 'r') as f:
             description_all = f.read()
         descriptions = description_all.split('\n###############################################\n')
-        description = descriptions[1].replace('\n', r'\\n')
+        with open('tmp/description.txt', 'w') as f:
+            f.write(descriptions[1])
+        print('---------------------------')
+        print('part_id:', part_id)
+        print(descriptions[0])
+        print(f'公開日: ', publish_at.strftime('%Y年%m月%d日 %H時%M分(JST)'))
+        print('この動画をアップします。よろしいですか？')
+        y = input('y/n : ')
+        if y != 'y':
+            print('中断します')
+            break
+
         response = subprocess.check_output(
             f'''youtube-upload \
-                --title="{descriptions[0]}" --description="{description}" \
+                --title="{descriptions[0]}" --description-file="tmp/description.txt" \
                 --category="Entertainment" --tags="{descriptions[2]}" \
                 --default-language="ja" --default-audio-language="ja" --client-secrets="./certs/youtube_client_secrets.json" \
                 --playlist="{config['author']}『{config['title']}』" --embeddable=True --privacy="public" \

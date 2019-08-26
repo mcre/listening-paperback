@@ -18,8 +18,9 @@
 * 予め、↓の方に書いてある準備をする
 * start_part_id から end_part_id まで、start_publish_at(JST)から1日おきに公開されるよう設定される
 * ただし、制限により1日6個までしかアップロードできないみたいなので間違えないように注意！
+    - 特に、「第{part_id + 1}回」であることに注意！
 
-1. `python upload.sh {project} {version} {start_publish_at} {start_part_id} {end_part_id}`
+1. `python upload.py {project} {version} {start_publish_at} {start_part_id} {end_part_id}`
     - 例: `python upload.py gongitsune_short 20190824-3b79ff4_work 2019-08-25T18:00:00 0 0`
 
 ## Youtube Upoload準備
