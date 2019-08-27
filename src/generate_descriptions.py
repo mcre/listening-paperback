@@ -3,14 +3,11 @@ import shutil
 import string
 import sys
 
+import util as u
+
 
 with open('config.json', 'r') as f:
     config = json.load(f)
-
-
-def num_to_kanji(num):
-    table = str.maketrans({'0': '〇', '1': '一', '2': '二', '3': '三', '4': '四', '5': '五', '6': '六', '7': '七', '8': '八', '9': '九'})
-    return str(num).translate(table)
 
 
 def main(part_id, version):
@@ -20,7 +17,7 @@ def main(part_id, version):
     output = string.Template(template).substitute({
         'title': config['title'],
         'author': config['author'],
-        'part_text': f'第{num_to_kanji(part_id + 1)}回',
+        'part_text': f'第{u.number_to_kansuji(part_id + 1)}回',
         'play_list': config['play_list'],
         'music_author': config['music']['author'],
         'music_url': config['music']['url'],

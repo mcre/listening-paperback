@@ -1,8 +1,6 @@
 build_movie() {
   part_id=$1
-  echo "< part_id: ${part_id} >"
-  echo '### create_cover_images'
-  docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python create_cover_images.py ${part_id}" || exit 1
+  echo "### < part_id: ${part_id} >"
   echo '### build_animation_images'
   docker run --rm -v $PWD/work:/work lp-python-pymupdf /bin/sh -c "python build_animation_images.py ${part_id}" || exit 1
   echo '### build_page_movies'
@@ -56,6 +54,8 @@ docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python ssml2voice.py ${
 cp -r ./work/cache/* ./cache || exit 1
 echo '# build_timekeeper'
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python build_timekeeper.py" || exit 1
+echo '# create_cover_images'
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python create_cover_images.py" || exit 1
 
 echo '# build_movie'
 if [ $# -eq 1 ]; then
