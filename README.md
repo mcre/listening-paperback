@@ -26,6 +26,7 @@
 
 1. `python upload.py {project} {version} {start_publish_at} {start_part_id} {end_part_id}`
     - 例: `python upload.py gongitsune_short latest 2019-08-25T18:00:00 0 0`
+2. `python list.py` で現在のアップロード済み動画一覧、公開状態、公開日をリストアップできる。
 
 ## Youtube Upoload準備
 
