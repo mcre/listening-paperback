@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import unicodedata
 
 import jaconv
 import MeCab
@@ -29,6 +30,14 @@ PATTERNS = {
     'dialogue': re.compile(r'「(.*?)」'),
     'remove_marks': re.compile(r'[「」『』]'),
 }
+
+
+def count_japanese(text):
+    count = 0
+    for c in text:
+        if unicodedata.east_asian_width(c) in 'FWA':
+            count += 1
+    return count
 
 
 def wakati(line):
@@ -141,6 +150,9 @@ def main():
             fw.write(prefix)
             fw.write(cline['line'])
             fw.write(postfix)
+        if count_japanese(cline['line']) == 0:
+            print(f'日本語が存在しないssmlがあります: {fn}.xml')
+            raise Exception()
 
 
 if __name__ == '__main__':
