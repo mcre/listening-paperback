@@ -24,7 +24,7 @@ PATTERNS = {
     'ruby': re.compile(r'\\ruby{(.*?)}{(.*?)}'),
     'wakati_ruby': re.compile(r'(?:(?<=(?:\||\}))([^\|]*?)\\ruby{([^\{\}]*?)\|}{([^\{\}]*?)}|(?<=(?:\||\}))([^\|]*?)\\ruby{([^\{\}]*?[^\|])}{([^\{\}]*?)}([^\|]*?)(?=(?:\||\\)))'),
     'zspace': re.compile(r'\\　'),
-    'command': re.compile(r'\\(?!ruby)\S*?{(\S*?)}'),
+    'command': re.compile(r'\\(?!ruby)\S*?{(.*?)}'),
     'command_no_params': re.compile(r'\\(?!ruby)\S*?\s'),
     'dialogue': re.compile(r'「(.*?)」'),
     'remove_marks': re.compile(r'[「」『』]'),
@@ -44,8 +44,8 @@ def plain_except_ruby(line):
         if ret.startswith(ig):
             return None
     ret = PATTERNS['zspace'].sub(r' ', ret)
-    ret = PATTERNS['command'].sub(r'\1', ret)
-    ret = PATTERNS['command_no_params'].sub('', ret)
+    ret = PATTERNS['command'].sub(r' \1 ', ret)
+    ret = PATTERNS['command_no_params'].sub(' ', ret)
     return ret
 
 
