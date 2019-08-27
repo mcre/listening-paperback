@@ -6,10 +6,10 @@ import sys
 
 
 def main(project, version, start_publish_at, start_part_id, end_part_id):
-    os.makedirs('tmp', exist_ok=True)    
-
+    os.makedirs('tmp', exist_ok=True)
     path = f'./projects/{project}/output/{version}'
-    with open(f'{path}/input/config.json', 'r') as f:
+
+    with open(f'./projects/{project}/config.json', 'r') as f:
         config = json.load(f)
     publish_at = dt.datetime.fromisoformat(f'{start_publish_at}+09:00')
 
@@ -23,7 +23,8 @@ def main(project, version, start_publish_at, start_part_id, end_part_id):
         print('---------------------------')
         print('part_id:', part_id)
         print(descriptions[0])
-        print(f'公開日: ', publish_at.strftime('%Y年%m月%d日 %H時%M分(JST)'))
+        print(descriptions[1].split('\n')[-1])
+        print(f'公開日:', publish_at.strftime('%Y年%m月%d日 %H時%M分(JST)'))
         print('この動画をアップします。よろしいですか？')
         y = input('y/n : ')
         if y != 'y':

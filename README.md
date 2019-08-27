@@ -25,7 +25,7 @@
     - 特に、「第{part_id + 1}回」であることに注意！
 
 1. `python upload.py {project} {version} {start_publish_at} {start_part_id} {end_part_id}`
-    - 例: `python upload.py gongitsune_short 20190824-3b79ff4_work 2019-08-25T18:00:00 0 0`
+    - 例: `python upload.py gongitsune_short latest 2019-08-25T18:00:00 0 0`
 
 ## Youtube Upoload準備
 
