@@ -3,11 +3,16 @@ import glob
 import hashlib
 import json
 import os.path
+import re
 import shutil
 import sys
 import time
 
 import boto3
+
+PATTERNS = {
+    'tag': re.compile(r'''<("[^"]*"|'[^']*'|[^'">])*>'''),
+}
 
 with open('consts.json', 'r') as f:
     consts = json.load(f)
@@ -33,6 +38,7 @@ def start_task(ssml_path, cache_path, polly, text, output_format):
     return {
         'task_id': rs['TaskId'],
         'cache_path': cache_path,
+        'ssml_path': ssml_path,
         'name': basename(ssml_path),
         's3_basename': basename(rs['OutputUri']),
         'format': rs['OutputFormat'],
@@ -73,6 +79,15 @@ def main(aws_access_key_id, aws_secret_access_key):
         print('自動実行の場合はエラーが発生します。エラーが発生した場合は手動で実行してください。手動実行方法↓')
         print(f'docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python ssml2voice.py {aws_access_key_id} {aws_secret_access_key}"')
         print('cp -r ./work/cache/* ./cache\n')
+        chars_len = 0
+        for task in tasks:
+            with open(task['ssml_path'], 'r') as f:
+                ssml = f.read()
+                chars_len += len(PATTERNS['tag'].sub('', ssml))
+        usd = chars_len * 4e-6
+        jpy = usd * 106
+        print(f'{chars_len:,} chars -> {usd:.2f} USD ≒ {jpy:.1f} JPY')
+
         input_text = input(f'polly変換数が10を超えました({len(tasks)})。そのまま続ける場合はyを入力してください\n input: ')
         if input_text != 'y':
             print('終了します')
