@@ -37,6 +37,11 @@ def main():
         tex = f.read()
     chapter_start_strings = PATTERNS['chapter'].findall(plain(tex))
 
+    if len(chapter_start_strings) <= 0:  # chapterがない場合
+        with open('chapters_and_pages.json', 'w') as f:
+            json.dump([texts], f, ensure_ascii=False, indent=2)
+        return
+
     cursor = 0
     chapters = []
     texts_in_chapter = None
