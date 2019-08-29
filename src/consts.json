@@ -8,5 +8,11 @@
     "voice_interval": 1.2,
     "chapter_interval": 2.0,
     "music_volume": 0.01,
-    "music_fadeout_time": 5
+    "music_fadeout_time": 5,
+    "avoid_polly_bugs": [
+        {
+            "kanji" : "寒気|が|し|て",
+            "ruby": "<sub alias=\"さむけ\">寒気</sub>がして"
+        }
+    ] 
 }

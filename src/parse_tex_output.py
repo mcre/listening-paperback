@@ -6,9 +6,9 @@ PATTERNS = {
     'page': re.compile(r'Completed box being shipped out.*?\|\.\\special{'),
     'text': re.compile(r'\JT2/mc/m/n/(?:14|19\.6|23\.8|35)\s(\S+?)'),
     'ruby': re.compile(r'\\ruby{(.*?)}{(.*?)}'),
-    'command': re.compile(r'\\(?!chapter).*?{(.*?)}'),
-    'command_no_params': re.compile(r'\\(?!chapter)\S*?\s'),
-    'chapter': re.compile(r'\\chapter{(.+?)}\s*?(\S{1,10})'),
+    'command': re.compile(r'\\(?!(part|chapter)).*?{(.*?)}'),
+    'command_no_params': re.compile(r'\\(?!(part|chapter))\S*?\s'),
+    'chapter': re.compile(r'(?:\\part{(.+?)}|\\chapter{(.+?)}\s*([^\\\n]{0,10}))'),
 }
 
 
@@ -36,6 +36,7 @@ def main():
     with open('novel.tex', 'r') as f:
         tex = f.read()
     chapter_start_strings = PATTERNS['chapter'].findall(plain(tex))
+    print(chapter_start_strings)
 
     if len(chapter_start_strings) <= 0:  # chapterがない場合
         with open('chapters_and_pages.json', 'w') as f:
@@ -45,13 +46,16 @@ def main():
     cursor = 0
     chapters = []
     texts_in_chapter = None
-    for text in texts:
+    before_chapter_text_id = None
+    for text_id, text in enumerate(texts):
         if cursor < len(chapter_start_strings):
             s = chapter_start_strings[cursor]
-            if text.startswith(f'{s[0]}{s[1]}'):
-                if texts_in_chapter:
-                    chapters.append(texts_in_chapter)
-                texts_in_chapter = []
+            if text == s[0] or (len(s[1]) > 0 and text.startswith(f'{s[1]}{s[2]}')):
+                if text_id - 1 != before_chapter_text_id:  # partとchapterが連続している場合はこの処理をしない(同じchapter扱いにする)
+                    if texts_in_chapter:
+                        chapters.append(texts_in_chapter)
+                    texts_in_chapter = []
+                before_chapter_text_id = text_id
                 cursor += 1
         texts_in_chapter.append(text)
     chapters.append(texts_in_chapter)

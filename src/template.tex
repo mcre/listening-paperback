@@ -1,4 +1,4 @@
-\documentclass[uplatex, tate, book, oneside, paper={6.4in, 3.6in}, fontsize=14pt, number_of_lines=18, line_length=2.8in, open_bracket_pos=nibu_tentsuki, hanging_punctuation]{jlreq}
+\documentclass[uplatex, tate, book, oneside, openany, paper={6.4in, 3.6in}, fontsize=14pt, number_of_lines=18, line_length=2.8in, open_bracket_pos=nibu_tentsuki, hanging_punctuation]{jlreq}
 \usepackage{bxpapersize}
 
 \usepackage[noalphabet]{pxchfon}
@@ -16,6 +16,7 @@
 
 \usepackage{framed}
 
+\ModifyHeading{part}{type=han, format={\null\vfill {\LARGE #2} \vfill}}
 \ModifyHeading{chapter}{indent=1zw, number=false, format={\Large #2}, pagebreak=clearpage}
 \NewPageStyle{defaultPageStyle}{nombre_position=bottom-left, nombre_font=\tiny, running_head_position=top-left, running_head_font=\scriptsize, mark_format={_chapter={#1}}, odd_running_head={_chapter}}
 \pagestyle{defaultPageStyle}

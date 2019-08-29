@@ -6,7 +6,11 @@ import regex as re
 PATTERNS = {
     'about': re.compile(r'^-+$'),
     'teihon': re.compile(r'^底本[：]'),
-    'chapters': [
+    'midashi_l': [
+        re.compile(r'(?:［＃(?:[１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］)?(.*)［＃「(.*?)」は大見出し］'),
+        re.compile(r'［＃大見出し］(.*?)［＃大見出し終わり］'),
+    ],
+    'midashi_m': [
         re.compile(r'(?:［＃(?:[１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］)?(.*)［＃「(.*?)」は中見出し］'),
         re.compile(r'［＃中見出し］(.*?)［＃中見出し終わり］'),
     ],
@@ -20,6 +24,7 @@ PATTERNS = {
     ],
     'remaining_ruby': re.compile(r'《.*?》'),
     'bouten': re.compile(r'(.+?)［＃.*?「\1」に傍点］'),
+    'new_page': re.compile('［＃改頁］'),
     'frame_start': re.compile('［＃ここから罫囲み］'),
     'frame_end': re.compile('［＃ここで罫囲み終わり］'),
     'oneline_indent': re.compile(r'［＃(?:この行)?([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),
@@ -86,14 +91,18 @@ def main():
     body_lines = aozora_lines[get_first_line_index(head):get_last_line_index(aozora_lines[-50:])]
 
     for index, line in enumerate(body_lines):
-        for pattern_chapter in PATTERNS['chapters']:
-            if (obj := pattern_chapter.search(line)):
+        for pattern in PATTERNS['midashi_l']:
+            if (obj := pattern.search(line)):
+                body_lines[index] = f'\\part{{{obj.group(1)}}}'
+        for pattern in PATTERNS['midashi_m']:
+            if (obj := pattern.search(line)):
                 body_lines[index] = f'\\chapter{{{obj.group(1)}}}'
 
     for index, line in enumerate(body_lines):
         body_lines[index] = ruby(line)
 
     for index in range(len(body_lines)):
+        body_lines[index] = PATTERNS['new_page'].sub(r'\\clearpage', body_lines[index])
         body_lines[index] = PATTERNS['bouten'].sub(r'\\kenten{\1}', body_lines[index])
         body_lines[index] = PATTERNS['frame_start'].sub(r'\\begin{oframed}', body_lines[index])
         body_lines[index] = PATTERNS['frame_end'].sub(r'\\end{oframed}', body_lines[index])

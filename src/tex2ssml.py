@@ -19,7 +19,7 @@ ignore_list = [
     '%', '\\documentclass', '\\usepackage', '\\setminchofont', '\\setgothicfont', '\\rubysetup',
     '\\ModifyHeading', '\\NewPageStyle', '\\pagestyle', '\\date', '\\begin', '\\maketitle',
     '\\end', '\\showoutput', '\\definecolor', '\\pagecolor', '\\color' ,'\\thiswatermark',
-    '\\shadowoffset', '\\shadowcolor', '\\begin', '\\end',
+    '\\shadowoffset', '\\shadowcolor', '\\clearpage'
 ]
 PATTERNS = {
     'ruby': re.compile(r'\\ruby{(.*?)}{(.*?)}'),
@@ -28,7 +28,8 @@ PATTERNS = {
     'command': re.compile(r'\\(?!ruby)\S*?{(.*?)}'),
     'command_no_params': re.compile(r'\\(?!ruby)\S*?\s'),
     'dialogue': re.compile(r'「(.*?)」'),
-    'remove_marks': re.compile(r'[「」『』]'),
+    'think': re.compile(r'（(.*?)）'),
+    'remove_marks': re.compile(r'[「」『』（）]'),
 }
 
 
@@ -114,6 +115,9 @@ def main():
     with open('config.json', 'r') as f:
         config = json.load(f)
 
+    with open('consts.json', 'r') as f:
+        consts = json.load(f)
+
     with open('novel.tex', 'r') as f:
         lines = [{'filename': f'num', 'line': line} for i, line in enumerate(f.readlines())]
 
@@ -127,6 +131,7 @@ def main():
     lines.append({'filename': 'please', 'line': 'チャンネル登録お願いします！'})
 
     rubies = config.get('special_rubies', [])
+    rubies.extend(consts['avoid_polly_bugs'])
     rubies.extend(list_rubies(lines))
 
     with open('rubies.json', 'w') as f:
@@ -141,6 +146,7 @@ def main():
         for ruby in rubies:
             replaced = replaced.replace('|' + ruby['kanji'] + '|', '|' + ruby['ruby'] + '|')
         replaced = PATTERNS['dialogue'].sub(r'<break strength="weak"/><prosody pitch="+10%">\1</prosody><break strength="weak"/>', replaced)
+        replaced = PATTERNS['think'].sub(r'<break strength="weak"/>\1<break strength="weak"/>', replaced)
         replaced = PATTERNS['remove_marks'].sub('', replaced)  # pollyのバグで、「<sub alias=\"カスケ\">加助"」等でmarksで余分なものが出るので記号系を置換しておく
         clines.append({'filename': line['filename'], 'line': replaced.replace('|', '')})
 
