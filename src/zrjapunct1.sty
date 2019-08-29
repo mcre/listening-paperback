@@ -1,0 +1,130 @@
+%% 文字コードはUTF-8; upLaTeX用 https://gist.github.com/hakuoku/188b761d7904016f7ab831ffc9f4d50a#file-zrjapunct1-sty
+% zrjapunct1.sty
+
+%% パッケージ宣言
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{zrjapunct1}
+\def\tczji@pkgname{zrjapunct1}
+
+%% 前提パッケージ
+\RequirePackage{pxcjkcat}
+\RequirePackage{newunicodechar}
+
+%--------------------------------------- 準備
+
+%% 和文文字命令
+%※補助ファイル出力に必要
+\kchardef\tczji@J@hyphen="2010 %<‐>HYPHEN / ハイフン(四分)
+\kchardef\tczji@J@endash="2013 %<–>EN DASH / 二分ダーシ
+\kchardef\tczji@J@emdash="2014 %<—>EM DASH / ダッシュ(全角)
+\kchardef\tczji@J@horizbar="2015 %<―>HORIZONTAL BAR
+\kchardef\tczji@J@quoteleft="2018 %<‘>LEFT SINGLE QUOTATION MARK / 左シングル引用符
+\kchardef\tczji@J@quoteright="2019 %<’>RIGHT SINGLE QUOTATION MARK / 右シングル引用符
+\kchardef\tczji@J@quotedblleft="201C %<“>LEFT DOUBLE QUOTATION MARK / 左ダブル引用符
+\kchardef\tczji@J@quotedblright="201D %<”>RIGHT DOUBLE QUOTATION MARK / 右ダブル引用符
+\kchardef\tczji@J@twodotleader="2025 %<‥>TWO DOT LEADER / 二点リーダ
+\kchardef\tczji@J@ellipsis="2026 %<…>HORIZONTAL ELLIPSIS / 三点リーダ
+\kchardef\tczji@J@referencemark="203B %<※>REFERENCE MARK / 米印
+\kchardef\tczji@J@dblexclam="203C %<‼>DOUBLE EXCLAMATION MARK / 感嘆符二つ
+\kchardef\tczji@J@dblquestion="2047 %<⁇>DOUBLE QUESTION MARK / 疑問符二つ
+\kchardef\tczji@J@questexclam="2048 %<⁈>QUESTION EXCLAMATION MARK / 疑問符感嘆符
+\kchardef\tczji@J@exclamquest="2049 %<⁉>EXCLAMATION QUESTION MARK / 感嘆符疑問符
+
+%% General Punctuation ブロックを欧文扱い
+\cjkcategory{sym04}{noncjk}
+
+%--------------------------------------- ダッシュ類
+
+% ‐(U+2010)は和文ハイフン
+%※ - で欧文ハイフン
+\newunicodechar{‐}{\tczji@J@hyphen}
+
+%※ –(U+2013)は欧文enダッシュ (定義済)
+%※ —(U+2014)は欧文emダッシュ (定義済)
+
+% ―(U+2015)は和文全角ダーシ
+% ――は和文倍角ダーシ
+\newunicodechar{―}{\tczji@do@emdash}
+
+%% \tczji@do@emdash
+% 直後が \tczji@do@emdash または<―>の場合は、それを含めて
+% 全体で倍角ダーシを出力する。それ以外は全角ダーシを出力。
+%※ <――>を保護付完全展開すると"\tczji@do@emdash\tczji@do@emdash"
+%となることに注意。
+\DeclareRobustCommand*{\tczji@do@emdash}{% 保護付
+  \@ifnextchar\tczji@do@emdash% 次が \tczji@do@emdash か?
+    {\tczji@do@emdash@a}{\tczji@do@emdash@b}}
+\def\tczji@do@emdash@a#1{% #1=\tczji@do@emdash@a のはず
+  \tczji@do@dbldash}% 倍角ダーシを出力
+\def\tczji@do@emdash@b{% U+2015 = <E2 80 95>
+  \@ifnextchar^^e2% 次がE2か?
+    {\tczji@do@emdash@c}%
+    {\tczji@J@horizbar}}% 全角ダーシを出力
+\def\tczji@do@emdash@c#1#2#3{% 3バイト読む
+  \def\tczji@tmpa{#1#2#3}\def\tczji@tmpb{―}%
+  \ifx\tczji@tmpa\tczji@tmpb% 次の3バイトが<―>なら
+    \let\tczji@tmpa\tczji@do@dbldash % 倍角ダーシを出力
+  \else \tczji@J@horizbar % 全角ダーシを出力、後に元の3バイト
+  \fi \tczji@tmpa}
+
+%% \tczji@do@dbldash
+% 倍角ダーシを出力する。
+\def\tczji@do@dbldash{%
+  \tczji@J@horizbar \kern-.5zw \tczji@J@horizbar
+  \kern-.5zw \tczji@J@horizbar}
+
+%--------------------------------------- クオート類
+
+% 縦組なので和文のクオートは使わない前提。
+%※ ‘(U+2018) ’(U+2019)は欧文シングルクオート [定義済]
+%※ “(U+201C) ”(U+201D)は欧文ダブルクオート [定義済]
+
+%IPAフォントでダブルプライムを使ってダブルミニュートを出せるようにする
+\newunicodechar{‶}{\CID{7608}}
+\newunicodechar{″}{\CID{7609}}
+
+%--------------------------------------- 区切り符号
+
+% ‼(U+203C)は和文の区切り符号
+\newunicodechar{‼}{\tczji@J@dblexclam\tczji@sp}
+% ⁇(U+2047)は和文の区切り符号
+\newunicodechar{⁇}{\tczji@J@dblquestion\tczji@sp}
+% ⁈(U+2048)は和文の区切り符号
+\newunicodechar{⁈}{\tczji@J@questexclam\tczji@sp}
+% ⁉(U+2049)は和文の区切り符号
+\newunicodechar{⁉}{\tczji@J@exclamquest\tczji@sp}
+
+%% \tczji@sp
+% 直後が閉じ括弧等の約物でないなら全角空白を出力する。
+\DeclareRobustCommand*{\tczji@sp}{% 保護付にする
+  \@ifnextchar ）{}{%
+    \@ifnextchar 」{}{%
+      \@ifnextchar 』{}{%
+        \@ifnextchar\tczji@J@ellipsis{}{%
+          \@ifnextchar^^e2{}{\hskip1zw\relax}}}}}}
+
+%%rensujiで感嘆符を入れていた場合
+%高さを調整
+\def\rensuji#1{\hskip\kanjiskip\hbox to 1zw{\yoko\hss\smash{#1}\hss\rule[-0.12zw]{0zw}{1zw}}\hskip\kanjiskip}
+%同様に直後が約物以外の時に全角空白を出力
+\newcommand{\renmark}[1]{%
+  \@ifnextchar」{\rensuji{#1}}{%
+    \@ifnextchar』{\rensuji{#1}}{%
+      \@ifnextchar）{\rensuji{#1}}{%
+        \@ifnextchar\tczji@J@ellipsis{\rensuji{#1}}{%
+          \@ifnextchar^^e2{\rensuji{#1}}{\rensuji{#1}\hspace{1zw}}}}}}}
+%--------------------------------------- その他
+
+% ‥(U+2025)は和文二点リーダ
+\newunicodechar{‥}{\tczji@J@twodotleader}
+% …(U+2026)は和文三点リーダ
+%※ \ldots は欧文三点リーダ
+\newunicodechar{…}{\tczji@J@ellipsis}
+
+% ※(U+203B)は和文米印
+%※textcompの \textreferencemark は欧文米印
+\newunicodechar{※}{\tczji@J@referencemark}
+
+%--------------------------------------- おしまい
+\endinput
+%% EOF

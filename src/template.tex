@@ -1,5 +1,7 @@
 \documentclass[uplatex, tate, book, oneside, openany, paper={6.4in, 3.6in}, fontsize=14pt, number_of_lines=18, line_length=2.8in, open_bracket_pos=nibu_tentsuki, hanging_punctuation]{jlreq}
 \usepackage{bxpapersize}
+\usepackage{framed}
+\usepackage{zrjapunct1}
 
 \usepackage[noalphabet]{pxchfon}
 \setminchofont{font.ttf}
@@ -13,8 +15,6 @@
 \definecolor{background_color}{HTML}{@{background_color}}
 \color{text_color}
 \pagecolor{background_color}
-
-\usepackage{framed}
 
 \ModifyHeading{part}{type=han, format={\null\vfill {\LARGE #2} \vfill}}
 \ModifyHeading{chapter}{indent=1zw, number=false, format={\Large #2}, pagebreak=clearpage}
