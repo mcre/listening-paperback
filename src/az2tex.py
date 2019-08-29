@@ -24,7 +24,8 @@ PATTERNS = {
     ],
     'remaining_ruby': re.compile(r'《.*?》'),
     'bouten': re.compile(r'(.+?)［＃.*?「\1」に傍点］'),
-    'new_page': re.compile('［＃改頁］'),
+    'new_page': re.compile('［＃改(頁|ページ)］'),
+    'teihon_chu': re.compile('［＃「.*?」は底本では「.*?」］'),
     'frame_start': re.compile('［＃ここから罫囲み］'),
     'frame_end': re.compile('［＃ここで罫囲み終わり］'),
     'oneline_indent': re.compile(r'［＃(?:この行)?([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),
@@ -121,6 +122,7 @@ def main():
 
     for index in range(len(body_lines)):
         body_lines[index] = PATTERNS['new_page'].sub(r'\\clearpage', body_lines[index])
+        body_lines[index] = PATTERNS['teihon_chu'].sub(r'', body_lines[index])
         body_lines[index] = PATTERNS['bouten'].sub(r'\\kenten{\1}', body_lines[index])
         body_lines[index] = PATTERNS['frame_start'].sub(r'\\begin{oframed}', body_lines[index])
         body_lines[index] = PATTERNS['frame_end'].sub(r'\\end{oframed}', body_lines[index])
