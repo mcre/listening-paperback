@@ -35,12 +35,13 @@ PATTERNS = {
     'frame_start': re.compile('［＃ここから罫囲み］'),
     'frame_end': re.compile('［＃ここで罫囲み終わり］'),
     'oneline_indent': re.compile(r'［＃(?:この行)?([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),
-    'oneline_indent_bottom': re.compile(r'［＃地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］(.+)$'),
+    'oneline_indent_bottom': re.compile(r'［＃地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］(.{1,13})$'),  # 13文字以上だと上にはみ出るので適用しない
     'ignores': [
         re.compile(r'［＃ここから([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),  # 字下げは \\leftskip = 1zw でできるけど、違和感激しいので無視。
         re.compile(r'［＃ここで字下げ終わり］'),
         re.compile(r'［＃(ルビの)?「.*?」は底本では「.*?」］'),
         re.compile(r'［＃「.*?」はママ］'),
+        re.compile(r'［＃地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］')
     ],
 }
 
