@@ -24,6 +24,7 @@ PATTERNS = {
         re.compile(r'([A-Za-z0-9#\-\;\&. ]+?)《(.+?)》'),
     ],
     'remaining_ruby': re.compile(r'《.*?》'),
+    'remaining_command': re.compile(r'［＃.*?］'),
     'kunoji': re.compile(r'／＼'),
     'kunoji_dakuten': re.compile(r'／″＼'),
     'bouten': re.compile(r'(.+?)［＃.*?「\1」に傍点］'),
@@ -147,6 +148,9 @@ def main():
     })
     with open('novel.tex', 'w', encoding='utf-8') as f:
         f.write(tex)
+
+    for cmd in PATTERNS['remaining_command'].findall(tex):
+        print('処理できていないコマンドあり: ' + cmd)
 
 
 if __name__ == '__main__':
