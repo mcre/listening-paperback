@@ -27,7 +27,7 @@ PATTERNS = {
     'kunoji': re.compile(r'／＼'),
     'kunoji_dakuten': re.compile(r'／″＼'),
     'bouten': re.compile(r'(.+?)［＃.*?「\1」に傍点］'),
-    'line': re.compile(r'×　*?×　*?×'),
+    'line': re.compile(r'✕　*?✕　*?✕'),
     'new_page': re.compile('［＃改(頁|ページ)］'),
     'teihon_chu': re.compile('［＃「.*?」は底本では「.*?」］'),
     'frame_start': re.compile('［＃ここから罫囲み］'),
@@ -38,8 +38,9 @@ PATTERNS = {
         re.compile(r'［＃ここから([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),  # 字下げは \\leftskip = 1zw でできるけど、違和感激しいので無視。
         re.compile(r'［＃ここで字下げ終わり］'),
     ],
-
 }
+
+REPLACE_CHAR = str.maketrans({'×': '✕', '&': '\\&'})
 
 with open('config.json', 'r') as f:
     config = json.load(f)
@@ -108,7 +109,7 @@ def main():
     with open('template.tex', 'r', encoding='utf-8') as f:
         template = f.read()
     with open('novel.txt', 'r', encoding='shift_jis') as f:
-        aozora_lines = [sub_gaiji(line.strip()) for line in f.readlines()]
+        aozora_lines = [sub_gaiji(line.strip()).translate(REPLACE_CHAR) for line in f.readlines()]
 
     head = aozora_lines[:50]
     body_lines = aozora_lines[get_first_line_index(head):get_last_line_index(aozora_lines[-50:])]
