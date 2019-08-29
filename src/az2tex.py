@@ -42,14 +42,32 @@ with open('config.json', 'r') as f:
 with open('consts.json', 'r') as f:
     consts = json.load(f)
 
+# https://qiita.com/kichiki/items/bb65f7b57e09789a05ce
+with open('jisx0213-2004-std.txt') as f:
+    ms = (re.match(r'(\d-\w{4})\s+U\+(\w{4})', l) for l in f if l[0] != '#')
+    gaiji_table = {m[1]: chr(int(m[2], 16)) for m in ms if m}
+
+
+def get_gaiji(s):
+    # ※［＃「弓＋椁のつくり」、第3水準1-84-22］
+    m = re.search(r'第(\d)水準\d-(\d{1,2})-(\d{1,2})', s)
+    if m:
+        key = f'{m[1]}-{int(m[2])+32:2X}{int(m[3])+32:2X}'
+        return gaiji_table.get(key, s)
+    # ※［＃「身＋單」、U+8EC3、56-1］
+    m = re.search(r'U\+(\w{4})', s)
+    if m:
+        return chr(int(m[1], 16))
+    # unknown format
+    return s
+
+
+def sub_gaiji(text):
+    return re.sub(r'※［＃.+?］', lambda m: get_gaiji(m[0]), text)
+
 
 class Template(string.Template):
     delimiter = '@'
-
-
-def read(filename, encoding=None):
-    with open(filename, 'r', encoding=encoding) as f:
-        return f.read()
 
 
 def get_first_line_index(lines):
@@ -85,7 +103,7 @@ def main():
     with open('template.tex', 'r', encoding='utf-8') as f:
         template = f.read()
     with open('novel.txt', 'r', encoding='shift_jis') as f:
-        aozora_lines = [line.strip() for line in f.readlines()]
+        aozora_lines = [sub_gaiji(line.strip()) for line in f.readlines()]
 
     head = aozora_lines[:50]
     body_lines = aozora_lines[get_first_line_index(head):get_last_line_index(aozora_lines[-50:])]
