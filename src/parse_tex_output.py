@@ -36,7 +36,6 @@ def main():
     with open('novel.tex', 'r') as f:
         tex = f.read()
     chapter_start_strings = PATTERNS['chapter'].findall(plain(tex))
-    print(chapter_start_strings)
 
     if len(chapter_start_strings) <= 0:  # chapterがない場合
         with open('chapters_and_pages.json', 'w') as f:
@@ -49,7 +48,7 @@ def main():
     before_chapter_text_id = None
     for text_id, text in enumerate(texts):
         if cursor < len(chapter_start_strings):
-            s = chapter_start_strings[cursor]
+            s = [st.replace('　', '') for st in chapter_start_strings[cursor]]
             if text == s[0] or (len(s[1]) > 0 and text.startswith(f'{s[1]}{s[2]}')):
                 if text_id - 1 != before_chapter_text_id:  # partとchapterが連続している場合はこの処理をしない(同じchapter扱いにする)
                     if texts_in_chapter:

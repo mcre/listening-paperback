@@ -16,6 +16,7 @@ PATTERNS = {
     ],
     'rubies': [
         re.compile(r'｜(.+?)《(.+?)》'),
+        re.compile(r'　(.+?)《(.+?)》　'),
         re.compile(r'([\p{Han}]+?)《(.+?)》'),
         re.compile(r'([\p{Hiragana}]+?)《(.+?)》'),
         re.compile(r'([\p{Katakana}]+?)《(.+?)》'),
