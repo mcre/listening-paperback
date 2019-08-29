@@ -28,6 +28,8 @@ PATTERNS = {
     'kunoji': re.compile(r'／＼'),
     'kunoji_dakuten': re.compile(r'／″＼'),
     'bouten': re.compile(r'(.+?)［＃.*?「\1」に傍点］'),
+    'bouten_long': re.compile(r'［＃傍点］(.+?)［＃傍点終わり］'),
+    'subscript': re.compile(r'([Ａ-Ｚａ-ｚΑ-Ωα-ωА-Яа-яA-Za-z0-9]+)(.+?)［＃「\2」は下付き小文字］'),
     'line': re.compile(r'✕　*?✕　*?✕'),
     'new_page': re.compile('［＃改(頁|ページ|段)］'),
     'frame_start': re.compile('［＃ここから罫囲み］'),
@@ -66,6 +68,11 @@ def get_gaiji(s):
     m = re.search(r'U\+(\w{4})', s)
     if m:
         return chr(int(m[1], 16))
+    # ※［＃小書き片仮名ヒ、1-6-84］
+    m = re.search(r'小書き片仮名.*\d-(\d{1,2})-(\d{1,2})', s)
+    if m:
+        key = f'3-{int(m[1])+32:2X}{int(m[2])+32:2X}'
+        return gaiji_table.get(key, s)
     # unknown format
     return s
 
@@ -133,6 +140,8 @@ def main():
         body_lines[index] = PATTERNS['kunoji'].sub(r'〳〵', body_lines[index])
         body_lines[index] = PATTERNS['kunoji_dakuten'].sub(r'〴〵', body_lines[index])
         body_lines[index] = PATTERNS['bouten'].sub(r'\\kenten{\1}', body_lines[index])
+        body_lines[index] = PATTERNS['bouten_long'].sub(r'\\kenten{\1}', body_lines[index])
+        body_lines[index] = PATTERNS['subscript'].sub(r'$\1_{\2}$', body_lines[index])
         body_lines[index] = PATTERNS['frame_start'].sub(r'\\begin{oframed}', body_lines[index])
         body_lines[index] = PATTERNS['frame_end'].sub(r'\\end{oframed}', body_lines[index])
         body_lines[index] = PATTERNS['oneline_indent'].sub(r'\\noindent\\　', body_lines[index])  # 字下げは１字固定(普通の本より縦が短いので)以下同様
