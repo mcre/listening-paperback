@@ -24,7 +24,10 @@ PATTERNS = {
         re.compile(r'([A-Za-z0-9#\-\;\&. ]+?)《(.+?)》'),
     ],
     'remaining_ruby': re.compile(r'《.*?》'),
+    'kunoji': re.compile(r'／＼'),
+    'kunoji_dakuten': re.compile(r'／″＼'),
     'bouten': re.compile(r'(.+?)［＃.*?「\1」に傍点］'),
+    'line': re.compile(r'×　*?×　*?×'),
     'new_page': re.compile('［＃改(頁|ページ)］'),
     'teihon_chu': re.compile('［＃「.*?」は底本では「.*?」］'),
     'frame_start': re.compile('［＃ここから罫囲み］'),
@@ -123,6 +126,9 @@ def main():
 
     for index in range(len(body_lines)):
         body_lines[index] = PATTERNS['new_page'].sub(r'\\clearpage', body_lines[index])
+        body_lines[index] = PATTERNS['line'].sub(r'\\hrulefill', body_lines[index])
+        body_lines[index] = PATTERNS['kunoji'].sub(r'〳〵', body_lines[index])
+        body_lines[index] = PATTERNS['kunoji_dakuten'].sub(r'〴〵', body_lines[index])
         body_lines[index] = PATTERNS['teihon_chu'].sub(r'', body_lines[index])
         body_lines[index] = PATTERNS['bouten'].sub(r'\\kenten{\1}', body_lines[index])
         body_lines[index] = PATTERNS['frame_start'].sub(r'\\begin{oframed}', body_lines[index])

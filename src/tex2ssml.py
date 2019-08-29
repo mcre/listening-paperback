@@ -19,7 +19,7 @@ ignore_list = [
     '%', '\\documentclass', '\\usepackage', '\\setminchofont', '\\setgothicfont', '\\rubysetup',
     '\\ModifyHeading', '\\NewPageStyle', '\\pagestyle', '\\date', '\\begin', '\\maketitle',
     '\\end', '\\showoutput', '\\definecolor', '\\pagecolor', '\\color' ,'\\thiswatermark',
-    '\\shadowoffset', '\\shadowcolor', '\\clearpage'
+    '\\shadowoffset', '\\shadowcolor', '\\clearpage', '\\hrulefill',
 ]
 PATTERNS = {
     'ruby': re.compile(r'\\ruby{(.*?)}{(.*?)}'),
