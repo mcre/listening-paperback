@@ -29,8 +29,7 @@ PATTERNS = {
     'kunoji_dakuten': re.compile(r'／″＼'),
     'bouten': re.compile(r'(.+?)［＃.*?「\1」に傍点］'),
     'line': re.compile(r'✕　*?✕　*?✕'),
-    'new_page': re.compile('［＃改(頁|ページ)］'),
-    'teihon_chu': re.compile('［＃「.*?」は底本では「.*?」］'),
+    'new_page': re.compile('［＃改(頁|ページ|段)］'),
     'frame_start': re.compile('［＃ここから罫囲み］'),
     'frame_end': re.compile('［＃ここで罫囲み終わり］'),
     'oneline_indent': re.compile(r'［＃(?:この行)?([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),
@@ -38,6 +37,8 @@ PATTERNS = {
     'ignores': [
         re.compile(r'［＃ここから([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),  # 字下げは \\leftskip = 1zw でできるけど、違和感激しいので無視。
         re.compile(r'［＃ここで字下げ終わり］'),
+        re.compile(r'［＃(ルビの)?「.*?」は底本では「.*?」］'),
+        re.compile(r'［＃「.*?」はママ］'),
     ],
 }
 
@@ -131,7 +132,6 @@ def main():
         body_lines[index] = PATTERNS['line'].sub(r'\\hrulefill', body_lines[index])
         body_lines[index] = PATTERNS['kunoji'].sub(r'〳〵', body_lines[index])
         body_lines[index] = PATTERNS['kunoji_dakuten'].sub(r'〴〵', body_lines[index])
-        body_lines[index] = PATTERNS['teihon_chu'].sub(r'', body_lines[index])
         body_lines[index] = PATTERNS['bouten'].sub(r'\\kenten{\1}', body_lines[index])
         body_lines[index] = PATTERNS['frame_start'].sub(r'\\begin{oframed}', body_lines[index])
         body_lines[index] = PATTERNS['frame_end'].sub(r'\\end{oframed}', body_lines[index])
