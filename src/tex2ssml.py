@@ -156,8 +156,8 @@ def main():
             fw.write(prefix)
             fw.write(cline['line'])
             fw.write(postfix)
-        if count_japanese(cline['line']) == 0:
-            print(f'日本語が存在しないssmlがあります: {fn}.xml')
+        if count_japanese(cline['line']) == 0 and len(cline['line']) <= 10:
+            print(f'日本語が存在しないか、英字含めて10文字以下のssmlがあります: {fn}.xml')
             raise Exception()
 
 
