@@ -1,6 +1,7 @@
 import json
 import string
 
+import jaconv
 import regex as re
 
 PATTERNS = {
@@ -28,8 +29,10 @@ PATTERNS = {
     'remaining_command': re.compile(r'［＃.*?］'),
     'kunoji': re.compile(r'／＼'),
     'kunoji_dakuten': re.compile(r'／″＼'),
+    'big': re.compile(r'((.*?)(?:《.*》)?(.*?)(?:《.*》)?(.*?)(?:《.*》)?(.*?))［＃「\2\3\4\5」は([１２３４５６７８９０]+)段階大きな文字］'),
     'gothic': re.compile(r'(.+?)［＃「\1」は太字］'),
     'bouten': re.compile(r'(.+?)［＃.*?「\1」に傍点］'),
+    'tatechuyoko': re.compile(r'(.+?)［＃「\1」は縦中横］'),
     'bouten_long': re.compile(r'［＃傍点］(.+?)［＃傍点終わり］'),
     'subscript': re.compile(r'([Ａ-Ｚａ-ｚΑ-Ωα-ωА-Яа-яA-Za-z0-9]+)(.+?)［＃「\2」は下付き小文字］'),
     'line': re.compile(r'✕　*?✕　*?✕'),
@@ -42,14 +45,17 @@ PATTERNS = {
     'ignores': [
         re.compile(r'［＃ここから([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),  # 字下げは \\leftskip = 1zw でできるけど、違和感激しいので無視。
         re.compile(r'［＃ここで字下げ終わり］'),
+        re.compile(r'［＃ここから([１２３４５６７８９０一二三四五六七八九〇十]+)字詰め］'),
+        re.compile(r'［＃ここで字詰め終わり］'),
         re.compile(r'［＃(ルビの)?「.*?」は底本では「.*?」］'),
-        re.compile(r'［＃「.*?」はママ］'),
+        re.compile(r'［＃(ルビの)?「.*?」はママ］'),
         re.compile(r'［＃地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］'),
         re.compile(r'^　'),
     ],
 }
 
 REPLACE_CHAR = str.maketrans({'×': '✕', '&': '\\&', '　': '\\　'})
+REPLACE_STR = {'※［＃感嘆符三つ、626-10］': '\\tatechuyoko{!!!}'}
 
 with open('config.json', 'r') as f:
     config = json.load(f)
@@ -73,8 +79,8 @@ def get_gaiji(s):
     m = re.search(r'U\+(\w{4})', s)
     if m:
         return chr(int(m[1], 16))
-    # ※［＃小書き片仮名ヒ、1-6-84］
-    m = re.search(r'小書き片仮名.*\d-(\d{1,2})-(\d{1,2})', s)
+    # ※［＃小書き片仮名ヒ、1-6-84］［＃ローマ数字1、1-13-21］
+    m = re.search(r'(?:小書き片仮名|ローマ数字|感嘆符).*\d-(\d{1,2})-(\d{1,2})', s)
     if m:
         key = f'3-{int(m[1])+32:2X}{int(m[2])+32:2X}'
         return gaiji_table.get(key, s)
@@ -150,6 +156,14 @@ def main():
         body_lines[index] = PATTERNS['frame_end'].sub(r'\\end{oframed}', body_lines[index])
         body_lines[index] = PATTERNS['indent'].sub(r'\\noindent\\　', body_lines[index])  # 字下げは１字固定(普通の本より縦が短いので)以下同様
         body_lines[index] = PATTERNS['indent_bottom'].sub(r'\\noindent\\rightline{\2\\　}', body_lines[index])
+        body_lines[index] = PATTERNS['tatechuyoko'].sub(
+            lambda x: '\\tatechuyoko{' + jaconv.z2h(x.group(1), ascii=True, digit=True) + '}',
+            body_lines[index]
+        )
+        body_lines[index] = PATTERNS['big'].sub(
+            lambda x: '{\\fontsize{' + str(14 + int(x.group(6))) + '}{' + str((14 + int(x.group(6))) * 1.2) + '}\\selectfont ' + x.group(1) + '}',
+            body_lines[index]
+        )
         for pattern_ignore in PATTERNS['ignores']:
             body_lines[index] = pattern_ignore.sub('', body_lines[index])
 
@@ -159,11 +173,14 @@ def main():
     body_text = '\n\n'.join(body_lines)
     body_text = PATTERNS['midashi_m_multiline'].sub(lambda x: '\\chapter{' + re.sub(r'\s+', ' ', x.group(1).strip()) + '}', body_text)
     body_text = PATTERNS['indent_bottom_multiline'].sub(lambda x: '\\begin{flushright}\n\n' + '\n'.join([l + '\\　\n' for l in x.group(2).split('\n') if len(l) > 0]) + '\n\\end{flushright}', body_text)
+    body_text = body_text.translate(REPLACE_CHAR)
+    for k, v in REPLACE_STR.items():
+        body_text = body_text.replace(k, v)
 
     tex = Template(template).substitute({
         'text_color': consts['text_color'],
         'background_color': consts['background_color'],
-        'body': body_text.translate(REPLACE_CHAR),
+        'body': body_text,
     })
     with open('novel.tex', 'w', encoding='utf-8') as f:
         f.write(tex)
