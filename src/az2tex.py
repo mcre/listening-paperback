@@ -28,6 +28,7 @@ PATTERNS = {
     'remaining_command': re.compile(r'［＃.*?］'),
     'kunoji': re.compile(r'／＼'),
     'kunoji_dakuten': re.compile(r'／″＼'),
+    'gothic': re.compile(r'(.+?)［＃「\1」は太字］'),
     'bouten': re.compile(r'(.+?)［＃.*?「\1」に傍点］'),
     'bouten_long': re.compile(r'［＃傍点］(.+?)［＃傍点終わり］'),
     'subscript': re.compile(r'([Ａ-Ｚａ-ｚΑ-Ωα-ωА-Яа-яA-Za-z0-9]+)(.+?)［＃「\2」は下付き小文字］'),
@@ -37,14 +38,14 @@ PATTERNS = {
     'frame_end': re.compile('［＃ここで罫囲み終わり］'),
     'indent': re.compile(r'［＃(?:この行)?([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),
     'indent_bottom': re.compile(r'［＃地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］(.{1,13})$'),  # 13文字以上だと上にはみ出るので適用しない
-    'indent_bottom_multiline': re.compile(r'［＃ここから地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］(.*)［＃ここで字上げ終わり］', flags=re.DOTALL),
+    'indent_bottom_multiline': re.compile(r'［＃ここから地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］(.*?)［＃ここで字上げ終わり］', flags=re.DOTALL),
     'ignores': [
         re.compile(r'［＃ここから([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),  # 字下げは \\leftskip = 1zw でできるけど、違和感激しいので無視。
         re.compile(r'［＃ここで字下げ終わり］'),
         re.compile(r'［＃(ルビの)?「.*?」は底本では「.*?」］'),
         re.compile(r'［＃「.*?」はママ］'),
         re.compile(r'［＃地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］'),
-        re.compile(r'^\\　'),
+        re.compile(r'^　'),
     ],
 }
 
@@ -123,7 +124,7 @@ def main():
         template = f.read()
     with open('novel.txt', 'r', encoding='shift_jis') as f:
         lines = f.readlines()
-        aozora_lines = [sub_gaiji(line.strip(' \n\t\r')).translate(REPLACE_CHAR) for line in lines]
+        aozora_lines = [sub_gaiji(line.strip(' \n\t\r')) for line in lines]
 
     head = aozora_lines[:50]
     body_lines = aozora_lines[get_first_line_index(head):get_last_line_index(aozora_lines[-50:])]
@@ -136,14 +137,12 @@ def main():
             if (obj := pattern.search(line)):
                 body_lines[index] = f'\\chapter{{{obj.group(1)}}}'
 
-    for index, line in enumerate(body_lines):
-        body_lines[index] = ruby(line)
-
     for index in range(len(body_lines)):
         body_lines[index] = PATTERNS['new_page'].sub(r'\\clearpage', body_lines[index])
         body_lines[index] = PATTERNS['line'].sub(r'\\hrulefill', body_lines[index])
         body_lines[index] = PATTERNS['kunoji'].sub(r'〳〵', body_lines[index])
         body_lines[index] = PATTERNS['kunoji_dakuten'].sub(r'〴〵', body_lines[index])
+        body_lines[index] = PATTERNS['gothic'].sub(r'\\textgt{\1}', body_lines[index])
         body_lines[index] = PATTERNS['bouten'].sub(r'\\kenten{\1}', body_lines[index])
         body_lines[index] = PATTERNS['bouten_long'].sub(r'\\kenten{\1}', body_lines[index])
         body_lines[index] = PATTERNS['subscript'].sub(r'$\1_{\2}$', body_lines[index])
@@ -154,6 +153,9 @@ def main():
         for pattern_ignore in PATTERNS['ignores']:
             body_lines[index] = pattern_ignore.sub('', body_lines[index])
 
+    for index, line in enumerate(body_lines):
+        body_lines[index] = ruby(line)
+
     body_text = '\n\n'.join(body_lines)
     body_text = PATTERNS['midashi_m_multiline'].sub(lambda x: '\\chapter{' + re.sub(r'\s+', ' ', x.group(1).strip()) + '}', body_text)
     body_text = PATTERNS['indent_bottom_multiline'].sub(lambda x: '\\begin{flushright}\n\n' + '\n'.join([l + '\\　\n' for l in x.group(2).split('\n') if len(l) > 0]) + '\n\\end{flushright}', body_text)
@@ -161,7 +163,7 @@ def main():
     tex = Template(template).substitute({
         'text_color': consts['text_color'],
         'background_color': consts['background_color'],
-        'body': body_text,
+        'body': body_text.translate(REPLACE_CHAR),
     })
     with open('novel.tex', 'w', encoding='utf-8') as f:
         f.write(tex)

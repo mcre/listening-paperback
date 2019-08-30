@@ -33,6 +33,7 @@ cp ./projects/${1}/config.json ./work/ || exit 1
 cp -r ./cache/* ./work/cache
 
 cp ./materials/fonts/`cat ./projects/${1}/config.json | jq -r .font` ./work/font.ttf || exit 1
+cp ./materials/fonts/ipaexg.ttf ./work/font_gothic.ttf || exit 1
 cp ./materials/covers/`cat ./projects/${1}/config.json | jq -r .cover.file` ./work/cover.png || exit 1
 cp ./materials/musics/`cat ./projects/${1}/config.json | jq -r .music.file` ./work/music.mp3 || exit 1
 cp ./materials/libs/* ./work/ || exit 1
