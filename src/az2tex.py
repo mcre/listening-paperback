@@ -14,6 +14,7 @@ PATTERNS = {
         re.compile(r'(?:［＃(?:[１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］)?(.*)［＃「(.*?)」は中見出し］'),
         re.compile(r'［＃中見出し］(.*?)［＃中見出し終わり］'),
     ],
+    'midashi_m_multiline': re.compile(r'［＃ここから中見出し］(.*?)［＃ここで中見出し終わり］', flags=re.DOTALL),
     'rubies': [
         re.compile(r'｜(.+?)《(.+?)》'),
         re.compile(r'　(.+?)《(.+?)》　'),
@@ -34,18 +35,20 @@ PATTERNS = {
     'new_page': re.compile('［＃改(頁|ページ|段)］'),
     'frame_start': re.compile('［＃ここから罫囲み］'),
     'frame_end': re.compile('［＃ここで罫囲み終わり］'),
-    'oneline_indent': re.compile(r'［＃(?:この行)?([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),
-    'oneline_indent_bottom': re.compile(r'［＃地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］(.{1,13})$'),  # 13文字以上だと上にはみ出るので適用しない
+    'indent': re.compile(r'［＃(?:この行)?([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),
+    'indent_bottom': re.compile(r'［＃地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］(.{1,13})$'),  # 13文字以上だと上にはみ出るので適用しない
+    'indent_bottom_multiline': re.compile(r'［＃ここから地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］(.*)［＃ここで字上げ終わり］', flags=re.DOTALL),
     'ignores': [
         re.compile(r'［＃ここから([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),  # 字下げは \\leftskip = 1zw でできるけど、違和感激しいので無視。
         re.compile(r'［＃ここで字下げ終わり］'),
         re.compile(r'［＃(ルビの)?「.*?」は底本では「.*?」］'),
         re.compile(r'［＃「.*?」はママ］'),
-        re.compile(r'［＃地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］')
+        re.compile(r'［＃地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］'),
+        re.compile(r'^\\　'),
     ],
 }
 
-REPLACE_CHAR = str.maketrans({'×': '✕', '&': '\\&'})
+REPLACE_CHAR = str.maketrans({'×': '✕', '&': '\\&', '　': '\\　'})
 
 with open('config.json', 'r') as f:
     config = json.load(f)
@@ -119,7 +122,8 @@ def main():
     with open('template.tex', 'r', encoding='utf-8') as f:
         template = f.read()
     with open('novel.txt', 'r', encoding='shift_jis') as f:
-        aozora_lines = [sub_gaiji(line.strip()).translate(REPLACE_CHAR) for line in f.readlines()]
+        lines = f.readlines()
+        aozora_lines = [sub_gaiji(line.strip(' \n\t\r')).translate(REPLACE_CHAR) for line in lines]
 
     head = aozora_lines[:50]
     body_lines = aozora_lines[get_first_line_index(head):get_last_line_index(aozora_lines[-50:])]
@@ -145,16 +149,19 @@ def main():
         body_lines[index] = PATTERNS['subscript'].sub(r'$\1_{\2}$', body_lines[index])
         body_lines[index] = PATTERNS['frame_start'].sub(r'\\begin{oframed}', body_lines[index])
         body_lines[index] = PATTERNS['frame_end'].sub(r'\\end{oframed}', body_lines[index])
-        body_lines[index] = PATTERNS['oneline_indent'].sub(r'\\noindent\\　', body_lines[index])  # 字下げは１字固定(普通の本より縦が短いので)以下同様
-        body_lines[index] = PATTERNS['oneline_indent_bottom'].sub(r'\\noindent\\rightline{\2\\　}', body_lines[index])
+        body_lines[index] = PATTERNS['indent'].sub(r'\\noindent\\　', body_lines[index])  # 字下げは１字固定(普通の本より縦が短いので)以下同様
+        body_lines[index] = PATTERNS['indent_bottom'].sub(r'\\noindent\\rightline{\2\\　}', body_lines[index])
         for pattern_ignore in PATTERNS['ignores']:
             body_lines[index] = pattern_ignore.sub('', body_lines[index])
 
-    bs = '\\'
+    body_text = '\n\n'.join(body_lines)
+    body_text = PATTERNS['midashi_m_multiline'].sub(lambda x: '\\chapter{' + re.sub(r'\s+', ' ', x.group(1).strip()) + '}', body_text)
+    body_text = PATTERNS['indent_bottom_multiline'].sub(lambda x: '\\begin{flushright}\n\n' + '\n'.join([l + '\\　\n' for l in x.group(2).split('\n') if len(l) > 0]) + '\n\\end{flushright}', body_text)
+
     tex = Template(template).substitute({
         'text_color': consts['text_color'],
         'background_color': consts['background_color'],
-        'body': '\n\n'.join(body_lines),
+        'body': body_text,
     })
     with open('novel.tex', 'w', encoding='utf-8') as f:
         f.write(tex)
