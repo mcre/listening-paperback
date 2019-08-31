@@ -48,6 +48,7 @@ PATTERNS = {
     'indent_bottom': re.compile(r'［＃地から(' + N + r')字上げ］(.*)$'),
     'indent_bottom_multiline': re.compile(r'［＃ここから地から(' + N + r')字上げ］(.*?)［＃ここで字上げ終わり］', flags=re.DOTALL),
     'page_center_multiline': re.compile(r'［＃ページの左右中央］(.*?)\\clearpage', flags=re.DOTALL),
+    'kunten': re.compile(r'［＃(一|二|レ)］'),
     'ignores': [
         re.compile(r'［＃ここから(' + N + r')字詰め］'),
         re.compile(r'［＃ここで字詰め終わり］'),
@@ -159,6 +160,7 @@ def main():
         body_lines[index] = PATTERNS['warichu'].sub(r'\\warichu{\1}', body_lines[index])
         body_lines[index] = PATTERNS['indent'].sub(r'\\leftskip = 1zw\n\2\n\\leftskip = 0zw', body_lines[index])  # 字下げは１字固定(普通の本より縦が短いので)以下同様
         body_lines[index] = PATTERNS['indent_bottom'].sub(r'{\\hfill \\rightskip = 1zw \2 \\par}', body_lines[index])
+        body_lines[index] = PATTERNS['kunten'].sub(r'\\kaeriten{\1}', body_lines[index])
         body_lines[index] = PATTERNS['tatechuyoko'].sub(
             lambda x: '\\tatechuyoko{' + jaconv.z2h(x.group(1), ascii=True, digit=True) + '}',
             body_lines[index]
