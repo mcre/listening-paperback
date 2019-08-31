@@ -180,7 +180,7 @@ def main():
         body_text
     )
     body_text = PATTERNS['indent_bottom_multiline'].sub(
-        r'{\\raggedleft \\rightskip=1zw\n\2\n}',
+        lambda x: '{\\raggedleft \\rightskip=1zw' + re.sub(r'\n{2,}', r'\n', x.group(2)) + '}',
         body_text
     )
     body_text = PATTERNS['page_center_multiline'].sub(
