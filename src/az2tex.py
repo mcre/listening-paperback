@@ -4,15 +4,17 @@ import string
 import jaconv
 import regex as re
 
+N = r'[１２３４５６７８９０一二三四五六七八九〇十]+'
+
 PATTERNS = {
     'about': re.compile(r'^-+$'),
     'teihon': re.compile(r'^底本[：]'),
     'midashi_l': [
-        re.compile(r'(?:［＃(?:[１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］)?(.*)［＃「(.*?)」は大見出し］'),
+        re.compile(r'(?:［＃(?:' + N + r')字下げ］)?(.*)［＃「(.*?)」は大見出し］'),
         re.compile(r'［＃大見出し］(.*?)［＃大見出し終わり］'),
     ],
     'midashi_m': [
-        re.compile(r'(?:［＃(?:[１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］)?(.*)［＃「(.*?)」は中見出し］'),
+        re.compile(r'(?:［＃(?:' + N + r')字下げ］)?(.*)［＃「(.*?)」は中見出し］'),
         re.compile(r'［＃中見出し］(.*?)［＃中見出し終わり］'),
     ],
     'midashi_m_multiline': re.compile(r'［＃ここから中見出し］(.*?)［＃ここで中見出し終わり］', flags=re.DOTALL),
@@ -39,20 +41,19 @@ PATTERNS = {
     'subscript': re.compile(r'([Ａ-Ｚａ-ｚΑ-Ωα-ωА-Яа-яA-Za-z0-9]+)(.+?)［＃「\2」は下付き小文字］'),
     'line': re.compile(r'✕　*?✕　*?✕'),
     'new_page': re.compile('［＃改(頁|ページ|段)］'),
-    'frame_start': re.compile('［＃ここから罫囲み］'),
-    'frame_end': re.compile('［＃ここで罫囲み終わり］'),
-    'indent': re.compile(r'［＃(?:この行)?([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),
-    'indent_bottom': re.compile(r'［＃地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］(.*)$'),
-    'indent_bottom_multiline': re.compile(r'［＃ここから地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］(.*?)［＃ここで字上げ終わり］', flags=re.DOTALL),
+    'frame_multiline': re.compile(r'(?:［＃ここから' + N + r'字下げ］\s*?)?［＃ここから罫囲み］(.*?)［＃ここで罫囲み終わり］(?:\s*?［＃ここで字下げ終わり］)?', flags=re.DOTALL),  # 罫囲みの字下げは無視
+    'indent': re.compile(r'［＃(?:この行)?(' + N + r')字下げ］(.*)$'),
+    'indent_hang_multiline': re.compile(r'［＃ここから(' + N + r')字下げ、折り返して(' + N + r')字下げ］(.*?)［＃ここで字下げ終わり］', flags=re.DOTALL),
+    'indent_multiline': re.compile(r'［＃ここから(' + N + r')字下げ］(.*?)［＃ここで字下げ終わり］', flags=re.DOTALL),
+    'indent_bottom': re.compile(r'［＃地から(' + N + r')字上げ］(.*)$'),
+    'indent_bottom_multiline': re.compile(r'［＃ここから地から(' + N + r')字上げ］(.*?)［＃ここで字上げ終わり］', flags=re.DOTALL),
     'page_center_multiline': re.compile(r'［＃ページの左右中央］(.*?)\\clearpage', flags=re.DOTALL),
     'ignores': [
-        re.compile(r'［＃ここから([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),  # 字下げは \\leftskip = 1zw でできるけど、違和感激しいので無視。
-        re.compile(r'［＃ここで字下げ終わり］'),
-        re.compile(r'［＃ここから([１２３４５６７８９０一二三四五六七八九〇十]+)字詰め］'),
+        re.compile(r'［＃ここから(' + N + r')字詰め］'),
         re.compile(r'［＃ここで字詰め終わり］'),
         re.compile(r'［＃(ルビの)?「.*?」は底本では「.*?」］'),
         re.compile(r'［＃(ルビの)?「.*?」はママ］'),
-        re.compile(r'［＃地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］'),
+        re.compile(r'［＃地から(' + N + r')字上げ］'),
         re.compile(r'^　'),
     ],
 }
@@ -155,10 +156,8 @@ def main():
         body_lines[index] = PATTERNS['bouten'].sub(r'\\kenten{\1}', body_lines[index])
         body_lines[index] = PATTERNS['bouten_long'].sub(r'\\kenten{\1}', body_lines[index])
         body_lines[index] = PATTERNS['subscript'].sub(r'$\1_{\2}$', body_lines[index])
-        body_lines[index] = PATTERNS['frame_start'].sub(r'\\begin{oframed}', body_lines[index])
-        body_lines[index] = PATTERNS['frame_end'].sub(r'\\end{oframed}', body_lines[index])
         body_lines[index] = PATTERNS['warichu'].sub(r'\\warichu{\1}', body_lines[index])
-        body_lines[index] = PATTERNS['indent'].sub(r'\\noindent\\　', body_lines[index])  # 字下げは１字固定(普通の本より縦が短いので)以下同様
+        body_lines[index] = PATTERNS['indent'].sub(r'\\leftskip = 1zw\n\2\n\\leftskip = 0zw', body_lines[index])  # 字下げは１字固定(普通の本より縦が短いので)以下同様
         body_lines[index] = PATTERNS['indent_bottom'].sub(r'{\\hfill \\rightskip = 1zw \2 \\par}', body_lines[index])
         body_lines[index] = PATTERNS['tatechuyoko'].sub(
             lambda x: '\\tatechuyoko{' + jaconv.z2h(x.group(1), ascii=True, digit=True) + '}',
@@ -179,8 +178,20 @@ def main():
         lambda x: '\\chapter{' + re.sub(r'\s+', ' ', x.group(1).strip()) + '}',
         body_text
     )
+    body_text = PATTERNS['frame_multiline'].sub(  # 複数行字下げより前に置く
+        r'\\begin{oframed}\n\1\n\\end{oframed}',
+        body_text
+    )
+    body_text = PATTERNS['indent_hang_multiline'].sub(
+        lambda x: '\\leftskip = 1zw\n\n' + '\n\n'.join([f'\\hangindent = {int(x.group(2)) - 1}zw ' + l for l in x.group(3).split('\n') if len(l) > 0]) + '\n\n\\leftskip = 0zw',
+        body_text
+    )
+    body_text = PATTERNS['indent_multiline'].sub(
+        r'\\leftskip = 1zw \2 \\leftskip = 0zw',
+        body_text
+    )
     body_text = PATTERNS['indent_bottom_multiline'].sub(
-        lambda x: '{\\raggedleft \\rightskip=1zw' + re.sub(r'\n{2,}', r'\n', x.group(2)) + '}',
+        lambda x: '{\\raggedleft \\rightskip = 1zw' + re.sub(r'\n{2,}', r'\n', x.group(2)) + '}',
         body_text
     )
     body_text = PATTERNS['page_center_multiline'].sub(
