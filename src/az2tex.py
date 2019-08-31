@@ -39,7 +39,7 @@ PATTERNS = {
     'warichu': re.compile(r'（［＃割り注］(.+?)［＃割り注終わり］）'),
     'bouten_long': re.compile(r'［＃傍点］(.+?)［＃傍点終わり］'),
     'subscript': re.compile(r'([Ａ-Ｚａ-ｚΑ-Ωα-ωА-Яа-яA-Za-z0-9]+)(.+?)［＃「\2」は下付き小文字］'),
-    'line': re.compile(r'✕　*?✕　*?✕'),
+    'line': re.compile(r'(✕　*?✕　*?✕|^\s*?―{6,}\s*?$)'),
     'new_page': re.compile('［＃改(頁|ページ|段)］'),
     'frame_multiline': re.compile(r'(?:［＃ここから' + N + r'字下げ］\s*?)?［＃ここから罫囲み］(.*?)［＃ここで罫囲み終わり］(?:\s*?［＃ここで字下げ終わり］)?', flags=re.DOTALL),  # 罫囲みの字下げは無視
     'indent': re.compile(r'［＃(?:この行)?(' + N + r')字下げ］(.*)$'),
@@ -49,6 +49,8 @@ PATTERNS = {
     'indent_bottom_multiline': re.compile(r'［＃ここから地から(' + N + r')字上げ］(.*?)［＃ここで字上げ終わり］', flags=re.DOTALL),
     'page_center_multiline': re.compile(r'［＃ページの左右中央］(.*?)\\clearpage', flags=re.DOTALL),
     'kunten': re.compile(r'［＃(一|二|レ)］'),
+    'many_spaces': re.compile(r'^　{3,}'),
+    'many_symbols': re.compile(r'(…|？|！){13,}'),
     'ignores': [
         re.compile(r'［＃ここから(' + N + r')字詰め］'),
         re.compile(r'［＃ここで字詰め終わり］'),
@@ -130,6 +132,10 @@ def ruby(line):
     return ret
 
 
+def big(size):
+    return 14 + int(size) * 0.8
+
+
 def main():
     with open('template.tex', 'r', encoding='utf-8') as f:
         template = f.read()
@@ -161,12 +167,14 @@ def main():
         body_lines[index] = PATTERNS['indent'].sub(r'\\leftskip = 1zw\n\2\n\\leftskip = 0zw', body_lines[index])  # 字下げは１字固定(普通の本より縦が短いので)以下同様
         body_lines[index] = PATTERNS['indent_bottom'].sub(r'{\\hfill \\rightskip = 1zw \2 \\par}', body_lines[index])
         body_lines[index] = PATTERNS['kunten'].sub(r'\\kaeriten{\1}', body_lines[index])
+        body_lines[index] = PATTERNS['many_spaces'].sub(r'　　', body_lines[index])  # 行頭3つ以上の全角スペースは２つに減らす
+        body_lines[index] = PATTERNS['many_symbols'].sub(lambda x: x.group()[:12], body_lines[index])  # 記号が並んでると改行されないので(ドグラ・マグラ用)
         body_lines[index] = PATTERNS['tatechuyoko'].sub(
             lambda x: '\\tatechuyoko{' + jaconv.z2h(x.group(1), ascii=True, digit=True) + '}',
             body_lines[index]
         )
         body_lines[index] = PATTERNS['big'].sub(
-            lambda x: '{\\fontsize{' + str(14 + int(x.group(6))) + '}{' + str((14 + int(x.group(6))) * 1.2) + '}\\selectfont ' + x.group(1) + '}',
+            lambda x: '{\\fontsize{' + str(big(x.group(6))) + '}{' + str(big(x.group(6)) * 1.6) + '}\\selectfont ' + x.group(1) + '\\par}',
             body_lines[index]
         )
         for pattern_ignore in PATTERNS['ignores']:
@@ -201,7 +209,7 @@ def main():
         body_text
     )
     body_text = PATTERNS['big_multiline'].sub(
-        lambda x: '{\\fontsize{' + str(14 + int(x.group(1))) + '}{' + str((14 + int(x.group(1))) * 1.2) + '}\\selectfont ' + x.group(2) + '}',
+        lambda x: '{\\fontsize{' + str(big(x.group(1))) + '}{' + str(big(x.group(1)) * 1.6) + '}\\selectfont ' + x.group(2) + '}',
         body_text
     )
 
