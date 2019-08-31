@@ -30,9 +30,11 @@ PATTERNS = {
     'kunoji': re.compile(r'／＼'),
     'kunoji_dakuten': re.compile(r'／″＼'),
     'big': re.compile(r'((.*?)(?:《.*》)?(.*?)(?:《.*》)?(.*?)(?:《.*》)?(.*?))［＃「\2\3\4\5」は([１２３４５６７８９０]+)段階大きな文字］'),
+    'big_multiline': re.compile(r'［＃([１２３４５６７８９０]+)段階大きな文字］(.*?)［＃大きな文字終わり］', flags=re.DOTALL),
     'gothic': re.compile(r'(.+?)［＃「\1」は太字］'),
     'bouten': re.compile(r'(.+?)［＃.*?「\1」に傍点］'),
     'tatechuyoko': re.compile(r'(.+?)［＃「\1」は縦中横］'),
+    'warichu': re.compile(r'（［＃割り注］(.+?)［＃割り注終わり］）'),
     'bouten_long': re.compile(r'［＃傍点］(.+?)［＃傍点終わり］'),
     'subscript': re.compile(r'([Ａ-Ｚａ-ｚΑ-Ωα-ωА-Яа-яA-Za-z0-9]+)(.+?)［＃「\2」は下付き小文字］'),
     'line': re.compile(r'✕　*?✕　*?✕'),
@@ -42,6 +44,7 @@ PATTERNS = {
     'indent': re.compile(r'［＃(?:この行)?([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),
     'indent_bottom': re.compile(r'［＃地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］(.{1,13})$'),  # 13文字以上だと上にはみ出るので適用しない
     'indent_bottom_multiline': re.compile(r'［＃ここから地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］(.*?)［＃ここで字上げ終わり］', flags=re.DOTALL),
+    'page_center_multiline': re.compile(r'［＃ページの左右中央］(.*?)\\clearpage', flags=re.DOTALL),
     'ignores': [
         re.compile(r'［＃ここから([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),  # 字下げは \\leftskip = 1zw でできるけど、違和感激しいので無視。
         re.compile(r'［＃ここで字下げ終わり］'),
@@ -154,6 +157,7 @@ def main():
         body_lines[index] = PATTERNS['subscript'].sub(r'$\1_{\2}$', body_lines[index])
         body_lines[index] = PATTERNS['frame_start'].sub(r'\\begin{oframed}', body_lines[index])
         body_lines[index] = PATTERNS['frame_end'].sub(r'\\end{oframed}', body_lines[index])
+        body_lines[index] = PATTERNS['warichu'].sub(r'\\warichu{\1}', body_lines[index])
         body_lines[index] = PATTERNS['indent'].sub(r'\\noindent\\　', body_lines[index])  # 字下げは１字固定(普通の本より縦が短いので)以下同様
         body_lines[index] = PATTERNS['indent_bottom'].sub(r'\\noindent\\rightline{\2\\　}', body_lines[index])
         body_lines[index] = PATTERNS['tatechuyoko'].sub(
@@ -171,8 +175,23 @@ def main():
         body_lines[index] = ruby(line)
 
     body_text = '\n\n'.join(body_lines)
-    body_text = PATTERNS['midashi_m_multiline'].sub(lambda x: '\\chapter{' + re.sub(r'\s+', ' ', x.group(1).strip()) + '}', body_text)
-    body_text = PATTERNS['indent_bottom_multiline'].sub(lambda x: '\\begin{flushright}\n\n' + '\n'.join([l + '\\　\n' for l in x.group(2).split('\n') if len(l) > 0]) + '\n\\end{flushright}', body_text)
+    body_text = PATTERNS['midashi_m_multiline'].sub(
+        lambda x: '\\chapter{' + re.sub(r'\s+', ' ', x.group(1).strip()) + '}',
+        body_text
+    )
+    body_text = PATTERNS['indent_bottom_multiline'].sub(
+        lambda x: '\\begin{flushright}\n\n' + '\n'.join([l + '\\　\n' for l in x.group(2).split('\n') if len(l) > 0]) + '\n\\end{flushright}',
+        body_text
+    )
+    body_text = PATTERNS['page_center_multiline'].sub(
+        r'\n\\vspace*{\\stretch{1}}\n\1\n\\vspace{\stretch{1}}\\clearpage\n',
+        body_text
+    )
+    body_text = PATTERNS['big_multiline'].sub(
+        lambda x: '{\\fontsize{' + str(14 + int(x.group(1))) + '}{' + str((14 + int(x.group(1))) * 1.2) + '}\\selectfont ' + x.group(2) + '}',
+        body_text
+    )
+
     body_text = body_text.translate(REPLACE_CHAR)
     for k, v in REPLACE_STR.items():
         body_text = body_text.replace(k, v)
