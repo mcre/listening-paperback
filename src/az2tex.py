@@ -39,7 +39,7 @@ PATTERNS = {
     'warichu': re.compile(r'（［＃割り注］(.+?)［＃割り注終わり］）'),
     'bouten_long': re.compile(r'［＃傍点］(.+?)［＃傍点終わり］'),
     'subscript': re.compile(r'([Ａ-Ｚａ-ｚΑ-Ωα-ωА-Яа-яA-Za-z0-9]+)(.+?)［＃「\2」は下付き小文字］'),
-    'line': re.compile(r'(✕　*?✕　*?✕|^\s*?―{6,}\s*?$)'),
+    'line': re.compile(r'(^\s*?×　*?×　*?×*?$|^\s*?―{6,}\s*?$)'),
     'new_page': re.compile('［＃改(頁|ページ|段)］'),
     'frame_multiline': re.compile(r'(?:［＃ここから' + N + r'字下げ］\s*?)?［＃ここから罫囲み］(.*?)［＃ここで罫囲み終わり］(?:\s*?［＃ここで字下げ終わり］)?', flags=re.DOTALL),  # 罫囲みの字下げは無視
     'indent': re.compile(r'［＃(?:この行)?(' + N + r')字下げ］(.*)$'),
@@ -61,7 +61,7 @@ PATTERNS = {
     ],
 }
 
-REPLACE_CHAR = str.maketrans({'×': '✕', '&': '\\&', '　': '\\　'})
+REPLACE_CHAR = str.maketrans({'&': '\\&', '　': '\\　', '懚': '隠'})
 REPLACE_STR = {'※［＃感嘆符三つ、626-10］': '\\tatechuyoko{!!!}'}
 
 with open('config.json', 'r') as f:
@@ -201,7 +201,7 @@ def main():
         body_text
     )
     body_text = PATTERNS['indent_bottom_multiline'].sub(
-        lambda x: '{\\raggedleft \\rightskip = 1zw' + re.sub(r'\n{2,}', r'\n', x.group(2)) + '}',
+        lambda x: '{\\raggedleft \\rightskip = 1zw\n' + '\\\\\n'.join([l for l in x.group(2).split('\n') if len(l) > 0]) + '\\\\\n}',
         body_text
     )
     body_text = PATTERNS['page_center_multiline'].sub(
