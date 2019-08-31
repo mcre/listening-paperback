@@ -42,7 +42,7 @@ PATTERNS = {
     'frame_start': re.compile('［＃ここから罫囲み］'),
     'frame_end': re.compile('［＃ここで罫囲み終わり］'),
     'indent': re.compile(r'［＃(?:この行)?([１２３４５６７８９０一二三四五六七八九〇十]+)字下げ］'),
-    'indent_bottom': re.compile(r'［＃地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］(.{1,13})$'),  # 13文字以上だと上にはみ出るので適用しない
+    'indent_bottom': re.compile(r'［＃地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］(.*)$'),
     'indent_bottom_multiline': re.compile(r'［＃ここから地から([１２３４５６７８９０一二三四五六七八九〇十]+)字上げ］(.*?)［＃ここで字上げ終わり］', flags=re.DOTALL),
     'page_center_multiline': re.compile(r'［＃ページの左右中央］(.*?)\\clearpage', flags=re.DOTALL),
     'ignores': [
@@ -159,7 +159,7 @@ def main():
         body_lines[index] = PATTERNS['frame_end'].sub(r'\\end{oframed}', body_lines[index])
         body_lines[index] = PATTERNS['warichu'].sub(r'\\warichu{\1}', body_lines[index])
         body_lines[index] = PATTERNS['indent'].sub(r'\\noindent\\　', body_lines[index])  # 字下げは１字固定(普通の本より縦が短いので)以下同様
-        body_lines[index] = PATTERNS['indent_bottom'].sub(r'\\noindent\\rightline{\2\\　}', body_lines[index])
+        body_lines[index] = PATTERNS['indent_bottom'].sub(r'{\\hfill \\rightskip = 1zw \2 \\par}', body_lines[index])
         body_lines[index] = PATTERNS['tatechuyoko'].sub(
             lambda x: '\\tatechuyoko{' + jaconv.z2h(x.group(1), ascii=True, digit=True) + '}',
             body_lines[index]
@@ -180,7 +180,7 @@ def main():
         body_text
     )
     body_text = PATTERNS['indent_bottom_multiline'].sub(
-        lambda x: '\\begin{flushright}\n\n' + '\n'.join([l + '\\　\n' for l in x.group(2).split('\n') if len(l) > 0]) + '\n\\end{flushright}',
+        r'{\\raggedleft \\rightskip=1zw\n\2\n}',
         body_text
     )
     body_text = PATTERNS['page_center_multiline'].sub(
