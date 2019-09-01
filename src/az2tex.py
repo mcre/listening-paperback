@@ -173,10 +173,11 @@ def main():
             lambda x: '\\tatechuyoko{' + jaconv.z2h(x.group(1), ascii=True, digit=True) + '}',
             body_lines[index]
         )
-        body_lines[index] = PATTERNS['big'].sub(
-            lambda x: '{\\fontsize{' + str(big(x.group(6))) + '}{' + str(big(x.group(6)) * 1.6) + '}\\selectfont ' + x.group(1) + '\\par}',
-            body_lines[index]
-        )
+        if '段階大きな文字］' in body_lines:  # 時間がかかるのでコマンドが含まれない場合は何もしない
+            body_lines[index] = PATTERNS['big'].sub(
+                lambda x: '{\\fontsize{' + str(big(x.group(6))) + '}{' + str(big(x.group(6)) * 1.6) + '}\\selectfont ' + x.group(1) + '\\par}',
+                body_lines[index]
+            )
         for pattern_ignore in PATTERNS['ignores']:
             body_lines[index] = pattern_ignore.sub('', body_lines[index])
 

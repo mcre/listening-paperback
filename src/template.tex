@@ -18,6 +18,9 @@
 \color{text_color}
 \pagecolor{background_color}
 
+% https://hakuoku.github.io/agakuTeX/tutorial/4_3_6accent3/ ×がエラーになるので
+\cjkcategory{latn1}{cjk}
+
 \ModifyHeading{part}{type=han, format={\null\vfill {\LARGE #2} \vfill}}
 \ModifyHeading{chapter}{indent=1zw, number=false, format={\Large #2}, pagebreak=clearpage}
 \NewPageStyle{defaultPageStyle}{nombre_position=bottom-left, nombre_font=\tiny, running_head_position=top-left, running_head_font=\scriptsize, mark_format={_chapter={#1}}, odd_running_head={_chapter}}
