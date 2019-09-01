@@ -21,7 +21,7 @@ PATTERNS = {
     'rubies': [
         re.compile(r'｜(.+?)《(.+?)》'),
         re.compile(r'　(.+?)《(.+?)》　'),
-        re.compile(r'([\p{Han}]+?)《(.+?)》'),
+        re.compile(r'([\p{Han}ヶ]+?)《(.+?)》'),
         re.compile(r'([\p{Hiragana}]+?)《(.+?)》'),
         re.compile(r'([\p{Katakana}]+?)《(.+?)》'),
         re.compile(r'([Ａ-Ｚａ-ｚΑ-Ωα-ωА-Яа-я・]+?)《(.+?)》'),
@@ -172,8 +172,8 @@ def main():
         body_lines[index] = PATTERNS['bouten_long'].sub(r'\\kenten{\1}', body_lines[index])
         body_lines[index] = PATTERNS['subscript'].sub(r'$\1_{\2}$', body_lines[index])
         body_lines[index] = PATTERNS['warichu'].sub(r'\\warichu{\1}', body_lines[index])
-        body_lines[index] = PATTERNS['indent'].sub(r'\\leftskip = 1zw\n\2\n\\leftskip = 0zw', body_lines[index])  # 字下げは１字固定(普通の本より縦が短いので)以下同様
-        body_lines[index] = PATTERNS['indent_bottom'].sub(r'{\\hfill \\rightskip = 1zw \2 \\par}', body_lines[index])
+        body_lines[index] = PATTERNS['indent'].sub(r'\\leftskip=1zw\n\2\n\\leftskip=0zw', body_lines[index])  # 字下げは１字固定(普通の本より縦が短いので)以下同様
+        body_lines[index] = PATTERNS['indent_bottom'].sub(r'{\\hfill \\rightskip=1zw \2 \\par}', body_lines[index])
         body_lines[index] = PATTERNS['kunten'].sub(r'\\kaeriten{\1}', body_lines[index])
         body_lines[index] = PATTERNS['many_spaces'].sub(r'　　', body_lines[index])  # 行頭3つ以上の全角スペースは２つに減らす
         body_lines[index] = PATTERNS['many_symbols'].sub(lambda x: x.group()[:12], body_lines[index])  # 記号が並んでると改行されないので(ドグラ・マグラ用)
@@ -202,15 +202,15 @@ def main():
         body_text
     )
     body_text = PATTERNS['indent_hang_multiline'].sub(
-        lambda x: '\\leftskip = 1zw\n\n' + '\n\n'.join([f'\\hangindent = {int(x.group(2)) - 1}zw ' + l for l in x.group(3).split('\n') if len(l) > 0]) + '\n\n\\leftskip = 0zw',
+        lambda x: '\\leftskip=1zw\n\n' + '\n\n'.join([f'\\hangindent={int(x.group(2)) - 1}zw ' + l for l in x.group(3).split('\n') if len(l) > 0]) + '\n\n\\leftskip=0zw',
         body_text
     )
     body_text = PATTERNS['indent_multiline'].sub(
-        r'\\leftskip = 1zw \2 \\leftskip = 0zw',
+        r'\\leftskip=1zw \2 \\leftskip=0zw',
         body_text
     )
     body_text = PATTERNS['indent_bottom_multiline'].sub(
-        lambda x: '{\\raggedleft \\rightskip = 1zw\n' + '\\\\\n'.join([l for l in x.group(2).split('\n') if len(l) > 0]) + '\\\\\n}',
+        lambda x: '{\\raggedleft \\rightskip=1zw\n' + '\\\\\n'.join([l for l in x.group(2).split('\n') if len(l) > 0]) + '\\\\\n}',
         body_text
     )
     body_text = PATTERNS['page_center_multiline'].sub(

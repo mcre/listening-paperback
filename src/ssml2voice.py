@@ -70,9 +70,13 @@ def main(aws_access_key_id, aws_secret_access_key):
                 shutil.copy(f'{cache_path}/voice.json', f'marks/{basename(ssml)}.json')
 
     if len(pending_tasks) > 10:
-        print('自動実行の場合はエラーが発生します。エラーが発生した場合は手動で実行してください。手動実行方法↓')
+        print({basename(task['ssml']) for task in pending_tasks})
+
+        print('\n自動実行の場合はエラーが発生します。エラーが発生した場合は手動で実行してください。手動実行方法↓')
+        print('\n---------------------------')
         print(f'docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python ssml2voice.py {aws_access_key_id} {aws_secret_access_key}"')
-        print('cp -r ./work/cache/* ./cache\n')
+        print('cp -r ./work/cache/* ./cache')
+        print('---------------------------\n')
         chars_len = 0
         for pending_task in pending_tasks:
             with open(pending_task['ssml'], 'r') as f:

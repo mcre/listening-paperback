@@ -19,17 +19,18 @@ ignore_list = [
     '%', '\\documentclass', '\\usepackage', '\\setminchofont', '\\setgothicfont', '\\rubysetup',
     '\\ModifyHeading', '\\NewPageStyle', '\\pagestyle', '\\date', '\\begin', '\\maketitle',
     '\\end', '\\showoutput', '\\definecolor', '\\pagecolor', '\\color' ,'\\thiswatermark',
-    '\\shadowoffset', '\\shadowcolor', '\\clearpage', '\\hrulefill',
+    '\\shadowoffset', '\\shadowcolor', '\\clearpage', '\\hrulefill', '\\cjkcategory',
+    '\\newcommand', '\\renewcommand', '\\leftskip',
 ]
 PATTERNS = {
     'ruby': re.compile(r'\\ruby{(.*?)}{(.*?)}'),
     'wakati_ruby': re.compile(r'(?:(?<=(?:\||\}))([^\|]*?)\\ruby{([^\{\}]*?)\|}{([^\{\}]*?)}|(?<=(?:\||\}))([^\|]*?)\\ruby{([^\{\}]*?[^\|])}{([^\{\}]*?)}([^\|]*?)(?=(?:\||\\)))'),
     'zspace': re.compile(r'\\　'),
     'command': re.compile(r'\\(?!ruby)\S*?{(.*?)}'),
-    'command_no_params': re.compile(r'\\(?!ruby)\S*?\s'),
+    'command_no_params': re.compile(r'\\(?!ruby)\S*?(?=[\s}])'),
     'dialogue': re.compile(r'「(.*?)」'),
     'think': re.compile(r'（(.*?)）'),
-    'remove_marks': re.compile(r'[「」『』（）]'),
+    'remove_marks': re.compile(r'[「」『』（）{}]'),
 }
 
 
