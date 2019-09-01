@@ -146,13 +146,21 @@ def main():
     head = aozora_lines[:50]
     body_lines = aozora_lines[get_first_line_index(head):get_last_line_index(aozora_lines[-50:])]
 
+    part_name = ''
+    chapter_name = ''
     for index, line in enumerate(body_lines):
         for pattern in PATTERNS['midashi_l']:
             if (obj := pattern.search(line)):
-                body_lines[index] = f'\\part{{{obj.group(1)}}}'
+                part_name = obj.group(1)
+                chapter_name = ''
+                body_lines[index] = f'\\renewcommand{{\\headtext}}{{{part_name}}}\n\\part{{{part_name}}}'
         for pattern in PATTERNS['midashi_m']:
             if (obj := pattern.search(line)):
-                body_lines[index] = f'\\chapter{{{obj.group(1)}}}'
+                show_part_name = ''
+                if part_name != '':
+                    show_part_name = part_name + '\\quad '
+                chapter_name = obj.group(1)
+                body_lines[index] = f'\\renewcommand{{\\headtext}}{{{show_part_name}{chapter_name}}}\n\\chapter{{{chapter_name}}}'
 
     for index in range(len(body_lines)):
         body_lines[index] = PATTERNS['new_page'].sub(r'\\clearpage', body_lines[index])
