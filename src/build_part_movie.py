@@ -22,6 +22,7 @@ cft = consts['cross_fade_time']
 ci = consts['chapter_interval'] / 2
 vi = consts['voice_interval']
 bg = hex_to_rgb(consts['background_color'])
+end_adj_time = 0.1  # エンドカードをくっつけるときに原因不明で「clips[i].get_frame(t - tt[i]) list index out of range」が出るのを回避するために適当に足す
 
 
 def silence_clip(duration):
@@ -50,7 +51,7 @@ def build_end_clip(kind):
         AudioFileClip('voices/please.mp3'),
     ])
     clip = ImageClip(f'cover_images/{kind}.png') \
-        .set_duration(audio_clip.duration) \
+        .set_duration(audio_clip.duration + end_adj_time) \
         .fadein(cft, bg).set_audio(audio_clip)
     return clip
 
