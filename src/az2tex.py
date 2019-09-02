@@ -153,14 +153,14 @@ def main():
             if (obj := pattern.search(line)):
                 part_name = obj.group(1)
                 chapter_name = ''
-                body_lines[index] = f'\\renewcommand{{\\headtext}}{{{part_name}}}\n\\part{{{part_name}}}'
+                body_lines[index] = f'\\part{{{part_name}}}\n\\renewcommand{{\\headtext}}{{{part_name}}}'
         for pattern in PATTERNS['midashi_m']:
             if (obj := pattern.search(line)):
                 show_part_name = ''
                 if part_name != '':
                     show_part_name = part_name + '\\quad '
                 chapter_name = obj.group(1)
-                body_lines[index] = f'\\renewcommand{{\\headtext}}{{{show_part_name}{chapter_name}}}\n\\chapter{{{chapter_name}}}'
+                body_lines[index] = f'\\chapter{{{chapter_name}}}\n\\renewcommand{{\\headtext}}{{{show_part_name}{chapter_name}}}'
 
     for index in range(len(body_lines)):
         body_lines[index] = PATTERNS['new_page'].sub(r'\\clearpage', body_lines[index])
