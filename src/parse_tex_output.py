@@ -6,7 +6,7 @@ PATTERNS = {
     'page': re.compile(r'Completed box being shipped out.*?\|\.\\special{'),
     'text': re.compile(r'\JT2/mc/m/n/(?:14|19\.6|23\.8|35)\s(\S+?)'),
     'ruby': re.compile(r'\\ruby{(.*?)}{(.*?)}'),
-    'command': re.compile(r'\\(?!(part|chapter)).*?{(.*?)}'),
+    'command': re.compile(r'\\(?!(part|chapter)).*?{(.*?)}({.*?})?'),
     'command_no_params': re.compile(r'\\(?!(part|chapter))\S*?\s'),
     'chapter': re.compile(r'(?:\\part{(.+?)}|\\chapter{(.+?)}\s*([^\\\n]{0,10}))'),
 }
@@ -36,6 +36,7 @@ def main():
     with open('novel.tex', 'r') as f:
         tex = f.read()
     chapter_start_strings = PATTERNS['chapter'].findall(plain(tex))
+    print(chapter_start_strings)
 
     if len(chapter_start_strings) <= 0:  # chapterがない場合
         with open('chapters_and_pages.json', 'w') as f:
