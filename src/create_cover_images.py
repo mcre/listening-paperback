@@ -62,7 +62,7 @@ def main():
         back = PIL.Image.open('cover.png')
         draw_text(back, '「聴く」名作文庫', loc={'type': 'x_center', 'y': 80, 'size': 100})
         draw_text(back, config['title'], loc={'type': 'in_rect', 'rect': (180, 220, size[0] - 180, 450)}, shadow=True)
-        draw_text(back, f'第{u.number_to_kansuji(part["part_id"] + 1)}回', loc={'type': 'x_center', 'y': 480, 'size': 50})
+        draw_text(back, f'第{u.number_to_kansuji(part["part_id"] + 1)}回', loc={'type': 'x_center', 'y': 435, 'size': 100})
         draw_text(back, config['author'], loc={'type': 'right_bottom', 'right': 1100, 'bottom': 600, 'size': 50})
         back.save(f'cover_images/{part["part_id"]:0>5}.png')
 
