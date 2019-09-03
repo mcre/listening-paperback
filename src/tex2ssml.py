@@ -30,7 +30,8 @@ PATTERNS = {
     'command_no_params': re.compile(r'\\(?!ruby)\S*?(?=[\s}])'),
     'dialogue': re.compile(r'「(.*?)」'),
     'think': re.compile(r'（(.*?)）'),
-    'remove_marks': re.compile(r'[「」『』（）{}]'),
+    'alphabet_wakachi': re.compile(r'([A-Za-zÀ-ÿ!?])\|'),
+    'remove_marks': re.compile(r'[「」『』（）〔〕{}$_]'),
 }
 
 
@@ -149,6 +150,8 @@ def main():
         replaced = PATTERNS['dialogue'].sub(r'<break strength="weak"/><prosody pitch="+10%">\1</prosody><break strength="weak"/>', replaced)
         replaced = PATTERNS['think'].sub(r'<break strength="weak"/>\1<break strength="weak"/>', replaced)
         replaced = PATTERNS['remove_marks'].sub('', replaced)  # pollyのバグで、「<sub alias=\"カスケ\">加助"」等でmarksで余分なものが出るので記号系を置換しておく
+
+        replaced = PATTERNS['alphabet_wakachi'].sub(r'\1 ', replaced)  # アルファベットの分かち書きはスペースをあけてくっつけとく
         clines.append({'filename': line['filename'], 'line': replaced.replace('|', '')})
 
     for i, cline in enumerate(clines):

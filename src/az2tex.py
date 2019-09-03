@@ -49,6 +49,7 @@ PATTERNS = {
     'indent_bottom_multiline': re.compile(r'［＃ここから地から(' + N + r')字上げ］(.*?)［＃ここで字上げ終わり］', flags=re.DOTALL),
     'page_center_multiline': re.compile(r'［＃ページの左右中央］(.*?)\\clearpage', flags=re.DOTALL),
     'kunten': re.compile(r'［＃(一|二|レ)］'),
+    'accent': re.compile(r"([A-Za-z][`'\^\~:&,/_]|ae&|AE&|oe&|OE&)"),  # 本来は〔〕に囲んだ部分だけが適用されるはずだがめんどくさいので手抜き
     'many_spaces': re.compile(r'^　{3,}'),
     'many_symbols': re.compile(r'(…|？|！){13,}'),
     'ignores': [
@@ -58,6 +59,7 @@ PATTERNS = {
         re.compile(r'［＃(ルビの)?「.*?」はママ］'),
         re.compile(r'［＃地から(' + N + r')字上げ］'),
         re.compile(r'^　'),
+        re.compile(r'(〔|〕)'),
     ],
 }
 
@@ -132,6 +134,13 @@ def ruby(line):
     return ret
 
 
+def accent(char):
+    dic = {'a`': 'à', "a'": 'á', 'a^': 'â', 'a~': 'ã', 'a:': 'ä', 'a&': 'å', 'a_': 'ā', 'c,': 'ç', "c'": 'ć', 'c^': 'ĉ', 'd/': 'đ', 'e`': 'è', "e'": 'é', 'e^': 'ê', 'e:': 'ë', 'e_': 'ē', 'e~': 'ẽ', 'g^': 'ĝ', 'h^': 'ĥ', 'h/': 'ħ', 'i`': 'ì', "i'": 'í', 'i^': 'î', 'i:': 'ï', 'i_': 'ī', 'i/': 'ɨ', 'i~': 'ĩ', 'j^': 'ĵ', 'l/': 'ł', "l'": 'ĺ', "m'": 'ḿ', 'n`': 'ǹ', 'n~': 'ñ', "n'": 'ń', 'o`': 'ò', "o'": 'ó', 'o^': 'ô', 'o~': 'õ', 'o:': 'ö', 'o/': 'ø', 'o_': 'ō', "r'": 'ŕ', "s'": 'ś', 's,': 'ş', 's^': 'ŝ', 't,': 'ţ', 'u`': 'ù', "u'": 'ú', 'u^': 'û', 'u:': 'ü', 'u_': 'ū', 'u&': 'ů', 'u~': 'ũ', "y'": 'ý', 'y:': 'ÿ', "z'": 'ź', 'A`': 'À', "A'": 'Á', 'A^': 'Â', 'A~': 'Ã', 'A:': 'Ä', 'A&': 'Å', 'A_': 'Ā', 'C,': 'Ç', "C'": 'Ć', 'C^': 'Ĉ', 'D/': 'Đ', 'E`': 'È', "E'": 'É', 'E^': 'Ê', 'E:': 'Ë', 'E_': 'Ē', 'E~': 'Ẽ', 'G^': 'Ĝ', 'H^': 'Ĥ', 'I`': 'Ì', "I'": 'Í', 'I^': 'Î', 'I:': 'Ï', 'I_': 'Ī', 'I~': 'Ĩ', 'J^': 'Ĵ', 'L/': 'Ł', "L'": 'Ĺ', "M'": 'Ḿ', 'N`': 'Ǹ', 'N~': 'Ñ', "N'": 'Ń', 'O`': 'Ò', "O'": 'Ó', 'O^': 'Ô', 'O~': 'Õ', 'O:': 'Ö', 'O/': 'Ø', 'O_': 'Ō', "R'": 'Ŕ', "S'": 'Ś', 'S,': 'Ş', 'S^': 'Ŝ', 'T,': 'Ţ', 'U`': 'Ù', "U'": 'Ú', 'U^': 'Û', 'U:': 'Ü', 'U_': 'Ū', 'U&': 'Ů', 'U~': 'Ũ', "Y'": 'Ý', "Z'": 'Ź', 's&': 'ß', 'ae&': 'æ', 'AE&': 'Æ', 'oe&': 'œ', 'OE&': 'Œ'}
+    if char in dic.keys():
+        return dic[char]
+    return char
+
+
 def big(size):
     return 14 + int(size) * 0.8
 
@@ -163,6 +172,7 @@ def main():
                 body_lines[index] = f'\\chapter{{{chapter_name}}}\n\\renewcommand{{\\headtext}}{{{show_part_name}{chapter_name}}}'
 
     for index in range(len(body_lines)):
+        body_lines[index] = PATTERNS['accent'].sub(lambda x: accent(x.group()), body_lines[index])
         body_lines[index] = PATTERNS['new_page'].sub(r'\\clearpage', body_lines[index])
         body_lines[index] = PATTERNS['line'].sub(r'\\hrulefill', body_lines[index])
         body_lines[index] = PATTERNS['kunoji'].sub(r'〳〵', body_lines[index])

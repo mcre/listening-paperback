@@ -135,6 +135,10 @@ def main():
                 word['voice_start'] = chapter['voices'][word['voice_id']]['start']
                 word['start'] = word['voice_start'] + word['start_in_voice']
 
+    # この次でエラーになることが多いのでこの時点を出力しておく。
+    with open(f'tmp_timekeeper.json', 'w') as f:
+        json.dump(chapters, f, ensure_ascii=False, indent=2)
+
     # 各 word の 他の時刻を計算(次のstartを使うので↑と一緒にはまわせない)
     for chapter in chapters:
         all_words_in_chapter = []

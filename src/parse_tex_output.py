@@ -4,11 +4,15 @@ import regex as re
 
 PATTERNS = {
     'page': re.compile(r'Completed box being shipped out.*?\|\.\\special{'),
-    'text': re.compile(r'\JT2/mc/m/n/(?:14|19\.6|23\.8|35)\s(\S+?)'),
+    'char': re.compile(r'(?<!\\discretionary[\.\n]*?)(?:\\J[TY]2/mc/m/n/|\\OT1/lmr/m/n/|\\OML/lmm/m/it/)(?:9\.79996|14|19\.6|23\.8|35)\s(\S+?)\n'),
     'ruby': re.compile(r'\\ruby{(.*?)}{(.*?)}'),
     'command': re.compile(r'\\(?!(part|chapter)).*?{(.*?)}({.*?})?'),
     'command_no_params': re.compile(r'\\(?!(part|chapter))\S*?\s'),
     'chapter': re.compile(r'(?:\\part{(.+?)}|\\chapter{(.+?)}\s*([^\\\n]{0,10}))'),
+}
+
+REPLACES = {
+    '^^Z': 'æ',
 }
 
 
@@ -29,8 +33,13 @@ def main():
     texts = []
     for page in pages:
         page = page.replace('|', '\n')
-        text = PATTERNS['text'].findall(page)
-        texts.append(''.join(PATTERNS['text'].findall(page)))
+        chars = PATTERNS['char'].findall(page)
+        for i, c in enumerate(chars):
+            for k, v in REPLACES.items():
+                chars[i] = c.replace(k, v)
+            if len(chars[i]) >= 2:
+                print(f'\n\n注意, 2文字以上のcharあり。REPLACESに追加すること: {chars[i]}\n\n')
+        texts.append(''.join(chars))
 
     # きたない
     with open('novel.tex', 'r') as f:
