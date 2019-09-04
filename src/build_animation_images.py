@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import sys
 
 import fitz
@@ -10,11 +11,19 @@ import PIL.ImageEnhance
 
 read_brightness = 0.25  # 既読文字の明るさ倍率(1以上で明るく、1以下で暗くなる)
 adj = {'x0': 0.3, 'y0': 0, 'x1': -0.02, 'y1': 0.1}  # 文字の幅・高さの何％を増減させるか
+adj_alphabet = {'x0': 0, 'y0': 0, 'x1': -0.02, 'y1': 0.1}  # alphabetは別で調整しないとずれる
+
 ignore_width = [  # この幅に一致する場合は既読の対象にしない、小数点以下1桁の文字列で指定する
     '24.9',  # 傍点
     '10.4',  # ふりがな
     '10.1',  # 左上の章文字
 ]
+replace_chars = {  # テキストからPDFになると自動変換されている文字リスト
+    "'": '’'
+}
+PATTERNS = {
+    'alphabet': re.compile(r'[A-Za-z]'),
+}
 
 with open('config.json', 'r') as f:
     config = json.load(f)
@@ -75,6 +84,8 @@ def main(part_id):
                 if word['start_index_in_page'] < 0:  # ページ切り替えで前ページに余った文字を既読にするとずれるので、調整する
                     w = w[- word['start_index_in_page']:]
                 for char in w:
+                    if char in replace_chars:
+                        char = replace_chars[char]
                     rects = pdf_page.searchFor(char, hit_max=100)
                     rects = cut_rects(rects)
                     rects = [rect for rect in rects if f'{rect.x1 - rect.x0:.1f}' not in ignore_width]
@@ -86,9 +97,12 @@ def main(part_id):
                     cw = rect.x1 - rect.x0
                     ch = rect.y1 - rect.y0
                     col = hex_to_rgb(consts['background_color'])
+                    a = adj
+                    if PATTERNS['alphabet'].match(char):
+                        a = adj_alphabet
                     draw.rectangle((
-                        (rect.x0 + cw * adj['x0']) * w_scale, (rect.y0 + ch * adj['y0']) * h_scale,
-                        (rect.x1 + cw * adj['x1']) * w_scale, (rect.y1 + ch * adj['y1']) * h_scale
+                        (rect.x0 + cw * a['x0']) * w_scale, (rect.y0 + ch * a['y0']) * h_scale,
+                        (rect.x1 + cw * a['x1']) * w_scale, (rect.y1 + ch * a['y1']) * h_scale,
                     ), fill=(col[0], col[1], col[2], 255))
                 square = PIL.ImageChops.darker(page_image, canvas)  # 既読の四角の部分のみを抜き出す
                 alpha = PIL.ImageOps.invert(square.convert('L').point(conv))  # 文字部分のみのアルファチャンネルを作る(背景色(薄い色)と真っ黒(もと透過部分)を白に置換し,反転)
