@@ -64,7 +64,7 @@ def main():
         'word_num_in_voice': len(words_in_voice),
         'word_id_in_voice': word_id_in_voice,
         'start_in_voice': word['time'] / 1000,
-        'text': word['value'],
+        'text': PATTERNS['tag'].sub('', word['value']),
     } for voice_id, words_in_voice in enumerate(words_in_voices) for word_id_in_voice, word in enumerate(words_in_voice)]
 
     # all_words を分解しながら page に words としてぶら下げる
@@ -77,7 +77,7 @@ def main():
             remain = f'{remain}{page["text"]}'
             while len(remain) > 0 and cur < len(all_words):
                 word = all_words[cur]
-                w = PATTERNS['tag'].sub('', word['text'])
+                w = word['text']
                 if (loc := remain.find(w)) >= 0:
                     ll = loc + len(w)
                     word['word_id'] = word_id
