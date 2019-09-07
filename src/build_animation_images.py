@@ -23,6 +23,8 @@ replace_chars = {  # テキストからPDFになると自動変換されてい�
 }
 PATTERNS = {
     'alphabet': re.compile(r'[A-Za-z]'),
+    'alphabet_lower': re.compile(r'[a-z]'),
+    'alphabet_upper': re.compile(r'[A-Z]'),
 }
 
 with open('config.json', 'r') as f:
@@ -36,10 +38,16 @@ def hex_to_rgb(hex):
     return tuple(int(hex[i: i + 2], 16) for i in range(0, 6, 2))
 
 
-def cut_rects(rects):  # 「す」で検索すると「すすき」の「すす」が一つの枠で出現してしまうので、連続した場合は等分する
+def cut_rects(char, rects):  # 「す」で検索すると「すすき」の「すす」が一つの枠で出現してしまうので、連続した場合は等分する
     ret = []
+    const = 0.693
+    if PATTERNS['alphabet_upper'].match(char):
+        const = 0.532
+    if PATTERNS['alphabet_lower'].match(char):  # アルファベットの場合は幅を変える。もっと幅ごとに設定したほうがいいかも
+        const = 0.3482
+
     for rect in rects:
-        ratio = (rect.y1 - rect.y0) / (rect.x1 - rect.x0) / 0.693  # 1文字の場合はおよそ1になる
+        ratio = (rect.y1 - rect.y0) / (rect.x1 - rect.x0) / const  # 1文字の場合はおよそ1になる
         if ratio < 1.5:  # 1文字
             ret.append(rect)
         else:
@@ -87,7 +95,7 @@ def main(part_id):
                     if char in replace_chars:
                         char = replace_chars[char]
                     rects = pdf_page.searchFor(char, hit_max=100)
-                    rects = cut_rects(rects)
+                    rects = cut_rects(char, rects)
                     rects = [rect for rect in rects if f'{rect.x1 - rect.x0:.1f}' not in ignore_width]
                     if char in appear.keys():
                         appear[char] += 1
