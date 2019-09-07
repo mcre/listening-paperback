@@ -21,6 +21,7 @@ def main(part_id):
     chapters = timekeeper['parts'][part_id]['chapters']
     for chapter in chapters:
         for page in chapter['pages']:
+            print(f'\npart_id: {part_id}, chapter_id: {chapter["chapter_id"]} / {len(chapters) - 1}, page_id: {page["page_id"]} / {len(chapter["pages"]) - 1}\n')
             video_clips = [ImageClip(page['image_path']).set_duration(page['duration'])]
             for word in page['words']:
                 # next_word_durationを足さないと次のwordのフェードインがちらつく

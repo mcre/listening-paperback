@@ -2,15 +2,15 @@ build_movie() {
   part_id=$1
   echo "### < part_id: ${part_id} >"
   echo '### build_animation_images'
-  docker run --rm -v $PWD/work:/work lp-python-pymupdf /bin/sh -c "python build_animation_images.py ${part_id}" || exit 1
+  docker run --rm -v $PWD/work:/work lp-python-pymupdf /bin/sh -c "python -u build_animation_images.py ${part_id}" || exit 1
   echo '### build_page_movies'
-  docker run --rm -v $PWD/work:/work lp-python-movie /bin/sh -c "python build_page_movies.py ${part_id}" || exit 1
+  docker run --rm -v $PWD/work:/work lp-python-movie /bin/sh -c "python -u build_page_movies.py ${part_id}" || exit 1
   echo '### build_chapter_movies'
-  docker run --rm -v $PWD/work:/work lp-python-movie /bin/sh -c "python build_chapter_movies.py ${part_id}" || exit 1
+  docker run --rm -v $PWD/work:/work lp-python-movie /bin/sh -c "python -u build_chapter_movies.py ${part_id}" || exit 1
   echo '### build_part_movie'
-  docker run --rm -v $PWD/work:/work lp-python-movie /bin/sh -c "python3 build_part_movie.py ${part_id}" || exit 1
+  docker run --rm -v $PWD/work:/work lp-python-movie /bin/sh -c "python3 -u build_part_movie.py ${part_id}" || exit 1
   echo '### generate_descriptions'
-  docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python generate_descriptions.py ${part_id} ${cid}" || exit 1
+  docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u generate_descriptions.py ${part_id} ${cid}" || exit 1
 }
 
 cid=`git log -n 1 --format=%ad-%h --date=format:'%Y%m%d'`
@@ -39,26 +39,26 @@ cp ./materials/musics/`cat ./projects/${1}/config.json | jq -r .music.file` ./wo
 cp ./materials/libs/* ./work/ || exit 1
 
 echo '# az2tex'
-docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python az2tex.py" || exit 1
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u az2tex.py" || exit 1
 echo '# tex2pdf'
 docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && uplatex -halt-on-error novel.tex > tex_output.txt" || exit 1
 docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && uplatex -halt-on-error novel.tex > tex_output.txt" || exit 1 # 2回コンパイルが必要なコマンド用
 docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && dvipdfmx novel.dvi" || exit 1
-docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python parse_tex_output.py" || exit 1
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u parse_tex_output.py" || exit 1
 echo '# tex2ssml'
-docker run --rm -v $PWD/work:/work lp-python-mecab /bin/sh -c "python tex2ssml.py" || exit 1
+docker run --rm -v $PWD/work:/work lp-python-mecab /bin/sh -c "python -u tex2ssml.py" || exit 1
 echo '# ssml2voice'
 aws_access_key_id=`cat ./certs/aws_credentials.json | jq -r .aws_access_key_id`
 aws_secret_access_key=`cat ./certs/aws_credentials.json | jq -r .aws_secret_access_key`
-docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python ssml2voice.py ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
 cp -r ./work/cache/* ./cache || exit 1
 echo '# pdf2png'
 mkdir ./work/page_images
 docker run --rm -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r 200 /work/novel.pdf /work/page_images/novel" || exit 1
 echo '# build_timekeeper'
-docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python build_timekeeper.py" || exit 1
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u build_timekeeper.py" || exit 1
 echo '# create_cover_images'
-docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python create_cover_images.py" || exit 1
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u create_cover_images.py" || exit 1
 
 echo '# build_movie'
 if [ $# -eq 1 ]; then
