@@ -1,3 +1,4 @@
+import gc
 import json
 import os
 import sys
@@ -45,7 +46,13 @@ def main(part_id):
             if page['page_id'] > 0:  # 1ページ目の入り以外はクロスフェードインする
                 clip = ImageClip(page['image_path']).set_start(page['start'] - cft).set_duration(cft).crossfadein(cft)
                 video_clips.append(clip)
-        video_clip = CompositeVideoClip(video_clips)
+        video_clip_tmp = CompositeVideoClip(video_clips)
+        write_video('tmp.mp4', video_clip_tmp)  # メモリ不足回避のため一旦ファイル化する
+
+        clip, video_clips, video_clip_tmp = None, None, None
+        gc.collect()
+
+        video_clip = VideoFileClip('tmp.mp4')
         video_clip = video_clip.set_audio(generate_voice_clip(chapter['voices'], video_clip.duration))
         video_clip = concatenate_videoclips([  # 前後に chapter_interval 分の静止画を挟んでおく
             ImageClip(first_page['image_path']).set_duration(ci).set_audio(silence_clip(ci)),
