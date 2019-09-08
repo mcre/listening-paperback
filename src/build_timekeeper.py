@@ -26,11 +26,11 @@ def main():
         chapters_and_pages = json.load(f)
     chapters = [{
         'chapter_id': chapter_id,
-        'movie_path': f'chapter_movies/{chapter_id:0>5}.mp4',
+        'movie_path': f'chapter_movies/{chapter_id:0>5}.avi',
         'pages': [{
             'page_id': page_id,
             'text': page,
-            'movie_path': f'page_movies/{chapter_id:0>5}_{page_id:0>5}.mp4',
+            'movie_path': f'page_movies/{chapter_id:0>5}_{page_id:0>5}.avi',
             'words': [],
         } for page_id, page in enumerate(pages)],
     } for chapter_id, pages in enumerate(chapters_and_pages)]

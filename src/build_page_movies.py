@@ -11,8 +11,8 @@ with open(f'timekeeper.json', 'r') as f:
     timekeeper = json.load(f)
 
 
-def write_video(path, video_clip):
-    video_clip.write_videofile(path, fps=30, codec='libx264', audio_codec='libfdk_aac', audio_bitrate='384k')
+def write_raw_video(path, video_clip):
+    video_clip.write_videofile(path, fps=30, codec='utvideo', audio_codec='pcm_s32le')
 
 
 def main(part_id):
@@ -33,7 +33,7 @@ def main(part_id):
                 clip = None
                 gc.collect()
             video_clip = CompositeVideoClip(video_clips)
-            write_video(page['movie_path'], video_clip)
+            write_raw_video(page['movie_path'], video_clip)
             video_clip = None
             gc.collect()
 

@@ -11,8 +11,8 @@ with open(f'timekeeper.json', 'r') as f:
     timekeeper = json.load(f)
 
 
-def write_video(path, video_clip):
-    video_clip.write_videofile(path, fps=30, codec='libx264', audio_codec='libfdk_aac', audio_bitrate='384k')
+def write_raw_video(path, video_clip):
+    video_clip.write_videofile(path, fps=30, codec='utvideo', audio_codec='pcm_s32le')
 
 
 def silence_clip(duration):
@@ -47,19 +47,19 @@ def main(part_id):
                 clip = ImageClip(page['image_path']).set_start(page['start'] - cft).set_duration(cft).crossfadein(cft)
                 video_clips.append(clip)
         video_clip_tmp = CompositeVideoClip(video_clips)
-        write_video('tmp.mp4', video_clip_tmp)  # メモリ不足回避のため一旦ファイル化する
+        write_raw_video('tmp.avi', video_clip_tmp)  # メモリ不足回避のため一旦ファイル化する
 
         clip, video_clips, video_clip_tmp = None, None, None
         gc.collect()
 
-        video_clip = VideoFileClip('tmp.mp4')
+        video_clip = VideoFileClip('tmp.avi')
         video_clip = video_clip.set_audio(generate_voice_clip(chapter['voices'], video_clip.duration))
         video_clip = concatenate_videoclips([  # 前後に chapter_interval 分の静止画を挟んでおく
             ImageClip(first_page['image_path']).set_duration(ci).set_audio(silence_clip(ci)),
             video_clip,
             ImageClip(last_page['words'][-1]['animation_image_path']).set_duration(ci).set_audio(silence_clip(ci)),  # 無音を入れないと雑音がはいる
         ])
-        write_video(chapter['movie_path'], video_clip)
+        write_raw_video(chapter['movie_path'], video_clip)
 
 
 if __name__ == '__main__':

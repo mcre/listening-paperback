@@ -106,7 +106,6 @@ cp novel.tex config.json ../projects/${1}/output/${cid}/input || exit 1
 cp rubies.json tex_output.txt novel.pdf chapters_and_pages.json timekeeper.json ../projects/${1}/output/${cid}/work || exit 1
 cp ssml/* ../projects/${1}/output/${cid}/work/ssml/ || exit 1
 cp marks/* ../projects/${1}/output/${cid}/work/marks/ || exit 1
-cp page_movies/* ../projects/${1}/output/${cid}/work/page_movies/ || exit 1
 cd .. || exit 1
 
 mkdir -p ./projects/${1}/output/latest || exit 1
