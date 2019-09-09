@@ -46,7 +46,7 @@ def main():
     while videos_req:
         videos_res = videos_req.execute()
         for item in videos_res['items']:
-            videos[item['id']]['publish_at'] = dateformat(item['status']['publishAt'])
+            videos[item['id']]['publish_at'] = dateformat(item['status']['publishAt']) if 'publishAt' in item['status'] else '9999-99-99 99:99'
         videos_req = youtube.videos().list_next(videos_req, videos_res)
 
     videos = sorted([video for video in videos.values()], key=lambda x: x['publish_at'])

@@ -80,7 +80,7 @@ def main(part_id):
     chapters = timekeeper['parts'][part_id]['chapters']
     for chapter in chapters:
         for page in chapter['pages']:
-            print(f'part_id: {part_id}, chapter_id: {chapter["chapter_id"]} / {len(chapters) - 1}, page_id: {page["page_id"]} / {len(chapter["pages"]) - 1}')
+            print(f'part_id: {part_id}, chapter_id: {chapter["chapter_id"]} / [{", ".join([str(c["chapter_id"]) for c in chapters])}], page_id: {page["page_id"]} / {len(chapter["pages"]) - 1}')
             page_image = PIL.Image.open(page['image_path']).convert('RGBA')
             canvas = PIL.Image.new('RGBA', page_image.size)
             draw = PIL.ImageDraw.Draw(canvas)

@@ -7,14 +7,35 @@ build_movie() {
   docker run --rm -v $PWD/work:/work lp-python-movie /bin/sh -c "python -u build_page_movies.py ${part_id}" || exit 1
   echo '### build_chapter_movies'
   docker run --rm -v $PWD/work:/work lp-python-movie /bin/sh -c "python -u build_chapter_movies.py ${part_id}" || exit 1
+  rm -rf ./work/animation_images
   echo '### build_part_movie'
   docker run --rm -v $PWD/work:/work lp-python-movie /bin/sh -c "python3 -u build_part_movie.py ${part_id}" || exit 1
+  rm -rf ./work/chapter_movies
   echo '### generate_descriptions'
   docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u generate_descriptions.py ${part_id} ${cid}" || exit 1
+  echo '### copy_output_movies'
+  strid=`printf "%05d" "${part_id}"` || exit 1
+  mkdir -p ./projects/${pj}/output/${dir}/${strid}/ || exit 1
+  cp -r ./work/part_movies/${strid}/* ./projects/${pj}/output/${dir}/${strid}/ || exit 1
+  mkdir -p ./projects/${pj}/output/latest/${strid}/ || exit 1
+  cp -r ./work/part_movies/${strid}/* ./projects/${pj}/output/latest/${strid}/ || exit 1
 }
 
+pj=$1
 cid=`git log -n 1 --format=%ad-%h --date=format:'%Y%m%d'`
 ntc=`git status | grep 'nothing to commit' -c`
+if [ $ntc = 1 ]; then
+  dir="${cid}"
+else
+  dir="${cid}_work"
+fi
+
+if [ $# -eq 2 ]; then
+  dir="${dir}_${2}"
+elif [ $# -eq 3 ]; then
+  dir="${dir}_${2}-${3}"
+fi
+
 
 echo '# docker-build'
 docker build -t lp-python ./Dockerfiles/python || exit 1
@@ -28,14 +49,14 @@ mkdir ./work || exit 1
 mkdir -p ./work/cache || exit 1
 mkdir -p ./cache || exit 1
 cp ./src/* ./work/ || exit 1
-cp ./projects/${1}/novel.txt ./work/ || exit 1
-cp ./projects/${1}/config.json ./work/ || exit 1
+cp ./projects/${pj}/novel.txt ./work/ || exit 1
+cp ./projects/${pj}/config.json ./work/ || exit 1
 cp -r ./cache/* ./work/cache
 
-cp ./materials/fonts/`cat ./projects/${1}/config.json | jq -r .font` ./work/font.ttf || exit 1
+cp ./materials/fonts/`cat ./projects/${pj}/config.json | jq -r .font` ./work/font.ttf || exit 1
 cp ./materials/fonts/ipaexg.ttf ./work/font_gothic.ttf || exit 1
-cp ./materials/covers/`cat ./projects/${1}/config.json | jq -r .cover.file` ./work/cover.png || exit 1
-cp ./materials/musics/`cat ./projects/${1}/config.json | jq -r .music.file` ./work/music.mp3 || exit 1
+cp ./materials/covers/`cat ./projects/${pj}/config.json | jq -r .cover.file` ./work/cover.png || exit 1
+cp ./materials/musics/`cat ./projects/${pj}/config.json | jq -r .music.file` ./work/music.mp3 || exit 1
 cp ./materials/libs/* ./work/ || exit 1
 
 echo '# az2tex'
@@ -60,6 +81,22 @@ docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u build_timekee
 echo '# create_cover_images'
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u create_cover_images.py" || exit 1
 
+echo '# prepare_output_directory'
+rm -rf ./projects/${pj}/output/${dir} || exit 1
+mkdir -p ./projects/${pj}/output || exit 1
+mkdir ./projects/${pj}/output/${dir} || exit 1
+mkdir -p ./projects/${pj}/output/latest || exit 1
+cd ./projects/${pj}/output/${dir} || exit 1
+mkdir input work || exit 1
+mkdir work/ssml work/marks work/page_movies || exit 1
+cd ../../../../ || exit 1
+cd ./work/ || exit 1
+cp novel.tex config.json ../projects/${pj}/output/${dir}/input || exit 1
+cp rubies.json tex_output.txt novel.pdf chapters_and_pages.json timekeeper.json ../projects/${pj}/output/${dir}/work || exit 1
+cp ssml/* ../projects/${pj}/output/${dir}/work/ssml/ || exit 1
+cp marks/* ../projects/${pj}/output/${dir}/work/marks/ || exit 1
+cd .. || exit 1
+
 echo '# build_movie'
 if [ $# -eq 1 ]; then
   echo '## すべてのパートを build'
@@ -77,38 +114,5 @@ elif [ $# -eq 3 ]; then
     build_movie ${part_id}
   done
 fi
-
-echo '# postprocessing'
-if [ $ntc = 1 ]; then
-  cid="${cid}"
-else
-  cid="${cid}_work"
-fi
-
-if [ $# -eq 2 ]; then
-  cid="${cid}_${2}"
-elif [ $# -eq 3 ]; then
-  cid="${cid}_${2}-${3}"
-fi
-
-rm -rf ./projects/${1}/output/${cid} || exit 1
-
-mkdir -p ./projects/${1}/output || exit 1
-mkdir ./projects/${1}/output/${cid} || exit 1
-cd ./projects/${1}/output/${cid} || exit 1
-mkdir input work || exit 1
-mkdir work/ssml work/marks work/page_movies || exit 1
-cd ../../../../ || exit 1
-
-cd ./work/ || exit 1
-cp -r part_movies/* ../projects/${1}/output/${cid}/ || exit 1
-cp novel.tex config.json ../projects/${1}/output/${cid}/input || exit 1
-cp rubies.json tex_output.txt novel.pdf chapters_and_pages.json timekeeper.json ../projects/${1}/output/${cid}/work || exit 1
-cp ssml/* ../projects/${1}/output/${cid}/work/ssml/ || exit 1
-cp marks/* ../projects/${1}/output/${cid}/work/marks/ || exit 1
-cd .. || exit 1
-
-mkdir -p ./projects/${1}/output/latest || exit 1
-cp -r work/part_movies/* ./projects/${1}/output/latest/ || exit 1
 
 echo '# done !!!'

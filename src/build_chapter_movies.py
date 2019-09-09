@@ -49,8 +49,11 @@ def main(part_id):
         video_clip_tmp = CompositeVideoClip(video_clips)
         write_raw_video('tmp.avi', video_clip_tmp)  # メモリ不足回避のため一旦ファイル化する
 
+        # おそうじ
         clip, video_clips, video_clip_tmp = None, None, None
         gc.collect()
+        for page in chapter['pages']:
+            os.remove(page['movie_path'])
 
         video_clip = VideoFileClip('tmp.avi')
         video_clip = video_clip.set_audio(generate_voice_clip(chapter['voices'], video_clip.duration))
@@ -60,6 +63,7 @@ def main(part_id):
             ImageClip(last_page['words'][-1]['animation_image_path']).set_duration(ci).set_audio(silence_clip(ci)),  # 無音を入れないと雑音がはいる
         ])
         write_raw_video(chapter['movie_path'], video_clip)
+        os.remove('tmp.avi')
 
 
 if __name__ == '__main__':
