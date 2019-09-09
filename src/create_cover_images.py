@@ -58,11 +58,13 @@ def draw_text(im, text, loc=None, shadow=False):
 def main():
     os.makedirs('cover_images', exist_ok=True)
     size = (1280, 720)
+
     for part in timekeeper['parts']:
         back = PIL.Image.open('cover.png')
         draw_text(back, '「聴く」名作文庫', loc={'type': 'x_center', 'y': 80, 'size': 100})
         draw_text(back, config['title'], loc={'type': 'in_rect', 'rect': (180, 220, size[0] - 180, 450)}, shadow=True)
-        draw_text(back, f'第{u.number_to_kansuji(part["part_id"] + 1)}回', loc={'type': 'x_center', 'y': 435, 'size': 100})
+        if len(timekeeper['parts']) > 1:  # 1パートしかない場合は第1回と言わない
+            draw_text(back, f'第{u.number_to_kansuji(part["part_id"] + 1)}回', loc={'type': 'x_center', 'y': 450, 'size': 95})
         draw_text(back, config['author'], loc={'type': 'right_bottom', 'right': 1100, 'bottom': 600, 'size': 50})
         back.save(f'cover_images/{part["part_id"]:0>5}.png')
 

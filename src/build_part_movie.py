@@ -29,14 +29,17 @@ def silence_clip(duration):
     return AudioClip(lambda t: 2 * [0], duration=duration)
 
 
-def build_cover_clip(part_id):
-    audio_clip = concatenate_audioclips([
+def build_cover_clip(part_id, parts_len):
+    audio_clips = [
         silence_clip(ci),
         AudioFileClip('voices/channel.mp3'), silence_clip(vi),
         AudioFileClip('voices/title.mp3'), silence_clip(vi),
-        AudioFileClip(f'voices/part{part_id:0>5}.mp3'),
-        silence_clip(ci),
-    ])
+    ]
+    if parts_len > 1:
+        audio_clips.append(AudioFileClip(f'voices/part{part_id:0>5}.mp3'))
+    audio_clips.append(silence_clip(ci))
+
+    audio_clip = concatenate_audioclips(audio_clips)
     clip = ImageClip(f'cover_images/{part_id:0>5}.png') \
         .set_duration(audio_clip.duration) \
         .fadeout(cft, bg) \
@@ -63,7 +66,7 @@ def main(part_id):
     part = parts[part_id]
 
     os.makedirs(f'part_movies/{part_id:0>5}', exist_ok=True)
-    video_clips = [build_cover_clip(part_id)]
+    video_clips = [build_cover_clip(part_id, len(parts))]
     for chapter in part['chapters']:
         video_clips.append(VideoFileClip(chapter['movie_path']).fadein(cft, bg).fadeout(cft, bg))
     video_clips.append(build_end_clip('next' if part_id < len(parts) - 1 else 'end'))
