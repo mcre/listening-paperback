@@ -168,9 +168,14 @@ def main():
 
     # 各 page に時刻を追加
     for chapter in chapters:
-        for page in chapter['pages']:
-            page['start'] = page['words'][0]['start']
-            page['end'] = page['words'][len(page['words']) - 1]['end']
+        for page_id, page in enumerate(chapter['pages']):
+            if len(page['words']) == 0 and page['text'] == '':  # 空ページの場合
+                tm = chapter['pages'][page_id - 1]['end']
+                page['start'] = tm
+                page['end'] = tm + consts['blank_page_duration']
+            else:  # 空ページじゃない場合
+                page['start'] = page['words'][0]['start']
+                page['end'] = page['words'][len(page['words']) - 1]['end']
             page['duration'] = page['end'] - page['start']
 
     # 各chapter に duration を追加

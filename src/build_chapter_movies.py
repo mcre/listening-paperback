@@ -57,11 +57,14 @@ def main(part_id):
 
         video_clip = VideoFileClip('tmp.avi')
         video_clip = video_clip.set_audio(generate_voice_clip(chapter['voices'], video_clip.duration))
-        video_clip = concatenate_videoclips([  # 前後に chapter_interval 分の静止画を挟んでおく
-            ImageClip(first_page['image_path']).set_duration(ci).set_audio(silence_clip(ci)),
-            video_clip,
-            ImageClip(last_page['words'][-1]['animation_image_path']).set_duration(ci).set_audio(silence_clip(ci)),  # 無音を入れないと雑音がはいる
-        ])
+
+        # 前後に chapter_interval 分の静止画を挟んでおく
+        first_clip = ImageClip(first_page['image_path']).set_duration(ci).set_audio(silence_clip(ci))
+        if len(last_page['words']) == 0:  # 最後が空ページの場合
+            last_clip = ImageClip(last_page['image_path']).set_duration(ci).set_audio(silence_clip(ci))
+        else:
+            last_clip = ImageClip(last_page['words'][-1]['animation_image_path']).set_duration(ci).set_audio(silence_clip(ci))  # 無音を入れないと雑音がはいる
+        video_clip = concatenate_videoclips([first_clip, video_clip, last_clip])
         write_raw_video(chapter['movie_path'], video_clip)
         os.remove('tmp.avi')
 
