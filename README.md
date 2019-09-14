@@ -9,7 +9,8 @@
 
 1. `./projects` にディレクトリを作る(例: `mkdir ./projects/gongitsune`)。以下プロジェクトと呼ぶ。
 2. プロジェクトに青空文庫テキストをSJISのまま `novel.txt` として置く。
-3. 他プロジェクトを参考に、 `config.json` を作成。 
+3. 他プロジェクトを参考に、 `config.json` を作成。
+    - `special_rubies` は `ruby.py` を使用して生成
 4. `./batch.sh {プロジェクト名}`を実行
     - 1つのpartのみをbuildする場合
         - `./batch.sh {プロジェクト名} {part_id}`

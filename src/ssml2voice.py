@@ -86,10 +86,15 @@ def main(aws_access_key_id, aws_secret_access_key):
         jpy = usd * 106
         print(f'{chars_len:,} chars -> {usd:.2f} USD ≒ {jpy:.1f} JPY')
 
-        input_text = input(f'polly変換数が10を超えました({len(pending_tasks)})。そのまま続ける場合はyを入力してください\n input: ')
-        if input_text != 'y':
-            print('終了します')
-            return
+        try:
+            input_text = input(f'polly変換数が10を超えました({len(pending_tasks)})。そのまま続ける場合はyを入力してください\n input: ')
+            if input_text != 'y':
+                raise Exception()
+        except Exception:
+            with open('pending_polly_tasks.json', 'w') as f:
+                json.dump(pending_tasks, f, ensure_ascii=False, indent=2)
+            print('変換せずに終了します。変換対象はpending_polly_tasks.jsonを参照ください。')
+            sys.exit(1)
 
     tasks = [start_task(t['ssml'], t['cache'] ,polly, t['text'], t['format']) for t in pending_tasks]
     with open('polly_tasks.json', 'w') as f:  # 落ちた時のために！

@@ -12,8 +12,15 @@
     "music_fadeout_time": 5,
     "avoid_polly_bugs": [
         {
-            "kanji" : "寒気|が|し|て",
-            "ruby": "<sub alias=\"さむけ\">寒気</sub>がして"
+            "kanji": "寒気がして",
+            "ruby": "サムケがして",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["寒気", "名詞", "寒気", "サムケ"],
+                ["が", "助詞", "が", "ガ"],
+                ["し", "動詞", "する", "シ"],
+                ["て", "助詞", "て", "テ"]
+            ]
         }
     ] 
 }
