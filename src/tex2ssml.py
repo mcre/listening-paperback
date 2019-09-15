@@ -151,8 +151,8 @@ def main():
         json.dump(rubies, f, ensure_ascii=False, indent=2)
 
     for line in lines:
+        offset = 0  # lineのうちのこの文字まで処理済み(なので再処理しない)
         for morpheme_id, morpheme in enumerate(line['morphemes']):
-            offset = 0
             ls = f'{line["ssml_filename"]}-{morpheme["start"]:0>5}'
             for ruby in rubies:
                 rm = tuple([m['el'] for m in ruby['morphemes']])
@@ -161,12 +161,11 @@ def main():
                     rs = f'{ruby["ssml_filename"]}-{ruby["start"] - ruby["offset_from_first_morpheme"]:0>5}'
                     if rs > ls:  # ルビ出現以前のものはスルー
                         continue
-                    if offset > ruby['offset_from_first_morpheme']:
-                        continue
                     st = morpheme['start'] + ruby['offset_from_first_morpheme']
                     en = st + len(ruby['kanji'])
-                    line['ssml_rubies'].append({'ruby': ruby['ruby'], 'start': st, 'end': en})
-                    offset = en  # breakしてもいいけど、同じ文節の後ろの方にふりがながある場合に対応したい。(ただしテスト不足)
+                    if st >= offset:
+                        line['ssml_rubies'].append({'ruby': ruby['ruby'], 'start': st, 'end': en})
+                        offset = en
         t = line['plain_text']
         for ruby in reversed(line['ssml_rubies']):
             st, en = ruby['start'], ruby['end']
