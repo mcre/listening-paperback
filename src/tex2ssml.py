@@ -1,3 +1,4 @@
+import datetime as dt
 import json
 import os
 import re
@@ -53,14 +54,14 @@ def plain_except_ruby(line):
 
 
 def mecab(line):
-    mt = MeCab.Tagger('-d /usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd')
-    columns = ['表層形', '品詞', '品詞細分類1', '品詞細分類2', '品詞細分類3', '活用型' ,'活用形', '原形', '読み', '発音']
-    mecab_results = [dict(zip(columns, [result if result != '*' else None for result in re.split(',|\t', results + ',*,*,*,*,*')])) for results in mt.parse(line).splitlines() if results != 'EOS']
+    mt = MeCab.Tagger('-d /usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd --node-format=%m,%M,%H\\n')
+    columns = ['表層形', '空白付表層形', '品詞', '品詞細分類1', '品詞細分類2', '品詞細分類3', '活用型' ,'活用形', '原形', '読み', '発音']
+    mecab_results = [dict(zip(columns, [result if result != '*' else '' for result in (results + ',*,*,*,*,*').split(',')])) for results in mt.parse(line).splitlines() if results != 'EOS']
 
     s = 0
     ret = []
     for result in mecab_results:
-        len_ = len(result['表層形'])
+        len_ = len(result['空白付表層形'])
         ret.append({
             'el': (result['表層形'], result['品詞'], result['原形'], result['読み']),
             'start': s,
@@ -101,6 +102,14 @@ def split_ruby(filename, line):
                 ruby['last_in_morpheme'] = True
         if ruby['first_in_morpheme'] and ruby['last_in_morpheme']:
             ruby['ruby'] = jaconv.hira2kata(ruby['ruby'])
+        # ルビの発生箇所の文字列表現
+        ruby['pos'] = f'{ruby["ssml_filename"]}-{ruby["start"] - ruby["offset_from_first_morpheme"]:0>5}'
+        # 1文字ルビは誤爆しやすいのでその箇所専用とする
+        ruby['one_char'] = len(ruby['kanji']) == 1 and len(ruby['morphemes']) == 1 and len(ruby['morphemes'][0]['el'][0]) == 1
+        # 重複削除用のキー
+        ruby['dupkey'] = f"{ruby['kanji']}|{ruby['ruby']}|{str([m['el'] for m in ruby['morphemes']])}"
+        if ruby['one_char']:
+            ruby['dupkey'] += '|' + ruby['pos']
     return plain_line, rubies, mecab_results
 
 
@@ -135,7 +144,9 @@ def main():
             'ruby': sruby['ruby'],
             'start': 0,
             'morphemes': [{'el': tuple(m)} for m in sruby['morphemes']],
-            'offset_from_first_morpheme': sruby['offset_from_first_morpheme']
+            'offset_from_first_morpheme': sruby['offset_from_first_morpheme'],
+            'one_char': False,
+            'pos': '_sperial_rubies-00000',
         })
 
     lines = []
@@ -144,23 +155,33 @@ def main():
         p, r, m = split_ruby(line['fn'], line['line'])
         lines.append({'ssml_filename': line['fn'], 'plain_text': p, 'tex_ruby_text': line['line'], 'morphemes': m, 'ssml_rubies': []})
         normal_rubies.extend(r)
-    normal_rubies = sorted(normal_rubies, key=lambda x: len(x['morphemes']), reverse=True)  # 形態素数が長いルビから適用する
+    # 重複削除 本の頭からの順にnormal_rubiesに入っているはずなので、最初に登場したほうが残るはず
+    dic = {}
+    for ruby in normal_rubies:
+        if ruby['dupkey'] not in dic:
+            dic[ruby['dupkey']] = ruby
+    normal_rubies = dic.values()
+    # 形態素数が長いルビから適用したい
+    normal_rubies = sorted(normal_rubies, key=lambda x: len(x['morphemes']), reverse=True)
     rubies.extend(normal_rubies)
 
     with open('rubies.json', 'w') as f:
         json.dump(rubies, f, ensure_ascii=False, indent=2)
 
-    for line in lines:
+    for line_id, line in enumerate(lines):
+        if line_id % 100 == 0:
+            print(f'{dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")} : {line_id} / {len(lines)}')
         offset = 0  # lineのうちのこの文字まで処理済み(なので再処理しない)
         for morpheme_id, morpheme in enumerate(line['morphemes']):
-            ls = f'{line["ssml_filename"]}-{morpheme["start"]:0>5}'
+            line_pos = f'{line["ssml_filename"]}-{morpheme["start"]:0>5}'
             for ruby in rubies:
+                if ruby['one_char'] and ruby['pos'] != line_pos:  # 1文字で形態素が1個の場合は誤爆しやすいので同一箇所のみ処理
+                    continue
+                if ruby['pos'] > line_pos:  # ルビ出現以前のものはスルー
+                    continue
                 rm = tuple([m['el'] for m in ruby['morphemes']])
                 lm = tuple([m['el'] for m in line['morphemes'][morpheme_id: morpheme_id + len(rm)]])
                 if rm == lm:
-                    rs = f'{ruby["ssml_filename"]}-{ruby["start"] - ruby["offset_from_first_morpheme"]:0>5}'
-                    if rs > ls:  # ルビ出現以前のものはスルー
-                        continue
                     st = morpheme['start'] + ruby['offset_from_first_morpheme']
                     en = st + len(ruby['kanji'])
                     if st >= offset:
