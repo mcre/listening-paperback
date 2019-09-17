@@ -47,11 +47,9 @@ echo '# preprocessing'
 rm -rf ./work || exit 1
 mkdir ./work || exit 1
 mkdir -p ./work/cache || exit 1
-mkdir -p ./cache || exit 1
 cp ./src/* ./work/ || exit 1
 cp ./projects/${pj}/novel.txt ./work/ || exit 1
 cp ./projects/${pj}/config.json ./work/ || exit 1
-cp -r ./cache/* ./work/cache
 
 cp ./materials/fonts/`cat ./projects/${pj}/config.json | jq -r .font` ./work/font.ttf || exit 1
 cp ./materials/fonts/ipaexg.ttf ./work/font_gothic.ttf || exit 1
@@ -69,17 +67,22 @@ docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u parse_tex_out
 echo '# tex2ssml'
 docker run --rm -v $PWD/work:/work lp-python-mecab /bin/sh -c "python -u tex2ssml.py" || exit 1
 echo '# ssml2voice'
+mkdir -p ./projects/${pj}/cache || exit 1
+cp -r ./projects/${pj}/cache/* ./work/cache
 aws_access_key_id=`cat ./certs/aws_credentials.json | jq -r .aws_access_key_id`
 aws_secret_access_key=`cat ./certs/aws_credentials.json | jq -r .aws_secret_access_key`
-docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
-cp -r ./work/cache/* ./cache || exit 1
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${pj} ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
+cp -r ./work/cache/* ./projects/${pj}/cache || exit 1
 echo '# pdf2png'
 mkdir ./work/page_images
 docker run --rm -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r 200 /work/novel.pdf /work/page_images/novel" || exit 1
 echo '# build_timekeeper'
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u build_timekeeper.py" || exit 1
-echo '# create_cover_images'
-docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u create_cover_images.py" || exit 1
+echo '# create_cover_images_and_ssml'
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u create_cover_images_and_ssml.py" || exit 1
+echo '# re-ssml2voice' # パート数確定したので再度polly
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${pj} ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
+cp -r ./work/cache/* ./projects/${pj}/cache || exit 1
 
 echo '# prepare_output_directory'
 rm -rf ./projects/${pj}/output/${dir} || exit 1

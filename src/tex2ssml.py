@@ -7,15 +7,7 @@ import unicodedata
 import jaconv
 import MeCab
 
-prefix = '''<?xml version="1.0"?>
-<speak
-    version="1.1"
-    xmlns="http://www.w3.org/2001/10/synthesis"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.w3.org/2001/10/synthesis http://www.w3.org/TR/speech-synthesis11/synthesis.xsd"
-    xml:lang="ja-JP"><prosody rate="95%">
-'''
-postfix = '\n</prosody></speak>'
+import util as u
 
 PATTERNS = {
     'ruby': re.compile(r'\\ruby{(.+?)}{(.+?)}'),
@@ -128,13 +120,6 @@ def main():
     tex_ruby_lines = [line for line in tex_ruby_lines if line is not None]
 
     tex_ruby_lines = [{'fn': f'text{i:0>5}', 'line': line} for i, line in enumerate(tex_ruby_lines)]
-    for i in range(0, config['estimated_max_num_of_parts']):
-        tex_ruby_lines.append({'fn': f'part{i:0>5}', 'line': f'第{i + 1}回'})
-    tex_ruby_lines.append({'fn': 'title', 'line': config['title']})
-    tex_ruby_lines.append({'fn': 'channel', 'line': '聴く、名作文庫'})
-    tex_ruby_lines.append({'fn': 'next', 'line': 'つづく'})
-    tex_ruby_lines.append({'fn': 'end', 'line': '終わり'})
-    tex_ruby_lines.append({'fn': 'please', 'line': 'チャンネル登録お願いします！'})
 
     rubies = []
     for sruby in config.get('special_rubies', []) + consts['avoid_polly_bugs']:
@@ -201,9 +186,9 @@ def main():
         fn = line['ssml_filename']
         t = line['ssml_ruby_text']
         with open(f'ssml/{fn}.xml', 'w') as fw:
-            fw.write(prefix)
+            fw.write(u.ssml_prefix)
             fw.write(t)
-            fw.write(postfix)
+            fw.write(u.ssml_postfix)
         if count_japanese(t) == 0 and len(t) <= 10:
             print(f'日本語が存在しないか、英字含めて10文字以下のssmlがあります: {fn}.xml')
             raise Exception()

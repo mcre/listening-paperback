@@ -77,6 +77,20 @@ def main():
     draw_text(back, '終わり', loc=loc)
     back.save(f'cover_images/end.png')
 
+    ssml_texts = []
+    for part in timekeeper['parts']:
+        ssml_texts.append({'fn': f'part{part["part_id"]:0>5}', 'text': f'第{part["part_id"] + 1}回'})
+    ssml_texts.append({'fn': 'title', 'text': config['title']})
+    ssml_texts.append({'fn': 'channel', 'text': '聴く、名作文庫'})
+    ssml_texts.append({'fn': 'next', 'text': 'つづく'})
+    ssml_texts.append({'fn': 'end', 'text': '終わり'})
+    ssml_texts.append({'fn': 'please', 'text': 'チャンネル登録お願いします！'})
+    for text in ssml_texts:
+        with open(f'ssml/{text["fn"]}.xml', 'w') as fw:
+            fw.write(u.ssml_prefix)
+            fw.write(text['text'])
+            fw.write(u.ssml_postfix)
+
 
 if __name__ == '__main__':
     main()

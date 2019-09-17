@@ -25,7 +25,7 @@ def basename(path):
 def start_task(ssml_path, cache_path, polly, text, output_format):
     smt = []
     if output_format == 'json':
-        smt = ['sentence', 'ssml', 'word']
+        smt = ['sentence', 'ssml', 'viseme', 'word']
     response = polly.start_speech_synthesis_task(
         OutputFormat=output_format,
         VoiceId=consts['voice_id'],
@@ -45,7 +45,7 @@ def start_task(ssml_path, cache_path, polly, text, output_format):
     }
 
 
-def main(aws_access_key_id, aws_secret_access_key):
+def main(project_name, aws_access_key_id, aws_secret_access_key):
     os.makedirs('voices', exist_ok=True)
     os.makedirs('marks_tmp', exist_ok=True)
     os.makedirs('marks', exist_ok=True)
@@ -72,11 +72,6 @@ def main(aws_access_key_id, aws_secret_access_key):
     if len(pending_tasks) > 10:
         print({basename(task['ssml']) for task in pending_tasks})
 
-        print('\n自動実行の場合はエラーが発生します。エラーが発生した場合は手動で実行してください。手動実行方法↓')
-        print('\n---------------------------')
-        print(f'docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python ssml2voice.py {aws_access_key_id} {aws_secret_access_key}"')
-        print('cp -r ./work/cache/* ./cache')
-        print('---------------------------\n')
         chars_len = 0
         for pending_task in pending_tasks:
             with open(pending_task['ssml'], 'r') as f:
@@ -87,13 +82,17 @@ def main(aws_access_key_id, aws_secret_access_key):
         print(f'{chars_len:,} chars -> {usd:.2f} USD ≒ {jpy:.1f} JPY')
 
         try:
-            input_text = input(f'polly変換数が10を超えました({len(pending_tasks)})。そのまま続ける場合はyを入力してください\n input: ')
+            input_text = input(f'\npolly変換数が10を超えました({len(pending_tasks)})。そのまま続ける場合はyを入力してください\n input: ')
             if input_text != 'y':
                 raise Exception()
         except Exception:
             with open('pending_polly_tasks.json', 'w') as f:
                 json.dump(pending_tasks, f, ensure_ascii=False, indent=2)
-            print('変換せずに終了します。変換対象はpending_polly_tasks.jsonを参照ください。')
+            print('自動実行のため変換せずに終了します。変換対象はpending_polly_tasks.jsonを参照ください。')
+            print('\n手動実行方法↓')
+            print('---------------------------')
+            print(f'docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python ssml2voice.py {project_name} {aws_access_key_id} {aws_secret_access_key}" && cp -r ./work/cache/* ./projects/{project_name}/cache')
+            print('---------------------------\n')
             sys.exit(1)
 
     tasks = [start_task(t['ssml'], t['cache'] ,polly, t['text'], t['format']) for t in pending_tasks]
@@ -131,4 +130,4 @@ def main(aws_access_key_id, aws_secret_access_key):
 
 
 if __name__ == '__main__':
-    main(sys.argv[1], sys.argv[2])
+    main(sys.argv[1], sys.argv[2], sys.argv[3])
