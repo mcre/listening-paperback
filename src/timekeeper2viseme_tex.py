@@ -3,42 +3,48 @@ import string
 
 import regex as re
 
-dict2 = {
-    'Ba': 'ゔぁ', 'Bi': 'ゔぃ', 'B@': 'ゔぇ', 'Bo': 'ゔぉ',
-    'fa': 'ふぁ', 'fi': 'ふ', 'f@': 'ふぇ', 'fo': 'ふぉ',
-    'ia': 'や', 'ii': 'ゆ', 'i@': 'いぇ', 'io': 'よ',
-    'Ja': 'な', 'Ji': 'に', 'J@': 'ね', 'Jo': 'の',
-    'ka': 'か', 'ki': 'き', 'k@': 'け', 'ko': 'こ',
-    'pa': 'ま', 'pi': 'み', 'p@': 'め', 'po': 'も',
-    'ra': 'ら', 'ri': 'り', 'r@': 'れ', 'ro': 'ろ',
-    'sa': 'さ', 'si': 'し', 's@': 'せ', 'so': 'そ',
-    'ta': 'ら', 'ti': 'り', 't@': 'れ', 'to': 'ろ',
-    'ua': 'わ', 'ui': 'うぃ', 'u@': 'うぇ', 'uo': 'うぉ',
-}
+dic = []
 
-dict1 = {
-    'a': 'あ', 'i': 'い', '@': 'え', 'o': 'お', 'k': 'ん', 'B': 'っ', 'f': 'っ', 'J': 'っ', 'p': 'っ', 'r': 'っ', 's': 'っ', 't': 'っ',
-}
+dic.append({
+    'a': 'あ', 'i': 'ゐ', '@': 'え', 'o': 'お', 'k': 'ん', 'B': 'っ', 'f': 'っ', 'J': 'っ', 'p': 'っ', 'r': 'っ', 's': 'っ', 't': 'っ',
+})
+dic.append({
+    'Ba': 'あ', 'Bi': 'ゐ', 'B@': 'え', 'Bo': 'お',
+    'fa': 'あ', 'fi': 'ゐ', 'f@': 'え', 'fo': 'お',
+    'ia': 'あ', 'ii': 'ゐ', 'i@': 'え', 'io': 'お',
+    'Ja': 'あ', 'Ji': 'い', 'J@': 'え', 'Jo': 'お',
+    'ka': 'あ', 'ki': 'ゐ', 'k@': 'え', 'ko': 'お',
+    'pa': 'あ', 'pi': 'ゐ', 'p@': 'え', 'po': 'お',
+    'ra': 'あ', 'ri': 'ゐ', 'r@': 'え', 'ro': 'お',
+    'sa': 'あ', 'si': 'ゐ', 's@': 'え', 'so': 'お',
+    'ta': 'あ', 'ti': 'ゐ', 't@': 'え', 'to': 'お',
+    'ua': 'あ', 'ui': 'い', 'u@': 'え', 'uo': 'お',
+})
+dic.append({
+    'kio': 'んお',
+    'kya': 'あ', 'kyi': 'う', 'kyo': 'お',
+    'rya': 'あ', 'ryi': 'う', 'ryo': 'お',
+    'tsu': 'う',
+})
 
 
 class Template(string.Template):
     delimiter = '@'
 
 
-def viseme_to_hira(viseme):
+def viseme_to_hira(viseme, text):
     ret = ''
     cur = 0
     while cur < len(viseme):
-        t1 = viseme[cur]
-        t2 = viseme[cur : cur + 2]
-        if t2 in dict2:
-            ret += dict2[t2]
-            cur += 2
-        elif t1 in dict1:
-            ret += dict1[t1]
-            cur += 1
+        for i in reversed(range(3)):
+            v = viseme[cur : cur + i + 1]
+            if v in dic[i]:
+                h = dic[i][v]
+                cur += i + 1
+                break
         else:
-            raise Exception(f'変換できません: {viseme}', )
+            raise Exception(f'変換できません: {viseme} {text}')
+        ret += h
     return ret
 
 
@@ -63,7 +69,7 @@ def main():
                     t = word['text']
                     if ptn_kanji.search(t):
                         obj = ptn.match(t)
-                        h = viseme_to_hira(word['viseme'])
+                        h = viseme_to_hira(word['viseme'], t)
                         en = obj.group(3)
                         tex_text += f'{obj.group(1)}\\ruby{{{obj.group(2)}}}{{{h}}}{en}\n'
                     else:
