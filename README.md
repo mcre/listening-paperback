@@ -16,6 +16,9 @@
         - `./batch.sh {プロジェクト名} {part_id}`
     - 複数のpartをbuildする場合
         - `./batch.sh {プロジェクト名} {start_part_id} {end_part_id}`
+    - 途中で止める場合
+        - `./batch.sh {プロジェクト名} x x {止める箇所}`
+            - tex, pdf, ssml, voice, timekeeper, viseme, before_movie が指定可能
 5. プロジェクトの`output_{git_commit_id}_{part_id_or_range}`以下に一部の中間ファイル、出力ファイルが出力される
 
 ### youtube upload

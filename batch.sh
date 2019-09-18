@@ -22,6 +22,7 @@ build_movie() {
 }
 
 pj=$1
+stop=$4
 cid=`git log -n 1 --format=%ad-%h --date=format:'%Y%m%d'`
 ntc=`git status | grep 'nothing to commit' -c`
 if [ $ntc = 1 ]; then
@@ -59,13 +60,16 @@ cp ./materials/libs/* ./work/ || exit 1
 
 echo '# az2tex'
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u az2tex.py" || exit 1
+if [ $stop = 'tex' ]; then exit 0; fi
 echo '# tex2pdf'
 docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && uplatex -halt-on-error novel.tex > tex_output.txt" || exit 1
 docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && uplatex -halt-on-error novel.tex > tex_output.txt" || exit 1 # 2回コンパイルが必要なコマンド用
 docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && dvipdfmx novel.dvi" || exit 1
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u parse_tex_output.py" || exit 1
+if [ $stop = 'pdf' ]; then exit 0; fi
 echo '# tex2ssml'
 docker run --rm -v $PWD/work:/work lp-python-mecab /bin/sh -c "python -u tex2ssml.py" || exit 1
+if [ $stop = 'ssml' ]; then exit 0; fi
 echo '# ssml2voice'
 mkdir -p ./projects/${pj}/cache || exit 1
 cp -r ./projects/${pj}/cache/* ./work/cache
@@ -73,20 +77,24 @@ aws_access_key_id=`cat ./certs/aws_credentials.json | jq -r .aws_access_key_id`
 aws_secret_access_key=`cat ./certs/aws_credentials.json | jq -r .aws_secret_access_key`
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${pj} ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
 cp -r ./work/cache/* ./projects/${pj}/cache || exit 1
+if [ $stop = 'voice' ]; then exit 0; fi
 echo '# pdf2png'
 mkdir ./work/page_images
 docker run --rm -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r 200 /work/novel.pdf /work/page_images/novel" || exit 1
 echo '# build_timekeeper'
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u build_timekeeper.py" || exit 1
+if [ $stop = 'timekeeper' ]; then exit 0; fi
 echo '# viseme'
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u timekeeper2viseme_tex.py" || exit 1
 docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && uplatex -halt-on-error viseme.tex > dummy.txt" || exit 1
 docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && dvipdfmx viseme.dvi" || exit 1
+if [ $stop = 'viseme' ]; then exit 0; fi
 echo '# create_cover_images_and_ssml'
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u create_cover_images_and_ssml.py" || exit 1
 echo '# re-ssml2voice' # パート数確定したので再度polly
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${pj} ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
 cp -r ./work/cache/* ./projects/${pj}/cache || exit 1
+if [ $stop = 'before_movie' ]; then exit 0; fi
 
 echo '# prepare_output_directory'
 rm -rf ./projects/${pj}/output/${dir} || exit 1
