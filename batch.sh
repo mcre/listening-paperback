@@ -78,6 +78,10 @@ mkdir ./work/page_images
 docker run --rm -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r 200 /work/novel.pdf /work/page_images/novel" || exit 1
 echo '# build_timekeeper'
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u build_timekeeper.py" || exit 1
+echo '# viseme'
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u timekeeper2viseme_tex.py" || exit 1
+docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && uplatex -halt-on-error viseme.tex > dummy.txt" || exit 1
+docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && dvipdfmx viseme.dvi" || exit 1
 echo '# create_cover_images_and_ssml'
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u create_cover_images_and_ssml.py" || exit 1
 echo '# re-ssml2voice' # パート数確定したので再度polly
@@ -95,7 +99,7 @@ mkdir work/ssml work/marks work/page_movies || exit 1
 cd ../../../../ || exit 1
 cd ./work/ || exit 1
 cp novel.txt config.json ../projects/${pj}/output/${dir}/input || exit 1
-cp novel.tex rubies.json tex_output.txt novel.pdf chapters_and_pages.json timekeeper.json ../projects/${pj}/output/${dir}/work || exit 1
+cp novel.tex rubies.json tex_output.txt novel.pdf chapters_and_pages.json timekeeper.json viseme.tex viseme.pdf ../projects/${pj}/output/${dir}/work || exit 1
 cp ssml/* ../projects/${pj}/output/${dir}/work/ssml/ || exit 1
 cp marks/* ../projects/${pj}/output/${dir}/work/marks/ || exit 1
 cd .. || exit 1

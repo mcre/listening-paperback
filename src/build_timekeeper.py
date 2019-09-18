@@ -57,7 +57,15 @@ def main():
     for voice in all_voices:
         with open(voice['marks_path'], 'r') as f:
             marks = json.load(f)
-            words_in_voices.append([mark for mark in marks if mark['type'] == 'word'])
+            word_marks = []
+            for mark in marks:
+                if mark['type'] == 'word':
+                    word_marks.append(mark)
+                    word_marks[-1]['viseme'] = ''
+                if mark['type'] == 'viseme' and mark['value'] != 'sil':
+                    word_marks[-1]['viseme'] += mark['value']
+            words_in_voices.append([mark for mark in word_marks])
+
     all_words = [{
         'voice_id': voice_id,
         'voice_duration': all_voices[voice_id]['duration'],
@@ -65,6 +73,7 @@ def main():
         'word_id_in_voice': word_id_in_voice,
         'start_in_voice': word['time'] / 1000,
         'text': PATTERNS['tag'].sub('', word['value']),
+        'viseme': word['viseme'],
     } for voice_id, words_in_voice in enumerate(words_in_voices) for word_id_in_voice, word in enumerate(words_in_voice)]
 
     # all_words を分解しながら page に words としてぶら下げる
