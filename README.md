@@ -19,6 +19,7 @@
     - 途中で止める場合
         - `./batch.sh {プロジェクト名} x x {止める箇所}`
             - tex, pdf, ssml, voice, timekeeper, viseme, before_movie が指定可能
+            - voice を入力した場合はキーボード入力(y)可能。ただしバックグラウンドでは動作できない。
 5. プロジェクトの`output_{git_commit_id}_{part_id_or_range}`以下に一部の中間ファイル、出力ファイルが出力される
 
 ### youtube upload

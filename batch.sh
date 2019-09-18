@@ -22,7 +22,6 @@ build_movie() {
 }
 
 pj=$1
-stop=$4
 cid=`git log -n 1 --format=%ad-%h --date=format:'%Y%m%d'`
 ntc=`git status | grep 'nothing to commit' -c`
 if [ $ntc = 1 ]; then
@@ -37,6 +36,11 @@ elif [ $# -eq 3 ]; then
   dir="${dir}_${2}-${3}"
 fi
 
+if [ $# -eq 4 ]; then
+  stop=$4
+else
+  stop="blank"
+fi
 
 echo '# docker-build'
 docker build -t lp-python ./Dockerfiles/python || exit 1
@@ -75,7 +79,11 @@ mkdir -p ./projects/${pj}/cache || exit 1
 cp -r ./projects/${pj}/cache/* ./work/cache
 aws_access_key_id=`cat ./certs/aws_credentials.json | jq -r .aws_access_key_id`
 aws_secret_access_key=`cat ./certs/aws_credentials.json | jq -r .aws_secret_access_key`
-docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${pj} ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
+if [ $stop = 'voice' ]; then
+  docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${pj} ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
+else
+  docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${pj} ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
+fi
 cp -r ./work/cache/* ./projects/${pj}/cache || exit 1
 if [ $stop = 'voice' ]; then exit 0; fi
 echo '# pdf2png'
