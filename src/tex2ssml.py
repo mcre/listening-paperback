@@ -1,3 +1,4 @@
+import collections
 import datetime as dt
 import json
 import os
@@ -99,11 +100,13 @@ def split_ruby(filename, line):
         # ルビの発生箇所の文字列表現
         ruby['pos'] = f'{ruby["ssml_filename"]}-{ruby["start"] - ruby["offset_from_first_morpheme"]:0>5}'
         # 1文字ルビは誤爆しやすいのでその箇所専用とする
-        ruby['one_char'] = len(ruby['kanji']) == 1 and len(ruby['morphemes']) == 1 and len(ruby['morphemes'][0]['el'][0]) == 1 and ruby['morphemes'][0]['el'][3] != ''  # Mecabの読みがない場合は特殊な漢字なので拡散できるようにする
+        ruby['only_here'] = len(ruby['kanji']) == 1 and len(ruby['morphemes']) == 1 and len(ruby['morphemes'][0]['el'][0]) == 1 and ruby['morphemes'][0]['el'][3] != ''  # Mecabの読みがない場合は特殊な漢字なので拡散できるようにする
+        # 同一漢字別読み用のキー
+        ruby['ambiguous_key'] = f"{ruby['kanji']}|{str([m['el'] for m in ruby['morphemes']])}"
         # 重複削除用のキー
-        ruby['dupkey'] = f"{ruby['kanji']}|{ruby['ruby']}|{str([m['el'] for m in ruby['morphemes']])}"
-        if ruby['one_char']:
-            ruby['dupkey'] += '|' + ruby['pos']
+        ruby['dup_key'] = ruby['ambiguous_key'] + f"|{ruby['ruby']}"
+        if ruby['only_here']:
+            ruby['dup_key'] += '|' + ruby['pos']
     return plain_line, rubies, mecab_results
 
 
@@ -132,9 +135,18 @@ def main():
     # 重複削除 本の頭からの順にrubiesに入っているはずなので、最初に登場したほうが残るはず
     dic = {}
     for ruby in rubies:
-        if ruby['dupkey'] not in dic:
-            dic[ruby['dupkey']] = ruby
+        if ruby['dup_key'] not in dic:
+            dic[ruby['dup_key']] = ruby
     rubies = dic.values()
+    # 同じ漢字で読みが違うものはonly_hereにする
+    counts = collections.Counter([ruby['ambiguous_key'] for ruby in rubies if not ruby['only_here']])
+    ambiguous_keys = [key for key, count in counts.items() if count >= 2]
+    for ruby in rubies:
+        for ambiguous_key in ambiguous_keys:
+            if ruby['ambiguous_key'] == ambiguous_key:
+                ruby['only_here'] = True
+                print(f"読みが複数あるため only_here に設定: {ruby['kanji']} {ruby['ruby']}")
+
     # 形態素数が長いルビから適用したい
     rubies = sorted(rubies, key=lambda x: len(x['morphemes']), reverse=True)
 
@@ -146,7 +158,7 @@ def main():
             'start': 0,
             'morphemes': [{'el': tuple(m)} for m in sruby['morphemes']],
             'offset_from_first_morpheme': sruby['offset_from_first_morpheme'],
-            'one_char': False,
+            'only_here': False,
             'pos': '_sperial_rubies-00000',
         })
 
@@ -160,7 +172,7 @@ def main():
         for morpheme_id, morpheme in enumerate(line['morphemes']):
             line_pos = f'{line["ssml_filename"]}-{morpheme["start"]:0>5}'
             for ruby in rubies:
-                if ruby['one_char'] and ruby['pos'] != line_pos:  # 1文字で形態素が1個の場合は誤爆しやすいので同一箇所のみ処理
+                if ruby['only_here'] and ruby['pos'] != line_pos:
                     continue
                 if ruby['pos'] > line_pos:  # ルビ出現以前のものはスルー
                     continue
