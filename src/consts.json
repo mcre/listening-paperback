@@ -10,8 +10,9 @@
     "blank_page_duration": 0.5,
     "music_volume": 0.01,
     "music_fadeout_time": 5,
-    "avoid_polly_bugs": [
+    "special_rubies": [
         {
+            "memo": "鉤括弧と同様に、Pollyのバグにより誤ったmarksが出るため置換",
             "kanji": "寒気がして",
             "ruby": "サムケがして",
             "offset_from_first_morpheme": 0,

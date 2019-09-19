@@ -123,7 +123,7 @@ def main():
     tex_ruby_lines = [{'fn': f'text{i:0>5}', 'line': line} for i, line in enumerate(tex_ruby_lines)]
 
     rubies = []
-    for sruby in config.get('special_rubies', []) + consts['avoid_polly_bugs']:
+    for sruby in config.get('special_rubies', []) + consts['special_rubies']:
         rubies.append({
             'ssml_filename': '_sperial_rubies',
             'kanji': sruby['kanji'],
