@@ -10,7 +10,7 @@ dic.append({
 dic.append({
     'Ba': 'あ', 'Bi': 'ゐ', 'B@': 'え', 'Bo': 'お',
     'fa': 'あ', 'fi': 'う', 'f@': 'え', 'fo': 'お',
-    'ia': 'あ', 'ii': 'う', 'i@': 'え', 'io': 'お',
+    'ia': 'いあ', 'ii': 'いう', 'i@': 'いえ', 'io': 'いお',
     'Ja': 'あ', 'Ji': 'ゐ', 'J@': 'え', 'Jo': 'お',
     'ka': 'あ', 'ki': 'ゐ', 'k@': 'え', 'ko': 'お',
     'pa': 'あ', 'pi': 'ゐ', 'p@': 'え', 'po': 'お',
@@ -20,7 +20,6 @@ dic.append({
     'ua': 'あ', 'ui': 'い', 'u@': 'え', 'uo': 'お',
 })
 dic.append({
-    'kio': 'んお',
     'kya': 'あ', 'kyi': 'う', 'kyo': 'お',
     'rya': 'あ', 'ryi': 'う', 'ryo': 'お',
     'tsu': 'う',
@@ -72,9 +71,10 @@ def main():
                     t = word['text']
                     if ptn_kanji.search(t):
                         obj = ptn.match(t)
-                        h = viseme_to_hira(word['viseme'], t)
+                        v = word['viseme']
+                        h = viseme_to_hira(v, t)
                         en = obj.group(3)
-                        tex_text += f'{obj.group(1)}\\ruby{{{obj.group(2)}}}{{{h}}}{en}\n'
+                        tex_text += f'{obj.group(1)}\\ruby{{{obj.group(2)}}}{{{h}}}{en} % {v}\n'
                     else:
                         tex_text += t + '\n'
 

@@ -60,10 +60,35 @@
         },
         {
             "kanji": "波打際",
-            "ruby": "なみうちぎわ",
+            "ruby": "ナミウチギワ",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["波打際", "名詞", "波打ち際", "ナミウチギワ"]
+            ]
+        },
+        {
+            "kanji": "いつの間にか",
+            "ruby": "イツノマニカ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["いつの間にか", "副詞", "いつの間にか", "イツノマニカ"]
+            ]
+        },
+        {
+            "kanji": "六親",
+            "ruby": "ロクシン",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["六", "名詞", "六", "ロク"],
+                ["親", "名詞", "親", "オヤ"]
+            ]
+        },
+        {
+            "kanji": "四六時中",
+            "ruby": "シロクジチュウ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["四六時中", "名詞", "四六時中", "シロクジチュウ"]
             ]
         }
     ] 
