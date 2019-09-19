@@ -18,6 +18,7 @@ PATTERNS = {
     'think': re.compile(r'（(.*?)）'),
     'remove_marks': re.compile(r'[「」『』（）〔〕{}$_]'),
     'double_odoriji': re.compile(r'([^>]{2})々々'),  # ルビ付きは一旦除外
+    'time_break': re.compile(r'([―…])'),
 }
 ignore_list = [
     '%', '\\documentclass', '\\usepackage', '\\setminchofont', '\\setgothicfont', '\\rubysetup',
@@ -181,6 +182,7 @@ def main():
         t = PATTERNS['think'].sub(r'<break strength="weak"/>\1<break strength="weak"/>', t)
         t = PATTERNS['remove_marks'].sub('', t)  # pollyのバグで、「<sub alias=\"カスケ\">加助"」等でmarksで余分なものが出るので記号系を置換しておく
         t = PATTERNS['double_odoriji'].sub(r'\1<sub alias="\1">々々</sub>', t)
+        t = PATTERNS['time_break'].sub(r'<break time="0.5s"/>\1', t)
         line['ssml_ruby_text'] = t
 
     for line in lines:
