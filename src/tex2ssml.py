@@ -124,6 +124,20 @@ def main():
     tex_ruby_lines = [{'fn': f'text{i:0>5}', 'line': line} for i, line in enumerate(tex_ruby_lines)]
 
     rubies = []
+    lines = []
+    for line in tex_ruby_lines:
+        p, r, m = split_ruby(line['fn'], line['line'])
+        lines.append({'ssml_filename': line['fn'], 'plain_text': p, 'tex_ruby_text': line['line'], 'morphemes': m, 'ssml_rubies': []})
+        rubies.extend(r)
+    # 重複削除 本の頭からの順にrubiesに入っているはずなので、最初に登場したほうが残るはず
+    dic = {}
+    for ruby in rubies:
+        if ruby['dupkey'] not in dic:
+            dic[ruby['dupkey']] = ruby
+    rubies = dic.values()
+    # 形態素数が長いルビから適用したい
+    rubies = sorted(rubies, key=lambda x: len(x['morphemes']), reverse=True)
+
     for sruby in config.get('special_rubies', []) + consts['special_rubies']:
         rubies.append({
             'ssml_filename': '_sperial_rubies',
@@ -135,22 +149,6 @@ def main():
             'one_char': False,
             'pos': '_sperial_rubies-00000',
         })
-
-    lines = []
-    normal_rubies = []
-    for line in tex_ruby_lines:
-        p, r, m = split_ruby(line['fn'], line['line'])
-        lines.append({'ssml_filename': line['fn'], 'plain_text': p, 'tex_ruby_text': line['line'], 'morphemes': m, 'ssml_rubies': []})
-        normal_rubies.extend(r)
-    # 重複削除 本の頭からの順にnormal_rubiesに入っているはずなので、最初に登場したほうが残るはず
-    dic = {}
-    for ruby in normal_rubies:
-        if ruby['dupkey'] not in dic:
-            dic[ruby['dupkey']] = ruby
-    normal_rubies = dic.values()
-    # 形態素数が長いルビから適用したい
-    normal_rubies = sorted(normal_rubies, key=lambda x: len(x['morphemes']), reverse=True)
-    rubies.extend(normal_rubies)
 
     with open('rubies.json', 'w') as f:
         json.dump(rubies, f, ensure_ascii=False, indent=2)
