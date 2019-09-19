@@ -21,7 +21,6 @@ dic.append({
 })
 dic.append({
     'kio': 'んお',
-    'kka': 'っあ',
     'kya': 'あ', 'kyi': 'う', 'kyo': 'お',
     'rya': 'あ', 'ryi': 'う', 'ryo': 'お',
     'tsu': 'う',
@@ -62,10 +61,14 @@ def main():
     ptn = re.compile(r'^([' + syms + r']*)(.*?)([' + syms + r']*)$')
     ptn_kanji = re.compile(r'[\p{Han}ヶ]')
     tex_text = ''
+    voice_id = -1
     for part in timekeeper['parts']:
         for chapter in part['chapters']:
             for page in chapter['pages']:
                 for word in page['words']:
+                    if voice_id != word['voice_id']:
+                        voice_id = word['voice_id']
+                        tex_text += f'\n\n\\tatechuyoko{{\\tiny {voice_id}}}'
                     t = word['text']
                     if ptn_kanji.search(t):
                         obj = ptn.match(t)
@@ -74,8 +77,6 @@ def main():
                         tex_text += f'{obj.group(1)}\\ruby{{{obj.group(2)}}}{{{h}}}{en}\n'
                     else:
                         tex_text += t + '\n'
-                    if tex_text.endswith('。\n'):
-                        tex_text += '\n\n'
 
     out = Template(template).substitute({
         'text_color': consts['text_color'],
