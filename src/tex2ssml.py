@@ -99,7 +99,7 @@ def split_ruby(filename, line):
         # ルビの発生箇所の文字列表現
         ruby['pos'] = f'{ruby["ssml_filename"]}-{ruby["start"] - ruby["offset_from_first_morpheme"]:0>5}'
         # 1文字ルビは誤爆しやすいのでその箇所専用とする
-        ruby['one_char'] = len(ruby['kanji']) == 1 and len(ruby['morphemes']) == 1 and len(ruby['morphemes'][0]['el'][0]) == 1
+        ruby['one_char'] = len(ruby['kanji']) == 1 and len(ruby['morphemes']) == 1 and len(ruby['morphemes'][0]['el'][0]) == 1 and ruby['morphemes'][0]['el'][3] != ''  # Mecabの読みがない場合は特殊な漢字なので拡散できるようにする
         # 重複削除用のキー
         ruby['dupkey'] = f"{ruby['kanji']}|{ruby['ruby']}|{str([m['el'] for m in ruby['morphemes']])}"
         if ruby['one_char']:
