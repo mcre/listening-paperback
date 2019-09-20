@@ -90,6 +90,80 @@
             "morphemes": [
                 ["四六時中", "名詞", "四六時中", "シロクジチュウ"]
             ]
+        },
+        {
+            "kanji": "掛蒲団",
+            "ruby": "かけぶとん",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["掛蒲団", "名詞", "掛蒲団", "カケブトン"]
+            ]
+        },
+        {
+            "kanji": "長噺",
+            "ruby": "ナガバナシ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["長", "接頭詞", "長", "チョウ"],
+                ["噺", "名詞", "噺", "ハナシ"]
+            ]
+        },
+        {
+            "kanji": "駈引",
+            "ruby": "カケヒキ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["駈", "動詞", "駈る", "カ"],
+                ["引", "名詞", "引", "イン"]
+            ]
+        },
+        {
+            "kanji": "駈引",
+            "ruby": "カケヒキ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["駈", "動詞", "駈る", "カ"],
+                ["引", "名詞", "引", "ヒキ"]
+            ]
+        },
+        {
+            "kanji": "駈引き",
+            "ruby": "カケヒキ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["駈", "動詞", "駈る", "カ"],
+                ["引き", "名詞", "引き", "ヒキ"]
+            ]
+        },
+        {
+            "kanji": "金の切れめ",
+            "ruby": "カネのきれめ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["金", "名詞", "金", "キン"],
+                ["の", "助詞", "の", "ノ"],
+                ["切れめ", "名詞", "切れめ", "キレメ"]
+            ]
+        },
+        {
+            "kanji": "附合",
+            "ruby": "つきあ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["附", "名詞", "附", "フ"],
+                ["合っ", "動詞", "合う", "アッ"]
+            ]
+        },
+        {
+            "kanji": "四の五の",
+            "ruby": "シノゴノ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["四", "名詞", "四", "ヨン"],
+                ["の", "助詞", "の", "ノ"],
+                ["五", "名詞", "五", "ゴ"],
+                ["の", "助詞", "の", "ノ"]
+            ]
         }
     ] 
 }
