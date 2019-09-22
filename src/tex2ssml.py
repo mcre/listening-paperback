@@ -2,7 +2,7 @@ import collections
 import datetime as dt
 import json
 import os
-import re
+import regex as re
 import unicodedata
 
 import jaconv
@@ -13,7 +13,7 @@ import util as u
 PATTERNS = {
     'ruby': re.compile(r'\\ruby{(.+?)}{(.+?)}'),
     'zspace': re.compile(r'\\　'),
-    'command': re.compile(r'\\(?!ruby)\S*?{(.*?)}'),
+    'command': re.compile(r'\\(?!ruby)\S*?(?<rec>{((?:[^{}]+|(?&rec))*)})'),
     'command_no_params': re.compile(r'\\(?!ruby)\S*?(?=[\s}])'),
     'dialogue': re.compile(r'「(.*?)」'),
     'think': re.compile(r'（(.*?)）'),

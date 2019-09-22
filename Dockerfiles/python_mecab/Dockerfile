@@ -3,7 +3,9 @@ FROM yamitzky/mecab-bottle
 WORKDIR /work
 
 RUN \
+    apt-get update && \
+    apt-get -y install build-essential && \
     pip install --upgrade pip && \
-    pip install mecab-python3 jaconv
-
+    pip install mecab-python3 jaconv regex && \
+    apt-get clean
 CMD []
