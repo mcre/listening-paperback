@@ -8,7 +8,7 @@ PATTERNS = {
     'ruby': re.compile(r'\\ruby{(.*?)}{(.*?)}'),
     'command': re.compile(r'\\(?!(part|chapter)).*?{(.*?)}({.*?})?'),
     'command_no_params': re.compile(r'\\(?!(part|chapter))\S*?\s'),
-    'chapter': re.compile(r'(?:\\part{(.+?)}|\\chapter{(.+?)}\s*([^\\\n]{0,10}))'),
+    'chapter': re.compile(r'(?:\\part{(.+?)}|\\chapter{(.+?)}\s*([^\\\n]{0,10})|(%\smanual_chapter)\s*([^\\\n]{0,10}))'),
 }
 
 REPLACES = {
@@ -59,7 +59,7 @@ def main():
     for text_id, text in enumerate(texts):
         if cursor < len(chapter_start_strings):
             s = [st.replace('　', '') for st in chapter_start_strings[cursor]]
-            if text == s[0] or (len(s[1]) > 0 and text.startswith(f'{s[1]}{s[2]}')):
+            if text == s[0] or (len(s[1]) > 0 and text.startswith(f'{s[1]}{s[2]}')) or (len(s[3]) > 0 and text.startswith(s[4])):
                 if text_id - 1 != before_chapter_text_id:  # partとchapterが連続している場合はこの処理をしない(同じchapter扱いにする)
                     if texts_in_chapter:
                         chapters.append(texts_in_chapter)

@@ -238,6 +238,9 @@ def main():
     for k, v in REPLACE_STR.items():
         body_text = body_text.replace(k, v)
 
+    for manual_chapter in config['manual_chapters']:
+        body_text = re.sub(r'\n(' + manual_chapter + r')', r'\n\\clearpage % manual_chapter\n\n\1', body_text, 1)
+
     tex = Template(template).substitute({
         'text_color': consts['text_color'],
         'background_color': consts['background_color'],
