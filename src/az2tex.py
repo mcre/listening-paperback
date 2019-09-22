@@ -93,6 +93,8 @@ def get_gaiji(s):
     if m:
         key = f'3-{int(m[1])+32:2X}{int(m[2])+32:2X}'
         return gaiji_table.get(key, s)
+    if s == '※［＃小書き平仮名ん、168-12］':
+        return 'ん'
     # unknown format
     return s
 
