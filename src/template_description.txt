@@ -1,10 +1,11 @@
-【聴く名作文庫】${author}『${title}』${part_text}
-###############################################
 著作権が切れた日本の名作を「聴きやすく」動画にまとめます。
 通勤中、運転中、就寝前などにご活用ください。
 
-【プレイリスト】
-${title}：${play_list}
+毎日18時に新作をアップしています。
+チャンネル登録お願いします！
+
+【プレイリスト】${playlist}
+「第一回」集：https://www.youtube.com/playlist?list=PLaSpnMH0vy2FcAUNkaaXRd4P9uV1YBCqf
 
 【素材】
 ・文章：青空文庫 https://www.aozora.gr.jp/
@@ -13,5 +14,3 @@ ${title}：${play_list}
 ・表紙：${cover_author} ${cover_url}
 ------
 version.${version}
-###############################################
-オーディブル,オーディオブック,名作,名著,青空文庫,文庫,${author},${title},朗読,聴く,読書,小説,物語

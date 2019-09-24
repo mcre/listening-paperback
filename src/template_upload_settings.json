@@ -1,0 +1,20 @@
+{
+    "title": "【聴く名作文庫】${author}『${title}』${part_text}",
+    "playlist_title": "${author}『${title}』",
+    "tags": [
+        "オーディブル",
+        "オーディオブック",
+        "名作",
+        "名著",
+        "青空文庫",
+        "文庫",
+        "${author}",
+        "${title}",
+        "朗読",
+        "聴く",
+        "読書",
+        "小説",
+        "物語"
+    ],
+    "version": "${version}"
+}

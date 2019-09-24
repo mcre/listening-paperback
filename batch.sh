@@ -11,8 +11,8 @@ build_movie() {
   echo '### build_part_movie'
   docker run --rm -v $PWD/work:/work lp-python-movie /bin/sh -c "python3 -u build_part_movie.py ${part_id}" || exit 1
   rm -rf ./work/chapter_movies
-  echo '### generate_descriptions'
-  docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u generate_descriptions.py ${part_id} ${cid}" || exit 1
+  echo '### generate_upload_settings'
+  docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u generate_upload_settings.py ${part_id} ${cid}" || exit 1
   echo '### copy_output_movies'
   strid=`printf "%05d" "${part_id}"` || exit 1
   mkdir -p ./projects/${pj}/output/${dir}/${strid}/ || exit 1
