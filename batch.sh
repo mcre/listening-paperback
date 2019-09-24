@@ -21,6 +21,7 @@ build_movie() {
   cp -r ./work/part_movies/${strid}/* ./projects/${pj}/output/latest/${strid}/ || exit 1
 }
 
+home=`pwd`
 pj=$1
 cid=`git log -n 1 --format=%ad-%h --date=format:'%Y%m%d'`
 ntc=`git status | grep 'nothing to commit' -c`
@@ -112,13 +113,13 @@ mkdir -p ./projects/${pj}/output/latest || exit 1
 cd ./projects/${pj}/output/${dir} || exit 1
 mkdir input work || exit 1
 mkdir work/ssml work/marks work/page_movies || exit 1
-cd ../../../../ || exit 1
+cd ${home} || exit 1
 cd ./work/ || exit 1
 cp novel.txt config.json ../projects/${pj}/output/${dir}/input || exit 1
 cp novel.tex rubies.json tex_output.txt novel.pdf chapters_and_pages.json timekeeper.json viseme.tex viseme.pdf ../projects/${pj}/output/${dir}/work || exit 1
 cp ssml/* ../projects/${pj}/output/${dir}/work/ssml/ || exit 1
 cp marks/* ../projects/${pj}/output/${dir}/work/marks/ || exit 1
-cd .. || exit 1
+cd ${home} || exit 1
 
 echo '# build_movie'
 if [ $# -eq 1 ]; then

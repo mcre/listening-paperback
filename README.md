@@ -1,5 +1,24 @@
 ## 使い方
 
+### プロジェクトの作成
+
+* 準備
+    - `pip install requests`
+* 青空文庫でbook_idを調べる
+* 実行
+    - `python create_project.py {book_id}`
+    - `./projects/{作者名}/作品名/` に `novel.txt` と `config.json` が生成される
+* `config.json` は適宜調整する
+    - `manual_chapters`
+        - 一つの動画の時間が長過ぎるときなどに、chapterを指定箇所の前で切ることが可能
+        - `太宰治/人間失格` 参照
+        - コマンド等はエスケープが必要。(`\` => `\\\\`, '{' => '\{'}
+    - `special_rubies`
+        - 読み間違い等を調整できる。他の本にも通用する読み間違いは `./src/consts.json` に記述する。
+        - 読み間違いは完成した動画や、`viseme.pdf` で確認できる
+        - 入力形式は↓を実行すると対話で出力できる
+            - `docker run --rm -it -v $PWD:/work lp-python-mecab /bin/sh -c "python -u ruby.py"`
+
 ### 動画作成
 
 * ローカルPCにはdockerとjqをインストールしておく
@@ -7,20 +26,17 @@
     - `./certs/aws_credentials.json` に配置
         - 形式: `{"aws_access_key_id": "hoge", "aws_secret_access_key": "hoge"}`
 
-1. `./projects` にディレクトリを作る(例: `mkdir ./projects/gongitsune`)。以下プロジェクトと呼ぶ。
-2. プロジェクトに青空文庫テキストをSJISのまま `novel.txt` として置く。
-3. 他プロジェクトを参考に、 `config.json` を作成。
-    - `special_rubies` は `ruby.py` を使用して生成
-4. `./batch.sh {プロジェクト名}`を実行
+1. `./batch.sh {作者名}/{作品名}`を実行
     - 1つのpartのみをbuildする場合
-        - `./batch.sh {プロジェクト名} {part_id}`
+        - `./batch.sh {作者名}/{作品名} {part_id}`
     - 複数のpartをbuildする場合
-        - `./batch.sh {プロジェクト名} {start_part_id} {end_part_id}`
+        - `./batch.sh {作者名}/{作品名} {start_part_id} {end_part_id}`
     - 途中で止める場合
-        - `./batch.sh {プロジェクト名} x x {止める箇所}`
+        - `./batch.sh {作者名}/{作品名} x x {止める箇所}`
             - tex, pdf, ssml, voice, timekeeper, viseme, before_movie が指定可能
             - voice を入力した場合はキーボード入力(y)可能。ただしバックグラウンドでは動作できない。
-5. プロジェクトの`output_{git_commit_id}_{part_id_or_range}`以下に一部の中間ファイル、出力ファイルが出力される
+2. プロジェクトの`./output/{git_commit_id}_{part_id_or_range}`以下に一部の中間ファイル、出力ファイルが出力される。
+    - `./output/latest` には出力ファイルが上書きされる
 
 ### youtube upload
 
@@ -29,8 +45,8 @@
 * ただし、制限により1日6個までしかアップロードできないみたいなので間違えないように注意！
     - 特に、「第{part_id + 1}回」であることに注意！
 
-1. `python upload.py {project} {version} {start_publish_at} {start_part_id} {end_part_id}`
-    - 例: `python upload.py gongitsune_short latest 2019-08-25T18:00:00 0 0`
+1. `python upload.py {作者名}/{作品名} {version} {start_publish_at} {start_part_id} {end_part_id}`
+    - 例: `python upload.py 新美南吉/ごん狐 latest 2019-08-25T18:00:00 0 0`
 2. `python list.py` で現在のアップロード済み動画一覧、公開状態、公開日をリストアップできる。
 
 ## Youtube Upoload準備

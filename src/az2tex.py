@@ -150,9 +150,13 @@ def big(size):
 def main():
     with open('template.tex', 'r', encoding='utf-8') as f:
         template = f.read()
-    with open('novel.txt', 'r', encoding='shift_jis') as f:
-        lines = f.readlines()
-        aozora_lines = [sub_gaiji(line.strip(' \n\t\r')) for line in lines]
+    try:
+        with open('novel.txt', 'r', encoding='shift_jis') as f:
+            lines = f.readlines()
+    except UnicodeDecodeError:
+        with open('novel.txt', 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+    aozora_lines = [sub_gaiji(line.strip(' \n\t\r')) for line in lines]
 
     head = aozora_lines[:50]
     body_lines = aozora_lines[get_first_line_index(head):get_last_line_index(aozora_lines[-50:])]
