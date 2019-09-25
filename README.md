@@ -38,6 +38,9 @@
 2. プロジェクトの`./output/{git_commit_id}_{part_id_or_range}`以下に一部の中間ファイル、出力ファイルが出力される。
     - `./output/latest` には出力ファイルが上書きされる
 
+* `./batch_first.sh {作者名}/{作品名}` を使うと、pdf, 音声, timekeeperを生成し、ログを`./projects/{作者名}/{作品名}/batch_first.log` に保存できる。
+    - 大量のプロジェクトの音声変換や、tex処理漏れ等を手軽に確認するために使う。
+
 ### youtube upload
 
 * 予め、↓の方に書いてある準備をする
