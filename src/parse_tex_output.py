@@ -11,8 +11,15 @@ PATTERNS = {
     'chapter': re.compile(r'(?:\\part{(.+?)}|\\chapter{(.+?)}\s*([^\\\n]{0,10})|(%\smanual_chapter)\s*([^\\\n]{0,10}))'),
 }
 
+COMBINATIONS_BEFORE = ['^^X']
+COMBINATIONS_AFTER = ['^^R', '^^S', '^^?']
+
 REPLACES = {
     '^^Z': 'æ',
+    '^^Re': 'è',
+    '^^Se': 'é', '^^SE': 'É', '^^Sn': 'ń', '^^Sy': 'ý',
+    '^^?o': 'ö', '^^?u': 'ü',
+    't^^X': 'ţ',
 }
 
 
@@ -35,10 +42,18 @@ def main():
         page = page.replace('|', '\n')
         chars = PATTERNS['char'].findall(page)
         for i, c in enumerate(chars):
-            for k, v in REPLACES.items():
-                chars[i] = c.replace(k, v)
+            if c in COMBINATIONS_BEFORE:
+                chars[i - 1] = chars[i - 1] + chars[i]
+                chars[i] = ''
+            if c in COMBINATIONS_AFTER:
+                chars[i + 1] = chars[i] + chars[i + 1]
+                chars[i] = ''
+
+        for i, c in enumerate(chars):
+            if c in REPLACES.keys():
+                chars[i] = REPLACES[c]
             if len(chars[i]) >= 2:
-                print(f'\n\n注意, 2文字以上のcharあり。REPLACESに追加すること: {chars[i]}\n\n')
+                print(f'\n注意, 2文字以上のcharあり。REPLACESに追加すること: {chars[i]}\n{chars[:i + 2]}\n')
         texts.append(''.join(chars))
 
     # きたない
