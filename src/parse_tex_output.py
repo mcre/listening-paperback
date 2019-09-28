@@ -17,9 +17,9 @@ COMBINATIONS_AFTER = ['^^R', '^^S', '^^?']
 REPLACES = {
     '^^Z': 'æ',
     '^^Re': 'è',
-    '^^Se': 'é', '^^SE': 'É', '^^Sn': 'ń', '^^Sy': 'ý',
+    '^^Se': 'é', '^^SE': 'É', '^^Sn': 'ń', '^^Sr': 'ŕ', '^^Sy': 'ý',
     '^^?o': 'ö', '^^?u': 'ü',
-    't^^X': 'ţ',
+    's^^X': 'ş', 't^^X': 'ţ',
 }
 
 
@@ -74,7 +74,8 @@ def main():
     for text_id, text in enumerate(texts):
         if cursor < len(chapter_start_strings):
             s = [st.replace('　', '') for st in chapter_start_strings[cursor]]
-            if text == s[0] or (len(s[1]) > 0 and text.startswith(f'{s[1]}{s[2]}')) or (len(s[3]) > 0 and text.startswith(s[4])):
+            # 最初のテキストか、chapter文字列にあるもの。
+            if text_id == 0 or text == s[0] or (len(s[1]) > 0 and text.startswith(f'{s[1]}{s[2]}')) or (len(s[3]) > 0 and text.startswith(s[4])):
                 if text_id - 1 != before_chapter_text_id:  # partとchapterが連続している場合はこの処理をしない(同じchapter扱いにする)
                     if texts_in_chapter:
                         chapters.append(texts_in_chapter)

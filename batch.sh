@@ -44,18 +44,20 @@ else
 fi
 
 echo '# docker-build'
-docker build -t lp-python ./Dockerfiles/python || exit 1
-docker build -t lp-python-mecab ./Dockerfiles/python_mecab || exit 1
-docker build -t lp-python-movie ./Dockerfiles/python_movie || exit 1
-docker build -t lp-python-pymupdf ./Dockerfiles/python_pymupdf || exit 1
+docker build -t lp-python ./Dockerfiles/python 1>/dev/null || exit 1
+docker build -t lp-python-mecab ./Dockerfiles/python_mecab 1>/dev/null || exit 1
+docker build -t lp-python-movie ./Dockerfiles/python_movie 1>/dev/null || exit 1
+docker build -t lp-python-pymupdf ./Dockerfiles/python_pymupdf 1>/dev/null || exit 1
 
 echo '# preprocessing'
 rm -rf ./work || exit 1
 mkdir ./work || exit 1
 mkdir -p ./work/cache || exit 1
+mkdir -p ./work/ || exit 1
 cp ./src/* ./work/ || exit 1
 cp ./projects/${pj}/novel.txt ./work/ || exit 1
 cp ./projects/${pj}/config.json ./work/ || exit 1
+cp ./projects/${pj}/images/* ./work/
 
 cp ./materials/fonts/`cat ./projects/${pj}/config.json | jq -r .font` ./work/font.ttf || exit 1
 cp ./materials/fonts/ipaexg.ttf ./work/font_gothic.ttf || exit 1

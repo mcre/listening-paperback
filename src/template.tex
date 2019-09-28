@@ -1,9 +1,13 @@
-\documentclass[uplatex, tate, book, oneside, openany, paper={6.4in, 3.6in}, fontsize=14pt, number_of_lines=18, line_length=2.8in, open_bracket_pos=nibu_tentsuki, hanging_punctuation]{jlreq}
+\documentclass[dvipdfmx, uplatex, tate, book, oneside, openany, paper={6.4in, 3.6in}, fontsize=14pt, number_of_lines=18, line_length=2.8in, open_bracket_pos=nibu_tentsuki, hanging_punctuation]{jlreq}
+\usepackage[usetype1]{uline--}
+\usepackage{breakfbox}
 \usepackage{bxpapersize}
 \usepackage{framed}
 \usepackage{zrjapunct1}
 \usepackage{anyfontsize}
 \usepackage{kunten2e}
+\usepackage{plext}
+\usepackage{graphicx}
 
 \usepackage[noalphabet]{pxchfon}
 \setminchofont{font.ttf}
@@ -19,7 +23,7 @@
 \pagecolor{background_color}
 
 % https://hakuoku.github.io/agakuTeX/tutorial/4_3_6accent3/ ×がエラーになるので
-\cjkcategory{×}{cjk}
+\cjkcategory{×,⁂}{cjk}
 
 \ModifyHeading{part}{type=han, format={\null\vfill {\LARGE #2} \vfill}}
 \ModifyHeading{chapter}{indent=1zw, format={\Large #2}, pagebreak=clearpage}

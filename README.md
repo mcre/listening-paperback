@@ -7,7 +7,7 @@
 * 青空文庫でbook_idを調べる
 * 実行
     - `python create_project.py {book_id}`
-    - `./projects/{作者名}/作品名/` に `novel.txt` と `config.json` が生成される
+    - `./projects/{作者名}/{作品名}/` に `novel.txt` と `config.json` が生成される
 * `config.json` は適宜調整する
     - `manual_chapters`
         - 一つの動画の時間が長過ぎるときなどに、chapterを指定箇所の前で切ることが可能
@@ -18,6 +18,8 @@
         - 読み間違いは完成した動画や、`viseme.pdf` で確認できる
         - 入力形式は↓を実行すると対話で出力できる
             - `docker run --rm -it -v $PWD:/work lp-python-mecab /bin/sh -c "python -u ruby.py"`
+* 画像がある場合は、`./projects/{作者名}/{作品名}/images` に画像をいれて、縦書きに対応するため↓のコマンドで90度回転させる
+    - `docker run -v $PWD/projects/{作者名}/{作品名}/images:/images --rm -it rendertoolbox/imagemagick bash -c "mogrify -rotate -90 /images/*.png"`
 
 ### 動画作成
 
@@ -38,8 +40,10 @@
 2. プロジェクトの`./output/{git_commit_id}_{part_id_or_range}`以下に一部の中間ファイル、出力ファイルが出力される。
     - `./output/latest` には出力ファイルが上書きされる
 
-* `./batch_first.sh {作者名}/{作品名}` を使うと、pdf, 音声, timekeeperを生成し、ログを`./projects/{作者名}/{作品名}/batch_first.log` に保存できる。
-    - 大量のプロジェクトの音声変換や、tex処理漏れ等を手軽に確認するために使う。
+* `./batch_first_pdf.sh {作者名}/{作品名}` を使うとpdfを生成し、ログを`./projects/{作者名}/{作品名}/tmp/batch_first_pdf.log` に保存できる。
+    - 最初はこれかな。tex処理漏れ等を手軽に確認するために使う。
+* `./batch_first_timekeeper.sh {作者名}/{作品名}` を使うと、pdf, 音声, timekeeperを生成し、ログを`./projects/{作者名}/{作品名}/tmp/batch_first_timekeeper.log` に保存できる。
+    - 500万文字用の大量変換等に使う
 
 ### youtube upload
 
