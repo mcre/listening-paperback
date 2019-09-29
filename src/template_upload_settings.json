@@ -1,5 +1,5 @@
 {
-    "title": "【聴く名作文庫】${author}『${title}』${part_text}",
+    "title": "【朗読】${author}『${title}』${part_text}【青空文庫】",
     "playlist_title": "${author}『${title}』",
     "tags": [
         "オーディブル",
