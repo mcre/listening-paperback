@@ -91,9 +91,6 @@ REPLACE_CHAR = str.maketrans({'&': '\\&', '　': '\\　', '懚': '隠', '滆': '
 REPLACE_STR = {
     '※［＃感嘆符三つ、626-10］': '\\tatechuyoko{!!!}',
     '※［＃感嘆符三つ、77-3］': '\\tatechuyoko{!!!}',
-    '\\3': '{Y\\llap{=}} 3',  # 痴人の愛
-    '┌───┐\n\n│\\　\\　\\　│\n\n└───┘': '\\breakfbox{\\　\\　}',  # 夢野久作/ドグラ・マグラ
-    '\\leftskip=1zw \n\nA     B     C     D   …………………………\n\n1111  1112  1121  1211…………………………\n\n \\leftskip=0zw': "\\begin{table}[htb]\\begin{tabular}{lllll}\nA & B & C & D & ...... \\\\\n1111 & 1112 & 1121 & 1211 & ......\n\\end{tabular}\\end{table}",  # 江戸川乱歩/二銭銅貨
 }
 
 with open('config.json', 'r') as f:
@@ -338,6 +335,8 @@ def main():
 
     body_text = body_text.translate(REPLACE_CHAR)
     for k, v in REPLACE_STR.items():
+        body_text = body_text.replace(k, v)
+    for k, v in config.get('tex_replaces', {}).items():
         body_text = body_text.replace(k, v)
 
     for manual_chapter in config['manual_chapters']:

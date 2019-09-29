@@ -9,6 +9,9 @@
     - `python create_project.py {book_id}`
     - `./projects/{作者名}/{作品名}/` に `novel.txt` と `config.json` が生成される
 * `config.json` は適宜調整する
+    - `tex_replaces`
+        - 表組みなど特殊すぎる表現をまるまる置換するために使用できる
+        - `江戸川乱歩/二銭銅貨` 参照
     - `manual_chapters`
         - 一つの動画の時間が長過ぎるときなどに、chapterを指定箇所の前で切ることが可能
         - `太宰治/人間失格` 参照

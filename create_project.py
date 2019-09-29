@@ -49,6 +49,7 @@ def create_project(book_id):
         },
         'part_duration': 600,
         'min_part_duration': 240,
+        'tex_replaces': {},
         'manual_chapters': [],
         'special_rubies': [],
         'book_info': {k: v for k, v in book.items() if v != ''},
