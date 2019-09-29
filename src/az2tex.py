@@ -5,6 +5,7 @@ import jaconv
 import regex as re
 
 N = r'[１２３４５６７８９０一二三四五六七八九〇十]+'
+LATIN = r"[A-Za-zÀ-ÿ0-9#\-\;\&,. !\?'…―:\\]"
 
 PATTERNS = {
     'about': re.compile(r'^-+$'),
@@ -25,7 +26,7 @@ PATTERNS = {
         re.compile(r'([\p{Hiragana}]+?)《(.+?)》'),
         re.compile(r'([\p{Katakana}]+?)《(.+?)》'),
         re.compile(r'([Ａ-Ｚａ-ｚΑ-Ωα-ωА-Яа-я・]+?)《(.+?)》'),
-        re.compile(r"([A-Za-zÀ-ÿ0-9#\-\;\&,. !\?…']+?)《(.+?)》"),
+        re.compile(r'(' + LATIN + r'+?)《(.+?)》'),
         re.compile(r'　(.{1,10}?)《(.+?)》　'),
     ],
     'remaining_ruby': re.compile(r'《.*?》'),
@@ -51,7 +52,7 @@ PATTERNS = {
     'line': re.compile(r'(^\s*?×　*?×　*?×*?$|^\s*?―{6,}\s*?$)'),
     'new_page': re.compile('［＃改(頁|ページ|段|丁)］'),
     'frame': re.compile(r'(.+?)［＃「\1」は罫囲み］'),
-    'frame_multiline': re.compile(r'(?:［＃ここから' + N + r'字下げ］\s*?)?［＃ここから罫囲み］(.*?)［＃ここで罫囲み終わり］(?:\s*?［＃ここで字下げ終わり］)?', flags=re.DOTALL),  # 罫囲みの字下げは無視
+    'frame_multiline': re.compile(r'(?:［＃ここから' + N + r'字下げ］\s*?)?(?:\s*?［＃ここから' + N + r'字詰め］\s*?)?［＃ここから罫囲み］(.*?)［＃ここで罫囲み終わり］(?:\s*?［＃ここで字詰め終わり］)?(?:\s*?［＃ここで字下げ終わり］)?', flags=re.DOTALL),  # 罫囲みの字下げは無視
     'center_frame_multiline': re.compile(r'［＃ここから' + N + r'字下げ、横書き、中央揃え、罫囲み］(.*?)［＃ここで字下げ終わり］', flags=re.DOTALL),
     'indent': re.compile(r'［＃(?:この行|天から)?(' + N + r')字下げ］(.*)$'),
     'indent_hang_multiline': re.compile(r'［＃ここから(' + N + r')字下げ、折り返して(' + N + r')字下げ］(.*?)［＃ここで字下げ終わり］', flags=re.DOTALL),
@@ -65,7 +66,9 @@ PATTERNS = {
     'accent': re.compile(r"〔(.*?)〕"),
     'fig': re.compile(r'［＃(.*?)（(.*?)、横([0-9]+?)×縦([0-9]+?)）入る］'),
     'frac': re.compile(r'(.*?)／(.*?)［＃「\1／\2」は分数］'),
-    'latin_double_quote': re.compile(r"“([A-Za-zÀ-ÿ0-9#\-\;\&,. !\?…']+?)”"),
+    'latin_double_quote': re.compile(r'“(' + LATIN + r'+?)”'),
+    'latin_double_quote_begin': re.compile(r'“(' + LATIN + r'+?)$'),
+    'latin_double_quote_end': re.compile(r'^(' + LATIN + r'+?)”'),
     'many_spaces': re.compile(r'^　{3,}'),
     'many_symbols': re.compile(r'(…|？|！){13,}'),
     'ignores': [
@@ -88,8 +91,9 @@ REPLACE_CHAR = str.maketrans({'&': '\\&', '　': '\\　', '懚': '隠', '滆': '
 REPLACE_STR = {
     '※［＃感嘆符三つ、626-10］': '\\tatechuyoko{!!!}',
     '※［＃感嘆符三つ、77-3］': '\\tatechuyoko{!!!}',
-    '\\3': '\\\\3',
-    '┌───┐\n\n│\\　\\　\\　│\n\n└───┘': '\\breakfbox{\\　\\　}'  # ドグラ・マグラ
+    '\\3': '{Y\\llap{=}} 3',  # 痴人の愛
+    '┌───┐\n\n│\\　\\　\\　│\n\n└───┘': '\\breakfbox{\\　\\　}',  # 夢野久作/ドグラ・マグラ
+    '\\leftskip=1zw \n\nA     B     C     D   …………………………\n\n1111  1112  1121  1211…………………………\n\n \\leftskip=0zw': "\\begin{table}[htb]\\begin{tabular}{lllll}\nA & B & C & D & ...... \\\\\n1111 & 1112 & 1121 & 1211 & ......\n\\end{tabular}\\end{table}",  # 江戸川乱歩/二銭銅貨
 }
 
 with open('config.json', 'r') as f:
@@ -263,6 +267,8 @@ def main():
         body_lines[index] = PATTERNS['kunten_okuri'].sub(r'\\kokana{\1}{}', body_lines[index])
         body_lines[index] = PATTERNS['frac'].sub(r'$\\frac{\1}{\2}$', body_lines[index])
         body_lines[index] = PATTERNS['latin_double_quote'].sub(r'"\1"', body_lines[index])
+        body_lines[index] = PATTERNS['latin_double_quote_begin'].sub(r'"\1', body_lines[index])
+        body_lines[index] = PATTERNS['latin_double_quote_end'].sub(r'\1"', body_lines[index])
         body_lines[index] = PATTERNS['many_spaces'].sub(r'　　', body_lines[index])  # 行頭3つ以上の全角スペースは２つに減らす
         body_lines[index] = PATTERNS['many_symbols'].sub(lambda x: x.group()[:12], body_lines[index])  # 記号が並んでると改行されないので(ドグラ・マグラ用)
         body_lines[index] = PATTERNS['fig'].sub(
