@@ -13,20 +13,24 @@ import util as u
 PATTERNS = {
     'ruby': re.compile(r'\\ruby{(.+?)}{(.+?)}'),
     'zspace': re.compile(r'\\　'),
+    'newline': re.compile(r'\\\\'),
+    'ignore_command': re.compile(r'(?:\\fontsize{[0-9\.]+?}{[0-9\.]+?}\\selectfont|\\kentensubmarkintate{.+?}|\\stretch{.+?})'),
     'command': re.compile(r'\\(?!ruby)\S*?(?<rec>{((?:[^{}]+|(?&rec))*)})'),
-    'command_no_params': re.compile(r'\\(?!ruby)\S*?(?=[\s}])'),
+    'command_no_params': re.compile(r'\\(?!ruby)\S*?(?=[\s}]|$)'),
     'dialogue': re.compile(r'「(.*?)」'),
     'think': re.compile(r'（(.*?)）'),
-    'remove_marks': re.compile(r'[「」『』（）〔〕{}$_]'),
-    'double_odoriji': re.compile(r'([^>]{2})々々'),  # ルビ付きは一旦除外
+    'remove_marks': re.compile(r'[「」『』（）〔〕{}$_&]'),
+    'double_odoriji': re.compile(r'([\p{Han}]{2})々々(?!</sub>)'),  # ルビ付きは一旦除外
     'time_break': re.compile(r'([―…])'),
 }
+gomi_list = ['{', '}']
 ignore_list = [
     '%', '\\documentclass', '\\usepackage', '\\setminchofont', '\\setgothicfont', '\\rubysetup',
     '\\ModifyHeading', '\\NewPageStyle', '\\pagestyle', '\\date', '\\begin', '\\maketitle',
     '\\end', '\\showoutput', '\\definecolor', '\\pagecolor', '\\color' ,'\\thiswatermark',
     '\\shadowoffset', '\\shadowcolor', '\\clearpage', '\\hrulefill', '\\cjkcategory',
     '\\newcommand', '\\renewcommand', '\\leftskip',
+    '\\vspace*{\\stretch{1}}\\begin{center}\\includegraphics',
 ]
 
 with open('config.json', 'r') as f:
@@ -37,14 +41,23 @@ with open('consts.json', 'r') as f:
 
 def plain_except_ruby(line):
     ret = line.strip()
-    if len(ret) <= 1:
+    if len(ret) < 1:
         return None
     for ig in ignore_list:
         if ret.startswith(ig):
             return None
     ret = PATTERNS['zspace'].sub(r'', ret)
-    ret = PATTERNS['command'].sub(r'\1', ret)
+    ret = PATTERNS['newline'].sub(r'', ret)
+    ret = PATTERNS['ignore_command'].sub(r'', ret)
+    for i in range(3):  # 入れ子コマンドのために複数回実施しておく
+        ret = PATTERNS['command'].sub(r'\2', ret)
     ret = PATTERNS['command_no_params'].sub('', ret)
+    ret = ret.strip()
+    for gomi in gomi_list:  # コマンド置換した結果gomiだけ残るような場合は空にする
+        if gomi == ret:
+            return None
+    if len(ret) < 1:
+        return None
     return ret
 
 
@@ -113,7 +126,7 @@ def split_ruby(filename, line):
 def count_japanese(text):
     count = 0
     for c in text:
-        if unicodedata.east_asian_width(c) in 'FWA':
+        if unicodedata.east_asian_width(c) in 'FWA' or c in ('⁂'):
             count += 1
     return count
 
@@ -202,8 +215,8 @@ def main():
             fw.write(u.ssml_prefix)
             fw.write(t)
             fw.write(u.ssml_postfix)
-        if count_japanese(t) == 0 and len(t) <= 10:
-            print(f'日本語が存在しないか、英字含めて10文字以下のssmlがあります: {fn}.xml')
+        if count_japanese(t) == 0 and len(t) <= 1:
+            print(f'日本語が存在しないか、英字含めて1文字以下のssmlがあります: {fn}.xml')
             raise Exception()
 
 

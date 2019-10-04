@@ -95,7 +95,17 @@ def main(project_name, aws_access_key_id, aws_secret_access_key):
             print('---------------------------\n')
             sys.exit(1)
 
-    tasks = [start_task(t['ssml'], t['cache'] ,polly, t['text'], t['format']) for t in pending_tasks]
+    tasks = []
+    for t in pending_tasks:
+        try:
+            tasks.append(start_task(t['ssml'], t['cache'] ,polly, t['text'], t['format']))
+        except Exception:
+            with open('polly_tasks.json', 'w') as f:
+                json.dump(tasks, f, ensure_ascii=False, indent=2)
+            print('落ちました:', t)
+            print('polly_tasks.jsonから復旧できる可能性があります。')
+            sys.exit(1)
+
     with open('polly_tasks.json', 'w') as f:  # 落ちた時のために！
         json.dump(tasks, f, ensure_ascii=False, indent=2)
 

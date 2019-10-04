@@ -24,6 +24,17 @@
             ]
         },
         {
+            "memo": "鉤括弧と同様に、Pollyのバグにより誤ったmarksが出るため置換",
+            "kanji": "寒気がする",
+            "ruby": "サムケがする",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["寒気", "名詞", "寒気", "サムケ"],
+                ["が", "助詞", "が", "ガ"],
+                ["する", "動詞", "する", "スル"]
+            ]
+        },
+        {
             "kanji": "一日",
             "ruby": "イチニチ",
             "offset_from_first_morpheme": 0,

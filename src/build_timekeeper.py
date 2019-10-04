@@ -1,6 +1,7 @@
 import glob
 import json
 import os
+import sys
 
 import mutagen.mp3
 import regex as re
@@ -83,10 +84,10 @@ def main():
         for page in chapter['pages']:
             word_id = 0
             index_in_page = - len(remain)
-            remain = f'{remain}{page["text"]}'
+            remain = f'{remain}{page["text"]}'.replace('-', '')  # PDF上で勝手に英単語が分割されるハイフンはどうにもならないので無理やり消す
             while len(remain) > 0 and cur < len(all_words):
                 word = all_words[cur]
-                w = word['text']
+                w = word['text'].replace(' ', '').replace('-', '')
                 if (loc := remain.find(w)) >= 0:
                     ll = loc + len(w)
                     word['word_id'] = word_id
@@ -100,9 +101,13 @@ def main():
                     word_id += 1
                 else:
                     break
+    if len(remain) > 100:
+        print(f'marks と chapters_and_pages の対応が乱れています。remainが{len(remain)}文字存在します。『{remain[:50]}・・・』から『{word["text"]}』(voice_id: {word["voice_id"]})が見つからないようです。')
+        sys.exit(1)
     chapters[-1]['pages'][-1]['words'][-1]['text'] += remain  # 最後の word に残りの文字を追加
 
     # skipped_textを前後に振り分ける
+    before_word_pointer = None
     for chapter in chapters:
         for page in chapter['pages']:
             for word_id, word in enumerate(page['words']):
@@ -179,7 +184,10 @@ def main():
     for chapter in chapters:
         for page_id, page in enumerate(chapter['pages']):
             if len(page['words']) == 0 and page['text'] == '':  # 空ページの場合
-                tm = chapter['pages'][page_id - 1]['end']
+                if page_id == 0:
+                    tm = chapters[chapter['chapter_id'] - 1]['pages'][-1]['end']
+                else:
+                    tm = chapter['pages'][page_id - 1]['end']
                 page['start'] = tm
                 page['end'] = tm + consts['blank_page_duration']
             else:  # 空ページじゃない場合

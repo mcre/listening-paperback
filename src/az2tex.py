@@ -261,7 +261,7 @@ def main():
         body_lines[index] = PATTERNS['indent_bottom'].sub(r'{\\hfill \\rightskip=1zw \2 \\par}', body_lines[index])
         body_lines[index] = PATTERNS['bottom'].sub(r'{\\hfill \\rightskip=0zw \1 \\par}', body_lines[index])
         body_lines[index] = PATTERNS['kunten'].sub(r'\\kaeriten{\1}', body_lines[index])
-        body_lines[index] = PATTERNS['kunten_okuri'].sub(r'\\kokana{\1}{}', body_lines[index])
+        body_lines[index] = PATTERNS['kunten_okuri'].sub(r'\\kokana{\\fontsize{7.1}{0} \\selectfont \1}{}', body_lines[index])  # そのままだとルビと同じ大きさになってparse_tex_outputで拾えないので7.1にする
         body_lines[index] = PATTERNS['frac'].sub(r'$\\frac{\1}{\2}$', body_lines[index])
         body_lines[index] = PATTERNS['latin_double_quote'].sub(r'"\1"', body_lines[index])
         body_lines[index] = PATTERNS['latin_double_quote_begin'].sub(r'"\1', body_lines[index])
@@ -278,7 +278,7 @@ def main():
         )
         if '段階大きな文字］' in body_lines[index]:  # 時間がかかるのでコマンドが含まれない場合は何もしない
             body_lines[index] = PATTERNS['big'].sub(
-                lambda x: '{\\fontsize{' + str(big(x.group(6))) + '}{' + str(big(x.group(6)) * 1.6) + '}\\selectfont ' + x.group(1) + '\\par}',
+                lambda x: '{\\fontsize{' + f'{big(x.group(6)):.2f}' + '}{' + f'{big(x.group(6)) * 1.6:.2f}' + '}\\selectfont ' + x.group(1) + '\\par}',
                 body_lines[index]
             )
     for index, line in enumerate(body_lines):

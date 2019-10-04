@@ -4,7 +4,9 @@ import regex as re
 
 PATTERNS = {
     'page': re.compile(r'Completed box being shipped out.*?\|\.\\special{'),
-    'char': re.compile(r'(?<!\\discretionary[\.\n]*?)(?:\\J[TY]2/mc/m/n/|\\OT1/lmr/m/n/|\\OML/lmm/m/it/)(?:9\.79996|14|19\.6|23\.8|35)\s(\S+?)\n'),
+    'discretionaries': re.compile(r'\n([\.]*?)\\discretionary\n\1[\.]\\.*?\n|\n([\.]*?)\\discretionary\sreplacing\s2\n\2[\.]\\.*?\n\2[\.]\\.*?\n'),
+    # 'accent': re.compile(r'\.\.\.\.\.\.\.\.\\kern\s-0.38092\s\(for\saccent\)\n\.\.\.\.\.\.\.\.\\OT1/lmr/m/n/14\s\^\n\.\.\.\.\.\.\.\.\\kern\s-6.47324\s\(for\saccent\)\n'),  # これ一般化しなきゃなはず
+    'char': re.compile(r'(?:\\J[TY]2/(?:mc|gt)/m/n/|\\OT1/lmr/m/n/|\\OML/lmm/m/it/)(?:7\.1|9\.79996|10\.8|14|14\.8|15\.6|19\.6|23\.8|35)\s(\S+?)(?:\s\(.*?\))?\n'),
     'ruby': re.compile(r'\\ruby{(.*?)}{(.*?)}'),
     'command': re.compile(r'\\(?!(part|chapter)).*?{(.*?)}({.*?})?'),
     'command_no_params': re.compile(r'\\(?!(part|chapter))\S*?\s'),
@@ -12,10 +14,11 @@ PATTERNS = {
 }
 
 COMBINATIONS_BEFORE = ['^^X']
-COMBINATIONS_AFTER = ['^^R', '^^S', '^^?']
+COMBINATIONS_AFTER = ['^^a', '^^R', '^^S', '^^?']
 
 REPLACES = {
-    '^^Z': 'æ',
+    '^^L': 'fi', '^^M': 'fl', '^^Z': 'æ',
+    '^^ae': 'ê',  # '^^aは独自'
     '^^Re': 'è',
     '^^Se': 'é', '^^SE': 'É', '^^Sn': 'ń', '^^Sr': 'ŕ', '^^Sy': 'ý',
     '^^?o': 'ö', '^^?u': 'ü',
@@ -40,6 +43,8 @@ def main():
     texts = []
     for page in pages:
         page = page.replace('|', '\n')
+        page = PATTERNS['discretionaries'].sub('\n', page)
+        # page = PATTERNS['accent'].sub('........\\OT1/lmr/m/n/14 ^^a\n', page)  # これ一般化しなきゃなはず
         chars = PATTERNS['char'].findall(page)
         for i, c in enumerate(chars):
             if c in COMBINATIONS_BEFORE:
@@ -52,8 +57,8 @@ def main():
         for i, c in enumerate(chars):
             if c in REPLACES.keys():
                 chars[i] = REPLACES[c]
-            if len(chars[i]) >= 2:
-                print(f'\n注意, 2文字以上のcharあり。REPLACESに追加すること: {chars[i]}\n{chars[:i + 2]}\n')
+            if len(chars[i]) >= 3:
+                print(f'\n注意, 3文字以上のcharあり。REPLACESに追加すること: {chars[i]}\n{chars[:i + 2]}\n')
         texts.append(''.join(chars))
 
     # きたない
