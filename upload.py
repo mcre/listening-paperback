@@ -72,7 +72,7 @@ def main(project, version, start_publish_at, start_part_id, end_part_id):
                 --title="{settings['title']}" --description-file="tmp/description.txt" \
                 --category="Entertainment" --tags="{','.join(settings['tags'])}" \
                 --default-language="ja" --default-audio-language="ja" --client-secrets="./certs/youtube_client_secrets.json" \
-                --playlist="{settings['playlist_name']}" --embeddable=True --privacy="public" \
+                --playlist="{settings['playlist_title']}" --embeddable=True --privacy="public" \
                 --publish-at="{publish_at.astimezone(dt.timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.0Z')}" \
                 --thumbnail="{part_path}/thumbnail.png" \
                 {part_path}/movie.mp4
