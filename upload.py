@@ -34,7 +34,7 @@ def get_playlist_id(playlist_title):
 
 
 def insert_to_playlist(playlist_id, video_id):
-    return yu.youtube().playlistitems().insert(part='snippet, contentDetails, status', body={
+    return yu.youtube().playlistItems().insert(part='snippet, contentDetails, status', body={
         'snippet': {
             'playlistId': playlist_id,
             'resourceId': video_id,
