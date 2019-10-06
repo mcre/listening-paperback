@@ -35,6 +35,27 @@
             ]
         },
         {
+            "memo": "鉤括弧と同様に、Pollyのバグにより誤ったmarksが出るため置換",
+            "kanji": "寒気がした",
+            "ruby": "サムケがした",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["寒気", "名詞", "寒気", "サムケ"],
+                ["が", "助詞", "が", "ガ"],
+                ["し", "動詞", "する", "シ"],
+                ["た", "助動詞", "た", "タ"]
+            ]
+        },
+        {
+            "memo": "鉤括弧と同様に、Pollyのバグにより誤ったmarksが出るため置換",
+            "kanji": "目下",
+            "ruby": "モッカ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["目下", "名詞", "目下", "メシタ"]
+            ]
+        },
+        {
             "kanji": "一日",
             "ruby": "イチニチ",
             "offset_from_first_morpheme": 0,

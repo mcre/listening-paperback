@@ -5,8 +5,8 @@ import regex as re
 PATTERNS = {
     'page': re.compile(r'Completed box being shipped out.*?\|\.\\special{'),
     'discretionaries': re.compile(r'\n([\.]*?)\\discretionary\n\1[\.]\\.*?\n|\n([\.]*?)\\discretionary\sreplacing\s2\n\2[\.]\\.*?\n\2[\.]\\.*?\n'),
-    # 'accent': re.compile(r'\.\.\.\.\.\.\.\.\\kern\s-0.38092\s\(for\saccent\)\n\.\.\.\.\.\.\.\.\\OT1/lmr/m/n/14\s\^\n\.\.\.\.\.\.\.\.\\kern\s-6.47324\s\(for\saccent\)\n'),  # これ一般化しなきゃなはず
-    'char': re.compile(r'(?:\\J[TY]2/(?:mc|gt)/m/n/|\\OT1/lmr/m/n/|\\OML/lmm/m/it/)(?:7\.1|9\.79996|10\.8|14|14\.8|15\.6|19\.6|23\.8|35)\s(\S+?)(?:\s\(.*?\))?\n'),
+    'accent': re.compile(r'\n.*?\\kern.*?\(for\saccent\)\n(.*?)\^\n.*?\\kern.*?\(for\saccent\)\n'),
+    'char': re.compile(r'(?:\\J[TY]2/(?:mc|gt)/m/n/|\\OT1/lmr/m/n/|\\OML/lmm/m/it/)(?:7\.1|8\.40009|9\.79996|10\.8|13\.2|14|14\.8|15\.6|16\.4|17\.2|18|18\.8|19\.6|23\.8|35)\s(\S+?)(?:\s\(.*?\))?\n'),
     'ruby': re.compile(r'\\ruby{(.*?)}{(.*?)}'),
     'command': re.compile(r'\\(?!(part|chapter)).*?{(.*?)}({.*?})?'),
     'command_no_params': re.compile(r'\\(?!(part|chapter))\S*?\s'),
@@ -44,7 +44,7 @@ def main():
     for page in pages:
         page = page.replace('|', '\n')
         page = PATTERNS['discretionaries'].sub('\n', page)
-        # page = PATTERNS['accent'].sub('........\\OT1/lmr/m/n/14 ^^a\n', page)  # これ一般化しなきゃなはず
+        page = PATTERNS['accent'].sub(r'\n\1^^a\n', page)
         chars = PATTERNS['char'].findall(page)
         for i, c in enumerate(chars):
             if c in COMBINATIONS_BEFORE:

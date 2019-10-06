@@ -14,11 +14,13 @@ PATTERNS = {
     'ruby': re.compile(r'\\ruby{(.+?)}{(.+?)}'),
     'zspace': re.compile(r'\\　'),
     'newline': re.compile(r'\\\\'),
-    'ignore_command': re.compile(r'(?:\\fontsize{[0-9\.]+?}{[0-9\.]+?}\\selectfont|\\kentensubmarkintate{.+?}|\\stretch{.+?})'),
+    # \hoge{aaa} でaaaを読まないようなコマンド
+    'ignore_command': re.compile(r'(?:\\fontsize{[0-9\.]+?}{[0-9\.]+?}\s*?\\selectfont|\\kentensubmarkintate{.+?}|\\stretch{.+?})|\\kaeriten{.+?}'),
+    # aaaを読むコマンド
     'command': re.compile(r'\\(?!ruby)\S*?(?<rec>{((?:[^{}]+|(?&rec))*)})'),
     'command_no_params': re.compile(r'\\(?!ruby)\S*?(?=[\s}]|$)'),
     'dialogue': re.compile(r'「(.*?)」'),
-    'think': re.compile(r'（(.*?)）'),
+    'think': re.compile(r'(?:（(.*?)）|『(.*?)』)'),
     'remove_marks': re.compile(r'[「」『』（）〔〕{}$_&]'),
     'double_odoriji': re.compile(r'([\p{Han}]{2})々々(?!</sub>)'),  # ルビ付きは一旦除外
     'time_break': re.compile(r'([―…])'),
@@ -202,7 +204,7 @@ def main():
             st, en = ruby['start'], ruby['end']
             t = f'{t[:st]}<sub alias="{ruby["ruby"]}">{t[st:en]}</sub>{t[en:]}'
         t = PATTERNS['dialogue'].sub(r'<break strength="weak"/><prosody pitch="+10%">\1</prosody><break strength="weak"/>', t)
-        t = PATTERNS['think'].sub(r'<break strength="weak"/>\1<break strength="weak"/>', t)
+        t = PATTERNS['think'].sub(r'<break strength="weak"/>\1\2<break strength="weak"/>', t)
         t = PATTERNS['remove_marks'].sub('', t)  # pollyのバグで、「<sub alias=\"カスケ\">加助"」等でmarksで余分なものが出るので記号系を置換しておく
         t = PATTERNS['double_odoriji'].sub(r'\1<sub alias="\1">々々</sub>', t)
         t = PATTERNS['time_break'].sub(r'<break time="0.5s"/>\1', t)
