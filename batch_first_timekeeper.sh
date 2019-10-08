@@ -1,3 +1,4 @@
+echo $1
 pj=$1
 mkdir -p ./projects/${pj}/tmp
 log="./projects/${pj}/tmp/batch_first_timekeeper.log"

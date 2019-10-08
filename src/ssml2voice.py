@@ -69,20 +69,20 @@ def main(project_name, aws_access_key_id, aws_secret_access_key):
                 shutil.copy(f'{cache_path}/voice.mp3', f'voices/{basename(ssml)}.mp3')
                 shutil.copy(f'{cache_path}/voice.json', f'marks/{basename(ssml)}.json')
 
-    if len(pending_tasks) > 10:
-        print({basename(task['ssml']) for task in pending_tasks})
+    print({basename(task['ssml']) for task in pending_tasks})
 
-        chars_len = 0
-        for pending_task in pending_tasks:
-            with open(pending_task['ssml'], 'r') as f:
-                ssml = f.read()
-                chars_len += len(PATTERNS['tag'].sub('', ssml))
-        usd = chars_len * 4e-6
-        jpy = usd * 106
-        print(f'{chars_len:,} chars -> {usd:.2f} USD ≒ {jpy:.1f} JPY')
+    chars_len = 0
+    for pending_task in pending_tasks:
+        with open(pending_task['ssml'], 'r') as f:
+            ssml = f.read()
+            chars_len += len(PATTERNS['tag'].sub('', ssml))
+    usd = chars_len * 4e-6
+    jpy = usd * 106
+    print(f'{chars_len:,} chars -> {usd:.2f} USD ≒ {jpy:.1f} JPY')
 
+    if jpy >= 1:
         try:
-            input_text = input(f'\npolly変換数が10を超えました({len(pending_tasks)})。そのまま続ける場合はyを入力してください\n input: ')
+            input_text = input(f'\npolly変換料金が1円を超えました。そのまま続ける場合はyを入力してください\n input: ')
             if input_text != 'y':
                 raise Exception()
         except Exception:

@@ -58,7 +58,6 @@ def main():
 
     syms = '「」（）『』…―、。！？'
     ptn = re.compile(r'^([' + syms + r']*)(.*?)([' + syms + r']*)$')
-    ptn_kanji = re.compile(r'[\p{Han}ヶ]')
     tex_text = ''
     voice_id = -1
     for part in timekeeper['parts']:
@@ -69,7 +68,7 @@ def main():
                         voice_id = word['voice_id']
                         tex_text += f'\n\n\\tatechuyoko{{\\tiny {voice_id}}}'
                     t = word['text']
-                    if ptn_kanji.search(t):
+                    if word['includes_kanji']:
                         obj = ptn.match(t)
                         v = word['viseme']
                         h = viseme_to_hira(v, t)

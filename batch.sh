@@ -95,17 +95,25 @@ docker run --rm -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r
 echo '# build_timekeeper'
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u build_timekeeper.py" || exit 1
 if [ $stop = 'timekeeper' ]; then exit 0; fi
-echo '# viseme'
-docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u timekeeper2viseme_tex.py" || exit 1
-docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && uplatex -halt-on-error viseme.tex > dummy.txt" || exit 1
-docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && dvipdfmx viseme.dvi" || exit 1
-if [ $stop = 'viseme' ]; then exit 0; fi
 echo '# create_cover_images_and_ssml'
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u create_cover_images_and_ssml.py" || exit 1
 echo '# re-ssml2voice' # パート数確定したので再度polly
-docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${pj} ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
+if [ $stop = 'before_movie' ]; then
+  docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${pj} ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
+else
+  docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${pj} ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
+fi
 cp -r ./work/cache/* ./projects/${pj}/cache || exit 1
 if [ $stop = 'before_movie' ]; then exit 0; fi
+if [ $stop = 'viseme' ]; then
+  echo '# viseme'
+  docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u timekeeper2viseme_tex.py" || exit 1
+  docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && uplatex -halt-on-error viseme.tex > dummy.txt" || exit 1
+  docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && dvipdfmx viseme.dvi" || exit 1
+  docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u create_voice_text_images.py" || exit 1
+  docker run --rm -v $PWD/work:/work lp-python-movie /bin/sh -c "python -u build_voice_movie.py" || exit 1
+  exit 0
+fi
 
 echo '# prepare_output_directory'
 rm -rf ./projects/${pj}/output/${dir} || exit 1
@@ -118,7 +126,7 @@ mkdir work/ssml work/marks work/page_movies || exit 1
 cd ${home} || exit 1
 cd ./work/ || exit 1
 cp novel.txt config.json ../projects/${pj}/output/${dir}/input || exit 1
-cp novel.tex rubies.json tex_output.txt novel.pdf chapters_and_pages.json timekeeper.json viseme.tex viseme.pdf ../projects/${pj}/output/${dir}/work || exit 1
+cp novel.tex rubies.json tex_output.txt novel.pdf chapters_and_pages.json timekeeper.json ../projects/${pj}/output/${dir}/work || exit 1
 cp ssml/* ../projects/${pj}/output/${dir}/work/ssml/ || exit 1
 cp marks/* ../projects/${pj}/output/${dir}/work/marks/ || exit 1
 cd ${home} || exit 1

@@ -8,6 +8,7 @@ import regex as re
 
 PATTERNS = {
     'tag': re.compile(r'''<("[^"]*"|'[^']*'|[^'">])*>'''),
+    'kanji': re.compile(r'[\p{Han}ヶ]')
 }
 
 with open('consts.json', 'r') as f:
@@ -75,6 +76,7 @@ def main():
         'start_in_voice': word['time'] / 1000,
         'text': PATTERNS['tag'].sub('', word['value']),
         'viseme': word['viseme'],
+        'includes_kanji': True if PATTERNS['kanji'].search(word['value']) else False,
     } for voice_id, words_in_voice in enumerate(words_in_voices) for word_id_in_voice, word in enumerate(words_in_voice)]
 
     # all_words を分解しながら page に words としてぶら下げる
@@ -111,6 +113,7 @@ def main():
     for chapter in chapters:
         for page in chapter['pages']:
             for word_id, word in enumerate(page['words']):
+                word['original_text'] = word['text']
                 if len(word['skipped_text']) > 0:
                     cnt = 0
                     for char in word['skipped_text']:
@@ -209,7 +212,7 @@ def main():
             for key in ['start', 'end', 'duration']:
                 page[key] = round(page[key], 3)
             for word in page['words']:
-                del word['voice_duration'], word['word_num_in_voice'], word['start_in_voice'], word['skipped_text'], word['voice_start']
+                del word['voice_duration'], word['word_num_in_voice'], word['skipped_text'], word['voice_start']
                 for key in ['start', 'end', 'duration', 'duration_to_next_word_start', 'next_word_duration']:
                     word[key] = round(word[key], 3)
         for voice in chapter['voices'].values():
