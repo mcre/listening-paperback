@@ -2,8 +2,9 @@
 import gc
 import json
 import os
+import subprocess
 
-from moviepy.editor import AudioClip, AudioFileClip, CompositeVideoClip, concatenate_videoclips, ImageClip, VideoFileClip
+from moviepy.editor import AudioClip, AudioFileClip, CompositeVideoClip, concatenate_videoclips, ImageClip
 
 BLANK = 0.1
 FPS = 4
@@ -17,7 +18,7 @@ def silence_clip(duration):
 
 
 def write_video(path, video_clip):
-    video_clip.write_videofile(path, fps=6, codec='libx264', audio_bitrate='128k')
+    video_clip.write_videofile(path, fps=6, codec='libx264', audio_codec='libfdk_aac', audio_bitrate='384k')
 
 
 def main():
@@ -25,6 +26,7 @@ def main():
     with open(f'timekeeper.json', 'r') as f:
         timekeeper = json.load(f)
 
+    for_concat_movies = []
     for part in timekeeper['parts']:
         for chapter in part['chapters']:
             for page in chapter['pages']:
@@ -44,35 +46,14 @@ def main():
                         clip = concatenate_videoclips([clip, s_clip])
                         path = f'voice_movie_tmp/{chapter["chapter_id"]:0>5}_{page["page_id"]:0>5}_{word["word_id"]:0>5}.mp4'
                         write_video(path, clip)
+                        for_concat_movies.append(f'file {path}\n')
+                    clip, audio_clip, text_clip, s_clip = None, None, None, None
+                    gc.collect()
 
-                        clip, audio_clip, text_clip, s_clip = None, None, None, None
-                        gc.collect()
+    with open('concat_voice_movie_list.txt', 'w') as f:
+        f.writelines(for_concat_movies)
 
-    clip, audio_clip, text_clip, s_clip, page_clip = None, None, None, None, None
-    gc.collect()
-
-    tmp_videos = []
-    for part in timekeeper['parts']:
-        for chapter in part['chapters']:
-            for page in chapter['pages']:
-                clips = []
-                gc.collect()
-                for word in page['words']:
-                    if word['includes_kanji'] and len(word['original_text']) >= 2:
-                        vc = VideoFileClip(f'voice_movie_tmp/{chapter["chapter_id"]:0>5}_{page["page_id"]:0>5}_{word["word_id"]:0>5}.mp4')
-                        clips.append(vc)
-                if len(clips) == 0:
-                    continue
-                path = f'voice_movie_tmp/{chapter["chapter_id"]:0>5}_{page["page_id"]:0>5}.mp4'
-                write_video(path, concatenate_videoclips(clips))
-                tmp_videos.append(path)
-
-    clips, vc = None, None
-    gc.collect()
-
-    clips = [VideoFileClip(v) for v in tmp_videos]
-    clip = concatenate_videoclips(clips)
-    write_video('voice_movie.mp4', clip)
+    subprocess.call('ffmpeg -f concat -i concat_voice_movie_list.txt -c copy voice_movie.mp4', shell=True)
 
 
 if __name__ == '__main__':
