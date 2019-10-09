@@ -33,13 +33,16 @@ def main():
                 page_clip = ImageClip(page['image_path']).set_fps(FPS)
                 for word in page['words']:
                     if word['includes_kanji'] and len(word['original_text']) >= 2:
-                        text_path = word['animation_image_path'].replace('animation_images', 'voice_text_images')
-                        text_clip = ImageClip(text_path).set_fps(FPS).set_duration(word['duration']).set_pos(lambda t: ('center', 'center'))
-                        clip = CompositeVideoClip([page_clip.set_duration(word['duration']), text_clip])
+                        d = word['duration']
+                        fname = f"{chapter['chapter_id']:0>5}_{page['page_id']:0>5}_{word['word_id']:0>5}.png"
+                        voice_id_clip = ImageClip(f'voice_text_images/voice_{word["voice_id"]:0>5}.png').set_fps(FPS).set_duration(d).set_pos((10, 10))
+                        text_clip = ImageClip(f'voice_text_images/text_{fname}').set_fps(FPS).set_duration(d).set_pos(('center', 'center'))
+                        viseme_clip = ImageClip(f'voice_text_images/viseme_{fname}').set_fps(FPS).set_duration(d).set_pos(('center', 230))
+                        clip = CompositeVideoClip([page_clip.set_duration(d), text_clip, viseme_clip, voice_id_clip])
                         voice_path = chapter['voices'][str(word['voice_id'])]['voice_path']
                         audio_clip = AudioFileClip(voice_path)
                         st = word['start_in_voice']
-                        en = min(word['start_in_voice'] + word['duration'], audio_clip.duration)
+                        en = min(word['start_in_voice'] + d, audio_clip.duration)
                         audio_clip = audio_clip.subclip(st, en)
                         clip = clip.set_audio(audio_clip)
                         s_clip = page_clip.set_duration(BLANK).set_audio(silence_clip(BLANK))
