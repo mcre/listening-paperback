@@ -61,9 +61,9 @@ def main():
                     if word['includes_kanji'] and len(word['original_text']) >= 2:
                         vc = VideoFileClip(f'voice_movie_tmp/{chapter["chapter_id"]:0>5}_{page["page_id"]:0>5}_{word["word_id"]:0>5}.mp4')
                         clips.append(vc)
+                if len(clips) == 0:
+                    continue
                 path = f'voice_movie_tmp/{chapter["chapter_id"]:0>5}_{page["page_id"]:0>5}.mp4'
-                vc = None
-                gc.collect()
                 write_video(path, concatenate_videoclips(clips))
                 tmp_videos.append(path)
 
