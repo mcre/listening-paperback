@@ -10,12 +10,17 @@ def main():
     with open(f'timekeeper.json', 'r') as f:
         timekeeper = json.load(f)
 
+    already = set()
     for part in timekeeper['parts']:
         for chapter in part['chapters']:
             for page in chapter['pages']:
                 for word in page['words']:
                     text = word['original_text']
                     viseme = u.viseme_to_hira(word['viseme'], text)
+                    tv = f"{text}{word['viseme']}"
+                    if tv in already:  # textもvisemeも一致したものは再度作らない
+                        continue
+                    already.add(tv)
                     if word['includes_kanji'] and len(text) >= 2:  # 1文字を読み上げられてもなんだかわからないので2文字以上
                         fname = f"{chapter['chapter_id']:0>5}_{page['page_id']:0>5}_{word['word_id']:0>5}.png"
                         subprocess.call(f"convert -pointsize 144 -background none -font font.ttf label:'{text}'   voice_text_images/text_{fname}", shell=True)

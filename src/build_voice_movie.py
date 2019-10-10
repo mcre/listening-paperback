@@ -26,12 +26,17 @@ def main():
     with open(f'timekeeper.json', 'r') as f:
         timekeeper = json.load(f)
 
+    already = set()
     for_concat_movies = []
     for part in timekeeper['parts']:
         for chapter in part['chapters']:
             for page in chapter['pages']:
                 page_clip = ImageClip(page['image_path']).set_fps(FPS)
                 for word in page['words']:
+                    tv = f"{word['original_text']}{word['viseme']}"
+                    if tv in already:  # textもvisemeも一致したものは再度作らない
+                        continue
+                    already.add(tv)
                     if word['includes_kanji'] and len(word['original_text']) >= 2:
                         d = word['duration']
                         fname = f"{chapter['chapter_id']:0>5}_{page['page_id']:0>5}_{word['word_id']:0>5}.png"
@@ -52,6 +57,7 @@ def main():
                         for_concat_movies.append(f'file {path}\n')
                     clip, audio_clip, text_clip, s_clip = None, None, None, None
                     gc.collect()
+    print(already)
 
     with open('concat_voice_movie_list.txt', 'w') as f:
         f.writelines(for_concat_movies)
