@@ -57,7 +57,6 @@ def main():
                         for_concat_movies.append(f'file {path}\n')
                     clip, audio_clip, text_clip, s_clip = None, None, None, None
                     gc.collect()
-    print(already)
 
     with open('concat_voice_movie_list.txt', 'w') as f:
         f.writelines(for_concat_movies)
