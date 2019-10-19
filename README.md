@@ -101,3 +101,10 @@ youtube-upload --title="test" --client-secret='./certs/youtube_client_secrets.js
 
 * チャンネルのアイコン
     - http://icooon-mono.com/11129-%e7%a9%8d%e3%81%bf%e9%87%8d%e3%81%ad%e3%81%9f%e6%9c%ac%e3%81%ae%e3%82%a2%e3%82%a4%e3%82%b3%e3%83%b3%e7%b4%a0%e6%9d%90/
+
+* yamitzky/mecab-bottle を2019/10/19に確認したところこわれていたので、過去のイメージを自分のリポジトリにpushしておいてそれを使用する
+
+```
+docker tag ec141d2a9de9 mcre/mecab-bottle:20190822
+docker push mcre/mecab-bottle:20190822
+```

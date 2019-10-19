@@ -1,4 +1,4 @@
-FROM yamitzky/mecab-bottle
+FROM mcre/mecab-bottle:20190822
 
 WORKDIR /work
 
