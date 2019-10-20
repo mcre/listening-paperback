@@ -12,13 +12,12 @@
     "music_fadeout_time": 5,
     "special_rubies": [
         {
-            "kanji": "二三日",
-            "ruby": "にさんにち",
+            "kanji": "二三",
+            "ruby": "にさん",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["二", "名詞", "二", "ニ"],
-                ["三", "名詞", "三", "サン"],
-                ["日", "名詞", "日", "ニチ"]
+                ["三", "名詞", "三", "サン"]
             ]
         },
         {
