@@ -22,6 +22,10 @@ def basename(path):
     return os.path.splitext(os.path.basename(path))[0]
 
 
+def seconds_to_str(seconds):
+    return f'{int(seconds / 60):0>2}:{int(seconds % 60):0>2}'
+
+
 def main():
     # chapter と pages の対応を作成()
     with open(f'chapters_and_pages.json', 'r') as f:
@@ -222,7 +226,10 @@ def main():
     # chapters から parts を構成
     chapters_in_parts = []
     part, duration = [], 0
+
+    print('\n== chapters ==')
     for chapter in chapters:
+        print(f"chapter_id: {chapter['chapter_id']}, duration: {seconds_to_str(chapter['duration'])}")
         part.append(chapter)
         duration += chapter['duration']
         if duration > config['part_duration']:
@@ -238,11 +245,12 @@ def main():
             del chapters_in_parts[-1]
     parts = [{'chapters': chapters} for chapters in chapters_in_parts]
 
+    print('\n== parts ==')
     for part_id, part in enumerate(parts):
         part['part_id'] = part_id
         part['duration'] = sum([chapter['duration'] for chapter in part['chapters']])
         chapter_ids = ', '.join([str(chapter['chapter_id']) for chapter in part['chapters']])
-        print(f'part_id:{part_id:>3}, duration: {int(part["duration"] / 60):0>2}:{int(part["duration"] % 60):0>2}, chapter_ids: [{chapter_ids}]')
+        print(f'part_id:{part_id:>3}, duration: {seconds_to_str(part["duration"])}, chapter_ids: [{chapter_ids}]')
 
     # 書き込み
     with open(f'timekeeper.json', 'w') as f:
