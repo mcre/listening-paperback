@@ -243,6 +243,75 @@
             "morphemes": [
                 ["千里眼", "名詞", "千里眼", "センリガン"]
             ]
+        },
+        {
+            "kanji": "老大家",
+            "ruby": "ろうたいか",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["老大家", "名詞", "老大家", "ロウタイカ"]
+            ]
+        },
+        {
+            "kanji": "四方八方",
+            "ruby": "しほうはっぽう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["四方八方", "名詞", "四方八方", "シホウハッポウ"]
+            ]
+        },
+        {
+            "kanji": "一人々々",
+            "ruby": "ひとりひとり",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["一人", "名詞", "一人", "カズト"],
+                ["々", "記号", "々", "々"],
+                ["々", "記号", "々", "々"]
+            ]
+        },
+        {
+            "kanji": "尊し",
+            "ruby": "とうとし",
+            "offset_from_first_morpheme": 3,
+            "morphemes": [
+                ["仰げば尊し", "名詞", "仰げば尊し", "アオゲバトウトシ"]
+            ]
+        },
+        {
+            "kanji": "死ぬ気",
+            "ruby": "しぬき",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["死ぬ", "動詞", "死ぬ", "シヌ"],
+                ["気", "名詞", "気", "キ"]
+            ]
+        },
+        {
+            "kanji": "三十前",
+            "ruby": "さんじゅうまえ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["三", "名詞", "三", "サン"],
+                ["十", "名詞", "十", "ジュウ"],
+                ["前", "名詞", "前", "マエ"]
+            ]
+        },
+        {
+            "kanji": "水原",
+            "ruby": "みずはら",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["水原", "名詞", "水原", "ミズハラ"]
+            ]
+        },
+        {
+            "kanji": "万一",
+            "ruby": "まんいち",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["万一", "副詞", "万一", "マンイチ"]
+            ]
         }
     ] 
 }
