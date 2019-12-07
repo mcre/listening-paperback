@@ -48,7 +48,7 @@ def plain_except_ruby(line):
     for ig in ignore_list:
         if ret.startswith(ig):
             return None
-    ret = PATTERNS['zspace'].sub(r'', ret)
+    ret = PATTERNS['zspace'].sub(r'<break time="800ms"/>', ret)
     ret = PATTERNS['newline'].sub(r'', ret)
     ret = PATTERNS['ignore_command'].sub(r'', ret)
     for i in range(3):  # 入れ子コマンドのために複数回実施しておく

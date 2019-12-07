@@ -13,7 +13,7 @@
     "special_rubies": [
         {
             "kanji": "二三",
-            "ruby": "にさん",
+            "ruby": "ニサン",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["二", "名詞", "二", "ニ"],
@@ -22,11 +22,30 @@
         },
         {
             "kanji": "五六",
-            "ruby": "ごろく",
+            "ruby": "ゴロク",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["五", "名詞", "五", "ゴ"],
                 ["六", "名詞", "六", "ロク"]
+            ]
+        },
+        {
+            "kanji": "六七",
+            "ruby": "ロクシチ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["六", "名詞", "六", "ロク"],
+                ["七", "名詞", "七", "ナナ"]
+            ]
+        },
+        {
+            "kanji": "三四人",
+            "ruby": "サンヨニン",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["三", "名詞", "三", "サン"],
+                ["四", "名詞", "四", "ヨン"],
+                ["人", "名詞", "人", "ニン"]
             ]
         },
         {
@@ -153,7 +172,7 @@
         },
         {
             "kanji": "掛蒲団",
-            "ruby": "かけぶとん",
+            "ruby": "カケブトン",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["掛蒲団", "名詞", "掛蒲団", "カケブトン"]
@@ -247,7 +266,7 @@
         },
         {
             "kanji": "千里眼",
-            "ruby": "せんりがん",
+            "ruby": "センリガン",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["千里眼", "名詞", "千里眼", "センリガン"]
@@ -255,7 +274,7 @@
         },
         {
             "kanji": "老大家",
-            "ruby": "ろうたいか",
+            "ruby": "ロウタイカ",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["老大家", "名詞", "老大家", "ロウタイカ"]
@@ -263,7 +282,7 @@
         },
         {
             "kanji": "四方八方",
-            "ruby": "しほうはっぽう",
+            "ruby": "シホウハッポウ",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["四方八方", "名詞", "四方八方", "シホウハッポウ"]
@@ -271,7 +290,7 @@
         },
         {
             "kanji": "一人々々",
-            "ruby": "ひとりひとり",
+            "ruby": "ヒトリヒトリ",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["一人", "名詞", "一人", "カズト"],
@@ -289,7 +308,7 @@
         },
         {
             "kanji": "死ぬ気",
-            "ruby": "しぬき",
+            "ruby": "シヌキ",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["死ぬ", "動詞", "死ぬ", "シヌ"],
@@ -298,7 +317,7 @@
         },
         {
             "kanji": "三十前",
-            "ruby": "さんじゅうまえ",
+            "ruby": "サンジュウマエ",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["三", "名詞", "三", "サン"],
@@ -308,7 +327,7 @@
         },
         {
             "kanji": "水原",
-            "ruby": "みずはら",
+            "ruby": "ミズハラ",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["水原", "名詞", "水原", "ミズハラ"]
@@ -316,10 +335,26 @@
         },
         {
             "kanji": "万一",
-            "ruby": "まんいち",
+            "ruby": "マンイチ",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["万一", "副詞", "万一", "マンイチ"]
+            ]
+        },
+        {
+            "kanji": "一人",
+            "ruby": "ヒトリ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["一人", "名詞", "一人", "カズト"]
+            ]
+        },
+        {
+            "kanji": "中腹",
+            "ruby": "チュウフク",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["中腹", "名詞", "中腹", "チュウフク"]
             ]
         }
     ] 
