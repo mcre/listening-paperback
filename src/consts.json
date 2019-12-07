@@ -21,6 +21,15 @@
             ]
         },
         {
+            "kanji": "五六",
+            "ruby": "ごろく",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["五", "名詞", "五", "ゴ"],
+                ["六", "名詞", "六", "ロク"]
+            ]
+        },
+        {
             "kanji": "二、三日",
             "ruby": "にさん日、",
             "offset_from_first_morpheme": 0,
