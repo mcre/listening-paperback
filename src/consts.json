@@ -12,12 +12,31 @@
     "music_fadeout_time": 5,
     "special_rubies": [
         {
+            "kanji": "三四人",
+            "ruby": "サンヨニン",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["三", "名詞", "三", "サン"],
+                ["四", "名詞", "四", "ヨン"],
+                ["人", "名詞", "人", "ニン"]
+            ]
+        },
+        {
             "kanji": "二三",
             "ruby": "ニサン",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["二", "名詞", "二", "ニ"],
                 ["三", "名詞", "三", "サン"]
+            ]
+        },
+        {
+            "kanji": "三四",
+            "ruby": "サンヨン",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["三", "名詞", "三", "サン"],
+                ["四", "名詞", "四", "ヨン"]
             ]
         },
         {
@@ -30,22 +49,20 @@
             ]
         },
         {
+            "kanji": "五六",
+            "ruby": "ゴロク",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["五六", "名詞", "五六", "フノボリ"]
+            ]
+        },
+        {
             "kanji": "六七",
             "ruby": "ロクシチ",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["六", "名詞", "六", "ロク"],
                 ["七", "名詞", "七", "ナナ"]
-            ]
-        },
-        {
-            "kanji": "三四人",
-            "ruby": "サンヨニン",
-            "offset_from_first_morpheme": 0,
-            "morphemes": [
-                ["三", "名詞", "三", "サン"],
-                ["四", "名詞", "四", "ヨン"],
-                ["人", "名詞", "人", "ニン"]
             ]
         },
         {
