@@ -133,6 +133,19 @@ def count_japanese(text):
     return count
 
 
+def load_special_ruby(special_ruby):
+    return {
+        'ssml_filename': '_sperial_rubies',
+        'kanji': special_ruby['kanji'],
+        'ruby': special_ruby['ruby'],
+        'start': 0,
+        'morphemes': [{'el': tuple(m)} for m in special_ruby['morphemes']],
+        'offset_from_first_morpheme': special_ruby['offset_from_first_morpheme'],
+        'only_here': False,
+        'pos': '_sperial_rubies-00000',
+    }
+
+
 def main():
     os.makedirs('ssml', exist_ok=True)
     with open('novel.tex', 'r') as f:
@@ -141,41 +154,31 @@ def main():
 
     tex_ruby_lines = [{'fn': f'text{i:0>5}', 'line': line} for i, line in enumerate(tex_ruby_lines)]
 
-    rubies = []
+    text_rubies = []
     lines = []
     for line in tex_ruby_lines:
         p, r, m = split_ruby(line['fn'], line['line'])
         lines.append({'ssml_filename': line['fn'], 'plain_text': p, 'tex_ruby_text': line['line'], 'morphemes': m, 'ssml_rubies': []})
-        rubies.extend(r)
-    # 重複削除 本の頭からの順にrubiesに入っているはずなので、最初に登場したほうが残るはず
+        text_rubies.extend(r)
+    # 重複削除 本の頭からの順にtext_rubiesに入っているはずなので、最初に登場したほうが残るはず
     dic = {}
-    for ruby in rubies:
+    for ruby in text_rubies:
         if ruby['dup_key'] not in dic:
             dic[ruby['dup_key']] = ruby
-    rubies = dic.values()
+    text_rubies = dic.values()
     # 同じ漢字で読みが違うものはonly_hereにする
-    counts = collections.Counter([ruby['ambiguous_key'] for ruby in rubies if not ruby['only_here']])
+    counts = collections.Counter([ruby['ambiguous_key'] for ruby in text_rubies if not ruby['only_here']])
     ambiguous_keys = [key for key, count in counts.items() if count >= 2]
-    for ruby in rubies:
+    for ruby in text_rubies:
         for ambiguous_key in ambiguous_keys:
             if ruby['ambiguous_key'] == ambiguous_key:
                 ruby['only_here'] = True
                 print(f"読みが複数あるため only_here に設定: {ruby['kanji']} {ruby['ruby']}")
 
-    # 形態素数が長いルビから適用したい
-    rubies = sorted(rubies, key=lambda x: len(x['morphemes']), reverse=True)
-
-    for sruby in config.get('special_rubies', []) + consts['special_rubies']:
-        rubies.append({
-            'ssml_filename': '_sperial_rubies',
-            'kanji': sruby['kanji'],
-            'ruby': sruby['ruby'],
-            'start': 0,
-            'morphemes': [{'el': tuple(m)} for m in sruby['morphemes']],
-            'offset_from_first_morpheme': sruby['offset_from_first_morpheme'],
-            'only_here': False,
-            'pos': '_sperial_rubies-00000',
-        })
+    rubies = []
+    rubies.extend([load_special_ruby(x) for x in config.get('primary_special_rubies', []) + consts['primary_special_rubies']])  # 本文のルビより優先する
+    rubies.extend(sorted(text_rubies, key=lambda x: len(x['morphemes']), reverse=True))  # 形態素数が長いルビから適用
+    rubies.extend([load_special_ruby(x) for x in config.get('special_rubies', []) + consts['special_rubies']])
 
     with open('rubies.json', 'w') as f:
         json.dump(rubies, f, ensure_ascii=False, indent=2)

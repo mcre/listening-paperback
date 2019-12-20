@@ -10,6 +10,17 @@
     "blank_page_duration": 0.5,
     "music_volume": 0.01,
     "music_fadeout_time": 5,
+    "primary_special_rubies": [
+        {
+            "kanji": "剥げた",
+            "ruby": "ハゲた",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["剥げ", "動詞", "剥げる", "ハゲ"],
+                ["た", "助動詞", "た", "タ"]
+            ]
+        }
+    ],
     "special_rubies": [
         {
             "kanji": "三四人",
@@ -37,6 +48,15 @@
             "morphemes": [
                 ["三", "名詞", "三", "サン"],
                 ["四", "名詞", "四", "ヨン"]
+            ]
+        },
+        {
+            "kanji": "四五",
+            "ruby": "シゴ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["四", "名詞", "四", "ヨン"],
+                ["五", "名詞", "五", "ゴ"]
             ]
         },
         {
@@ -168,6 +188,14 @@
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["いつの間にか", "副詞", "いつの間にか", "イツノマニカ"]
+            ]
+        },
+        {
+            "kanji": "またたく間",
+            "ruby": "またたくま",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["またたく間", "名詞", "またたく間", "マタタクマ"]
             ]
         },
         {
@@ -367,11 +395,37 @@
             ]
         },
         {
+            "kanji": "一人",
+            "ruby": "ヒトリ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["一人", "名詞", "一人", "ヒトリ"]
+            ]
+        },
+        {
             "kanji": "中腹",
             "ruby": "チュウフク",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["中腹", "名詞", "中腹", "チュウフク"]
+            ]
+        },
+        {
+            "kanji": "起った",
+            "ruby": "おこった",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["起っ", "動詞", "起る", "オコッ"],
+                ["た", "助動詞", "た", "タ"]
+            ]
+        },
+        {
+            "kanji": "少からず",
+            "ruby": "少なからず",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["少から", "形容詞", "少い", "スクナカラ"],
+                ["ず", "助動詞", "ぬ", "ズ"]
             ]
         }
     ] 
