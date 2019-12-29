@@ -1,3 +1,5 @@
+import os
+
 ssml_prefix = '''<?xml version="1.0"?>
 <speak
     version="1.1"
@@ -66,3 +68,11 @@ def viseme_to_hira(viseme, text):
             raise Exception(f'変換できません: {viseme} {text}')
         ret += h
     return ret
+
+
+def basename(path):
+    return os.path.splitext(os.path.basename(path))[0]
+
+
+def seconds_to_str(seconds):
+    return f'{int(seconds / 60):0>2}:{int(seconds % 60):0>2}'

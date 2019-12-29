@@ -105,8 +105,8 @@ else
 fi
 cp -r ./work/cache/* ./projects/${pj}/cache || exit 1
 if [ $stop = 'before_movie' ]; then exit 0; fi
-if [ $stop = 'viseme' ]; then
-  echo '# viseme'
+if [ $stop = 'voice_check_old' ]; then
+  echo '# voice_check_old'
   docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u timekeeper2viseme_tex.py" || exit 1
   docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && uplatex -halt-on-error viseme.tex > dummy.txt" || exit 1
   docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && dvipdfmx viseme.dvi" || exit 1

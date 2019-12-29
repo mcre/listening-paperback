@@ -18,7 +18,7 @@
         - コマンド等はエスケープが必要。(`\` => `\\\\`, '{' => '\{'}
     - `special_rubies`
         - 読み間違い等を調整できる。他の本にも通用する読み間違いは `./src/consts.json` に記述する。
-        - 読み間違いは完成した動画や、`viseme.pdf` で確認できる
+        - 読み間違いは完成した動画や、voice_checkのアウトプットで確認できる
         - 入力形式は↓を実行すると対話で出力できる
             - `docker run --rm -it -v $PWD:/work lp-python-mecab /bin/sh -c "python -u ruby.py"`
 * 画像がある場合は、`./projects/{作者名}/{作品名}/images` に画像をいれて、縦書きに対応するため↓のコマンドで90度回転させる
@@ -38,8 +38,8 @@
         - `./batch.sh {作者名}/{作品名} {start_part_id} {end_part_id}`
     - 途中で止める場合
         - `./batch.sh {作者名}/{作品名} x x {止める箇所}`
-            - tex, pdf, ssml, voice, timekeeper, before_movie, viseme が指定可能
-            - 通常はvisemeは作成されない。visemeと入力した場合のみ作成される。
+            - tex, pdf, ssml, voice, timekeeper, before_movie, voice_check, voice_check_old が指定可能
+            - 通常はvoice_checkは作成されない。voice_checkと入力した場合のみ作成される。
             - voice を入力した場合はキーボード入力(y)可能。ただしバックグラウンドでは動作できない。
 2. プロジェクトの`./output/{git_commit_id}_{part_id_or_range}`以下に一部の中間ファイル、出力ファイルが出力される。
     - `./output/latest` には出力ファイルが上書きされる
@@ -47,7 +47,9 @@
 * `./batch_first_pdf.sh {作者名}/{作品名}` を使うとpdfを生成し、ログを`./projects/{作者名}/{作品名}/tmp/batch_first_pdf.log` に保存できる。
     - 最初はこれかな。tex処理漏れ等を手軽に確認するために使う。
 * `./batch_first_timekeeper.sh {作者名}/{作品名}` を使うと、pdf, 音声, timekeeperを生成し、ログを`./projects/{作者名}/{作品名}/tmp/batch_first_timekeeper.log` に保存できる。
-    - 500万文字用の大量変換、timekeeperのエラーチェックに使う。
+    - 500万文字用の大量変換、timekeeperのエラーチェック、パート数の事前確認に使う。
+* `./batch_first_voice_check.sh {作者名}/{作品名}` を使うと、pdf, 音声, timekeeper, voice_check関連ファイルを作成し、ログを`./projects/{作者名}/{作品名}/tmp/batch_first_voice_check.log` に保存できる。
+    - たくさんの作品のvoice_checkを一括で作りたいときに便利
 
 ### youtube upload
 

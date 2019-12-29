@@ -6,6 +6,8 @@ import sys
 import mutagen.mp3
 import regex as re
 
+import util as u
+
 PATTERNS = {
     'tag': re.compile(r'''<("[^"]*"|'[^']*'|[^'">])*>'''),
     'kanji': re.compile(r'[\p{Han}ヶ]')
@@ -16,14 +18,6 @@ with open('consts.json', 'r') as f:
 
 with open('config.json', 'r') as f:
     config = json.load(f)
-
-
-def basename(path):
-    return os.path.splitext(os.path.basename(path))[0]
-
-
-def seconds_to_str(seconds):
-    return f'{int(seconds / 60):0>2}:{int(seconds % 60):0>2}'
 
 
 def main():
@@ -54,7 +48,7 @@ def main():
     all_voices = [{
         'voice_id': voice_id,
         'voice_path': voice_path,
-        'marks_path': f'marks/{basename(voice_path)}.json',
+        'marks_path': f'marks/{u.basename(voice_path)}.json',
         'duration': mutagen.mp3.MP3(voice_path).info.length,
     } for voice_id, voice_path in enumerate(sorted(glob.glob('voices/text*.mp3')))]
 
@@ -229,7 +223,7 @@ def main():
 
     print('\n== chapters ==')
     for chapter in chapters:
-        print(f"chapter_id: {chapter['chapter_id']}, duration: {seconds_to_str(chapter['duration'])}")
+        print(f"chapter_id: {chapter['chapter_id']}, duration: {u.seconds_to_str(chapter['duration'])}")
         part.append(chapter)
         duration += chapter['duration']
         if duration > config['part_duration']:
@@ -250,7 +244,7 @@ def main():
         part['part_id'] = part_id
         part['duration'] = sum([chapter['duration'] for chapter in part['chapters']])
         chapter_ids = ', '.join([str(chapter['chapter_id']) for chapter in part['chapters']])
-        print(f'part_id:{part_id:>3}, duration: {seconds_to_str(part["duration"])}, chapter_ids: [{chapter_ids}]')
+        print(f'part_id:{part_id:>3}, duration: {u.seconds_to_str(part["duration"])}, chapter_ids: [{chapter_ids}]')
 
     # 書き込み
     with open(f'timekeeper.json', 'w') as f:
