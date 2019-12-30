@@ -5,5 +5,4 @@ log="./projects/${pj}/tmp/batch_first_voice_check.log"
 ./batch.sh ${pj} x x voice_check 2>&1 | tee ${log}
 cp ./work/novel.pdf ./projects/${pj}/tmp/novel.pdf
 cp ./work/novel.tex ./projects/${pj}/tmp/novel.tex
-cp ./work/viseme.pdf ./projects/${pj}/tmp/viseme.pdf
-cp ./work/voice_movie.mp4 ./projects/${pj}/tmp/voice_movie.mp4
+cp ./work/fast_check_movie.mp4 ./projects/${pj}/tmp/fast_check_movie.mp4

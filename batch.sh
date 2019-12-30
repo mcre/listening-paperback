@@ -105,6 +105,11 @@ else
 fi
 cp -r ./work/cache/* ./projects/${pj}/cache || exit 1
 if [ $stop = 'before_movie' ]; then exit 0; fi
+if [ $stop = 'voice_check' ]; then
+  echo '# voice_check'
+  docker run --rm -v $PWD/work:/work lp-python-movie /bin/sh -c "python -u build_fast_check_movie.py" || exit 1
+  exit 0
+fi
 if [ $stop = 'voice_check_old' ]; then
   echo '# voice_check_old'
   docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u timekeeper2viseme_tex.py" || exit 1
