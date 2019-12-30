@@ -1,7 +1,7 @@
-import os
 import glob
 import hashlib
 import json
+import os
 import os.path
 import re
 import shutil
@@ -10,16 +10,13 @@ import time
 
 import boto3
 
+import util as u
+
 PATTERNS = {
     'tag': re.compile(r'''<("[^"]*"|'[^']*'|[^'">])*>'''),
 }
 
-with open('consts.json', 'r') as f:
-    consts = json.load(f)
-
-
-def basename(path):
-    return os.path.splitext(os.path.basename(path))[0]
+consts = u.load_consts()
 
 
 def start_task(ssml_path, cache_path, polly, text, output_format):
@@ -39,8 +36,8 @@ def start_task(ssml_path, cache_path, polly, text, output_format):
         'task_id': rs['TaskId'],
         'cache_path': cache_path,
         'ssml_path': ssml_path,
-        'name': basename(ssml_path),
-        's3_basename': basename(rs['OutputUri']),
+        'name': u.basename(ssml_path),
+        's3_basename': u.basename(rs['OutputUri']),
         'format': rs['OutputFormat'],
     }
 
@@ -66,10 +63,10 @@ def main(project_name, aws_access_key_id, aws_secret_access_key):
                 pending_tasks.append({'ssml': ssml, 'cache': f'{cache_path}/voice.mp3', 'text': text, 'format': 'mp3'})
                 pending_tasks.append({'ssml': ssml, 'cache': f'{cache_path}/voice.json', 'text': text, 'format': 'json'})
             else:
-                shutil.copy(f'{cache_path}/voice.mp3', f'voices/{basename(ssml)}.mp3')
-                shutil.copy(f'{cache_path}/voice.json', f'marks/{basename(ssml)}.json')
+                shutil.copy(f'{cache_path}/voice.mp3', f'voices/{u.basename(ssml)}.mp3')
+                shutil.copy(f'{cache_path}/voice.json', f'marks/{u.basename(ssml)}.json')
 
-    print({basename(task['ssml']) for task in pending_tasks})
+    print({u.basename(task['ssml']) for task in pending_tasks})
 
     chars_len = 0
     for pending_task in pending_tasks:

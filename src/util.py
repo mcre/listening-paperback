@@ -1,3 +1,4 @@
+import json
 import os
 
 ssml_prefix = '''<?xml version="1.0"?>
@@ -76,3 +77,22 @@ def basename(path):
 
 def seconds_to_str(seconds):
     return f'{int(seconds / 60):0>2}:{int(seconds % 60):0>2}'
+
+
+def load_consts():
+    with open('consts.json', 'r') as f:
+        return json.load(f)
+
+
+def load_config():
+    with open('config.json', 'r') as f:
+        return json.load(f)
+
+
+def load_timekeeper():
+    with open(f'timekeeper.json', 'r') as f:
+        return json.load(f)
+
+
+def hex_to_rgb(hex):
+    return tuple(int(hex[i: i + 2], 16) for i in range(0, 6, 2))

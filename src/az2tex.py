@@ -3,6 +3,7 @@ import string
 
 import jaconv
 import regex as re
+import util as u
 
 N = r'[１２３４５６７８９０一二三四五六七八九〇十]+'
 LATIN = r"[A-Za-zÀ-ÿ0-9#\-\;\&,. !\?'…―:\\]"
@@ -93,11 +94,8 @@ REPLACE_STR = {
     '※［＃感嘆符三つ、77-3］': '\\tatechuyoko{!!!}',
 }
 
-with open('config.json', 'r') as f:
-    config = json.load(f)
-
-with open('consts.json', 'r') as f:
-    consts = json.load(f)
+config = u.load_config()
+consts = u.load_consts()
 
 # https://qiita.com/kichiki/items/bb65f7b57e09789a05ce
 with open('jisx0213-2004-std.txt') as f:

@@ -1,4 +1,3 @@
-import json
 import os
 import subprocess
 
@@ -7,8 +6,7 @@ import util as u
 
 def main():
     os.makedirs('voice_text_images', exist_ok=True)
-    with open(f'timekeeper.json', 'r') as f:
-        timekeeper = json.load(f)
+    timekeeper = u.load_timekeeper()
 
     already = set()
     for part in timekeeper['parts']:

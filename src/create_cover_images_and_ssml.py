@@ -1,24 +1,13 @@
-import json
 import os
 
 import PIL.Image
 import PIL.ImageDraw
 import PIL.ImageFont
-
 import util as u
 
-with open('config.json', 'r') as f:
-    config = json.load(f)
-
-with open('consts.json', 'r') as f:
-    consts = json.load(f)
-
-with open(f'timekeeper.json', 'r') as f:
-    timekeeper = json.load(f)
-
-
-def hex_to_rgb(hex):
-    return tuple(int(hex[i: i + 2], 16) for i in range(0, 6, 2))
+config = u.load_config()
+consts = u.load_consts()
+timekeeper = u.load_timekeeper()
 
 
 def draw_text(im, text, loc=None, shadow=False):
@@ -52,7 +41,7 @@ def draw_text(im, text, loc=None, shadow=False):
         for i in range(-n, n + 1):
             for j in range(-n, n + 1):
                 im_draw.text((x + i, y + j), text, align='center', font=font, fill=(255, 255, 255))
-    im_draw.text((x, y), text, align='center', font=font, fill=hex_to_rgb(consts['text_color']))
+    im_draw.text((x, y), text, align='center', font=font, fill=u.hex_to_rgb(consts['text_color']))
 
 
 def main():
@@ -69,7 +58,7 @@ def main():
         back.save(f'cover_images/{part["part_id"]:0>5}.png')
 
     loc = {'type': 'right_bottom', 'right': size[0] - 50, 'bottom': size[1] - 50, 'size': 100}
-    bc = hex_to_rgb(consts['background_color'])
+    bc = u.hex_to_rgb(consts['background_color'])
     back = PIL.Image.new('RGB', size, color=bc)
     draw_text(back, 'つづく', loc=loc)
     back.save(f'cover_images/next.png')

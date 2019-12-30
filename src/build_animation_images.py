@@ -1,4 +1,3 @@
-import json
 import os
 import re
 import sys
@@ -6,8 +5,9 @@ import sys
 import fitz
 import PIL.Image
 import PIL.ImageDraw
-import PIL.ImageOps
 import PIL.ImageEnhance
+import PIL.ImageOps
+import util as u
 
 read_brightness = 0.25  # 既読文字の明るさ倍率(1以上で明るく、1以下で暗くなる)
 adj = {'x0': 0.3, 'y0': 0, 'x1': -0.02, 'y1': 0.1}  # 文字の幅・高さの何％を増減させるか
@@ -27,15 +27,9 @@ PATTERNS = {
     'alphabet_upper': re.compile(r'[A-Z]'),
 }
 
-with open('config.json', 'r') as f:
-    config = json.load(f)
-
-with open('consts.json', 'r') as f:
-    consts = json.load(f)
-
-
-def hex_to_rgb(hex):
-    return tuple(int(hex[i: i + 2], 16) for i in range(0, 6, 2))
+config = u.load_config()
+consts = u.load_consts()
+timekeeper = u.load_timekeeper()
 
 
 def cut_rects(char, rects):  # 「す」で検索すると「すすき」の「すす」が一つの枠で出現してしまうので、連続した場合は等分する
@@ -73,8 +67,6 @@ def conv(x):
 
 def main(part_id):
     os.makedirs('animation_images', exist_ok=True)
-    with open('timekeeper.json', 'r') as f:
-        timekeeper = json.load(f)
     pdf = fitz.open('novel.pdf')
 
     chapters = timekeeper['parts'][part_id]['chapters']
@@ -105,7 +97,7 @@ def main(part_id):
                     rect = rects[appear[char]]
                     cw = rect.x1 - rect.x0
                     ch = rect.y1 - rect.y0
-                    col = hex_to_rgb(consts['background_color'])
+                    col = u.hex_to_rgb(consts['background_color'])
                     a = adj
                     if PATTERNS['alphabet'].match(char):
                         a = adj_alphabet

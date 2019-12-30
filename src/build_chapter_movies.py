@@ -1,22 +1,15 @@
 import gc
-import json
 import os
 import sys
 
-from moviepy.editor import AudioClip, CompositeVideoClip, CompositeAudioClip, ImageClip, AudioFileClip, VideoFileClip, concatenate_videoclips
+import util as u
+import video_util as vu
+from moviepy.editor import (AudioFileClip, CompositeAudioClip,
+                            CompositeVideoClip, ImageClip, VideoFileClip,
+                            concatenate_videoclips)
 
-with open('consts.json', 'r') as f:
-    consts = json.load(f)
-with open(f'timekeeper.json', 'r') as f:
-    timekeeper = json.load(f)
-
-
-def write_raw_video(path, video_clip):
-    video_clip.write_videofile(path, fps=30, codec='utvideo', audio_codec='pcm_s32le')
-
-
-def silence_clip(duration):
-    return AudioClip(lambda t: 2 * [0], duration=duration)
+consts = u.load_consts()
+timekeeper = u.load_timekeeper()
 
 
 def generate_voice_clip(voices, video_clip_duration):
@@ -47,7 +40,7 @@ def main(part_id):
                 clip = ImageClip(page['image_path']).set_start(page['start'] - cft).set_duration(cft).crossfadein(cft)
                 video_clips.append(clip)
         video_clip_tmp = CompositeVideoClip(video_clips)
-        write_raw_video('tmp.avi', video_clip_tmp)  # メモリ不足回避のため一旦ファイル化する
+        vu.write_raw_video('tmp.avi', video_clip_tmp)  # メモリ不足回避のため一旦ファイル化する
 
         # おそうじ
         clip, video_clips, video_clip_tmp = None, None, None
@@ -59,13 +52,13 @@ def main(part_id):
         video_clip = video_clip.set_audio(generate_voice_clip(chapter['voices'], video_clip.duration))
 
         # 前後に chapter_interval 分の静止画を挟んでおく
-        first_clip = ImageClip(first_page['image_path']).set_duration(ci).set_audio(silence_clip(ci))
+        first_clip = ImageClip(first_page['image_path']).set_duration(ci).set_audio(vu.silence_clip(ci))
         if len(last_page['words']) == 0:  # 最後が空ページの場合
-            last_clip = ImageClip(last_page['image_path']).set_duration(ci).set_audio(silence_clip(ci))
+            last_clip = ImageClip(last_page['image_path']).set_duration(ci).set_audio(vu.silence_clip(ci))
         else:
-            last_clip = ImageClip(last_page['words'][-1]['animation_image_path']).set_duration(ci).set_audio(silence_clip(ci))  # 無音を入れないと雑音がはいる
+            last_clip = ImageClip(last_page['words'][-1]['animation_image_path']).set_duration(ci).set_audio(vu.silence_clip(ci))  # 無音を入れないと雑音がはいる
         video_clip = concatenate_videoclips([first_clip, video_clip, last_clip])
-        write_raw_video(chapter['movie_path'], video_clip)
+        vu.write_raw_video(chapter['movie_path'], video_clip)
         os.remove('tmp.avi')
 
 

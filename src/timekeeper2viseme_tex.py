@@ -1,8 +1,6 @@
-import json
 import string
 
 import regex as re
-
 import util as u
 
 
@@ -11,11 +9,8 @@ class Template(string.Template):
 
 
 def main():
-    with open(f'timekeeper.json', 'r') as f:
-        timekeeper = json.load(f)
-
-    with open('consts.json', 'r') as f:
-        consts = json.load(f)
+    consts = u.load_consts()
+    timekeeper = u.load_timekeeper()
 
     with open('template.tex', 'r', encoding='utf-8') as f:
         template = f.read()

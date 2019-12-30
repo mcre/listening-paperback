@@ -1,43 +1,32 @@
-import json
 import os
 import sys
 
-from moviepy.editor import AudioClip, CompositeAudioClip, ImageClip, AudioFileClip, VideoFileClip, concatenate_videoclips, concatenate_audioclips
+import util as u
+import video_util as vu
+from moviepy.editor import (AudioFileClip, CompositeAudioClip, ImageClip,
+                            VideoFileClip, concatenate_audioclips,
+                            concatenate_videoclips)
 
-with open('consts.json', 'r') as f:
-    consts = json.load(f)
-with open(f'timekeeper.json', 'r') as f:
-    timekeeper = json.load(f)
-
-
-def write_video(path, video_clip):
-    video_clip.write_videofile(path, fps=30, codec='libx264', audio_codec='libfdk_aac', audio_bitrate='384k')
-
-
-def hex_to_rgb(hex):
-    return tuple(int(hex[i: i + 2], 16) for i in range(0, 6, 2))
+consts = u.load_consts()
+timekeeper = u.load_timekeeper()
 
 
 cft = consts['cross_fade_time']
 ci = consts['chapter_interval'] / 2
 vi = consts['voice_interval']
-bg = hex_to_rgb(consts['background_color'])
+bg = u.hex_to_rgb(consts['background_color'])
 end_adj_time = 0.1  # エンドカードをくっつけるときに原因不明で「clips[i].get_frame(t - tt[i]) list index out of range」が出るのを回避するために適当に足す
-
-
-def silence_clip(duration):
-    return AudioClip(lambda t: 2 * [0], duration=duration)
 
 
 def build_cover_clip(part_id, parts_len):
     audio_clips = [
-        silence_clip(ci),
-        AudioFileClip('voices/channel.mp3'), silence_clip(vi),
-        AudioFileClip('voices/title.mp3'), silence_clip(vi),
+        vu.silence_clip(ci),
+        AudioFileClip('voices/channel.mp3'), vu.silence_clip(vi),
+        AudioFileClip('voices/title.mp3'), vu.silence_clip(vi),
     ]
     if parts_len > 1:
         audio_clips.append(AudioFileClip(f'voices/part{part_id:0>5}.mp3'))
-    audio_clips.append(silence_clip(ci))
+    audio_clips.append(vu.silence_clip(ci))
 
     audio_clip = concatenate_audioclips(audio_clips)
     clip = ImageClip(f'cover_images/{part_id:0>5}.png') \
@@ -49,8 +38,8 @@ def build_cover_clip(part_id, parts_len):
 
 def build_end_clip(kind):
     audio_clip = concatenate_audioclips([
-        silence_clip(ci),
-        AudioFileClip(f'voices/{kind}.mp3'), silence_clip(vi),
+        vu.silence_clip(ci),
+        AudioFileClip(f'voices/{kind}.mp3'), vu.silence_clip(vi),
         AudioFileClip('voices/please.mp3'),
     ])
     clip = ImageClip(f'cover_images/{kind}.png') \
@@ -77,7 +66,7 @@ def main(part_id):
         .volumex(consts['music_volume'])
     audio_clip = CompositeAudioClip([video_clip.audio, music_clip])
     video_clip = video_clip.set_audio(audio_clip)
-    write_video(f'part_movies/{part_id:0>5}/movie.mp4', video_clip)
+    vu.write_video(f'part_movies/{part_id:0>5}/movie.mp4', video_clip)
 
 
 if __name__ == '__main__':

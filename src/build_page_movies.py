@@ -1,18 +1,13 @@
 import gc
-import json
 import os
 import sys
 
+import util as u
+import video_util as vu
 from moviepy.editor import CompositeVideoClip, ImageClip
 
-with open('consts.json', 'r') as f:
-    consts = json.load(f)
-with open(f'timekeeper.json', 'r') as f:
-    timekeeper = json.load(f)
-
-
-def write_raw_video(path, video_clip):
-    video_clip.write_videofile(path, fps=30, codec='utvideo', audio_codec='pcm_s32le')
+consts = u.load_consts()
+timekeeper = u.load_timekeeper()
 
 
 def main(part_id):
@@ -33,7 +28,7 @@ def main(part_id):
                 clip = None
                 gc.collect()
             video_clip = CompositeVideoClip(video_clips)
-            write_raw_video(page['movie_path'], video_clip)
+            vu.write_raw_video(page['movie_path'], video_clip)
             video_clip = None
             gc.collect()
 

@@ -1,30 +1,20 @@
-# cp ./src/* ./work/ && docker run --rm -v $PWD/work:/work lp-python-movie /bin/sh -c "python -u build_voice_movie.py"
 import gc
-import json
 import os
 import subprocess
 
-from moviepy.editor import AudioClip, AudioFileClip, CompositeVideoClip, concatenate_videoclips, ImageClip
+import util as u
+import video_util as vu
+from moviepy.editor import (AudioFileClip, CompositeVideoClip, ImageClip,
+                            concatenate_videoclips)
 
 BLANK = 0.1
 FPS = 4
 
-with open(f'timekeeper.json', 'r') as f:
-    timekeeper = json.load(f)
-
-
-def silence_clip(duration):
-    return AudioClip(lambda t: 2 * [0], duration=duration)
-
-
-def write_video(path, video_clip):
-    video_clip.write_videofile(path, fps=6, codec='libx264', audio_codec='libfdk_aac', audio_bitrate='384k')
+timekeeper = u.load_timekeeper()
 
 
 def main():
     os.makedirs('voice_movie_tmp', exist_ok=True)
-    with open(f'timekeeper.json', 'r') as f:
-        timekeeper = json.load(f)
 
     already = set()
     for_concat_movies = []
@@ -50,10 +40,10 @@ def main():
                         en = min(word['start_in_voice'] + d, audio_clip.duration)
                         audio_clip = audio_clip.subclip(st, en)
                         clip = clip.set_audio(audio_clip)
-                        s_clip = page_clip.set_duration(BLANK).set_audio(silence_clip(BLANK))
+                        s_clip = page_clip.set_duration(BLANK).set_audio(vu.silence_clip(BLANK))
                         clip = concatenate_videoclips([clip, s_clip])
                         path = f'voice_movie_tmp/{chapter["chapter_id"]:0>5}_{page["page_id"]:0>5}_{word["word_id"]:0>5}.mp4'
-                        write_video(path, clip)
+                        vu.write_video(path, clip, fps=FPS)
                         for_concat_movies.append(f'file {path}\n')
                     clip, audio_clip, text_clip, s_clip = None, None, None, None
                     gc.collect()

@@ -5,7 +5,6 @@ import sys
 
 import mutagen.mp3
 import regex as re
-
 import util as u
 
 PATTERNS = {
@@ -13,11 +12,8 @@ PATTERNS = {
     'kanji': re.compile(r'[\p{Han}ヶ]')
 }
 
-with open('consts.json', 'r') as f:
-    consts = json.load(f)
-
-with open('config.json', 'r') as f:
-    config = json.load(f)
+config = u.load_config()
+consts = u.load_consts()
 
 
 def main():

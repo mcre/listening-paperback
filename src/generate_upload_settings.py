@@ -5,11 +5,8 @@ import sys
 
 import util as u
 
-
-with open('config.json', 'r') as f:
-    config = json.load(f)
-with open(f'timekeeper.json', 'r') as f:
-    timekeeper = json.load(f)
+config = u.load_config()
+timekeeper = u.load_timekeeper()
 
 
 def main(part_id, version):

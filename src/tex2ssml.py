@@ -2,12 +2,11 @@ import collections
 import datetime as dt
 import json
 import os
-import regex as re
 import unicodedata
 
 import jaconv
 import MeCab
-
+import regex as re
 import util as u
 
 PATTERNS = {
@@ -35,10 +34,8 @@ ignore_list = [
     '\\vspace*{\\stretch{1}}\\begin{center}\\includegraphics',
 ]
 
-with open('config.json', 'r') as f:
-    config = json.load(f)
-with open('consts.json', 'r') as f:
-    consts = json.load(f)
+config = u.load_config()
+consts = u.load_consts()
 
 
 def plain_except_ruby(line):
