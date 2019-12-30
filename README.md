@@ -21,6 +21,9 @@
         - 読み間違いは完成した動画や、voice_checkのアウトプットで確認できる
         - 入力形式は↓を実行すると対話で出力できる
             - `docker run --rm -it -v $PWD:/work lp-python-mecab /bin/sh -c "python -u ruby.py"`
+    - `primary_special_rubies`
+        - `special_rubies` と同様、ただしspecial_rubiesよりふりがなが優先されるが、こちらはふりがなより優先される。
+        - `芥川竜之介/羅生門` 参照
 * 画像がある場合は、`./projects/{作者名}/{作品名}/images` に画像をいれて、縦書きに対応するため↓のコマンドで90度回転させる
     - `docker run -v $PWD/projects/{作者名}/{作品名}/images:/images --rm -it rendertoolbox/imagemagick bash -c "mogrify -rotate -90 /images/*.png"`
 
