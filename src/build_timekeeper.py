@@ -56,8 +56,10 @@ def main():
             word_marks = []
             for mark in marks:
                 if mark['type'] == 'word':
-                    word_marks.append(mark)
-                    word_marks[-1]['viseme'] = ''
+                    mark['text'] = PATTERNS['tag'].sub('', mark['value'])
+                    if len(mark['text']) > 0:  # textが空の場合はスキップ(breakタグ等)
+                        word_marks.append(mark)
+                        word_marks[-1]['viseme'] = ''
                 if mark['type'] == 'viseme' and mark['value'] != 'sil':
                     word_marks[-1]['viseme'] += mark['value']
             words_in_voices.append([mark for mark in word_marks])
@@ -68,7 +70,7 @@ def main():
         'word_num_in_voice': len(words_in_voice),
         'word_id_in_voice': word_id_in_voice,
         'start_in_voice': word['time'] / 1000,
-        'text': PATTERNS['tag'].sub('', word['value']),
+        'text': word['text'],
         'viseme': word['viseme'],
         'includes_kanji': True if PATTERNS['kanji'].search(word['value']) else False,
     } for voice_id, words_in_voice in enumerate(words_in_voices) for word_id_in_voice, word in enumerate(words_in_voice)]
