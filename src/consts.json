@@ -33,6 +33,15 @@
             ]
         },
         {
+            "kanji": "一二",
+            "ruby": "イチニ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["一", "名詞", "一", "イチ"],
+                ["二", "名詞", "二", "ニ"]
+            ]
+        },
+        {
             "kanji": "二三",
             "ruby": "ニサン",
             "offset_from_first_morpheme": 0,
