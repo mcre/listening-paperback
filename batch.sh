@@ -107,6 +107,8 @@ cp -r ./work/cache/* ./projects/${pj}/cache || exit 1
 if [ $stop = 'before_movie' ]; then exit 0; fi
 if [ $stop = 'voice_check' ]; then
   echo '# voice_check'
+  mkdir ./work/page_images_mini
+  docker run --rm -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r 100 /work/novel.pdf /work/page_images_mini/novel" || exit 1
   docker run --rm -v $PWD/work:/work lp-python-movie /bin/sh -c "python -u build_fast_check_movie.py" || exit 1
   exit 0
 fi
