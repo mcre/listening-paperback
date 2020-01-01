@@ -16,7 +16,7 @@ def mecab(line):
     for result in mecab_results:
         len_ = len(result['表層形'])
         ret.append({
-            'el': (result['表層形'], result['品詞'], result['原形'], result['読み']),
+            'el': (result['表層形'], result['品詞'], result['原形'] or '', result['読み'] or ''),
             'start': s,
             'end': s + len_
         })

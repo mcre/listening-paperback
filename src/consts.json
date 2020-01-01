@@ -461,6 +461,73 @@
                 ["一", "名詞", "一", "イチ"],
                 ["そ", "名詞", "そ", "ソ"]
             ]
+        },
+        {
+            "kanji": "時々",
+            "ruby": "トキドキ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["時々", "副詞", "時々", "トキドキ"]
+            ]
+        },
+        {
+            "kanji": "不気味",
+            "ruby": "ブキミ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["不気味", "名詞", "不気味", "ブキミ"]
+            ]
+        },
+        {
+            "kanji": "怖わ",
+            "ruby": "こわ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["怖", "形容詞", "怖い", "コワ"],
+                ["わ", "助詞", "わ", "ワ"]
+            ]
+        },
+        {
+            "kanji": "好き者",
+            "ruby": "スキモノ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["好き者", "名詞", "好き者", "スキモノ"]
+            ]
+        },
+        {
+            "kanji": "京人形",
+            "ruby": "キョウニンギョウ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["京人形", "名詞", "京人形", "キョウニンギョウ"]
+            ]
+        },
+        {
+            "kanji": "真ッ赤",
+            "ruby": "真っ赤",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["真", "接頭詞", "真", "マ"],
+                ["ッ", "名詞", "", ""],
+                ["赤", "名詞", "赤", "アカ"]
+            ]
+        },
+        {
+            "kanji": "小気味",
+            "ruby": "コキミ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["小気味", "名詞", "小気味", "コキミ"]
+            ]
+        },
+        {
+            "kanji": "一飛び",
+            "ruby": "ヒトットビ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["一飛び", "名詞", "一飛び", "ヒトットビ"]
+            ]
         }
     ] 
 }
