@@ -77,9 +77,9 @@ def main(project_name, aws_access_key_id, aws_secret_access_key):
     jpy = usd * 106
     print(f'{chars_len:,} chars -> {usd:.2f} USD ≒ {jpy:.1f} JPY')
 
-    if jpy >= 1:
+    if jpy >= 10:
         try:
-            input_text = input(f'\npolly変換料金が1円を超えました。そのまま続ける場合はyを入力してください\n input: ')
+            input_text = input(f'\npolly変換料金が10円を超えました。そのまま続ける場合はyを入力してください\n input: ')
             if input_text != 'y':
                 raise Exception()
         except Exception:
