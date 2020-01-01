@@ -51,6 +51,14 @@
             ]
         },
         {
+            "kanji": "二三",
+            "ruby": "ニサン",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["二三", "名詞", "二三", "フミ"]
+            ]
+        },
+        {
             "kanji": "三四",
             "ruby": "サンヨン",
             "offset_from_first_morpheme": 0,
@@ -435,6 +443,23 @@
             "morphemes": [
                 ["少から", "形容詞", "少い", "スクナカラ"],
                 ["ず", "助動詞", "ぬ", "ズ"]
+            ]
+        },
+        {
+            "kanji": "玉手箱",
+            "ruby": "タマテバコ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["玉手箱", "名詞", "玉手箱", "タマテバコ"]
+            ]
+        },
+        {
+            "kanji": "一そ",
+            "ruby": "いっそ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["一", "名詞", "一", "イチ"],
+                ["そ", "名詞", "そ", "ソ"]
             ]
         }
     ] 
