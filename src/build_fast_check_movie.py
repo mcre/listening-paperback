@@ -15,6 +15,7 @@ def generate_voice_clip(voices, video_clip_duration):
     voice_clips = [vu.silence_clip(video_clip_duration)]  # 無音を重ねないと雑音が入ることがある
     for voice in voices.values():
         clip = AudioFileClip(voice['voice_path'])
+        clip = clip.set_duration(clip.duration - 0.05)  # 後ろに雑音が入ることがあるのでちょっと削る
         clip = clip.set_start(voice['start'])
         voice_clips.append(clip)
     voice_clip = CompositeAudioClip(voice_clips)
