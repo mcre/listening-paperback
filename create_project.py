@@ -47,10 +47,14 @@ def create_project(book_id):
             'author': '魔王魂',
             'url': 'https://maoudamashii.jokersounds.com/'
         },
-        'part_duration': 600,
-        'min_part_duration': 240,
+        'part_configuration_settings': {
+            'optimal_duration_in_sec': 720,
+            'time_penalty_coef': 0.1
+        },
+        'clearpage_on_blank_line': True,
         'tex_replaces': {},
         'manual_chapters': [],
+        'primary_special_rubies': [],
         'special_rubies': [],
         'book_info': {k: v for k, v in book.items() if v != ''},
     }

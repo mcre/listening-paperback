@@ -9,13 +9,22 @@
     - `python create_project.py {book_id}`
     - `./projects/{作者名}/{作品名}/` に `novel.txt` と `config.json` が生成される
 * `config.json` は適宜調整する
+    - `part_configuration_settings`
+        - 同じものが`consts.json`にもある。`config.json`が優先。
+        - `optimal_duration_in_sec`
+            - 各パートがこの時間にできるだけ近くなるようにする。
+        - `time_penalty_coef`
+            - この値を大きくすると、時間ペナルティの影響が大きくなり、結合ペナルティの影響が小さくなる。
+    - `clearpage_on_blank_line`
+        - デフォルトはTrue。Trueの場合、chapter中の空行で改ページを入れる。
+        - azテキストのフォーマットにより空行は多発するような場合はFalseにする。あるいはaz2texのblank_lineの正規表現を直す。
     - `tex_replaces`
         - 表組みなど特殊すぎる表現をまるまる置換するために使用できる
         - `江戸川乱歩/二銭銅貨` 参照
     - `manual_chapters`
         - 一つの動画の時間が長過ぎるときなどに、chapterを指定箇所の前で切ることが可能
         - `太宰治/人間失格` 参照
-        - コマンド等はエスケープが必要。(`\` => `\\\\`, '{' => '\{'}
+        - コマンド等はエスケープが必要。(`\` => `\\\\`, '{' => '\\{')
     - `special_rubies`
         - 読み間違い等を調整できる。他の本にも通用する読み間違いは `./src/consts.json` に記述する。
         - 読み間違いは完成した動画や、voice_checkのアウトプットで確認できる

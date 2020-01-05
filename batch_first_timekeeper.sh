@@ -10,3 +10,7 @@ docker run --rm -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r
 if [[ "${PIPESTATUS[0]}" == 1 ]] || [[ "$pipestatus[1]" == 1 ]]; then exit 0; fi;
 echo '# build_timekeeper' 2>&1 | tee -a ${log}
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u build_timekeeper.py" 2>&1 | tee -a ${log}
+cp ./work/novel.pdf ./projects/${pj}/tmp/novel.pdf
+cp ./work/novel.tex ./projects/${pj}/tmp/novel.tex
+cp ./work/chapters.json ./projects/${pj}/tmp/chapters.json
+cp ./work/timekeeper.json ./projects/${pj}/tmp/timekeeper.json

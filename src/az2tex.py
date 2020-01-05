@@ -72,6 +72,7 @@ PATTERNS = {
     'latin_double_quote_end': re.compile(r'^(' + LATIN + r'+?)”'),
     'many_spaces': re.compile(r'^　{3,}'),
     'many_symbols': re.compile(r'(…|？|！){13,}'),
+    'blank_line': re.compile(r'(?<!((\n|^)[^\n]{1,10}|\n|\\renewcommand{.*?}{.*?}|(\n|^)\\[^\n]{1,}))\n{4,}(?!(\n|\\chapter|\\part|(\\|{| \\)[^　\n]{1,}\n))'),  # chapterの前後や、短い行(コマンドなしタイトルに使われがち)の後、コマンド程度の長さのバクスラで始まる文字列の前後(バクスラスペース除く)は無視する
     'ignores': [
         re.compile(r'［＃ここから(' + N + r')字詰め］'),
         re.compile(r'［＃ここから(' + N + r')字下げ］'),  # ２字下げ、４字下げ、字下げ終わり、みたいなのがあるので、余った真ん中を消す
@@ -90,6 +91,7 @@ PATTERNS = {
 
 REPLACE_CHAR = str.maketrans({'&': '\\&', '　': '\\　', '懚': '隠', '滆': '溶', '㊞': '（印）'})
 REPLACE_STR = {
+    '＊\\　\\　\\　\\　\\　\\　＊\\　\\　\\　\\　\\　\\　＊': '　＊　＊　＊',
     '※［＃感嘆符三つ、626-10］': '\\tatechuyoko{!!!}',
     '※［＃感嘆符三つ、77-3］': '\\tatechuyoko{!!!}',
 }
@@ -259,7 +261,7 @@ def main():
         body_lines[index] = PATTERNS['indent_bottom'].sub(r'{\\hfill \\rightskip=1zw \2 \\par}', body_lines[index])
         body_lines[index] = PATTERNS['bottom'].sub(r'{\\hfill \\rightskip=0zw \1 \\par}', body_lines[index])
         body_lines[index] = PATTERNS['kunten'].sub(r'\\kaeriten{\1}', body_lines[index])
-        body_lines[index] = PATTERNS['kunten_okuri'].sub(r'\\kokana{\\fontsize{7.1}{0} \\selectfont \1}{}', body_lines[index])  # そのままだとルビと同じ大きさになってparse_tex_outputで拾えないので7.1にする
+        body_lines[index] = PATTERNS['kunten_okuri'].sub(r'\\kokana{\\fontsize{7.1}{0} \\selectfont \1}{}', body_lines[index])  # そのままだとルビと同じ大きさになってbuild_chaptersで拾えないので7.1にする
         body_lines[index] = PATTERNS['frac'].sub(r'$\\frac{\1}{\2}$', body_lines[index])
         body_lines[index] = PATTERNS['latin_double_quote'].sub(r'"\1"', body_lines[index])
         body_lines[index] = PATTERNS['latin_double_quote_begin'].sub(r'"\1', body_lines[index])
@@ -339,6 +341,8 @@ def main():
 
     for manual_chapter in config['manual_chapters']:
         body_text = re.sub(r'\n(' + manual_chapter + r')', r'\n\\clearpage % manual_chapter\n\n\1', body_text, 1)
+    if config.get('clearpage_on_blank_line', True):  # tex上の空行で改頁
+        body_text = PATTERNS['blank_line'].sub(r'\n\n\\clearpage % blank_line\n\n', body_text)
 
     tex = Template(template).substitute({
         'text_color': consts['text_color'],

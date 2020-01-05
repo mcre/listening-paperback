@@ -18,6 +18,7 @@ PATTERNS = {
     # aaaを読むコマンド
     'command': re.compile(r'\\(?!ruby)\S*?(?<rec>{((?:[^{}]+|(?&rec))*)})'),
     'command_no_params': re.compile(r'\\(?!ruby)\S*?(?=[\s}]|$)'),
+    'chu_kakko_space': re.compile(r'{\s+(.*?)}'),
     'dialogue': re.compile(r'「(.*?)」'),
     'think': re.compile(r'(?:（(.*?)）|『(.*?)』)'),
     'remove_marks': re.compile(r'[「」『』（）〔〕{}$_&]'),
@@ -51,6 +52,7 @@ def plain_except_ruby(line):
     for i in range(3):  # 入れ子コマンドのために複数回実施しておく
         ret = PATTERNS['command'].sub(r'\2', ret)
     ret = PATTERNS['command_no_params'].sub('', ret)
+    ret = PATTERNS['chu_kakko_space'].sub(r'{\1}', ret)  # { あいうえお} みたいなのが残ると変になるので{あいうえお}になおしとく
     ret = ret.strip()
     for gomi in gomi_list:  # コマンド置換した結果gomiだけ残るような場合は空にする
         if gomi == ret:

@@ -1,6 +1,7 @@
 import glob
 import json
 import os
+import random
 import sys
 
 import mutagen.mp3
@@ -14,22 +15,50 @@ PATTERNS = {
 
 config = u.load_config()
 consts = u.load_consts()
+pc, od, tp = 'part_configuration_settings', 'optimal_duration_in_sec', 'time_penalty_coef'
+optimal_duration = config[pc][od] if pc in config else consts[pc][od]
+time_penalty_coef = config[pc][tp] if pc in config else consts[pc][tp]
+
+
+# 次のpartに入れるchapterの数を返す(OPTIMAL_DURATIONの2倍を超える個数までのうち、ランダムな個数を返す)
+def random_chapters_count(chapters):
+    max_chapters_count, duration = 0, 0
+    for chapter in chapters:
+        max_chapters_count += 1
+        duration += chapter['duration']
+        if duration > optimal_duration * 2:
+            break
+    return random.randint(1, max_chapters_count)
+
+
+def randam_parts_trial(chapters):
+    parts = []
+    cursor = 0
+    while cursor < len(chapters):
+        count = random_chapters_count(chapters[cursor:])
+        new_chapters = chapters[cursor: cursor + count]
+        parts.append(new_chapters)
+        cursor += count
+    time_diff_sum = 0
+    connection_penalty = 0
+    for part in parts:
+        connection_penalty += part[0]['split_priority']
+        time_diff_sum += abs(sum([chapter['duration'] for chapter in part]) - optimal_duration)
+    time_penalty = time_diff_sum / len(parts)  # 1partあたりの差分にする
+
+    tpa = time_penalty * time_penalty_coef
+    return parts, {
+        'penalty': tpa + connection_penalty,
+        'time_penalty': time_penalty,
+        'time_penalty(adjusted)': tpa,
+        'connection_penalty': connection_penalty,
+    }
 
 
 def main():
     # chapter と pages の対応を作成()
-    with open(f'chapters_and_pages.json', 'r') as f:
-        chapters_and_pages = json.load(f)
-    chapters = [{
-        'chapter_id': chapter_id,
-        'movie_path': f'chapter_movies/{chapter_id:0>5}.avi',
-        'pages': [{
-            'page_id': page_id,
-            'text': page,
-            'movie_path': f'page_movies/{chapter_id:0>5}_{page_id:0>5}.avi',
-            'words': [],
-        } for page_id, page in enumerate(pages)],
-    } for chapter_id, pages in enumerate(chapters_and_pages)]
+    with open(f'chapters.json', 'r') as f:
+        chapters = json.load(f)
 
     # page に image_path, serial_page_id(chapterによらないページ通し番号)を設定
     cursor = 0
@@ -38,6 +67,7 @@ def main():
         for page in chapter['pages']:
             page['image_path'] = page_image_paths[cursor]
             page['serial_page_id'] = cursor
+            page['words'] = []
             cursor += 1
 
     # all_voices を作成(これをchapterごとに分解してぶら下げる)
@@ -83,7 +113,7 @@ def main():
             word_id = 0
             index_in_page = - len(remain)
             if len(remain) > 100:
-                print(f'marks と chapters_and_pages の対応が乱れています。remainが{len(remain)}文字存在します。『{remain[:50]}・・・』から『{all_words[cur]["text"]}』(voice_id: {all_words[cur]["voice_id"]})が見つからないようです。')
+                print(f'marks と chapters の対応が乱れています。remainが{len(remain)}文字存在します。『{remain[:50]}・・・』から『{all_words[cur]["text"]}』(voice_id: {all_words[cur]["voice_id"]})が見つからないようです。')
                 sys.exit(1)
             remain = f'{remain}{page["text"]}'.replace('-', '')  # PDF上で勝手に英単語が分割されるハイフンはどうにもならないので無理やり消す
             while len(remain) > 0 and cur < len(all_words):
@@ -215,34 +245,34 @@ def main():
             for key in ['start', 'duration']:
                 voice[key] = round(voice[key], 3)
 
-    # chapters から parts を構成
-    chapters_in_parts = []
-    part, duration = [], 0
-
     print('\n== chapters ==')
     for chapter in chapters:
-        print(f"chapter_id: {chapter['chapter_id']}, duration: {u.seconds_to_str(chapter['duration'])}")
-        part.append(chapter)
-        duration += chapter['duration']
-        if duration > config['part_duration']:
-            chapters_in_parts.append(part)
-            part, duration = [], 0
-    if len(part) > 0:
-        chapters_in_parts.append(part)
-    if len(chapters_in_parts) > 1:  # 2個以上のときの処理
-        # 最後のパートが min_part_durationにも達していない場合はその前に足し込む
-        last_part_duration = sum(x['duration'] for x in chapters_in_parts[-1])
-        if last_part_duration < config['min_part_duration']:
-            chapters_in_parts[-2].extend(chapters_in_parts[-1])
-            del chapters_in_parts[-1]
-    parts = [{'chapters': chapters} for chapters in chapters_in_parts]
+        print(f"chapter_id: {chapter['chapter_id']:>3}, duration: {u.seconds_to_str(chapter['duration'])}, split_priority: {chapter['split_priority']}, chapter_type: {chapter['chapter_type']}, page: {chapter['pages'][0]['serial_page_id'] + 1}({chapter['pages'][0]['text'][:10]})")
 
-    print('\n== parts ==')
-    for part_id, part in enumerate(parts):
-        part['part_id'] = part_id
-        part['duration'] = sum([chapter['duration'] for chapter in part['chapters']])
+    max_loop = len(chapters) ** 3 * 3  # loop回数は適当に、chapter数の3乗
+    print(f'\n== trials (max_loop: {max_loop}) ==')
+    optimal_parts = None
+    optimal_penalty = {'penalty': sys.maxsize}
+
+    for i in range(max_loop):
+        parts, penalty = randam_parts_trial(chapters)
+        if penalty['penalty'] < optimal_penalty['penalty']:
+            optimal_penalty = penalty
+            optimal_parts = parts
+            print(f'loop_count: {i:>5}, optimal_penalty: {optimal_penalty}')
+
+    # partsを整形
+    parts = [{
+        'part_id': part_id,
+        'duration': sum([chapter['duration'] for chapter in chapters_in_part]),
+        'chapters': chapters_in_part,
+    } for part_id, chapters_in_part in enumerate(optimal_parts)]
+
+    print('\n== optimal parts ==')
+    for part in parts:
         chapter_ids = ', '.join([str(chapter['chapter_id']) for chapter in part['chapters']])
-        print(f'part_id:{part_id:>3}, duration: {u.seconds_to_str(part["duration"])}, chapter_ids: [{chapter_ids}]')
+        print(f'part_id: {part["part_id"]:>3}, duration: {u.seconds_to_str(part["duration"])}, chapter_ids: [{chapter_ids}]')
+    print(optimal_penalty)
 
     # 書き込み
     with open(f'timekeeper.json', 'w') as f:

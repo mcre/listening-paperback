@@ -72,7 +72,7 @@ echo '# tex2pdf'
 docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && uplatex -halt-on-error novel.tex > tex_output.txt" || exit 1
 docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && uplatex -halt-on-error novel.tex > tex_output.txt" || exit 1 # 2回コンパイルが必要なコマンド用
 docker run --rm -v $PWD/work:/work paperist/alpine-texlive-ja /bin/sh -c "cd /work && dvipdfmx novel.dvi" || exit 1
-docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u parse_tex_output.py" || exit 1
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u build_chapters.py" || exit 1
 if [ $stop = 'pdf' ]; then exit 0; fi
 echo '# tex2ssml'
 docker run --rm -v $PWD/work:/work lp-python-mecab /bin/sh -c "python -u tex2ssml.py" || exit 1
@@ -133,7 +133,7 @@ mkdir work/ssml work/marks work/page_movies || exit 1
 cd ${home} || exit 1
 cd ./work/ || exit 1
 cp novel.txt config.json ../projects/${pj}/output/${dir}/input || exit 1
-cp novel.tex rubies.json tex_output.txt novel.pdf chapters_and_pages.json timekeeper.json ../projects/${pj}/output/${dir}/work || exit 1
+cp novel.tex rubies.json tex_output.txt novel.pdf chapters.json timekeeper.json ../projects/${pj}/output/${dir}/work || exit 1
 cp ssml/* ../projects/${pj}/output/${dir}/work/ssml/ || exit 1
 cp marks/* ../projects/${pj}/output/${dir}/work/marks/ || exit 1
 cd ${home} || exit 1

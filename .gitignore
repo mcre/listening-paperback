@@ -5,6 +5,7 @@ __pycache__/
 .DS_Store
 .vscode/
 tmp.md
+test.py
 batch_tmp_*.sh
 
 /cache/
