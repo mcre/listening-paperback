@@ -43,7 +43,11 @@ def randam_parts_trial(chapters):
     connection_penalty = 0
     for part in parts:
         connection_penalty += part[0]['split_priority']
-        time_diff_sum += abs(sum([chapter['duration'] for chapter in part]) - optimal_duration)
+        duration = sum([chapter['duration'] for chapter in part])
+        if duration < optimal_duration:  # 短い場合はペナルティ4倍
+            time_diff_sum += (optimal_duration - duration) * 4
+        else:
+            time_diff_sum += duration - optimal_duration
     time_penalty = time_diff_sum / len(parts)  # 1partあたりの差分にする
 
     tpa = time_penalty * time_penalty_coef

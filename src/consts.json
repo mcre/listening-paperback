@@ -11,7 +11,7 @@
     "music_volume": 0.01,
     "music_fadeout_time": 5,
     "part_configuration_settings": {
-        "optimal_duration_in_sec": 720,
+        "optimal_duration_in_sec": 600,
         "time_penalty_coef": 0.1
     },
     "primary_special_rubies": [

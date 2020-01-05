@@ -48,7 +48,7 @@ def create_project(book_id):
             'url': 'https://maoudamashii.jokersounds.com/'
         },
         'part_configuration_settings': {
-            'optimal_duration_in_sec': 720,
+            'optimal_duration_in_sec': 600,
             'time_penalty_coef': 0.1
         },
         'clearpage_on_blank_line': True,

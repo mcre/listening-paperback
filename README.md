@@ -12,7 +12,7 @@
     - `part_configuration_settings`
         - 同じものが`consts.json`にもある。`config.json`が優先。
         - `optimal_duration_in_sec`
-            - 各パートがこの時間にできるだけ近くなるようにする。
+            - 各パートがこの時間にできるだけ近くなるようにする。(これより短い場合は長い場合よりペナルティが4倍になる)
         - `time_penalty_coef`
             - この値を大きくすると、時間ペナルティの影響が大きくなり、結合ペナルティの影響が小さくなる。
     - `clearpage_on_blank_line`
