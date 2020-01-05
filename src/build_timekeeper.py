@@ -249,7 +249,7 @@ def main():
     for chapter in chapters:
         print(f"chapter_id: {chapter['chapter_id']:>3}, duration: {u.seconds_to_str(chapter['duration'])}, split_priority: {chapter['split_priority']}, chapter_type: {chapter['chapter_type']}, page: {chapter['pages'][0]['serial_page_id'] + 1}({chapter['pages'][0]['text'][:10]})")
 
-    max_loop = len(chapters) ** 3 * 3  # loop回数は適当に、chapter数の3乗
+    max_loop = len(chapters) ** 3  # loop回数は適当に、chapter数の3乗
     print(f'\n== trials (max_loop: {max_loop}) ==')
     optimal_parts = None
     optimal_penalty = {'penalty': sys.maxsize}

@@ -11,7 +11,7 @@ PATTERNS = {
     'command': re.compile(r'\\(?!(part|chapter|textgt)).*?{(.*?)}({.*?})?'),
     'command_no_params': re.compile(r'\\(?!(part|chapter|textgt))\S*?\s'),
     'chapter': re.compile(r'(?:\\part{(.+?)}|\\chapter{(.+?)}\s*([^\\\n]{0,10})|%\smanual_chapter\s*([^\\\n]{0,10})|%\sblank_line\s*([^\\\n]{0,10}))'),
-    'paragraphs': re.compile(r'^[^\\\n,%]{20}', flags=re.MULTILINE),
+    'paragraphs': re.compile(r'^[^\\\n,%「]{20}', flags=re.MULTILINE),  # `「` は切れ目として不自然になりやすいから除く
 }
 
 COMBINATIONS_BEFORE = ['^^X']
