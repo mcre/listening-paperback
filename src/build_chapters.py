@@ -31,7 +31,7 @@ SPLIT_PRIORITIES = {
     'first_page': 0,
     'part': 0,
     'chapter': 0,
-    'manual_chapter': 1,
+    'manual_chapter': 0,
     'blank_line': 1,
     'coincidentally_newpage': 2,
 }
