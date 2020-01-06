@@ -1,7 +1,6 @@
 import glob
 import json
 import os
-import random
 import sys
 
 import mutagen.mp3
@@ -20,25 +19,30 @@ optimal_duration = config[pc][od] if pc in config else consts[pc][od]
 time_penalty_coef = config[pc][tp] if pc in config else consts[pc][tp]
 
 
-# 次のpartに入れるchapterの数を返す(OPTIMAL_DURATIONの2倍を超える個数までのうち、ランダムな個数を返す)
-def random_chapters_count(chapters):
+# 次のpartに入れるchapterの最大数を返す(OPTIMAL_DURATIONの2倍を超える個数)
+def max_chapters_count(chapters):
     max_chapters_count, duration = 0, 0
     for chapter in chapters:
         max_chapters_count += 1
         duration += chapter['duration']
         if duration > optimal_duration * 2:
             break
-    return random.randint(1, max_chapters_count)
+    return max_chapters_count
 
 
-def randam_parts_trial(chapters):
-    parts = []
-    cursor = 0
-    while cursor < len(chapters):
-        count = random_chapters_count(chapters[cursor:])
-        new_chapters = chapters[cursor: cursor + count]
-        parts.append(new_chapters)
-        cursor += count
+# あり得るパートの組み合わせを全部作る
+def combination_possible_parts_list(chapters):
+    if len(chapters) <= 0:
+        return [[]]
+    groups = []
+    for i in range(1, max_chapters_count(chapters) + 1):
+        following_groups = combination_possible_parts_list(chapters[i:])
+        for following_group in following_groups:
+            groups.append([chapters[:i]] + following_group)
+    return groups
+
+
+def calc_penalty(parts):
     time_diff_sum = 0
     connection_penalty = 0
     for part in parts:
@@ -51,7 +55,7 @@ def randam_parts_trial(chapters):
     time_penalty = time_diff_sum / len(parts)  # 1partあたりの差分にする
 
     tpa = time_penalty * time_penalty_coef
-    return parts, {
+    return {
         'penalty': tpa + connection_penalty,
         'time_penalty': time_penalty,
         'time_penalty(adjusted)': tpa,
@@ -253,17 +257,19 @@ def main():
     for chapter in chapters:
         print(f"chapter_id: {chapter['chapter_id']:>3}, duration: {u.seconds_to_str(chapter['duration'])}, split_priority: {chapter['split_priority']}, chapter_type: {chapter['chapter_type']}, page: {chapter['pages'][0]['serial_page_id'] + 1}({chapter['pages'][0]['text'][:10]})")
 
-    max_loop = len(chapters) ** 3  # loop回数は適当に、chapter数の3乗
-    print(f'\n== trials (max_loop: {max_loop}) ==')
+    possible_parts_list = combination_possible_parts_list(chapters)
+    print(f'\n== Searching for best parts (count: {len(possible_parts_list)}) ==')
     optimal_parts = None
     optimal_penalty = {'penalty': sys.maxsize}
 
-    for i in range(max_loop):
-        parts, penalty = randam_parts_trial(chapters)
+    for i, parts in enumerate(possible_parts_list):
+        penalty = calc_penalty(parts)
         if penalty['penalty'] < optimal_penalty['penalty']:
             optimal_penalty = penalty
             optimal_parts = parts
-            print(f'loop_count: {i:>5}, optimal_penalty: {optimal_penalty}')
+            print(f'loop_count: {i:>6}, optimal_penalty: {optimal_penalty}')
+        if i > 0 and i % 100000 == 0:
+            print(f'loop_count: {i:>6}')
 
     # partsを整形
     parts = [{
