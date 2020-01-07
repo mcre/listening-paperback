@@ -95,16 +95,6 @@ docker run --rm -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r
 echo '# build_timekeeper'
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u build_timekeeper.py" || exit 1
 if [ $stop = 'timekeeper' ]; then exit 0; fi
-echo '# create_cover_images_and_ssml'
-docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u create_cover_images_and_ssml.py" || exit 1
-echo '# re-ssml2voice' # パート数確定したので再度polly
-if [ $stop = 'before_movie' ]; then
-  docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${pj} ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
-else
-  docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${pj} ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
-fi
-cp -r ./work/cache/* ./projects/${pj}/cache || exit 1
-if [ $stop = 'before_movie' ]; then exit 0; fi
 if [ $stop = 'voice_check' ]; then
   echo '# voice_check'
   mkdir ./work/page_images_mini
@@ -121,6 +111,16 @@ if [ $stop = 'voice_check_old' ]; then
   docker run --rm -v $PWD/work:/work lp-python-movie /bin/sh -c "python -u build_voice_movie.py" || exit 1
   exit 0
 fi
+echo '# create_cover_images_and_ssml'
+docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u create_cover_images_and_ssml.py" || exit 1
+echo '# re-ssml2voice' # パート数確定したので再度polly
+if [ $stop = 'before_movie' ]; then
+  docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${pj} ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
+else
+  docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${pj} ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
+fi
+cp -r ./work/cache/* ./projects/${pj}/cache || exit 1
+if [ $stop = 'before_movie' ]; then exit 0; fi
 
 echo '# prepare_output_directory'
 rm -rf ./projects/${pj}/output/${dir} || exit 1
