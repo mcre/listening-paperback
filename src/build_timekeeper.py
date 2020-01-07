@@ -18,7 +18,6 @@ consts = u.load_consts()
 pc, od, tp = 'part_configuration_settings', 'optimal_duration_in_sec', 'time_penalty_coef'
 optimal_duration = config[pc][od] if pc in config else consts[pc][od]
 time_penalty_coef = config[pc][tp] if pc in config else consts[pc][tp]
-CACHE = {}
 
 
 # 次のpartに入れるchapterの範囲を返す(OPTIMAL_DURATIONの0.75〜1.5倍になる個数)
@@ -35,21 +34,15 @@ def next_chapters_range(chapters):
 
 
 # あり得るパートの組み合わせを全部作る
-def combination_possible_parts_list(chapters):
-    hash_ = '|'.join([str(chapter['chapter_id']) for chapter in chapters])
-    if hash_ in CACHE:
-        yield CACHE[hash_]
+def combination_possible_parts_list(chapters, pre_chapters=[]):
     min_, max_ = next_chapters_range(chapters)
     for i in range(min_, max_ + 1):
-        head_chapters = [chapters[:i + 1]]
+        head_chapters = pre_chapters + [chapters[:i + 1]]
         remain_chapters = chapters[i + 1:]
         if len(remain_chapters) == 0:
-            CACHE[hash_] = head_chapters
-            yield CACHE[hash_]
+            yield head_chapters
         else:
-            for following_group in combination_possible_parts_list(remain_chapters):
-                CACHE[hash_] = head_chapters + following_group
-                yield CACHE[hash_]
+            yield from combination_possible_parts_list(remain_chapters, head_chapters)
 
 
 def calc_penalty(parts):
