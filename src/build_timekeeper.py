@@ -1,3 +1,4 @@
+import datetime as dt
 import glob
 import json
 import os
@@ -17,29 +18,38 @@ consts = u.load_consts()
 pc, od, tp = 'part_configuration_settings', 'optimal_duration_in_sec', 'time_penalty_coef'
 optimal_duration = config[pc][od] if pc in config else consts[pc][od]
 time_penalty_coef = config[pc][tp] if pc in config else consts[pc][tp]
+CACHE = {}
 
 
-# 次のpartに入れるchapterの最大数を返す(OPTIMAL_DURATIONの2倍を超える個数)
-def max_chapters_count(chapters):
-    max_chapters_count, duration = 0, 0
-    for chapter in chapters:
-        max_chapters_count += 1
+# 次のpartに入れるchapterの範囲を返す(OPTIMAL_DURATIONの0.75〜1.5倍になる個数)
+def next_chapters_range(chapters):
+    min_, max_, duration = 0, 0, 0
+    for i, chapter in enumerate(chapters):
         duration += chapter['duration']
-        if duration > optimal_duration * 2:
+        if duration < optimal_duration * 0.75:
+            min_ = i
+        max_ = i
+        if duration > optimal_duration * 1.50:
             break
-    return max_chapters_count
+    return min_, max_
 
 
 # あり得るパートの組み合わせを全部作る
 def combination_possible_parts_list(chapters):
-    if len(chapters) <= 0:
-        return [[]]
-    groups = []
-    for i in range(1, max_chapters_count(chapters) + 1):
-        following_groups = combination_possible_parts_list(chapters[i:])
-        for following_group in following_groups:
-            groups.append([chapters[:i]] + following_group)
-    return groups
+    hash_ = '|'.join([str(chapter['chapter_id']) for chapter in chapters])
+    if hash_ in CACHE:
+        yield CACHE[hash_]
+    min_, max_ = next_chapters_range(chapters)
+    for i in range(min_, max_ + 1):
+        head_chapters = [chapters[:i + 1]]
+        remain_chapters = chapters[i + 1:]
+        if len(remain_chapters) == 0:
+            CACHE[hash_] = head_chapters
+            yield CACHE[hash_]
+        else:
+            for following_group in combination_possible_parts_list(remain_chapters):
+                CACHE[hash_] = head_chapters + following_group
+                yield CACHE[hash_]
 
 
 def calc_penalty(parts):
@@ -257,19 +267,18 @@ def main():
     for chapter in chapters:
         print(f"chapter_id: {chapter['chapter_id']:>3}, duration: {u.seconds_to_str(chapter['duration'])}, split_priority: {chapter['split_priority']}, chapter_type: {chapter['chapter_type']}, page: {chapter['pages'][0]['serial_page_id'] + 1}({chapter['pages'][0]['text'][:10]})")
 
-    possible_parts_list = combination_possible_parts_list(chapters)
-    print(f'\n== Searching for best parts (count: {len(possible_parts_list)}) ==')
+    print(f'\n== Searching for best parts ==')
     optimal_parts = None
     optimal_penalty = {'penalty': sys.maxsize}
 
-    for i, parts in enumerate(possible_parts_list):
+    for i, parts in enumerate(combination_possible_parts_list(chapters)):
         penalty = calc_penalty(parts)
         if penalty['penalty'] < optimal_penalty['penalty']:
             optimal_penalty = penalty
             optimal_parts = parts
-            print(f'loop_count: {i:>6}, optimal_penalty: {optimal_penalty}')
+            print(f'{dt.datetime.now().strftime("%H:%M:%S")}, loop_count: {i:>6}, optimal_penalty: {optimal_penalty}')
         if i > 0 and i % 100000 == 0:
-            print(f'loop_count: {i:>6}')
+            print(f'{dt.datetime.now().strftime("%H:%M:%S")}, loop_count: {i:>6}')
 
     # partsを整形
     parts = [{
