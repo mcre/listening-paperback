@@ -22,7 +22,9 @@ def generate_voice_clip(voices, video_clip_duration):
 
 
 def main():
-    part_video_clips = []
+    os.makedirs('fast_check_movie_tmp', exist_ok=True)
+
+    for_concat_movies = []
     for part in timekeeper['parts']:
         chapter_video_clips = []
         for chapter in part['chapters']:
@@ -32,10 +34,14 @@ def main():
             chapter_video_clip = CompositeVideoClip(page_video_clips)
             chapter_video_clip = chapter_video_clip.set_audio(generate_voice_clip(chapter['voices'], chapter_video_clip.duration))
             chapter_video_clips.append(chapter_video_clip)
-        part_video_clips.append(concatenate_videoclips(chapter_video_clips))
-    vu.write_video(f'fast_check_movie_tmp.mp4', concatenate_videoclips(part_video_clips), fps=FPS, bitrate='16k', audio_bitrate='32k')
-    subprocess.call('ffmpeg -y -i fast_check_movie_tmp.mp4 -vf setpts=PTS/2.5 -af atempo=2.5 fast_check_movie.mp4', shell=True)
-    os.remove('fast_check_movie_tmp.mp4')
+        path_tmp = f'fast_check_movie_tmp/{part["part_id"]:0>5}_tmp.mp4'
+        path = f'fast_check_movie_tmp/{part["part_id"]:0>5}_tmp.mp4'
+        vu.write_video(path_tmp, concatenate_videoclips(chapter_video_clips), fps=FPS, bitrate='16k', audio_bitrate='32k')
+        subprocess.call(f'ffmpeg -y -i {path_tmp} -vf setpts=PTS/2.5 -af atempo=2.5 {path}', shell=True)
+        for_concat_movies.append(f'file {path}\n')
+    with open('concat_fast_check_movie_list.txt', 'w') as f:
+        f.writelines(for_concat_movies)
+    subprocess.call('ffmpeg -f concat -i concat_fast_check_movie_list.txt -c copy fast_check_movie.mp4', shell=True)
 
 
 if __name__ == '__main__':
