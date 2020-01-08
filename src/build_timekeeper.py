@@ -19,12 +19,14 @@ pc, od, tp = 'part_configuration_settings', 'optimal_duration_in_sec', 'time_pen
 optimal_duration = config[pc][od] if pc in config else consts[pc][od]
 time_penalty_coef = config[pc][tp] if pc in config else consts[pc][tp]
 
+global_chapters = None
+
 
 # 次のpartに入れるchapterの範囲を返す(OPTIMAL_DURATIONの0.75〜1.5倍になる個数)
-def next_chapters_range(chapters):
+def next_chapters_range(chapter_ids):
     min_, max_, duration = 0, 0, 0
-    for i, chapter in enumerate(chapters):
-        duration += chapter['duration']
+    for i, chapter_id in enumerate(chapter_ids):
+        duration += global_chapters[chapter_id]['duration']
         if duration < optimal_duration * 0.75:
             min_ = i
         max_ = i
@@ -33,37 +35,67 @@ def next_chapters_range(chapters):
     return min_, max_
 
 
-# あり得るパートの組み合わせを全部作る
-def combination_possible_parts_list(chapters, pre_chapters=[]):
-    min_, max_ = next_chapters_range(chapters)
-    for i in range(min_, max_ + 1):
-        head_chapters = pre_chapters + [chapters[:i + 1]]
-        remain_chapters = chapters[i + 1:]
-        if len(remain_chapters) == 0:
-            yield head_chapters
-        else:
-            yield from combination_possible_parts_list(remain_chapters, head_chapters)
+def memoize(callable):
+    cache = {}
+
+    def wrapper(*args):
+        key = str(args)
+        if key not in cache:
+            cache[key] = callable(*args)
+        return cache[key]
+    return wrapper
 
 
+@memoize
 def calc_penalty(parts):
-    time_diff_sum = 0
+    time_penalty = 0
     connection_penalty = 0
     for part in parts:
-        connection_penalty += part[0]['split_priority']
-        duration = sum([chapter['duration'] for chapter in part])
+        connection_penalty += global_chapters[part[0]]['split_priority']
+        duration = sum([global_chapters[chapter_id]['duration'] for chapter_id in part])
         if duration < optimal_duration:  # 短い場合はペナルティ4倍
-            time_diff_sum += (optimal_duration - duration) * 4
+            time_penalty += (optimal_duration - duration) * 4
         else:
-            time_diff_sum += duration - optimal_duration
-    time_penalty = time_diff_sum / len(parts)  # 1partあたりの差分にする
+            time_penalty += duration - optimal_duration
 
-    tpa = time_penalty * time_penalty_coef
+    time_penalty_per_part = time_penalty / len(parts)
+    tpa = time_penalty_per_part * time_penalty_coef
+
     return {
         'penalty': tpa + connection_penalty,
-        'time_penalty': time_penalty,
-        'time_penalty(adjusted)': tpa,
+        'parts': [list(part) for part in parts],
+        'time_penalty(sum)': time_penalty,
+        'part_count': len(parts),
+        'time_penalty_per_part': time_penalty_per_part,
+        'time_penalty_per_part(adjusted)': tpa,
         'connection_penalty': connection_penalty,
     }
+
+
+# あり得るパートの組み合わせを全部作る
+def search_possible_parts_penalty(chapter_ids, pre_chapter_penalty={'penalty': 0, 'parts': [], 'time_penalty(sum)': 0, 'part_count': 0, 'connection_penalty': 0}):
+    min_, max_ = next_chapters_range(chapter_ids)
+    for i in range(min_, max_ + 1):
+        following_chapter_penalty = calc_penalty([chapter_ids[:i + 1]])
+        pp, fp = pre_chapter_penalty, following_chapter_penalty
+        tp = pp['time_penalty(sum)'] + fp['time_penalty(sum)']
+        pc = pp['part_count'] + fp['part_count']
+        connection_penalty = pp['connection_penalty'] + fp['connection_penalty']
+        tpa = tp / pc * time_penalty_coef
+        head_chapter_penalty = {
+            'penalty': tpa + connection_penalty,
+            'parts': pp['parts'] + fp['parts'],
+            'time_penalty(sum)': tp,
+            'part_count': pc,
+            'time_penalty_per_part': tp / pc,
+            'time_penalty_per_part(adjusted)': tpa,
+            'connection_penalty': connection_penalty,
+        }
+        remain_chapter_ids = chapter_ids[i + 1:]
+        if len(remain_chapter_ids) == 0:
+            yield head_chapter_penalty
+        else:
+            yield from search_possible_parts_penalty(remain_chapter_ids, head_chapter_penalty)
 
 
 def main():
@@ -261,14 +293,13 @@ def main():
         print(f"chapter_id: {chapter['chapter_id']:>3}, duration: {u.seconds_to_str(chapter['duration'])}, split_priority: {chapter['split_priority']}, chapter_type: {chapter['chapter_type']}, page: {chapter['pages'][0]['serial_page_id'] + 1}({chapter['pages'][0]['text'][:10]})")
 
     print(f'\n== Searching for best parts ==')
-    optimal_parts = None
     optimal_penalty = {'penalty': sys.maxsize}
 
-    for i, parts in enumerate(combination_possible_parts_list(chapters)):
-        penalty = calc_penalty(parts)
+    global global_chapters
+    global_chapters = chapters
+    for i, penalty in enumerate(search_possible_parts_penalty(range(len(chapters)))):
         if penalty['penalty'] < optimal_penalty['penalty']:
             optimal_penalty = penalty
-            optimal_parts = parts
             print(f'{dt.datetime.now().strftime("%H:%M:%S")}, loop_count: {i:>6}, optimal_penalty: {optimal_penalty}')
         if i > 0 and i % 100000 == 0:
             print(f'{dt.datetime.now().strftime("%H:%M:%S")}, loop_count: {i:>6}')
@@ -276,9 +307,9 @@ def main():
     # partsを整形
     parts = [{
         'part_id': part_id,
-        'duration': sum([chapter['duration'] for chapter in chapters_in_part]),
-        'chapters': chapters_in_part,
-    } for part_id, chapters_in_part in enumerate(optimal_parts)]
+        'duration': sum([chapters[chapter_id]['duration'] for chapter_id in chapter_ids_in_part]),
+        'chapters': [chapters[chapter_id] for chapter_id in chapter_ids_in_part],
+    } for part_id, chapter_ids_in_part in enumerate(optimal_penalty['parts'])]
 
     print('\n== optimal parts ==')
     for part in parts:
