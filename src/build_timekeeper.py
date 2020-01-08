@@ -93,7 +93,9 @@ def search_possible_parts_penalty(chapter_ids, pre_chapter_penalty={'parts': [],
             'connection_penalty': connection_penalty,
         }
 
-        if head_chapter_penalty['connection_penalty'] > optimal_penalty['connection_penalty'] and head_chapter_penalty['time_penalty(sum)'] > optimal_penalty['time_penalty(sum)']:  # 枝刈り(この時点で最適を越えている場合)
+        hcp, ocp = head_chapter_penalty['connection_penalty'], optimal_penalty['connection_penalty']
+        htp, otp = head_chapter_penalty['time_penalty(sum)'], optimal_penalty['time_penalty(sum)']
+        if (hcp >= ocp and htp > otp) or (hcp > ocp and htp >= otp):  # 枝刈り(この時点で最適を越えている場合)
             yield {'penalty': sys.maxsize, 'parts': [[]], 'time_penalty(sum)': sys.maxsize, 'part_count': 1, 'connection_penalty': sys.maxsize}
         else:
             remain_chapter_ids = chapter_ids[i + 1:]
