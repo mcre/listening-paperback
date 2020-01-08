@@ -20,6 +20,7 @@ optimal_duration = config[pc][od] if pc in config else consts[pc][od]
 time_penalty_coef = config[pc][tp] if pc in config else consts[pc][tp]
 
 global_chapters = None
+optimal_penalty = {'penalty': sys.maxsize}
 
 
 # 次のpartに入れるchapterの範囲を返す(OPTIMAL_DURATIONの0.75〜1.5倍になる個数)
@@ -91,11 +92,14 @@ def search_possible_parts_penalty(chapter_ids, pre_chapter_penalty={'penalty': 0
             'time_penalty_per_part(adjusted)': tpa,
             'connection_penalty': connection_penalty,
         }
-        remain_chapter_ids = chapter_ids[i + 1:]
-        if len(remain_chapter_ids) == 0:
-            yield head_chapter_penalty
+        if head_chapter_penalty['penalty'] > optimal_penalty['penalty'] * 1.2:  # この時点で最適の1.2倍を越えてるならそれ以上やっても意味ないので適当なのを返す(1倍だとめっちゃ速いけどものによっては最適じゃなくなる)
+            yield {'penalty': sys.maxsize, 'parts': [[]], 'time_penalty(sum)': sys.maxsize, 'part_count': 1, 'connection_penalty': sys.maxsize}
         else:
-            yield from search_possible_parts_penalty(remain_chapter_ids, head_chapter_penalty)
+            remain_chapter_ids = chapter_ids[i + 1:]
+            if len(remain_chapter_ids) == 0:
+                yield head_chapter_penalty
+            else:
+                yield from search_possible_parts_penalty(remain_chapter_ids, head_chapter_penalty)
 
 
 def main():
@@ -293,9 +297,8 @@ def main():
         print(f"chapter_id: {chapter['chapter_id']:>3}, duration: {u.seconds_to_str(chapter['duration'])}, split_priority: {chapter['split_priority']}, chapter_type: {chapter['chapter_type']}, page: {chapter['pages'][0]['serial_page_id'] + 1}({chapter['pages'][0]['text'][:10]})")
 
     print(f'\n== Searching for best parts ==')
-    optimal_penalty = {'penalty': sys.maxsize}
 
-    global global_chapters
+    global global_chapters, optimal_penalty
     global_chapters = chapters
     for i, penalty in enumerate(search_possible_parts_penalty(range(len(chapters)))):
         if penalty['penalty'] < optimal_penalty['penalty']:
