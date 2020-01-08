@@ -20,7 +20,7 @@ optimal_duration = config[pc][od] if pc in config else consts[pc][od]
 time_penalty_coef = config[pc][tp] if pc in config else consts[pc][tp]
 
 global_chapters = None
-optimal_penalty = {'penalty': sys.maxsize, 'connection_penalty': sys.maxsize, 'time_penalty(sum)': sys.maxsize}
+optimal_time_for_each_size = {}  # 各conneciton_penaltyごとに最小のtimeを記録
 
 
 # 次のpartに入れるchapterの範囲を返す(OPTIMAL_DURATIONの0.75〜1.5倍になる個数)
@@ -93,9 +93,7 @@ def search_possible_parts_penalty(chapter_ids, pre_chapter_penalty={'parts': [],
             'connection_penalty': connection_penalty,
         }
 
-        hcp, ocp = head_chapter_penalty['connection_penalty'], optimal_penalty['connection_penalty']
-        htp, otp = head_chapter_penalty['time_penalty(sum)'], optimal_penalty['time_penalty(sum)']
-        if (hcp >= ocp and htp > otp) or (hcp > ocp and htp >= otp):  # 枝刈り(この時点で最適を越えている場合)
+        if head_chapter_penalty['time_penalty(sum)'] > optimal_time_for_each_size.get(head_chapter_penalty['connection_penalty'], sys.maxsize):  # 枝刈り
             yield {'penalty': sys.maxsize, 'parts': [[]], 'time_penalty(sum)': sys.maxsize, 'part_count': 1, 'connection_penalty': sys.maxsize}
         else:
             remain_chapter_ids = chapter_ids[i + 1:]
@@ -301,9 +299,15 @@ def main():
 
     print(f'\n== Searching for best parts ==')
 
-    global global_chapters, optimal_penalty
+    global global_chapters, optimal_time_for_each_size
+    optimal_penalty = {'penalty': sys.maxsize, 'connection_penalty': sys.maxsize, 'time_penalty(sum)': sys.maxsize}
     global_chapters = chapters
     for i, penalty in enumerate(search_possible_parts_penalty(range(len(chapters)))):
+        pcp, ptp = penalty['connection_penalty'], penalty['time_penalty(sum)']
+        optimal_time = optimal_time_for_each_size.get(pcp, sys.maxsize)
+        if ptp < optimal_time:
+            for c in range(pcp, max(optimal_time_for_each_size.keys() or [pcp]) + 1):  # それより接続ペナが高ければ時間を更新
+                optimal_time_for_each_size[c] = min(ptp, optimal_time_for_each_size.get(c, sys.maxsize))   # 悪化しないようする
         if penalty['penalty'] < optimal_penalty['penalty']:
             optimal_penalty = penalty
             print(f'{dt.datetime.now().strftime("%H:%M:%S")}, loop_count: {i:>6}, optimal_penalty: {optimal_penalty["penalty"]:.2f}')
