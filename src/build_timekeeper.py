@@ -20,7 +20,7 @@ optimal_duration = config[pc][od] if pc in config else consts[pc][od]
 time_penalty_coef = config[pc][tp] if pc in config else consts[pc][tp]
 
 global_chapters = None
-optimal_penalty = {'penalty': sys.maxsize}
+optimal_penalty = {'penalty': sys.maxsize, 'connection_penalty': sys.maxsize, 'time_penalty(sum)': sys.maxsize}
 
 
 # 次のpartに入れるchapterの範囲を返す(OPTIMAL_DURATIONの0.75〜1.5倍になる個数)
@@ -74,7 +74,7 @@ def calc_penalty(parts):
 
 
 # あり得るパートの組み合わせを全部作る
-def search_possible_parts_penalty(chapter_ids, pre_chapter_penalty={'penalty': 0, 'parts': [], 'time_penalty(sum)': 0, 'part_count': 0, 'connection_penalty': 0}):
+def search_possible_parts_penalty(chapter_ids, pre_chapter_penalty={'parts': [], 'time_penalty(sum)': 0, 'part_count': 0, 'connection_penalty': 0}):
     min_, max_ = next_chapters_range(chapter_ids)
     for i in range(min_, max_ + 1):
         following_chapter_penalty = calc_penalty([chapter_ids[:i + 1]])
@@ -92,7 +92,8 @@ def search_possible_parts_penalty(chapter_ids, pre_chapter_penalty={'penalty': 0
             'time_penalty_per_part(adjusted)': tpa,
             'connection_penalty': connection_penalty,
         }
-        if head_chapter_penalty['penalty'] > optimal_penalty['penalty'] * 1.2:  # この時点で最適の1.2倍を越えてるならそれ以上やっても意味ないので適当なのを返す(1倍だとめっちゃ速いけどものによっては最適じゃなくなる, 1.2倍が良いかどうかは研究の余地あり)
+
+        if head_chapter_penalty['connection_penalty'] > optimal_penalty['connection_penalty'] and head_chapter_penalty['time_penalty(sum)'] > optimal_penalty['time_penalty(sum)']:  # 枝刈り(この時点で最適を越えている場合)
             yield {'penalty': sys.maxsize, 'parts': [[]], 'time_penalty(sum)': sys.maxsize, 'part_count': 1, 'connection_penalty': sys.maxsize}
         else:
             remain_chapter_ids = chapter_ids[i + 1:]
