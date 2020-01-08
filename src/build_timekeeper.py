@@ -92,7 +92,7 @@ def search_possible_parts_penalty(chapter_ids, pre_chapter_penalty={'penalty': 0
             'time_penalty_per_part(adjusted)': tpa,
             'connection_penalty': connection_penalty,
         }
-        if head_chapter_penalty['penalty'] > optimal_penalty['penalty'] * 1.2:  # この時点で最適の1.2倍を越えてるならそれ以上やっても意味ないので適当なのを返す(1倍だとめっちゃ速いけどものによっては最適じゃなくなる)
+        if head_chapter_penalty['penalty'] > optimal_penalty['penalty'] * 1.2:  # この時点で最適の1.2倍を越えてるならそれ以上やっても意味ないので適当なのを返す(1倍だとめっちゃ速いけどものによっては最適じゃなくなる, 1.2倍が良いかどうかは研究の余地あり)
             yield {'penalty': sys.maxsize, 'parts': [[]], 'time_penalty(sum)': sys.maxsize, 'part_count': 1, 'connection_penalty': sys.maxsize}
         else:
             remain_chapter_ids = chapter_ids[i + 1:]
@@ -303,7 +303,7 @@ def main():
     for i, penalty in enumerate(search_possible_parts_penalty(range(len(chapters)))):
         if penalty['penalty'] < optimal_penalty['penalty']:
             optimal_penalty = penalty
-            print(f'{dt.datetime.now().strftime("%H:%M:%S")}, loop_count: {i:>6}, optimal_penalty: {optimal_penalty}')
+            print(f'{dt.datetime.now().strftime("%H:%M:%S")}, loop_count: {i:>6}, optimal_penalty: {optimal_penalty["penalty"]:.2f}')
         if i > 0 and i % 100000 == 0:
             print(f'{dt.datetime.now().strftime("%H:%M:%S")}, loop_count: {i:>6}')
 
