@@ -20,7 +20,7 @@ optimal_duration = config[pc][od] if pc in config else consts[pc][od]
 time_penalty_coef = config[pc][tp] if pc in config else consts[pc][tp]
 
 global_chapters = None
-optimal_time_for_each_size = {}  # 各conneciton_penaltyごとに最小のtimeを記録
+following_optimal_penalty = {}
 
 
 # 次のpartに入れるchapterの範囲を返す(OPTIMAL_DURATIONの0.75〜1.5倍になる個数)
@@ -59,48 +59,54 @@ def calc_penalty(parts):
         else:
             time_penalty += duration - optimal_duration
 
-    time_penalty_per_part = time_penalty / len(parts)
-    tpa = time_penalty_per_part * time_penalty_coef
+    chapter_count = sum([len(chapters) for chapters in parts])
+    time_penalty_per_chapter = time_penalty / chapter_count  # 本全体のバランスのためchaptersの数で割る
+    tpa = time_penalty_per_chapter * time_penalty_coef
 
     return {
         'penalty': tpa + connection_penalty,
         'parts': [list(part) for part in parts],
         'time_penalty(sum)': time_penalty,
-        'part_count': len(parts),
-        'time_penalty_per_part': time_penalty_per_part,
-        'time_penalty_per_part(adjusted)': tpa,
+        'chapter_count': chapter_count,
+        'time_penalty_per_chapter': time_penalty_per_chapter,
+        'time_penalty_per_chapter(adjusted)': tpa,
+        'connection_penalty': connection_penalty,
+    }
+
+
+def connect_penalties(head_penalty, tail_penalty):
+    tp = head_penalty['time_penalty(sum)'] + tail_penalty['time_penalty(sum)']
+    cc = head_penalty['chapter_count'] + tail_penalty['chapter_count']
+    connection_penalty = head_penalty['connection_penalty'] + tail_penalty['connection_penalty']
+    tpa = tp / cc * time_penalty_coef
+    return {
+        'penalty': tpa + connection_penalty,
+        'parts': head_penalty['parts'] + tail_penalty['parts'],
+        'time_penalty(sum)': tp,
+        'chapter_count': cc,
+        'time_penalty_per_chapter': tp / cc,
+        'time_penalty_per_chapter(adjusted)': tpa,
         'connection_penalty': connection_penalty,
     }
 
 
 # あり得るパートの組み合わせを全部作る
-def search_possible_parts_penalty(chapter_ids, pre_chapter_penalty={'parts': [], 'time_penalty(sum)': 0, 'part_count': 0, 'connection_penalty': 0}):
+def search_possible_parts_penalty(chapter_ids, pre_chapter_penalty={'parts': [], 'time_penalty(sum)': 0, 'chapter_count': 0, 'connection_penalty': 0}):
     min_, max_ = next_chapters_range(chapter_ids)
     for i in range(min_, max_ + 1):
         following_chapter_penalty = calc_penalty([chapter_ids[:i + 1]])
-        pp, fp = pre_chapter_penalty, following_chapter_penalty
-        tp = pp['time_penalty(sum)'] + fp['time_penalty(sum)']
-        pc = pp['part_count'] + fp['part_count']
-        connection_penalty = pp['connection_penalty'] + fp['connection_penalty']
-        tpa = tp / pc * time_penalty_coef
-        head_chapter_penalty = {
-            'penalty': tpa + connection_penalty,
-            'parts': pp['parts'] + fp['parts'],
-            'time_penalty(sum)': tp,
-            'part_count': pc,
-            'time_penalty_per_part': tp / pc,
-            'time_penalty_per_part(adjusted)': tpa,
-            'connection_penalty': connection_penalty,
-        }
-
-        if head_chapter_penalty['time_penalty(sum)'] > optimal_time_for_each_size.get(head_chapter_penalty['connection_penalty'], sys.maxsize):  # 枝刈り
-            yield {'penalty': sys.maxsize, 'parts': [[]], 'time_penalty(sum)': sys.maxsize, 'part_count': 1, 'connection_penalty': sys.maxsize}
+        head_chapter_penalty = connect_penalties(pre_chapter_penalty, following_chapter_penalty)
+        remain_chapter_ids = chapter_ids[i + 1:]
+        if len(remain_chapter_ids) == 0:
+            yield head_chapter_penalty
+        elif chapter_ids[i + 1] in following_optimal_penalty:
+            yield connect_penalties(head_chapter_penalty, following_optimal_penalty[chapter_ids[i + 1]])
         else:
-            remain_chapter_ids = chapter_ids[i + 1:]
-            if len(remain_chapter_ids) == 0:
-                yield head_chapter_penalty
-            else:
-                yield from search_possible_parts_penalty(remain_chapter_ids, head_chapter_penalty)
+            yield from search_possible_parts_penalty(remain_chapter_ids, head_chapter_penalty)
+
+
+def now():
+    return dt.datetime.now().strftime("%H:%M:%S")
 
 
 def main():
@@ -299,20 +305,20 @@ def main():
 
     print(f'\n== Searching for best parts ==')
 
-    global global_chapters, optimal_time_for_each_size
-    optimal_penalty = {'penalty': sys.maxsize, 'connection_penalty': sys.maxsize, 'time_penalty(sum)': sys.maxsize}
+    global global_chapters, following_optimal_penalty
     global_chapters = chapters
-    for i, penalty in enumerate(search_possible_parts_penalty(range(len(chapters)))):
-        pcp, ptp = penalty['connection_penalty'], penalty['time_penalty(sum)']
-        optimal_time = optimal_time_for_each_size.get(pcp, sys.maxsize)
-        if ptp < optimal_time:
-            for c in range(pcp, max(optimal_time_for_each_size.keys() or [pcp]) + 1):  # それより接続ペナが高ければ時間を更新
-                optimal_time_for_each_size[c] = min(ptp, optimal_time_for_each_size.get(c, sys.maxsize))   # 悪化しないようする
-        if penalty['penalty'] < optimal_penalty['penalty']:
-            optimal_penalty = penalty
-            print(f'{dt.datetime.now().strftime("%H:%M:%S")}, loop_count: {i:>6}, optimal_penalty: {optimal_penalty["penalty"]:.2f}')
-        if i > 0 and i % 100000 == 0:
-            print(f'{dt.datetime.now().strftime("%H:%M:%S")}, loop_count: {i:>6}')
+    for div in range(len(chapters) - 1, -1, -1):  # chapterのケツから最適を順にもとめて後の計算に使う(とめっちゃ速くなる)
+        print(f'\n{now()}, Start calc following penalty: {div}')
+        following_chapters = chapters
+        for i, penalty in enumerate(search_possible_parts_penalty(range(div, len(chapters)))):
+            if penalty['penalty'] < following_optimal_penalty.get(div, {'penalty': sys.maxsize})['penalty']:
+                following_optimal_penalty[div] = penalty
+                print(f'{now()}, div: {div}, loop_count: {i:>6}, optimal_penalty: {penalty["penalty"]:.2f}')
+            if i > 0 and i % 100000 == 0:
+                print(f'{now()}, div: {div}, loop_count: {i:>6}')
+        print(following_optimal_penalty[div])
+
+    optimal_penalty = following_optimal_penalty[0]
 
     # partsを整形
     parts = [{

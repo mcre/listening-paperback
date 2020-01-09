@@ -49,7 +49,7 @@ def create_project(book_id):
         },
         'part_configuration_settings': {
             'optimal_duration_in_sec': 600,
-            'time_penalty_coef': 0.1
+            'time_penalty_coef': 0.3
         },
         'clearpage_on_blank_line': True,
         'tex_replaces': {},
