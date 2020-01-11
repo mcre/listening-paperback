@@ -59,6 +59,14 @@
             "ruby": "ニサン",
             "offset_from_first_morpheme": 0,
             "morphemes": [
+                ["二三", "名詞", "二三", "ニサン"]
+            ]
+        },
+        {
+            "kanji": "二三",
+            "ruby": "ニサン",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
                 ["二三", "名詞", "二三", "フミ"]
             ]
         },
@@ -166,6 +174,24 @@
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["一日", "名詞", "一日", "ヒトイチ"]
+            ]
+        },
+        {
+            "kanji": "一きれ",
+            "ruby": "ヒトキレ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["一", "名詞", "一", "イチ"],
+                ["きれ", "動詞", "きれる", "キレ"]
+            ]
+        },
+        {
+            "kanji": "一あし",
+            "ruby": "ヒトアシ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["一", "名詞", "一", "イチ"],
+                ["あし", "名詞", "あし", "アシ"]
             ]
         },
         {
