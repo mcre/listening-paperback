@@ -129,7 +129,7 @@ mkdir ./projects/${pj}/output/${dir} || exit 1
 mkdir -p ./projects/${pj}/output/latest || exit 1
 cd ./projects/${pj}/output/${dir} || exit 1
 mkdir input work || exit 1
-mkdir work/ssml work/marks work/page_movies || exit 1
+mkdir work/ssml work/marks || exit 1
 cd ${home} || exit 1
 cd ./work/ || exit 1
 cp novel.txt config.json ../projects/${pj}/output/${dir}/input || exit 1
