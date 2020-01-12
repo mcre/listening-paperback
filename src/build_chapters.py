@@ -96,8 +96,8 @@ def main():
     print('chapter_start_texts:', chapter_start_texts)
 
     paragraphs = PATTERNS['paragraphs'].findall(plain_tex)
-    print('len(paragraphs):', len(paragraphs))
-    print('head(paragraphs):', paragraphs[:5])
+    # print('len(paragraphs):', len(paragraphs))
+    # print('head(paragraphs):', paragraphs[:5])
 
     chapters = []
     new_chapter = create_new_chapter(chapter_type='first_page')
@@ -107,20 +107,20 @@ def main():
         if next_chapter and text.startswith(next_chapter['text']):  # textと次のchapterが一致した場合はそこから新しいチャプター
             if len(new_chapter['pages']) > 0:  # 前のチャプターにページがあれば前のチャプターを確定させる
                 chapters.append(new_chapter)
-                print('before_chapter_added > chapter_type', new_chapter['chapter_type'], ', pages0:', new_chapter['pages'][0][:20])
+                # print('before_chapter_added > chapter_type', new_chapter['chapter_type'], ', pages0:', new_chapter['pages'][0][:20])
             new_chapter = create_new_chapter(chapter_type=next_chapter['chapter_type'])  # 新しいチャプターを作り始める
             chapter_start_texts = chapter_start_texts[1:]  # next_chapterを切り替える
-            print('new_chapter:', new_chapter['chapter_type'], text[:20])
-            print('next_chapter:', chapter_start_texts[0] if len(chapter_start_texts) > 0 else None, '\n')
+            # print('new_chapter:', new_chapter['chapter_type'], text[:20])
+            # print('next_chapter:', chapter_start_texts[0] if len(chapter_start_texts) > 0 else None, '\n')
         elif text[:20] in paragraphs:  # たまたまページ区切りと段落の区切りが一致したらそこから新しいチャプター
             if len(new_chapter['pages']) > 0:
                 chapters.append(new_chapter)
-                print('before_chapter_added > chapter_type:', new_chapter['chapter_type'], ', pages0:', new_chapter['pages'][0][:20])
+                # print('before_chapter_added > chapter_type:', new_chapter['chapter_type'], ', pages0:', new_chapter['pages'][0][:20])
             new_chapter = create_new_chapter(chapter_type='coincidentally_newpage')
             used_index = paragraphs.index(text[:20])
             paragraphs = paragraphs[used_index + 1:]  # 使ったところまでの段落を消す
-            print('new_chapter:', new_chapter['chapter_type'], text[:20])
-            print('next_paragraph:', paragraphs[0] if len(paragraphs) > 0 else None, '\n')
+            # print('new_chapter:', new_chapter['chapter_type'], text[:20])
+            # print('next_paragraph:', paragraphs[0] if len(paragraphs) > 0 else None, '\n')
         new_chapter['pages'].append(text)
     chapters.append(new_chapter)  # 文末まで行ったらchaptersに足す
 
