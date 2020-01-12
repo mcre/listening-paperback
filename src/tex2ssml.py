@@ -91,12 +91,24 @@ def split_ruby(filename, line):
             'ruby': obj.group(2),
             'start': obj.start(0) - offset,
             'end': obj.start(0) + len(obj.group(1)) - offset,
-            'morphemes': [],
-            'first_in_morpheme': False,
-            'last_in_morpheme': False,
+            'morphemes': [], 'first_in_morpheme': False, 'last_in_morpheme': False,
         })
     plain_line = PATTERNS['ruby'].sub(r'\1', line)
     mecab_results = mecab(plain_line)
+
+    # consts['use_mecab_yomi_rubies']の処理(これに該当するものはmecabの読みを有効にする(pollyが間違えやすい漢字を入れる: ('方', '名詞', '方', 'ホウ') とか)
+    for result in mecab_results:
+        for use_mecabu_yomi_ruby in consts['use_mecab_yomi_rubies']:
+            if tuple(use_mecabu_yomi_ruby) == result['el']:
+                rubies.append({
+                    'ssml_filename': filename,
+                    'kanji': result['el'][0],
+                    'ruby': jaconv.kata2hira(result['el'][3]),
+                    'start': result['start'],
+                    'end': result['end'],
+                    'morphemes': [], 'first_in_morpheme': False, 'last_in_morpheme': False
+                })
+
     for ruby in rubies:
         for result in mecab_results:
             if len(set(range(ruby['start'], ruby['end'])) & set(range(result['start'], result['end']))) > 0:  # 出現箇所が重なる場所
@@ -109,7 +121,7 @@ def split_ruby(filename, line):
                 ruby['first_in_morpheme'] = True
             if ruby['end'] == result['end']:
                 ruby['last_in_morpheme'] = True
-        if ruby['first_in_morpheme'] and (ruby['last_in_morpheme'] or ruby['ruby'][0] in consts['force_katakana_starts_with']):  # 独立した読み、あるいは、ひらがなだと読み間違うやつをカタカナにする
+        if ruby['first_in_morpheme'] and (ruby['last_in_morpheme'] or ruby['ruby'][0] in consts['force_katakana_ruby_starts_with']):  # 独立した読み、あるいは、ひらがなだと読み間違うやつをカタカナにする
             ruby['ruby'] = jaconv.hira2kata(ruby['ruby'])
         # ルビの発生箇所の文字列表現
         ruby['pos'] = f'{ruby["ssml_filename"]}-{ruby["start"] - ruby["offset_from_first_morpheme"]:0>5}'
@@ -137,11 +149,10 @@ def load_special_ruby(special_ruby):
         'ssml_filename': '_sperial_rubies',
         'kanji': special_ruby['kanji'],
         'ruby': special_ruby['ruby'],
-        'start': 0,
         'morphemes': [{'el': tuple(m)} for m in special_ruby['morphemes']],
         'offset_from_first_morpheme': special_ruby['offset_from_first_morpheme'],
-        'only_here': False,
-        'pos': '_sperial_rubies-00000',
+        'only_here': special_ruby.get('only_here', False),
+        'pos': special_ruby.get('pos', '_sperial_rubies-00000'),
     }
 
 

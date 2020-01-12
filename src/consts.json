@@ -14,7 +14,10 @@
         "optimal_duration_in_sec": 600,
         "time_penalty_coef": 0.3
     },
-    "force_katakana_starts_with": ["は", "も"],
+    "use_mecab_yomi_rubies": [
+        ["方", "名詞", "方", "ホウ"]
+    ],
+    "force_katakana_ruby_starts_with": ["は", "も"],
     "primary_special_rubies": [
         {
             "kanji": "剥げた",
