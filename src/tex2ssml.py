@@ -109,7 +109,7 @@ def split_ruby(filename, line):
                 ruby['first_in_morpheme'] = True
             if ruby['end'] == result['end']:
                 ruby['last_in_morpheme'] = True
-        if ruby['first_in_morpheme'] and ruby['last_in_morpheme']:
+        if ruby['first_in_morpheme'] and (ruby['last_in_morpheme'] or ruby['ruby'][0] in consts['force_katakana_starts_with']):  # 独立した読み、あるいは、ひらがなだと読み間違うやつをカタカナにする
             ruby['ruby'] = jaconv.hira2kata(ruby['ruby'])
         # ルビの発生箇所の文字列表現
         ruby['pos'] = f'{ruby["ssml_filename"]}-{ruby["start"] - ruby["offset_from_first_morpheme"]:0>5}'
