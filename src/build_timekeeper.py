@@ -303,20 +303,20 @@ def main():
     for chapter in chapters:
         print(f"chapter_id: {chapter['chapter_id']:>3}, duration: {u.seconds_to_str(chapter['duration'])}, split_priority: {chapter['split_priority']}, chapter_type: {chapter['chapter_type']}, page: {chapter['pages'][0]['serial_page_id'] + 1}({chapter['pages'][0]['text'][:10]})")
 
-    print(f'\n== Searching for best parts ==')
+    # print(f'\n== Searching for best parts ==')
 
     global global_chapters, following_optimal_penalty
     global_chapters = chapters
     for div in range(len(chapters) - 1, -1, -1):  # chapterのケツから最適を順にもとめて後の計算に使う(とめっちゃ速くなる)
-        print(f'\n{now()}, Start calc following penalty: {div}')
+        # print(f'\n{now()}, Start calc following penalty: {div}')
         following_chapters = chapters
         for i, penalty in enumerate(search_possible_parts_penalty(range(div, len(chapters)))):
             if penalty['penalty'] < following_optimal_penalty.get(div, {'penalty': sys.maxsize})['penalty']:
                 following_optimal_penalty[div] = penalty
-                print(f'{now()}, div: {div}, loop_count: {i:>6}, optimal_penalty: {penalty["penalty"]:.2f}')
+                # print(f'{now()}, div: {div}, loop_count: {i:>6}, optimal_penalty: {penalty["penalty"]:.2f}')
             if i > 0 and i % 100000 == 0:
                 print(f'{now()}, div: {div}, loop_count: {i:>6}')
-        print(following_optimal_penalty[div])
+        # print(following_optimal_penalty[div])
 
     optimal_penalty = following_optimal_penalty[0]
 
