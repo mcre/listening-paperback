@@ -193,13 +193,20 @@ def main():
     with open('rubies.json', 'w') as f:
         json.dump(rubies, f, ensure_ascii=False, indent=2)
 
+    # 高速化のためにhash mapをつくる
+    rubies_map = {}
+    for ruby in rubies:
+        key = ruby['morphemes'][0]['el'][0]
+        if key not in rubies_map:
+            rubies_map[key] = []
+        rubies_map[key].append(ruby)
+
     for line_id, line in enumerate(lines):
-        if line_id % 100 == 0:
-            print(f'{dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")} : {line_id} / {len(lines)}')
         offset = 0  # lineのうちのこの文字まで処理済み(なので再処理しない)
         for morpheme_id, morpheme in enumerate(line['morphemes']):
             line_pos = f'{line["ssml_filename"]}-{morpheme["start"]:0>5}'
-            for ruby in rubies:
+            key = morpheme['el'][0]
+            for ruby in rubies_map.get(key, []):
                 if ruby['only_here'] and ruby['pos'] != line_pos:
                     continue
                 if ruby['pos'] > line_pos:  # ルビ出現以前のものはスルー
