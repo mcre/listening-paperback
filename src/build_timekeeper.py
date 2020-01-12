@@ -314,8 +314,6 @@ def main():
             if penalty['penalty'] < following_optimal_penalty.get(div, {'penalty': sys.maxsize})['penalty']:
                 following_optimal_penalty[div] = penalty
                 # print(f'{now()}, div: {div}, loop_count: {i:>6}, optimal_penalty: {penalty["penalty"]:.2f}')
-            if i > 0 and i % 100000 == 0:
-                print(f'{now()}, div: {div}, loop_count: {i:>6}')
         # print(following_optimal_penalty[div])
 
     optimal_penalty = following_optimal_penalty[0]
