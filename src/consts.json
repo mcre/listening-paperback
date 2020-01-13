@@ -173,6 +173,17 @@
             ]
         },
         {
+            "memo": "鉤括弧と同様に、Pollyのバグにより誤ったmarksが出るため置換",
+            "kanji": "米一升",
+            "ruby": "コメイッショウ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["米", "名詞", "米", "ベイ"],
+                ["一", "名詞", "一", "イチ"],
+                ["升", "名詞", "升", "ショウ"]
+            ]
+        },
+        {
             "kanji": "一日",
             "ruby": "イチニチ",
             "offset_from_first_morpheme": 0,
