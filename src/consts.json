@@ -20,12 +20,38 @@
     "force_katakana_ruby_starts_with": ["は", "も"],
     "primary_special_rubies": [
         {
+            "kanji": "一軒",
+            "ruby": "イッケン",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["一軒", "名詞", "一軒", "イッケン"]
+            ]
+        },
+        {
+            "kanji": "一滴",
+            "ruby": "イッテキ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["一", "名詞", "一", "イチ"],
+                ["滴", "名詞", "滴", "テキ"]
+            ]
+        },
+        {
             "kanji": "剥げた",
             "ruby": "ハゲた",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["剥げ", "動詞", "剥げる", "ハゲ"],
                 ["た", "助動詞", "た", "タ"]
+            ]
+        },
+        {
+            "kanji": "寝どこ",
+            "ruby": "寝床",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["寝", "動詞", "寝る", "ネ"],
+                ["どこ", "名詞", "どこ", "ドコ"]
             ]
         }
     ],
@@ -126,6 +152,16 @@
                 ["二", "名詞", "二", "ニ"],
                 ["、", "記号", "、", "、"],
                 ["三日", "名詞", "三日", "ミッカ"]
+            ]
+        },
+        {
+            "kanji": "三日三晩",
+            "ruby": "ミッカミバン",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["三日", "名詞", "三日", "ミッカ"],
+                ["三", "名詞", "三", "サン"],
+                ["晩", "名詞", "晩", "バン"]
             ]
         },
         {
@@ -572,6 +608,64 @@
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["一飛び", "名詞", "一飛び", "ヒトットビ"]
+            ]
+        },
+        {
+            "kanji": "金や銀",
+            "ruby": "キンやギン",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["金", "名詞", "金", "キン"],
+                ["や", "助詞", "や", "ヤ"],
+                ["銀", "名詞", "銀", "ギン"]
+            ]
+        },
+        {
+            "kanji": "しめひも",
+            "ruby": "シメヒモ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["しめ", "名詞", "しめ", "シメ"],
+                ["ひも", "名詞", "ひも", "ヒモ"]
+            ]
+        },
+        {
+            "kanji": "元気",
+            "ruby": "ゲンキ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["元気", "名詞", "元気", "ゲンキ"]
+            ]
+        },
+        {
+            "kanji": "一かじり",
+            "ruby": "ヒトカジリ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["一", "名詞", "一", "イチ"],
+                ["かじ", "名詞", "かじ", "カジ"],
+                ["り口", "名詞", "利口", "リコウ"]
+            ]
+        },
+        {
+            "kanji": "一日じゅう",
+            "ruby": "いちにちじゅう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["一日じゅう", "名詞", "一日中", "イチニチジュウ"]
+            ]
+        },
+        {
+            "kanji": "はいるかはいらない",
+            "ruby": "入るか入らない",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["は", "助詞", "は", "ハ"],
+                ["いる", "動詞", "いる", "イル"],
+                ["か", "助詞", "か", "カ"],
+                ["は", "助詞", "は", "ハ"],
+                ["いら", "動詞", "いる", "イラ"],
+                ["ない", "助動詞", "ない", "ナイ"]
             ]
         }
     ] 
