@@ -70,6 +70,14 @@
             "morphemes": [
                 ["物凄い", "形容詞", "物凄い", "モノスゴイ"]
             ]
+        },
+        {
+            "kanji": "兎も角",
+            "ruby": "ともかく",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["兎も角", "副詞", "兎も角", "トモカク"]
+            ]
         }
     ],
     "special_rubies": [
@@ -866,6 +874,199 @@
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["入用", "名詞", "入用", "イリヨウ"]
+            ]
+        },
+        {
+            "kanji": "（上）",
+            "ruby": "ジョウ。",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["（", "記号", "（", "（"],
+                ["上", "名詞", "上", "ウエ"],
+                ["）", "記号", "）", "）"]
+            ]
+        },
+        {
+            "kanji": "（下）",
+            "ruby": "ゲ。",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["（", "記号", "（", "（"],
+                ["下", "名詞", "下", "シタ"],
+                ["）", "記号", "）", "）"]
+            ]
+        },
+        {
+            "kanji": "冷しコーヒー",
+            "ruby": "ヒヤシコーヒー",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["冷し", "動詞", "冷す", "ヒヤシ"],
+                ["コーヒー", "名詞", "コーヒー", "コーヒー"]
+            ]
+        },
+        {
+            "kanji": "飽る",
+            "ruby": "あきる",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["飽", "名詞", "", ""],
+                ["る", "助動詞", "る", "ル"]
+            ]
+        },
+        {
+            "kanji": "少い方",
+            "ruby": "すくないほう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["少", "接頭詞", "少", "ショウ"],
+                ["い方", "名詞", "医方", "イホウ"]
+            ]
+        },
+        {
+            "kanji": "十分もかかって",
+            "ruby": "ジュップンもかかって",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["十分", "名詞", "十分", "ジュウブン"],
+                ["も", "助詞", "も", "モ"],
+                ["かかっ", "動詞", "かかる", "カカッ"],
+                ["て", "助詞", "て", "テ"]
+            ]
+        },
+        {
+            "kanji": "大通",
+            "ruby": "大通り",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["大通", "名詞", "大通", "ダイツウ"]
+            ]
+        },
+        {
+            "kanji": "探偵小説好",
+            "ruby": "探偵小説ずき",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["探偵小説", "名詞", "探偵小説", "タンテイショウセツ"],
+                ["好", "名詞", "好", "ヨシミ"]
+            ]
+        },
+        {
+            "kanji": "よさ相",
+            "ruby": "良さそう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["よ", "形容詞", "よい", "ヨ"],
+                ["さ", "名詞", "さ", "サ"],
+                ["相", "名詞", "相", "ショウ"]
+            ]
+        },
+        {
+            "kanji": "あり相",
+            "ruby": "ありそう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["あり", "動詞", "ある", "アリ"],
+                ["相", "名詞", "相", "ショウ"]
+            ]
+        },
+        {
+            "kanji": "起り相",
+            "ruby": "起こりそう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["起り", "名詞", "起り", "オコリ"],
+                ["相", "名詞", "相", "ショウ"]
+            ]
+        },
+        {
+            "kanji": "来る相",
+            "ruby": "来るそう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["来る", "動詞", "来る", "クル"],
+                ["相", "名詞", "相", "ソウ"]
+            ]
+        },
+        {
+            "kanji": "柔か相",
+            "ruby": "柔らかそう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["柔か", "形容詞", "柔かい", "ヤワラカ"],
+                ["相", "名詞", "相", "ショウ"]
+            ]
+        },
+        {
+            "kanji": "いた相",
+            "ruby": "いたそう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["い", "動詞", "いる", "イ"],
+                ["た", "助動詞", "た", "タ"],
+                ["相", "名詞", "相", "ソウ"]
+            ]
+        },
+        {
+            "kanji": "おとなし相",
+            "ruby": "おとなしそう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["おとなし", "形容詞", "おとなしい", "オトナシ"],
+                ["相", "名詞", "相", "ショウ"]
+            ]
+        },
+        {
+            "kanji": "何気なさ相",
+            "ruby": "何気なさそう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["何気な", "形容詞", "何気ない", "ナニゲナ"],
+                ["さ", "名詞", "さ", "サ"],
+                ["相", "名詞", "相", "ショウ"]
+            ]
+        },
+        {
+            "kanji": "店中",
+            "ruby": "ミセジュウ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["店", "名詞", "店", "ミセ"],
+                ["中", "名詞", "中", "チュウ"]
+            ]
+        },
+        {
+            "kanji": "空地",
+            "ruby": "空き地",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["空地", "名詞", "空地", "クウチ"]
+            ]
+        },
+        {
+            "kanji": "閉切って",
+            "ruby": "締め切って",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["閉切", "名詞", "", ""],
+                ["って", "助詞", "って", "ッテ"]
+            ]
+        },
+        {
+            "kanji": "店に",
+            "ruby": "ミセに",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["店", "名詞", "店", "ミセ"],
+                ["に", "助詞", "に", "ニ"]
+            ]
+        },
+        {
+            "kanji": "積上げ",
+            "ruby": "積み上げ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["積上げ", "動詞", "積上げる", "ツミアゲ"]
             ]
         }
     ] 

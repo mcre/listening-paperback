@@ -19,7 +19,7 @@ PATTERNS = {
     'command_no_params': re.compile(r'\\(?!ruby)\S*?(?=[\s}]|$)'),
     'chu_kakko_space': re.compile(r'{\s+(.*?)}'),
     'dialogue': re.compile(r'「(.*?)」'),
-    'think': re.compile(r'(?:（(.*?)）|『(.*?)』)'),
+    'think': re.compile(r'(?<!<sub alias=.*?>)(?:（(.*?)）|『(.*?)』)'),
     'remove_marks': re.compile(r'[「」『』（）〔〕{}$_&]'),
     'double_odoriji': re.compile(r'([\p{Han}]{2})々々(?!</sub>)'),  # ルビ付きは一旦除外
     'time_break': re.compile(r'([―…])'),
