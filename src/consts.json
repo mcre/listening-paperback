@@ -38,6 +38,14 @@
             ]
         },
         {
+            "kanji": "一疋",
+            "ruby": "イッピキ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["一疋", "名詞", "一疋", "イッピキ"]
+            ]
+        },
+        {
             "kanji": "剥げた",
             "ruby": "ハゲた",
             "offset_from_first_morpheme": 0,
@@ -234,6 +242,15 @@
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 ["一日", "名詞", "一日", "ヒトイチ"]
+            ]
+        },
+        {
+            "kanji": "一日",
+            "ruby": "イチニチ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["一", "名詞", "一", "イチ"],
+                ["日", "名詞", "日", "ニチ"]
             ]
         },
         {
@@ -787,6 +804,68 @@
             "morphemes": [
                 ["ゴクラク", "名詞", "", ""],
                 ["鳥", "名詞", "鳥", "トリ"]
+            ]
+        },
+        {
+            "kanji": "小作人",
+            "ruby": "コサクニン",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["小作人", "名詞", "小作人", "コサクニン"]
+            ]
+        },
+        {
+            "kanji": "坊ッちゃま",
+            "ruby": "ボッチャマ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["坊", "名詞", "坊", "ボウ"],
+                ["ッ", "名詞", "", ""],
+                ["ちゃ", "名詞", "ちゃ", "チャ"],
+                ["まで", "助詞", "まで", "マデ"]
+            ]
+        },
+        {
+            "kanji": "節期",
+            "ruby": "節気",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["節期", "名詞", "節期", "ミネトキ"]
+            ]
+        },
+        {
+            "kanji": "塵ッ葉",
+            "ruby": "チリッパ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["塵", "名詞", "塵", "チリ"],
+                ["ッ", "名詞", "", ""],
+                ["葉", "名詞", "葉", "ハ"]
+            ]
+        },
+        {
+            "kanji": "昼飯",
+            "ruby": "昼メシ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["昼飯", "名詞", "昼飯", "ヒルメシ"]
+            ]
+        },
+        {
+            "kanji": "弾かれ",
+            "ruby": "はじかれ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["弾か", "動詞", "弾く", "ヒカ"],
+                ["れ", "動詞", "れる", "レ"]
+            ]
+        },
+        {
+            "kanji": "入用",
+            "ruby": "イリヨウ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["入用", "名詞", "入用", "イリヨウ"]
             ]
         }
     ] 
