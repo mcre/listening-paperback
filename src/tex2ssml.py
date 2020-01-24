@@ -20,7 +20,8 @@ PATTERNS = {
     'chu_kakko_space': re.compile(r'{\s+(.*?)}'),
     'dialogue': re.compile(r'「(.*?)」'),
     'think': re.compile(r'(?<!<sub alias=.*?>)(?:（(.*?)）|『(.*?)』)'),
-    'remove_marks': re.compile(r'[「」『』（）〔〕{}$_&]'),
+    'remove_marks': re.compile(r'[「」〔〕{}$_&]'),
+    'break_marks': re.compile(r'[『』（）]'),  # subを回避したthinkが詰まるのを回避する
     'double_odoriji': re.compile(r'([\p{Han}]{2})々々(?!</sub>)'),  # ルビ付きは一旦除外
     'time_break': re.compile(r'([―…])'),
 }
@@ -225,6 +226,7 @@ def main():
         t = PATTERNS['dialogue'].sub(r'<break strength="weak"/><prosody pitch="+10%">\1</prosody><break strength="weak"/>', t)
         t = PATTERNS['think'].sub(r'<break strength="weak"/>\1\2<break strength="weak"/>', t)
         t = PATTERNS['remove_marks'].sub('', t)  # pollyのバグで、「<sub alias=\"カスケ\">加助"」等でmarksで余分なものが出るので記号系を置換しておく
+        t = PATTERNS['break_marks'].sub('<break strength="weak"/>', t)
         t = PATTERNS['double_odoriji'].sub(r'\1<sub alias="\1">々々</sub>', t)
         t = PATTERNS['time_break'].sub(r'<break time="0.5s"/>\1', t)
         line['ssml_ruby_text'] = t
