@@ -93,14 +93,14 @@ echo '# pdf2png'
 hash=`docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "tail -n +2 /work/novel.log | md5sum | cut -d ' ' -f 1"` || exit 1
 if [ -e ./projects/${pj}/cache/page_images/${hash}.zip ]; then
   echo '## exists cache'
-  unzip ./projects/${pj}/cache/page_images/${hash}.zip
+  unzip -q ./projects/${pj}/cache/page_images/${hash}.zip
 else
   echo '## processing...'
   mkdir -p ./work/page_images || exit 1
   docker run --rm -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r 200 /work/novel.pdf /work/page_images/novel" || exit 1
   rm -rf ./projects/${pj}/cache/page_images/ || exit 1
   mkdir ./projects/${pj}/cache/page_images/ || exit 1
-  zip -r "./projects/${pj}/cache/page_images/${hash}.zip" ./work/page_images || exit 1
+  zip -r -q "./projects/${pj}/cache/page_images/${hash}.zip" ./work/page_images || exit 1
 fi
 echo '# build_timekeeper'
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u build_timekeeper.py" || exit 1
