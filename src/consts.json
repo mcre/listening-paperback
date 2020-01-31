@@ -1485,6 +1485,78 @@
                 ["はいっ", "動詞", "はいる", "ハイッ"],
                 ["て", "助詞", "て", "テ"]
             ]
+        },
+        {
+            "kanji": "ほどこし様",
+            "ruby": "ホドコシヨウ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["ほどこし", "動詞", "ほどこす", "ホドコシ"],
+                ["様", "名詞", "様", "サマ"]
+            ]
+        },
+        {
+            "kanji": "気附か",
+            "ruby": "気付か",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["気附", "名詞", "気附", "キヅケ"],
+                ["か", "助詞", "か", "カ"]
+            ]
+        },
+        {
+            "kanji": "日附",
+            "ruby": "日付",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["日", "名詞", "日", "ニチ"],
+                ["附", "名詞", "附", "ツケタリ"]
+            ]
+        },
+        {
+            "kanji": "気持",
+            "ruby": "気持ち",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["気", "名詞", "気", "キ"],
+                ["持っ", "動詞", "持つ", "モッ"]
+            ]
+        },
+        {
+            "kanji": "生地獄",
+            "ruby": "生き地獄",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["生地獄", "名詞", "生地獄", "イキジゴク"]
+            ]
+        },
+        {
+            "kanji": "抱いて",
+            "ruby": "だいて",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["抱い", "動詞", "抱く", "ダイ"],
+                ["て", "助詞", "て", "テ"]
+            ]
+        },
+        {
+            "kanji": "年とって",
+            "ruby": "歳取って",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["年", "名詞", "年", "トシ"],
+                ["とっ", "動詞", "とる", "トッ"],
+                ["て", "助詞", "て", "テ"]
+            ]
+        },
+        {
+            "kanji": "無さ",
+            "ruby": "なさ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                ["無", "形容詞", "無い", "ナ"],
+                ["さ", "名詞", "さ", "サ"]
+            ]
         }
     ]
 }
