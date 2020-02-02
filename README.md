@@ -9,6 +9,9 @@
     - `python create_project.py {book_id}`
     - `./projects/{作者名}/{作品名}/` に `novel.txt` と `config.json` が生成される
 * `config.json` は適宜調整する
+    - `title_yomi`
+        - titleそのままだと読み間違うときに追加すると、こっちを読んでくれる。
+        - `江戸川乱歩/お勢登場` 参照
     - `part_configuration_settings`
         - 同じものが`consts.json`にもある。`config.json`が優先。
         - `optimal_duration_in_sec`
