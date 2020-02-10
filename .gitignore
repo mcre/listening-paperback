@@ -8,6 +8,8 @@ tmp.md
 test.py
 batch_tmp_*.sh
 
+/corrector/markers/*
+
 /cache/
 /projects/
 /tmp/
