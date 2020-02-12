@@ -165,18 +165,29 @@ class SentencesWidget(W):
         def init_worker():
             tag = re.compile(r'''<("[^"]*"|'[^']*'|[^'">])*>''')
             sentences = []
-            for sentences_file in sorted(glob.glob(f'work/ssml/*.xml')):
+            for sentences_file in sorted(glob.glob(f'work/ssml/text*.xml')):
+                fn = sentences_file[10:-4]
                 with open(sentences_file) as f:
                     ssml = f.readlines()[7].strip()
-                    fn = sentences_file[10:-4]
-                    if fn.startswith('text'):
-                        name = str(int(fn[4:]))
-                    sentences.append({
-                        'name': name,
-                        'voice_file_path': f'work/voices/{fn}.mp3',
-                        'ssml': ssml,
-                        'plain_text': tag.sub('', ssml),
-                    })
+                with open(f'work/marks/{fn}.json') as f:
+                    marks = json.load(f)
+                marks = [{'text': tag.sub('', mark['value']), 'time': mark['time'] / 1000} for mark in marks if mark['type'] == 'word']
+                plain_text = ''.join([mark['text'] for mark in marks])
+                cursor = 0
+                times_by_cursor = {}
+                for mark in marks:
+                    times_by_cursor[cursor] = mark['time']
+                    cursor += len(mark['text'])
+                for i in range(len(plain_text)):
+                    if i not in times_by_cursor:
+                        times_by_cursor[i] = times_by_cursor[i - 1]
+                sentences.append({
+                    'name': str(int(fn[4:])),
+                    'voice_file_path': f'work/voices/{fn}.mp3',
+                    'ssml': ssml,
+                    'times_by_cursor': times_by_cursor,
+                    'plain_text': plain_text,
+                })
             self.sentences = sentences
             while True:
                 if self.tv is not None:
@@ -215,12 +226,33 @@ class TextsWidget(W):
             self.plain_text_box.text = ''
         if self.ssml_box:
             self.ssml_box.text = ''
+        self.times_by_cursor = None
+        self.touch_text_box = False
 
     def show(self, texts):
+        self.times_by_cursor = texts['times_by_cursor']
         self.plain_text_box.text = texts['plain_text']
         self.plain_text_box.cursor = (0, 0)
         self.ssml_box.text = texts['ssml']
         self.ssml_box.cursor = (0, 0)
+
+    def on_touch_down(self, touch):
+        super().on_touch_down(touch)
+        if self.collide_point(*touch.pos):
+            self.touch_text_box = True
+
+    def on_touch_up_box(self, selection_from, selection_to):
+        if self.touch_text_box and self.times_by_cursor and selection_from and selection_to:
+            vw = root().voice_widget
+            value = min(selection_from, selection_to)
+            if value in self.times_by_cursor:
+                sec = self.times_by_cursor[value]
+            else:
+                sec = vw.voice.length
+            if vw.voice:
+                vw.voice.seek(sec)
+                vw.update_slider(sec)
+        self.touch_text_box = False
 
 
 class VoiceWidget(W):
@@ -250,10 +282,10 @@ class VoiceWidget(W):
         self.slider_max = self.voice.length
         self.voice.on_play = self.__on_play
         self.voice.on_stop = self.__on_stop
-        self.__update_slider()
+        self.update_slider()
         self.__update_button_text()
 
-    def __update_slider(self, value=None):
+    def update_slider(self, value=None):
         if self.touch_slider:
             return
         if value:
@@ -270,14 +302,14 @@ class VoiceWidget(W):
     def __on_play(self):
         def playing_worker():
             while self.voice and self.voice.state == 'play':
-                self.__update_slider()
+                self.update_slider()
                 time.sleep(0.1)
         threading.Thread(target=playing_worker).start()
 
     def __on_stop(self):
         if self.voice.length - self.voice.get_pos() < 0.5:
             self.voice.seek(0)
-        self.__update_slider(0)
+        self.update_slider(0)
         self.__update_button_text()
 
     def __seek(self, seconds):
@@ -288,7 +320,7 @@ class VoiceWidget(W):
             elif p < 0:
                 p = 0
             self.voice.seek(p)
-            self.__update_slider(p)
+            self.update_slider(p)
 
     def on_press_play_button(self):
         if self.voice:
@@ -296,14 +328,14 @@ class VoiceWidget(W):
                 self.voice.play()
             else:
                 self.voice.stop()
-            self.__update_slider()
+            self.update_slider()
             self.__update_button_text()
 
     def on_press_stop_button(self):
         if self.voice:
             self.voice.stop()
             self.voice.seek(0)
-            self.__update_slider()
+            self.update_slider()
             self.__update_button_text()
 
     def on_press_back_button(self):
@@ -312,8 +344,10 @@ class VoiceWidget(W):
     def on_press_forward_button(self):
         self.__seek(5)
 
-    def on_touch_down_slider(self):
-        self.touch_slider = True
+    def on_touch_down(self, touch):
+        super().on_touch_down(touch)
+        if self.collide_point(*touch.pos):
+            self.touch_slider = True
 
     def on_touch_up_slider(self, value):
         if self.voice and self.touch_slider:
