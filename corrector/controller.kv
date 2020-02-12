@@ -1,0 +1,12 @@
+#:kivy 2.0.0
+
+<CWButton@Button>:
+
+<ControllerWidget>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: 'horizontal'
+        CWButton:
+            text: 'Refresh'
+            on_press: root.on_press_forward_button()

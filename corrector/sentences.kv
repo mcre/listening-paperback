@@ -1,0 +1,15 @@
+#:kivy 2.0.0
+
+<TreeViewNode>:
+    on_touch_down: root.parent.parent.parent.on_select()
+
+<SentencesWidget>:
+    tv: tv
+    ScrollView:
+        size: root.size
+        pos: root.pos
+        TreeView:
+            id: tv
+            size_hint: (1, None)
+            height: self.minimum_height
+            hide_root: True

@@ -1,0 +1,30 @@
+#:kivy 2.0.0
+
+<CWButton@Button>:
+
+<VoiceWidget>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: 'vertical'
+        Slider:
+            max: root.slider_max
+            value: root.slider_value
+            value_track: True
+            step: 0.01
+            on_touch_down: root.on_touch_down_slider()
+            on_touch_up: root.on_touch_up_slider(self.value)
+        BoxLayout:
+            orientation: 'horizontal'
+            CWButton:
+                text: '<< 5'
+                on_press: root.on_press_back_button()
+            CWButton:
+                text: root.play_button_text
+                on_press: root.on_press_play_button()
+            CWButton:
+                text: '□'
+                on_press: root.on_press_stop_button()
+            CWButton:
+                text: '5 >>'
+                on_press: root.on_press_forward_button()

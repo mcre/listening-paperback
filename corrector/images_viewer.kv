@@ -1,0 +1,26 @@
+#:kivy 2.0.0
+
+<IVWButton@Button>:
+    font_size: 30
+
+<ImagesViewerWidget>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: 'vertical'
+        Label:
+            size_hint_y: 0.1
+            text: root.label
+        Image:
+            source: root.image_path
+        BoxLayout:
+            size_hint_y: 0.2
+            padding: 20, 30, 20, 10
+            IVWButton:
+                text: '<'
+                on_press: root.on_press_prev_button()
+                disabled: root.button_disabled_prev
+            IVWButton:
+                text: '>'
+                on_press: root.on_press_next_button()
+                disabled: root.button_disabled_next

@@ -1,0 +1,38 @@
+#:kivy 2.0.0
+#:include images_viewer.kv
+#:include voice.kv
+#:include controller.kv
+#:include texts.kv
+#:include sentences.kv
+
+<RootWidget>:
+    markers_widget: markers_widget
+    pages_widget: pages_widget
+    voice_widget: voice_widget
+    controller_widget: controller_widget
+    texts_widget: texts_widget
+    sentences_widget: sentences_widget
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: 'horizontal'
+        BoxLayout:
+            orientation: 'vertical'
+            MarkersWidget:
+                id: markers_widget
+            PagesWidget:
+                id: pages_widget
+        BoxLayout:
+            orientation: 'vertical'
+            VoiceWidget:
+                id: voice_widget
+                size_hint_y: 0.1
+            ControllerWidget:
+                id: controller_widget
+                size_hint_y: 0.05
+            TextsWidget:
+                id: texts_widget
+        BoxLayout:
+            orientation: 'vertical'
+            SentencesWidget:
+                id: sentences_widget
