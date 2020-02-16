@@ -1,15 +1,31 @@
 #:kivy 2.0.0
 
 <SWTreeViewLabel@TreeViewLabel>:
-    on_touch_down: root.parent.parent.parent.on_select()
+    on_touch_down: root.parent.parent.parent.parent.parent.on_select(self.text)
+
+<SWTreeView@TreeView>:
+    size_hint: (1, None)
+    height: self.minimum_height
+    hide_root: True
 
 <SentencesWidget>:
-    tv: tv
-    ScrollView:
+    tv_all: tv_all
+    tv_new: tv_new
+    TabbedPanel:
         size: root.size
         pos: root.pos
-        TreeView:
-            id: tv
-            size_hint: (1, None)
-            height: self.minimum_height
-            hide_root: True
+        do_default_tab: False
+        TabbedPanelItem:
+            text: 'All'
+            ScrollView:
+                size: root.size
+                pos: root.pos
+                SWTreeView:
+                    id: tv_all
+        TabbedPanelItem:
+            text: 'New(' + str(root.new_count) + ')'
+            ScrollView:
+                size: root.size
+                pos: root.pos
+                SWTreeView:
+                    id: tv_new

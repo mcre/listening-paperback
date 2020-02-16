@@ -166,7 +166,9 @@ class SWTreeViewLabel(kivy.uix.treeview.TreeViewLabel):
 
 
 class SentencesWidget(W):
-    tv = ObjectProperty(None)
+    tv_all = ObjectProperty(None)
+    tv_new = ObjectProperty(None)
+    new_count = NumericProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -176,6 +178,11 @@ class SentencesWidget(W):
         super().init()
         with open(f'work/sentences.json') as f:
             self.sentences = json.load(f)
+        with open(f'work/polly_tasks.json') as f:
+            tasks = json.load(f)
+        tasks = [task['name'] for task in tasks if task['format'] == 'json']
+        self.new_count = len(tasks)
+
         for sentence in self.sentences:
             with open(f'work/marks/{sentence["filename"]}.json') as f:
                 marks = json.load(f)
@@ -198,23 +205,28 @@ class SentencesWidget(W):
 
         def init_worker():
             while True:
-                if self.tv is not None:
-                    for node in self.tv.children:
-                        self.tv.remove_node(node)
+                if self.tv_all is not None:
+                    for node in self.tv_all.children:
+                        self.tv_all.remove_node(node)
                     for s in self.sentences:
-                        self.tv.add_node(SWTreeViewLabel(text=f"{s['id']}:{s['plain'][:10]}"))
-                    self.tv.deselect_node()
+                        self.tv_all.add_node(SWTreeViewLabel(text=f"{s['id']}:{s['plain'][:10]}"))
+                    self.tv_all.deselect_node()
+                    break
+                time.sleep(0.1)
+            while True:
+                if self.tv_new is not None:
+                    for node in self.tv_new.children:
+                        self.tv_new.remove_node(node)
+                    for s in self.sentences:
+                        if s['filename'] in tasks:
+                            self.tv_new.add_node(SWTreeViewLabel(text=f"{s['id']}:{s['plain'][:10]}"))
+                    self.tv_new.deselect_node()
                     break
                 time.sleep(0.1)
         threading.Thread(target=init_worker).start()
 
-    def selected_voice_id(self):
-        for node_id_inv, node in enumerate(self.tv.children):
-            if self.tv.selected_node == node:
-                return len(self.tv.children) - node_id_inv - 1
-
-    def on_select(self):
-        vid = self.selected_voice_id()
+    def on_select(self, text):
+        vid = int(text.split(':')[0])
         root().pages_widget.jump_by_voice_id(vid)
         root().texts_widget.show(self.sentences[vid])
         root().voice_widget.set_voice(f"work/voices/{self.sentences[vid]['filename']}.mp3")
