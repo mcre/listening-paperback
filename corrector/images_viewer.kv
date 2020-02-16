@@ -23,28 +23,28 @@
             IVWButton:
                 size_hint_x: 0.5
                 text: '<<<'
-                on_press: root.on_press_button(-1000)
+                on_release: root.on_button(-1000)
                 disabled: root.button_disabled_prev
             IVWButton:
                 text: '<< 10'
                 size_hint_x: 0.5
-                on_press: root.on_press_button(-10)
+                on_release: root.on_button(-10)
                 disabled: root.button_disabled_prev
             IVWButton:
                 text: '<'
-                on_press: root.on_press_button(-1)
+                on_release: root.on_button(-1)
                 disabled: root.button_disabled_prev
             IVWButton:
                 text: '>'
-                on_press: root.on_press_button(1)
+                on_release: root.on_button(1)
                 disabled: root.button_disabled_next
             IVWButton:
                 size_hint_x: 0.5
                 text: '10 >>'
-                on_press: root.on_press_button(10)
+                on_release: root.on_release_button(10)
                 disabled: root.button_disabled_next
             IVWButton:
                 size_hint_x: 0.5
                 text: '>>>'
-                on_press: root.on_press_button(1000)
+                on_release: root.on_release_button(1000)
                 disabled: root.button_disabled_next

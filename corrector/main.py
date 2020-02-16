@@ -108,7 +108,7 @@ class ImagesViewerWidget(W):
         if self.enable_sub:
             self.sub_image_path = self.images[self.cursor + 1] if self.cursor + 1 < len(self.images) else ''
 
-    def on_press_button(self, count):
+    def on_button(self, count):
         self.cursor += count
         self.__update_image()
 
@@ -353,7 +353,7 @@ class VoiceWidget(W):
             self.voice.seek(p)
             self.update_slider(p)
 
-    def on_press_play_button(self):
+    def on_play_button(self):
         if self.voice:
             if self.voice.state == 'stop':
                 self.voice.play()
@@ -362,17 +362,17 @@ class VoiceWidget(W):
             self.update_slider()
             self.__update_button_text()
 
-    def on_press_stop_button(self):
+    def on_stop_button(self):
         if self.voice:
             self.voice.stop()
             self.voice.seek(0)
             self.update_slider()
             self.__update_button_text()
 
-    def on_press_back_button(self):
+    def on_back_button(self):
         self.__seek(-5)
 
-    def on_press_forward_button(self):
+    def on_forward_button(self):
         self.__seek(5)
 
     def on_touch_down(self, touch):
@@ -451,7 +451,7 @@ class RubyWidget(W):
         self.ruby = text
         self.update_ruby()
 
-    def on_press_append_ruby_button(self, file_type, ruby_type, message_text):
+    def on_append_ruby_button(self, file_type, ruby_type, message_text):
         if file_type == 'consts':
             file_name = 'src/consts.json'
         elif file_type == 'config':
@@ -473,15 +473,42 @@ class RubyWidget(W):
         RWPopup(text=f'{message_text}\n\n{self.ruby_obj["kanji"]} -> {self.ruby_obj["ruby"]}\n{file_name}').open()
 
 
+class CWPopup(kivy.uix.popup.Popup):
+    pop = ObjectProperty(None)
+    log = StringProperty()
+    executing = BooleanProperty()
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.init()
+
+    def init(self):
+        self.log = ''
+        self.executing = True
+
+        def init_worker():
+            self.batch = u.Batch(f'./batch_first_timekeeper.sh {root().project_name}')
+            for line in self.batch.start():
+                self.log += line
+            self.executing = False
+            self.batch = None
+        threading.Thread(target=init_worker).start()
+
+    def on_button(self):
+        if self.batch:
+            self.batch.terminate()
+        self.pop.dismiss()
+
+
 class ControllerWidget(W):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.init()
 
-    def on_press_batch_button(self):
-        pass
+    def on_batch_button(self):
+        CWPopup().open()
 
-    def on_press_refresh_button(self):
+    def on_refresh_button(self):
         root().reload()
 
 

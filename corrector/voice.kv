@@ -17,13 +17,13 @@
             orientation: 'horizontal'
             CWButton:
                 text: '<< 5'
-                on_press: root.on_press_back_button()
+                on_release: root.on_back_button()
             CWButton:
                 text: root.play_button_text
-                on_press: root.on_press_play_button()
+                on_release: root.on_play_button()
             CWButton:
                 text: '□'
-                on_press: root.on_press_stop_button()
+                on_release: root.on_stop_button()
             CWButton:
                 text: '5 >>'
-                on_press: root.on_press_forward_button()
+                on_release: root.on_forward_button()

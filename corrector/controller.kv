@@ -2,6 +2,26 @@
 
 <CWButton@Button>:
 
+<CWTextInput@TextInput>:
+    readonly: True
+
+<CWPopup@Popup>:
+    pop: pop
+    id: pop
+    size_hint: (None, None)
+    size: (1280, 1280)
+    auto_dismiss: False
+    title: 'Batch'
+    BoxLayout:
+        orientation: 'vertical'
+        CWTextInput:
+            text: root.log
+        Button:
+            size_hint_y: 0.1
+            text: '強制終了' if root.executing else '閉じる'
+            background_color: (1, 0.2, 0, 1) if root.executing else (1, 1, 1, 1)
+            on_release: root.on_button()
+
 <ControllerWidget>:
     BoxLayout:
         size: root.size
@@ -10,7 +30,7 @@
         padding: 10, 10, 10, 10
         CWButton:
             text: 'Batch'
-            on_press: root.on_press_batch_button()
+            on_release: root.on_batch_button()
         CWButton:
             text: '再読込'
-            on_press: root.on_press_refresh_button()
+            on_release: root.on_refresh_button()

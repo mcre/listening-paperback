@@ -25,3 +25,23 @@ def kkc(romaji, num):
     ptn = re.compile(r'(^[>\d\s]+:\s|/.*?>|<)')
     ret.extend([ptn.sub('', x) for x in result])
     return ret
+
+
+class Batch:
+    def __init__(self, command):
+        self.command = command
+        self.process = None
+
+    def start(self):
+        self.process = subprocess.Popen(self.command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        while True:
+            line = self.process.stdout.readline()
+            if line:
+                yield line.decode('utf-8')
+            if not line and self.process.poll() is not None:
+                break
+
+    def terminate(self):
+        if self.process:
+            print('<terminate call>')
+            self.process.terminate()
