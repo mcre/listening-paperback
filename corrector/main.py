@@ -57,7 +57,14 @@ class RootWidget(W):
         super().__init__(**kwargs)
         self.init()
 
+    def init(self):
+        with open('work/config.json') as f:
+            settings = json.load(f)
+            self.project_name = settings.get('project_name', None) or f"{settings['author']}/{settings['title']}"
+            kivy.app.App.get_running_app().title = self.project_name
+
     def reload(self):
+        self.init()
         self.markers_widget.init()
         self.pages_widget.init()
         self.voice_widget.init()
@@ -448,7 +455,7 @@ class RubyWidget(W):
         if file_type == 'consts':
             file_name = 'src/consts.json'
         elif file_type == 'config':
-            file_name = 'work/config.json'
+            file_name = f'projects/{root().project_name}/config.json'
 
         with open(file_name) as f:
             settings = json.load(f)
@@ -460,12 +467,6 @@ class RubyWidget(W):
             settings['special_rubies'].append(self.ruby_obj)
         elif ruby_type == 'mekabu_yomi':
             settings['use_mecab_yomi_rubies'].append(self.ruby_obj['morphemes'][0])
-
-        if file_type == 'config':
-            if 'path' in settings:
-                file_name = f"{settings['path']}/config.json"
-            else:
-                file_name = f"projects/{settings['author']}/{settings['title']}/config.json"
 
         with open(file_name, 'w') as f:
             json.dump(settings, f, ensure_ascii=False, indent=4)

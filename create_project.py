@@ -34,7 +34,7 @@ def create_project(book_id):
     path = f'projects/{author}/{title}'
 
     config = {
-        'path': path,
+        'project_name': f'{author}/{title}',
         'title': title,
         'author': author,
         'font': 'aokin-mincho.ttf',
