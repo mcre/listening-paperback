@@ -395,6 +395,7 @@ class RubyWidget(W):
     ruby_text_box = ObjectProperty(None)
     tv = ObjectProperty(None)
     disable_buttons = BooleanProperty(True)
+    disable_mekabu_yomi_button = BooleanProperty(True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -404,6 +405,8 @@ class RubyWidget(W):
         self.target = None
         self.ruby = ''
         self.ruby_obj = None
+        self.disable_buttons = True
+        self.disable_mekabu_yomi_button = True
         self.update_ruby()
 
     def update_ruby(self):
@@ -411,6 +414,7 @@ class RubyWidget(W):
             return
 
         dis = True
+        dis_m = True
         if self.target is not None:
             tg = self.target
             tg['ruby'] = self.ruby
@@ -419,10 +423,13 @@ class RubyWidget(W):
             self.ruby_text_box.cursor = (0, 0)
             if len(self.ruby) > 0:
                 dis = False
+            if len(self.ruby_obj['morphemes']) == 1:
+                dis_m = False
         else:
             self.ruby_obj = None
             self.ruby_text_box.text = ''
         self.disable_buttons = dis
+        self.disable_mekabu_yomi_button = dis_m
 
     def on_enter(self, romaji):
         if len(romaji) > 0:
@@ -451,6 +458,8 @@ class RubyWidget(W):
             settings['primary_special_rubies'].append(self.ruby_obj)
         elif ruby_type == 'normal':
             settings['special_rubies'].append(self.ruby_obj)
+        elif ruby_type == 'mekabu_yomi':
+            settings['use_mecab_yomi_rubies'].append(self.ruby_obj['morphemes'][0])
 
         if file_type == 'config':
             if 'path' in settings:
