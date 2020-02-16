@@ -4,6 +4,7 @@
     font_size: 30
 
 <ImagesViewerWidget>:
+    image: image
     BoxLayout:
         size: root.size
         pos: root.pos
@@ -12,7 +13,9 @@
             size_hint_y: 0.1
             text: root.label
         Image:
+            id: image
             source: root.image_path
+            color: (0.3, 0.3, 0.3, 1) if root.image_darker else (1, 1, 1, 1)
         Image:
             source: root.sub_image_path
             opacity: 1 if root.enable_sub and root.sub_image_path else 0

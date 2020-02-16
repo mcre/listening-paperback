@@ -1,5 +1,6 @@
 import glob
 import json
+import os
 import threading
 import time
 
@@ -75,7 +76,9 @@ class RootWidget(W):
 
 
 class ImagesViewerWidget(W):
+    image = ObjectProperty(None)
     image_path = StringProperty(None)
+    image_darker = BooleanProperty(False)
     label = StringProperty('')
     button_disabled_prev = BooleanProperty(False)
     button_disabled_next = BooleanProperty(False)
@@ -90,12 +93,13 @@ class ImagesViewerWidget(W):
         super().init()
         self.images = None
         self.cursor = 0
+        self.darks = []
 
     def set_images(self, images):
         self.images = images
-        self.__update_image()
+        self.update_image()
 
-    def __update_image(self):
+    def update_image(self):
         self.button_disabled_prev, self.button_disabled_next = False, False
         if self.cursor <= 0:
             self.cursor = 0
@@ -104,27 +108,49 @@ class ImagesViewerWidget(W):
             self.cursor = len(self.images) - 1
             self.button_disabled_next = True
         self.label = f'{self.cursor + 1} / {len(self.images)}'
+        if len(self.darks) > 0:
+            self.label += f'   ({len(self.darks)})'
         self.image_path = self.images[self.cursor]
+        self.image_darker = self.image_path in self.darks
         if self.enable_sub:
             self.sub_image_path = self.images[self.cursor + 1] if self.cursor + 1 < len(self.images) else ''
 
     def on_button(self, count):
         self.cursor += count
-        self.__update_image()
+        self.update_image()
 
     def jump(self, image_id):
         self.cursor = image_id
-        self.__update_image()
+        self.update_image()
 
 
 class MarkersWidget(ImagesViewerWidget):
+    __darks_path = 'corrector/markers/darks.json'
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.init()
 
     def init(self):
         super().init()
-        self.set_images(sorted(glob.glob('corrector/markers/*')))
+        self.set_images(sorted(glob.glob('corrector/markers/*[!json]')))
+        if os.path.exists(self.__darks_path):
+            with open(self.__darks_path) as f:
+                self.darks = json.load(f)
+            self.update_image()
+
+    def on_touch_down(self, touch):
+        super().on_touch_down(touch)
+        if self.image.collide_point(*touch.pos):
+            if touch.is_double_tap:
+                p = self.image_path
+                if p not in self.darks:
+                    self.darks.append(p)
+                else:
+                    self.darks.remove(p)
+                self.update_image()
+                with open(self.__darks_path, 'w') as f:
+                    json.dump(self.darks, f, ensure_ascii=False, indent=4)
 
 
 class PagesWidget(ImagesViewerWidget):
