@@ -48,6 +48,7 @@ docker build -t lp-python ./Dockerfiles/python 1>/dev/null || exit 1
 docker build -t lp-python-mecab ./Dockerfiles/python_mecab 1>/dev/null || exit 1
 docker build -t lp-python-movie ./Dockerfiles/python_movie 1>/dev/null || exit 1
 docker build -t lp-python-pymupdf ./Dockerfiles/python_pymupdf 1>/dev/null || exit 1
+docker build -t lp-kkc ./Dockerfiles/kkc 1>/dev/null || exit 1
 
 echo '# preprocessing'
 rm -rf ./work || exit 1

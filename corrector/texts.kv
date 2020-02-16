@@ -3,23 +3,19 @@
 <TWTextInput@TextInput>:
     readonly: True
 
-<TWLabel@Label>:
-    size_hint_y: 0.1
-
 <TextsWidget>:
     plain_text_box: plain_text_box
     ssml_box: ssml_box
-    BoxLayout:
+    TabbedPanel:
         size: root.size
         pos: root.pos
-        orientation: 'vertical'
-        TWLabel:
-            text: 'Plain Text'
-        TWTextInput:
-            id: plain_text_box
-            on_touch_up: root.on_touch_up_box(self.selection_from, self.selection_to)
-        TWLabel:
-            text: 'ssml'
-        TWTextInput:
-            id: ssml_box
-
+        do_default_tab: False
+        TabbedPanelItem:
+            text: 'Plain'
+            TWTextInput:
+                id: plain_text_box
+                on_touch_up: root.on_touch_up_box(self.selection_from, self.selection_to, self.selection_text)
+        TabbedPanelItem:
+            text: 'SSML'
+            TWTextInput:
+                id: ssml_box

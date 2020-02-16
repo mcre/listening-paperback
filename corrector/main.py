@@ -1,25 +1,25 @@
 import glob
 import json
-import re
 import threading
 import time
 
-import japanize_kivy
 import kivy.app
 import kivy.config
 import kivy.core.audio
 import kivy.lang
 import kivy.properties
 import kivy.uix.button
+import kivy.uix.popup
 import kivy.uix.treeview
 import kivy.uix.widget
 
 from kivy.properties import ObjectProperty, StringProperty, BooleanProperty, NumericProperty
 
-print(japanize_kivy)
+import util as u
+
 kivy.lang.Builder.load_file('root.kv')
-kivy.config.Config.set('graphics', 'width', '1280')
-kivy.config.Config.set('graphics', 'height', '720')
+kivy.config.Config.set('graphics', 'width', '1440')
+kivy.config.Config.set('graphics', 'height', '900')
 
 
 def root():
@@ -50,6 +50,7 @@ class RootWidget(W):
     voice_widget = ObjectProperty(None)
     controller_widget = ObjectProperty(None)
     texts_widget = ObjectProperty(None)
+    ruby_widget = ObjectProperty(None)
     sentences_widget = ObjectProperty(None)
 
     def __init__(self, **kwargs):
@@ -62,6 +63,7 @@ class RootWidget(W):
         self.voice_widget.init()
         self.controller_widget.init()
         self.texts_widget.init()
+        self.ruby_widget.init()
         self.sentences_widget.init()
 
 
@@ -70,6 +72,8 @@ class ImagesViewerWidget(W):
     label = StringProperty('')
     button_disabled_prev = BooleanProperty(False)
     button_disabled_next = BooleanProperty(False)
+    sub_image_path = StringProperty(None)
+    enable_sub = BooleanProperty(False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -94,13 +98,11 @@ class ImagesViewerWidget(W):
             self.button_disabled_next = True
         self.label = f'{self.cursor + 1} / {len(self.images)}'
         self.image_path = self.images[self.cursor]
+        if self.enable_sub:
+            self.sub_image_path = self.images[self.cursor + 1] if self.cursor + 1 < len(self.images) else ''
 
-    def on_press_prev_button(self):
-        self.cursor -= 1
-        self.__update_image()
-
-    def on_press_next_button(self):
-        self.cursor += 1
+    def on_press_button(self, count):
+        self.cursor += count
         self.__update_image()
 
     def jump(self, image_id):
@@ -125,6 +127,7 @@ class PagesWidget(ImagesViewerWidget):
 
     def init(self):
         super().init()
+        self.enable_sub = True
         self.set_images(sorted(glob.glob('work/page_images/novel-*.png')))
         self.__create_voice_id_page_map()
 
@@ -151,6 +154,10 @@ class PagesWidget(ImagesViewerWidget):
         self.jump(self.voice_id_page_map[voice_id])
 
 
+class SWTreeViewLabel(kivy.uix.treeview.TreeViewLabel):
+    pass
+
+
 class SentencesWidget(W):
     tv = ObjectProperty(None)
 
@@ -160,41 +167,35 @@ class SentencesWidget(W):
 
     def init(self):
         super().init()
-        self.sentenses = None
+        with open(f'work/sentences.json') as f:
+            self.sentences = json.load(f)
+        for sentence in self.sentences:
+            with open(f'work/marks/{sentence["filename"]}.json') as f:
+                marks = json.load(f)
+            marks = [{'text': u.remove_tag(mark['value']), 'time': mark['time'] / 1000} for mark in marks if mark['type'] == 'word']
+
+            st_hist = []
+            cursor = 0
+            for mark in marks:
+                st = {'cursor': sentence['plain'].find(mark['text'], cursor), 'time': mark['time']}
+                st_hist.append(st)
+                cursor = st['cursor'] + len(mark['text'])
+
+            times_by_cursor = {}
+            for vid, st in enumerate(st_hist):
+                en = st_hist[vid + 1]['cursor'] if vid < len(st_hist) - 1 else len(sentence['plain'])
+                for cursor in range(st['cursor'], en):
+                    times_by_cursor[cursor] = st['time']
+            sentence['times_by_cursor'] = times_by_cursor
+            sentence['morphemes'] = [{'range': range(m['start'], m['end']), 'el': m['el']} for m in sentence['morphemes']]
 
         def init_worker():
-            tag = re.compile(r'''<("[^"]*"|'[^']*'|[^'">])*>''')
-            sentences = []
-            for sentences_file in sorted(glob.glob(f'work/ssml/text*.xml')):
-                fn = sentences_file[10:-4]
-                with open(sentences_file) as f:
-                    ssml = f.readlines()[7].strip()
-                with open(f'work/marks/{fn}.json') as f:
-                    marks = json.load(f)
-                marks = [{'text': tag.sub('', mark['value']), 'time': mark['time'] / 1000} for mark in marks if mark['type'] == 'word']
-                plain_text = ''.join([mark['text'] for mark in marks])
-                cursor = 0
-                times_by_cursor = {}
-                for mark in marks:
-                    times_by_cursor[cursor] = mark['time']
-                    cursor += len(mark['text'])
-                for i in range(len(plain_text)):
-                    if i not in times_by_cursor:
-                        times_by_cursor[i] = times_by_cursor[i - 1]
-                sentences.append({
-                    'name': str(int(fn[4:])),
-                    'voice_file_path': f'work/voices/{fn}.mp3',
-                    'ssml': ssml,
-                    'times_by_cursor': times_by_cursor,
-                    'plain_text': plain_text,
-                })
-            self.sentences = sentences
             while True:
                 if self.tv is not None:
                     for node in self.tv.children:
                         self.tv.remove_node(node)
-                    for s in sentences:
-                        self.tv.add_node(kivy.uix.treeview.TreeViewLabel(text=f"{s['name']}:{s['plain_text'][:20]}"))
+                    for s in self.sentences:
+                        self.tv.add_node(SWTreeViewLabel(text=f"{s['id']}:{s['plain'][:10]}"))
                     self.tv.deselect_node()
                     break
                 time.sleep(0.1)
@@ -209,7 +210,7 @@ class SentencesWidget(W):
         vid = self.selected_voice_id()
         root().pages_widget.jump_by_voice_id(vid)
         root().texts_widget.show(self.sentences[vid])
-        root().voice_widget.set_voice(self.sentences[vid]['voice_file_path'])
+        root().voice_widget.set_voice(f"work/voices/{self.sentences[vid]['filename']}.mp3")
 
 
 class TextsWidget(W):
@@ -226,13 +227,15 @@ class TextsWidget(W):
             self.plain_text_box.text = ''
         if self.ssml_box:
             self.ssml_box.text = ''
-        self.times_by_cursor = None
         self.touch_text_box = False
+        self.times_by_cursor = None
+        self.morphemes = None
 
     def show(self, texts):
         self.times_by_cursor = texts['times_by_cursor']
-        self.plain_text_box.text = texts['plain_text']
+        self.plain_text_box.text = texts['plain']
         self.plain_text_box.cursor = (0, 0)
+        self.morphemes = texts['morphemes']
         self.ssml_box.text = texts['ssml']
         self.ssml_box.cursor = (0, 0)
 
@@ -241,17 +244,38 @@ class TextsWidget(W):
         if self.collide_point(*touch.pos):
             self.touch_text_box = True
 
-    def on_touch_up_box(self, selection_from, selection_to):
-        if self.touch_text_box and self.times_by_cursor and selection_from and selection_to:
-            vw = root().voice_widget
-            value = min(selection_from, selection_to)
-            if value in self.times_by_cursor:
-                sec = self.times_by_cursor[value]
-            else:
-                sec = vw.voice.length
-            if vw.voice:
-                vw.voice.seek(sec)
-                vw.update_slider(sec)
+    def on_touch_up_box(self, selection_from, selection_to, text):
+        if self.touch_text_box and selection_from is not None and selection_to is not None:
+            f, t = min(selection_from, selection_to), max(selection_from, selection_to)
+            if self.times_by_cursor:
+                vw = root().voice_widget
+                if f in self.times_by_cursor:
+                    sec = self.times_by_cursor[f]
+                else:
+                    sec = vw.voice.length
+                if vw.voice:
+                    vw.voice.seek(sec)
+                    vw.update_slider(sec)
+            if self.morphemes:
+                els = []
+                st = None
+                for m in self.morphemes:
+                    for r in range(f, t):
+                        if r in m['range']:
+                            els.append(m['el'])
+                            st = st or m['range'][0]
+                            break
+                rw = root().ruby_widget
+                if len(els) > 0:
+                    rw.target = {
+                        'kanji': text,
+                        'ruby': '',
+                        'offset_from_first_morpheme': f - st,
+                        'morphemes': els
+                    }
+                else:
+                    rw.target = None
+                rw.update_ruby()
         self.touch_text_box = False
 
 
@@ -355,12 +379,99 @@ class VoiceWidget(W):
         self.touch_slider = False
 
 
+class RWTreeViewLabel(kivy.uix.treeview.TreeViewLabel):
+    pass
+
+
+class RWPopup(kivy.uix.popup.Popup):
+    text = StringProperty()
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.text = kwargs['text']
+
+
+class RubyWidget(W):
+    ruby_text_box = ObjectProperty(None)
+    tv = ObjectProperty(None)
+    disable_buttons = BooleanProperty(True)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.init()
+
+    def init(self):
+        self.target = None
+        self.ruby = ''
+        self.ruby_obj = None
+        self.update_ruby()
+
+    def update_ruby(self):
+        if self.ruby_text_box is None:
+            return
+
+        dis = True
+        if self.target is not None:
+            tg = self.target
+            tg['ruby'] = self.ruby
+            self.ruby_obj = tg
+            self.ruby_text_box.text = u.to_json(tg)
+            self.ruby_text_box.cursor = (0, 0)
+            if len(self.ruby) > 0:
+                dis = False
+        else:
+            self.ruby_obj = None
+            self.ruby_text_box.text = ''
+        self.disable_buttons = dis
+
+    def on_enter(self, romaji):
+        if len(romaji) > 0:
+            ls = u.kkc(romaji.strip(), 20)
+            for node in self.tv.children:
+                self.tv.remove_node(node)
+            for s in ls:
+                self.tv.add_node(RWTreeViewLabel(text=s))
+            self.tv.deselect_node()
+
+    def on_select(self, text):
+        self.ruby = text
+        self.update_ruby()
+
+    def on_press_append_ruby_button(self, file_type, ruby_type, message_text):
+        if file_type == 'consts':
+            file_name = 'src/consts.json'
+        elif file_type == 'config':
+            file_name = 'work/config.json'
+
+        with open(file_name) as f:
+            settings = json.load(f)
+        if ruby_type == 'primary':
+            if 'primary_special_rubies' not in settings:
+                settings['primary_special_rubies'] = []
+            settings['primary_special_rubies'].append(self.ruby_obj)
+        elif ruby_type == 'normal':
+            settings['special_rubies'].append(self.ruby_obj)
+
+        if file_type == 'config':
+            if 'path' in settings:
+                file_name = f"{settings['path']}/config.json"
+            else:
+                file_name = f"projects/{settings['author']}/{settings['title']}/config.json"
+
+        with open(file_name, 'w') as f:
+            json.dump(settings, f, ensure_ascii=False, indent=4)
+        RWPopup(text=f'{message_text}\n\n{self.ruby_obj["kanji"]} -> {self.ruby_obj["ruby"]}\n{file_name}').open()
+
+
 class ControllerWidget(W):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.init()
 
-    def on_press_forward_button(self):
+    def on_press_batch_button(self):
+        pass
+
+    def on_press_refresh_button(self):
         root().reload()
 
 

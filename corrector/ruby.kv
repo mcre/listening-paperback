@@ -1,0 +1,69 @@
+#:kivy 2.0.0
+
+<RWTextInput@TextInput>:
+
+<RWButton@Button>:
+
+<RWLabel@Label>:
+    size_hint_y: 0.2
+
+<RWTreeViewLabel@TreeViewLabel>:
+    on_touch_down: root.parent.parent.parent.parent.on_select(self.text)
+
+<RWPopup@Popup>:
+    id: pop
+    size_hint: (None, None)
+    size: (1000, 400)
+    auto_dismiss: False
+    title: 'Ruby追加'
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: root.text
+        Button:
+            size_hint_y: 0.5
+            text: 'OK'
+            on_release: pop.dismiss()
+
+<RubyWidget>:
+    tv: tv
+    ruby_text_box: ruby_text_box
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: 'vertical'
+        RWLabel:
+            text: 'Ruby'
+        RWTextInput:
+            size_hint_y: None
+            multiline: False
+            height: self.font_size + 25
+            on_text_validate: root.on_enter(self.text)
+        ScrollView:
+            TreeView:
+                id: tv
+                size_hint: (1, None)
+                height: self.minimum_height
+                hide_root: True
+        RWTextInput:
+            id: ruby_text_box
+            readonly: True
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: 0.2
+            RWButton:
+                text: '>> 全作品'
+                disabled: root.disable_buttons
+                on_press: root.on_press_append_ruby_button('consts', 'normal', '全作品対象のルビに追加しました')
+            RWButton:
+                text: '>> 全作品優先'
+                disabled: root.disable_buttons
+                on_press: root.on_press_append_ruby_button('consts', 'primary', '全作品対象の優先ルビに追加しました')
+            RWButton:
+                text: '>> 本作品'
+                disabled: root.disable_buttons
+                on_press: root.on_press_append_ruby_button('config', 'normal', 'この作品のみ対象のルビに追加しました')
+            RWButton:
+                text: '>> 本作品優先'
+                disabled: root.disable_buttons
+                on_press: root.on_press_append_ruby_button('config', 'primary', 'この作品のみ対象の優先ルビに追加しました')

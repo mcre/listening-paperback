@@ -3,6 +3,7 @@
 #:include voice.kv
 #:include controller.kv
 #:include texts.kv
+#:include ruby.kv
 #:include sentences.kv
 
 <RootWidget>:
@@ -11,28 +12,34 @@
     voice_widget: voice_widget
     controller_widget: controller_widget
     texts_widget: texts_widget
+    ruby_widget: ruby_widget
     sentences_widget: sentences_widget
     BoxLayout:
         size: root.size
         pos: root.pos
         orientation: 'horizontal'
         BoxLayout:
+            size_hint_x: 0.4
             orientation: 'vertical'
-            MarkersWidget:
-                id: markers_widget
-            PagesWidget:
-                id: pages_widget
+            SentencesWidget:
+                id: sentences_widget
         BoxLayout:
             orientation: 'vertical'
             VoiceWidget:
                 id: voice_widget
-                size_hint_y: 0.1
-            ControllerWidget:
-                id: controller_widget
-                size_hint_y: 0.05
+                size_hint_y: 0.15
             TextsWidget:
                 id: texts_widget
+                size_hint_y: 0.6
+            RubyWidget:
+                id: ruby_widget
+            ControllerWidget:
+                id: controller_widget
+                size_hint_y: 0.1
         BoxLayout:
             orientation: 'vertical'
-            SentencesWidget:
-                id: sentences_widget
+            MarkersWidget:
+                id: markers_widget
+                size_hint_y: 0.6
+            PagesWidget:
+                id: pages_widget

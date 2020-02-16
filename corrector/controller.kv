@@ -7,6 +7,10 @@
         size: root.size
         pos: root.pos
         orientation: 'horizontal'
+        padding: 10, 10, 10, 10
         CWButton:
-            text: 'Refresh'
-            on_press: root.on_press_forward_button()
+            text: 'Batch'
+            on_press: root.on_press_batch_button()
+        CWButton:
+            text: '再読込'
+            on_press: root.on_press_refresh_button()

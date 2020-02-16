@@ -162,13 +162,13 @@ def main():
         tex_ruby_lines = [plain_except_ruby(line) for line in f.readlines()]
     tex_ruby_lines = [line for line in tex_ruby_lines if line is not None]
 
-    tex_ruby_lines = [{'fn': f'text{i:0>5}', 'line': line} for i, line in enumerate(tex_ruby_lines)]
+    tex_ruby_lines = [{'id': i, 'fn': f'text{i:0>5}', 'line': line} for i, line in enumerate(tex_ruby_lines)]
 
     text_rubies = []
     lines = []
     for line in tex_ruby_lines:
         p, r, m = split_ruby(line['fn'], line['line'])
-        lines.append({'ssml_filename': line['fn'], 'plain_text': p, 'tex_ruby_text': line['line'], 'morphemes': m, 'ssml_rubies': []})
+        lines.append({'id': line['id'], 'ssml_filename': line['fn'], 'plain_text': p, 'tex_ruby_text': line['line'], 'morphemes': m, 'ssml_rubies': []})
         text_rubies.extend(r)
     # 重複削除 本の頭からの順にtext_rubiesに入っているはずなので、最初に登場したほうが残るはず
     dic = {}
@@ -241,6 +241,16 @@ def main():
         if count_japanese(t) == 0 and len(t) <= 1:
             print(f'日本語が存在しないか、英字含めて1文字以下のssmlがあります: {fn}.xml')
             raise Exception()
+
+    # corrector用にテキストデータを整形
+    with open('sentences.json', 'w') as f:
+        json.dump([{
+            'id': line['id'],
+            'filename': line['ssml_filename'],
+            'plain': line['plain_text'],
+            'ssml': line['ssml_ruby_text'],
+            'morphemes': line['morphemes'],
+        } for line in lines], f, ensure_ascii=False, indent=2)
 
 
 if __name__ == '__main__':
