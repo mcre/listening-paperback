@@ -49,7 +49,7 @@ def main():
         'kanji': kanji,
         'ruby': ruby,
         'offset_from_first_morpheme': offset_from_first_morpheme,
-        'morphemes': [m['el'] for m in morphemes],
+        'morphemes': ['|'.join(m['el']) for m in morphemes],
     }, ensure_ascii=False, indent=4)
     js = re.sub(r'\[\n\s{12}"(.*)?"', r'["\1"', js)
     js = re.sub(r',\n\s{12}"(.*)?"', r', "\1"', js)

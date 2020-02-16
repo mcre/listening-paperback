@@ -96,10 +96,10 @@ def split_ruby(filename, line):
     plain_line = PATTERNS['ruby'].sub(r'\1', line)
     mecab_results = mecab(plain_line)
 
-    # consts['use_mecab_yomi_rubies']の処理(これに該当するものはmecabの読みを有効にする(pollyが間違えやすい漢字を入れる: ('方', '名詞', '方', 'ホウ') とか)
+    # consts['use_mecab_yomi_rubies']の処理(これに該当するものはmecabの読みを有効にする(pollyが間違えやすい漢字を入れる: "方|名詞|方|ホウ" とか)
     for result in mecab_results:
         for use_mecabu_yomi_ruby in consts['use_mecab_yomi_rubies']:
-            if tuple(use_mecabu_yomi_ruby) == result['el']:
+            if tuple(use_mecabu_yomi_ruby.split('|')) == result['el']:
                 rubies.append({
                     'ssml_filename': filename,
                     'kanji': result['el'][0],
@@ -149,7 +149,7 @@ def load_special_ruby(special_ruby):
         'ssml_filename': '_sperial_rubies',
         'kanji': special_ruby['kanji'],
         'ruby': special_ruby['ruby'],
-        'morphemes': [{'el': tuple(m)} for m in special_ruby['morphemes']],
+        'morphemes': [{'el': tuple(m.split('|'))} for m in special_ruby['morphemes']],
         'offset_from_first_morpheme': special_ruby['offset_from_first_morpheme'],
         'only_here': special_ruby.get('only_here', False),
         'pos': special_ruby.get('pos', '_sperial_rubies-00000'),
@@ -249,7 +249,7 @@ def main():
             'filename': line['ssml_filename'],
             'plain': line['plain_text'],
             'ssml': line['ssml_ruby_text'],
-            'morphemes': line['morphemes'],
+            'morphemes': [{'start': m['start'], 'end': m['end'], 'el': '|'.join(m['el'])} for m in line['morphemes']],
         } for line in lines], f, ensure_ascii=False, indent=2)
 
 

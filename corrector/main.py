@@ -415,7 +415,7 @@ class RubyWidget(W):
             tg = self.target
             tg['ruby'] = self.ruby
             self.ruby_obj = tg
-            self.ruby_text_box.text = u.to_json(tg)
+            self.ruby_text_box.text = json.dumps(tg, ensure_ascii=False, indent=4)
             self.ruby_text_box.cursor = (0, 0)
             if len(self.ruby) > 0:
                 dis = False
