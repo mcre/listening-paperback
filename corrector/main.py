@@ -503,6 +503,7 @@ class CWPopup(kivy.uix.popup.Popup):
                 self.log += line
             self.executing = False
             self.batch = None
+            root().sentences_widget.init()
         threading.Thread(target=init_worker).start()
 
     def on_button(self):
