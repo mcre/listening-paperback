@@ -210,7 +210,6 @@ class SentencesWidget(W):
                         self.tv_all.remove_node(node)
                     for s in self.sentences:
                         self.tv_all.add_node(SWTreeViewLabel(text=f"{s['id']}:{s['plain'][:10]}"))
-                    self.tv_all.deselect_node()
                     break
                 time.sleep(0.1)
             while True:
