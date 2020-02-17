@@ -35,7 +35,13 @@
         "冷汗|名詞|冷汗|ヒヤアセ",
         "擦っ|動詞|擦る|コスッ",
         "一直線|名詞|一直線|イッチョクセン",
-        "気味悪く|形容詞|気味悪い|キミワルク"
+        "気味悪く|形容詞|気味悪い|キミワルク",
+        "頬杖|名詞|頬杖|ホオヅエ",
+        "不潔|名詞|不潔|フケツ",
+        "井戸端|名詞|井戸端|イドバタ",
+        "今井田|名詞|今井田|イマイダ",
+        "小役人|名詞|小役人|コヤクニン",
+        "蛙|名詞|蛙|カエル"
     ],
     "force_katakana_ruby_starts_with": [
         "は",
@@ -208,6 +214,32 @@
                 "滑稽|名詞|滑稽|コッケイ",
                 "極|副詞|極|ゴク",
                 "る|助動詞|り|ル"
+            ]
+        },
+        {
+            "kanji": "活き活き",
+            "ruby": "イキイキ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "活き活き|名詞|活き活き|イキイキ"
+            ]
+        },
+        {
+            "kanji": "屹っと",
+            "ruby": "キッと",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "屹|名詞||",
+                "っと|助詞|っと|ット"
+            ]
+        },
+        {
+            "kanji": "慕われ",
+            "ruby": "慕われ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "慕わ|動詞|慕う|シタワ",
+                "れ|動詞|れる|レ"
             ]
         }
     ],
@@ -2386,6 +2418,225 @@
             "morphemes": [
                 "この|連体詞|この|コノ",
                 "前|名詞|前|マエ"
+            ]
+        },
+        {
+            "kanji": "間の悪さ",
+            "ruby": "マの悪さ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "間の悪さ|名詞|間の悪さ|マノワルサ"
+            ]
+        },
+        {
+            "kanji": "一字一行",
+            "ruby": "イチジイチギョウ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一|名詞|一|イチ",
+                "字|名詞|字|ジ",
+                "一|名詞|一|イチ",
+                "行|名詞|行|コウ"
+            ]
+        },
+        {
+            "kanji": "森の小路",
+            "ruby": "森の小道",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "森|名詞|森|モリ",
+                "の|助詞|の|ノ",
+                "小路|名詞|小路|コウジ"
+            ]
+        },
+        {
+            "kanji": "態で",
+            "ruby": "テイで",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "態|名詞|態|タイ",
+                "で|助詞|で|デ"
+            ]
+        },
+        {
+            "kanji": "気附く",
+            "ruby": "気づく",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "気|名詞|気|キ",
+                "附く|動詞|附く|ツク"
+            ]
+        },
+        {
+            "kanji": "止めてしまえ",
+            "ruby": "やめてしまえ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "止め|動詞|止める|トメ",
+                "て|助詞|て|テ",
+                "しまえ|動詞|しまう|シマエ"
+            ]
+        },
+        {
+            "kanji": "木、道、畠",
+            "ruby": "キ、ミチ、ハタケ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "木|名詞|木|キ",
+                "、|記号|、|、",
+                "道|名詞|道|ミチ",
+                "、|記号|、|、",
+                "畠|名詞|畠|ハタケ"
+            ]
+        },
+        {
+            "kanji": "並木路",
+            "ruby": "並木道",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "並木|名詞|並木|ナミキ",
+                "路|名詞|路|ロ"
+            ]
+        },
+        {
+            "kanji": "立ち上って",
+            "ruby": "立ち上がって",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "立ち上っ|動詞|立ち上る|タチノボッ",
+                "て|助詞|て|テ"
+            ]
+        },
+        {
+            "kanji": "夏の臭い",
+            "ruby": "夏の匂い",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "夏|名詞|夏|ナツ",
+                "の|助詞|の|ノ",
+                "臭い|名詞|臭い|ニオイ"
+            ]
+        },
+        {
+            "kanji": "魚の臭い",
+            "ruby": "魚の匂い",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "魚|名詞|魚|サカナ",
+                "の|助詞|の|ノ",
+                "臭い|名詞|臭い|ニオイ"
+            ]
+        },
+        {
+            "kanji": "着換え",
+            "ruby": "着替え",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "着|動詞|着る|キ",
+                "換え|動詞|換える|カエ"
+            ]
+        },
+        {
+            "kanji": "監獄に入れない",
+            "ruby": "監獄に、はいれない",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "監獄|名詞|監獄|カンゴク",
+                "に|助詞|に|ニ",
+                "入れ|動詞|入れる|イレ",
+                "ない|助動詞|ない|ナイ"
+            ]
+        },
+        {
+            "kanji": "鍛われ",
+            "ruby": "キタワレ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "鍛|名詞|鍛|カジ",
+                "われ|動詞|われる|ワレ"
+            ]
+        },
+        {
+            "kanji": "床にはいって",
+            "ruby": "トコに入って",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "床|名詞|床|ユカ",
+                "に|助詞|に|ニ",
+                "は|助詞|は|ハ",
+                "いって|名詞|一手|イッテ"
+            ]
+        },
+        {
+            "kanji": "幾日",
+            "ruby": "イクニチ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "幾日も|副詞|幾日も|イクニチモ"
+            ]
+        },
+        {
+            "kanji": "幾月",
+            "ruby": "イクツキ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "幾月|名詞|幾月|イツキ"
+            ]
+        },
+        {
+            "kanji": "しん底",
+            "ruby": "心底",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "しん|名詞|しん|シン",
+                "底|名詞|底|ソコ"
+            ]
+        },
+        {
+            "kanji": "一こと",
+            "ruby": "ヒトコト",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一|名詞|一|イチ",
+                "こと|名詞|こと|コト"
+            ]
+        },
+        {
+            "kanji": "むかしの女",
+            "ruby": "昔のオンナ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "むかし|名詞|むかし|ムカシ",
+                "の|助詞|の|ノ",
+                "女|名詞|女|オンナ"
+            ]
+        },
+        {
+            "kanji": "間抜け",
+            "ruby": "マヌケ",
+            "offset_from_first_morpheme": 2,
+            "morphemes": [
+                "きく間|名詞|菊間|キクマ",
+                "抜け|動詞|抜ける|ヌケ"
+            ]
+        },
+        {
+            "kanji": "床へはいる",
+            "ruby": "トコへ入る",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "床|名詞|床|ユカ",
+                "へ|助詞|へ|ヘ",
+                "はいる|動詞|はいる|ハイル"
+            ]
+        },
+        {
+            "kanji": "工合い",
+            "ruby": "具合",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "工|名詞|工|コウ",
+                "合い|名詞|合意|ゴウイ"
             ]
         }
     ]
