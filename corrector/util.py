@@ -15,8 +15,9 @@ def remove_tag(text):
 
 def kkc(romaji, num):
     ret = []
-    hira = romkan.to_hiragana(romaji)
-    kata = romkan.to_katakana(romaji)
+    r = romaji.replace(',', '、').replace('.', '。')
+    hira = romkan.to_hiragana(r)
+    kata = romkan.to_katakana(r)
     ret.append(hira)
     ret.append(kata)
     cmd = f'''docker run --rm lp-kkc sh -c 'echo "{hira}" {num} | kkc' '''

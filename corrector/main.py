@@ -307,7 +307,7 @@ class TextsWidget(W):
                     for r in range(f, t):
                         if r in m['range']:
                             els.append(m['el'])
-                            st = st or m['range'][0]
+                            st = st if st is not None else m['range'][0]
                             break
                 rw = root().ruby_widget
                 if len(els) > 0:
@@ -507,7 +507,12 @@ class RubyWidget(W):
 
         with open(file_name, 'w') as f:
             json.dump(settings, f, ensure_ascii=False, indent=4)
-        RWPopup(text=f'{message_text}\n\n{self.ruby_obj["kanji"]} -> {self.ruby_obj["ruby"]}\n{file_name}').open()
+
+        if ruby_type == 'mekabu_yomi':
+            detail = f'{self.ruby_obj["kanji"]}'
+        else:
+            detail = f'{self.ruby_obj["kanji"]} -> {self.ruby_obj["ruby"]}'
+        RWPopup(text=f'{message_text}\n\n{detail}\n{file_name}').open()
 
 
 class CWPopup(kivy.uix.popup.Popup):
@@ -522,11 +527,14 @@ class CWPopup(kivy.uix.popup.Popup):
     def init(self):
         self.log = ''
         self.executing = True
+        self.sound = None
 
         def init_worker():
+            self.sound = kivy.core.audio.SoundLoader.load('./corrector/done.mp3')
             self.batch = u.Batch(f'./batch_first_timekeeper.sh {root().project_name}')
             for line in self.batch.start():
                 self.log += line
+            self.sound.play()
             self.executing = False
             self.batch = None
             root().sentences_widget.init()
@@ -535,6 +543,8 @@ class CWPopup(kivy.uix.popup.Popup):
     def on_button(self):
         if self.batch:
             self.batch.terminate()
+        if self.sound:
+            self.sound.unload()
         self.pop.dismiss()
 
 

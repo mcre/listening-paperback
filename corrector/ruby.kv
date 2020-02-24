@@ -45,7 +45,9 @@
             size_hint_y: None
             multiline: False
             height: self.font_size + 25
-            on_text_validate: root.on_enter(self.text)
+            on_text_validate:
+                root.on_enter(self.text)
+                self.text = ''
         ScrollView:
             TreeView:
                 id: tv
