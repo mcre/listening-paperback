@@ -41,7 +41,11 @@
         "井戸端|名詞|井戸端|イドバタ",
         "今井田|名詞|今井田|イマイダ",
         "小役人|名詞|小役人|コヤクニン",
-        "蛙|名詞|蛙|カエル"
+        "蛙|名詞|蛙|カエル",
+        "初七日|名詞|初七日|ショナノカ",
+        "日記帳|名詞|日記帳|ニッキチョウ",
+        "生がい|名詞|生害|ショウガイ",
+        "臆病者|名詞|臆病者|オクビョウモノ"
     ],
     "force_katakana_ruby_starts_with": [
         "は",
@@ -240,6 +244,15 @@
             "morphemes": [
                 "慕わ|動詞|慕う|シタワ",
                 "れ|動詞|れる|レ"
+            ]
+        },
+        {
+            "kanji": "自ぼれ",
+            "ruby": "ウヌボレ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "自|接頭詞|自|ジ",
+                "ぼれ|動詞|ぼる|ボレ"
             ]
         }
     ],
@@ -2637,6 +2650,163 @@
             "morphemes": [
                 "工|名詞|工|コウ",
                 "合い|名詞|合意|ゴウイ"
+            ]
+        },
+        {
+            "kanji": "家中",
+            "ruby": "イエジュウ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "家中|名詞|家中|カチュウ"
+            ]
+        },
+        {
+            "kanji": "日記帳",
+            "ruby": "ニッキチョウ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "日|名詞|日|ヒ",
+                "記帳|名詞|記帳|キチョウ"
+            ]
+        },
+        {
+            "kanji": "内気者",
+            "ruby": "ウチキモノ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "内気|名詞|内気|ウチキ",
+                "者|名詞|者|シャ"
+            ]
+        },
+        {
+            "kanji": "一番底",
+            "ruby": "イチバンソコ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一番|名詞|一番|イチバン",
+                "底|名詞|底|ソコ"
+            ]
+        },
+        {
+            "kanji": "覚ながら",
+            "ruby": "覚えながら",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "覚|動詞|覚る|サト",
+                "ながら|助詞|ながら|ナガラ"
+            ]
+        },
+        {
+            "kanji": "打開け",
+            "ruby": "打ち明け",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "打開|名詞|打開|ダカイ",
+                "ける|動詞|ける|ケル"
+            ]
+        },
+        {
+            "kanji": "打開け",
+            "ruby": "打ち明け",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "打|名詞|打|ダ",
+                "開け|動詞|開ける|アケ"
+            ]
+        },
+        {
+            "kanji": "打開け",
+            "ruby": "打ち明け",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "打|接頭詞|打|ダ",
+                "開け|動詞|開ける|アケ"
+            ]
+        },
+        {
+            "kanji": "覚て",
+            "ruby": "覚えて",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "覚|動詞|覚る|サト",
+                "て|助詞|て|テ"
+            ]
+        },
+        {
+            "kanji": "日附",
+            "ruby": "日付",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "日|名詞|日|ヒ",
+                "附|名詞|附|フ"
+            ]
+        },
+        {
+            "kanji": "頭字",
+            "ruby": "カシラジ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "頭字|名詞|頭字|カシラジ"
+            ]
+        },
+        {
+            "kanji": "合ぬ",
+            "ruby": "合わぬ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "合|名詞|合|ゴウ",
+                "ぬ|助動詞|ぬ|ヌ"
+            ]
+        },
+        {
+            "kanji": "日記帳",
+            "ruby": "ニッキチョウ",
+            "offset_from_first_morpheme": 2,
+            "morphemes": [
+                "あの日|名詞|あの日|アノヒ",
+                "記帳|名詞|記帳|キチョウ"
+            ]
+        },
+        {
+            "kanji": "幸か不幸か",
+            "ruby": "コウか不幸か",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "幸|名詞|幸|コウ",
+                "か|助詞|か|カ",
+                "不幸|名詞|不幸|フコウ",
+                "か|助詞|か|カ"
+            ]
+        },
+        {
+            "kanji": "か様に",
+            "ruby": "カヨウニ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "か|助詞|か|カ",
+                "様|名詞|様|ヨウ",
+                "に|助詞|に|ニ"
+            ]
+        },
+        {
+            "kanji": "思いを抱いて",
+            "ruby": "思いをいだいて",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "思い|名詞|思い|オモイ",
+                "を|助詞|を|ヲ",
+                "抱い|動詞|抱く|ダイ",
+                "て|助詞|て|テ"
+            ]
+        },
+        {
+            "kanji": "絵葉書の表",
+            "ruby": "絵葉書のオモテ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "絵葉書|名詞|絵葉書|エハガキ",
+                "の|助詞|の|ノ",
+                "表|名詞|表|ヒョウ"
             ]
         }
     ]
