@@ -45,7 +45,12 @@
         "初七日|名詞|初七日|ショナノカ",
         "日記帳|名詞|日記帳|ニッキチョウ",
         "生がい|名詞|生害|ショウガイ",
-        "臆病者|名詞|臆病者|オクビョウモノ"
+        "臆病者|名詞|臆病者|オクビョウモノ",
+        "歩一歩|副詞|歩一歩|ホイッポ",
+        "右大臣|名詞|右大臣|ウダイジン",
+        "左大臣|名詞|左大臣|サダイジン",
+        "向い|動詞|向う|ムカイ",
+        "牛|名詞|牛|ウシ"
     ],
     "force_katakana_ruby_starts_with": [
         "は",
@@ -254,6 +259,14 @@
                 "自|接頭詞|自|ジ",
                 "ぼれ|動詞|ぼる|ボレ"
             ]
+        },
+        {
+            "kanji": "口惜しい",
+            "ruby": "悔しい",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "口惜しい|形容詞|口惜しい|クヤシイ"
+            ]
         }
     ],
     "special_rubies": [
@@ -366,7 +379,7 @@
         },
         {
             "kanji": "二、三日",
-            "ruby": "にさん日、",
+            "ruby": "にさんニチ、",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 "二|名詞|二|ニ",
@@ -2807,6 +2820,194 @@
                 "絵葉書|名詞|絵葉書|エハガキ",
                 "の|助詞|の|ノ",
                 "表|名詞|表|ヒョウ"
+            ]
+        },
+        {
+            "kanji": "御案内申します",
+            "ruby": "御案内もうします",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "案内|名詞|案内|アンナイ",
+                "申し|動詞|申す|モウシ",
+                "ます|助動詞|ます|マス"
+            ]
+        },
+        {
+            "kanji": "お母",
+            "ruby": "オカア",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "お|接頭詞|お|オ",
+                "母|名詞|母|ハハ"
+            ]
+        },
+        {
+            "kanji": "此の",
+            "ruby": "この",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "此|名詞|此|コノ",
+                "の|助詞|の|ノ"
+            ]
+        },
+        {
+            "kanji": "日日",
+            "ruby": "日々",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "日日|名詞|日日|ヒニチ"
+            ]
+        },
+        {
+            "kanji": "危い",
+            "ruby": "アヤウイ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "危い|名詞|危い|アブイ"
+            ]
+        },
+        {
+            "kanji": "極だ",
+            "ruby": "極みだ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "極|名詞|極|キョク",
+                "だ|助動詞|だ|ダ"
+            ]
+        },
+        {
+            "kanji": "浅墓",
+            "ruby": "アサハカ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "浅|形容詞|浅い|アサ",
+                "墓|名詞|墓|ハカ"
+            ]
+        },
+        {
+            "kanji": "口惜しかった",
+            "ruby": "悔しかった",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "口惜しかっ|形容詞|口惜しい|クチオシカッ",
+                "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "御名",
+            "ruby": "ミナ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御名|名詞|御名|ギョメイ"
+            ]
+        },
+        {
+            "kanji": "祭司長",
+            "ruby": "サイシチョウ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "祭司|名詞|祭司|サイシ",
+                "長|名詞|長|チョウ"
+            ]
+        },
+        {
+            "kanji": "集むる",
+            "ruby": "アツムル",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "集|名詞|集|シュウ",
+                "むるごとく|名詞||"
+            ]
+        },
+        {
+            "kanji": "堪え",
+            "ruby": "耐え",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "堪え|動詞|堪える|コタエ"
+            ]
+        },
+        {
+            "kanji": "弟子共",
+            "ruby": "デシども",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "弟子|名詞|弟子|デシ",
+                "共|名詞|共|ドモ"
+            ]
+        },
+        {
+            "kanji": "弟子ども",
+            "ruby": "デシども",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "弟子|名詞|弟子|デシ",
+                "ども|名詞|ども|ドモ"
+            ]
+        },
+        {
+            "kanji": "立ち上り",
+            "ruby": "立ち上がり",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "立ち上り|動詞|立ち上る|タチノボリ"
+            ]
+        },
+        {
+            "kanji": "正直者",
+            "ruby": "正直モノ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "正直|名詞|正直|ショウジキ",
+                "者|名詞|者|シャ"
+            ]
+        },
+        {
+            "kanji": "三たび",
+            "ruby": "ミタビ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "三|名詞|三|サン",
+                "たび|名詞|たび|タビ"
+            ]
+        },
+        {
+            "kanji": "仲好く",
+            "ruby": "仲良く",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "仲|名詞|仲|ナカ",
+                "好く|形容詞|好い|ヨク"
+            ]
+        },
+        {
+            "kanji": "一つまみ",
+            "ruby": "ひとつまみ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一|名詞|一|イチ",
+                "つまみ|名詞|つまみ|ツマミ"
+            ]
+        },
+        {
+            "kanji": "金が欲しさ",
+            "ruby": "鐘が欲しさ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "金|名詞|金|キム",
+                "が|助詞|が|ガ",
+                "欲し|形容詞|欲しい|ホシ",
+                "さ|名詞|さ|サ"
+            ]
+        },
+        {
+            "kanji": "へっへ",
+            "ruby": "へっへっ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "へっ|感動詞|へっ|ヘッ",
+                "へ|助詞|へ|ヘ"
             ]
         }
     ]
