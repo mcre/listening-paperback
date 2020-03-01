@@ -50,7 +50,12 @@
         "右大臣|名詞|右大臣|ウダイジン",
         "左大臣|名詞|左大臣|サダイジン",
         "向い|動詞|向う|ムカイ",
-        "牛|名詞|牛|ウシ"
+        "牛|名詞|牛|ウシ",
+        "柄|名詞|柄|エ",
+        "いつの間に|副詞|いつの間に|イツノマニ",
+        "時時|名詞|時時|トキドキ",
+        "著しき|形容詞|著しい|イチジルシキ",
+        "嫂|名詞|嫂|アニヨメ"
     ],
     "force_katakana_ruby_starts_with": [
         "は",
@@ -266,6 +271,26 @@
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 "口惜しい|形容詞|口惜しい|クヤシイ"
+            ]
+        },
+        {
+            "kanji": "愧じ入った",
+            "ruby": "恥じいった",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "愧|名詞||",
+                "じ|助動詞|じ|ジ",
+                "入っ|動詞|入る|ハイッ",
+                "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "疚しい所",
+            "ruby": "やましいところ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "疚しい|形容詞|疚しい|ヤマシイ",
+                "所|名詞|所|トコロ"
             ]
         }
     ],
@@ -3008,6 +3033,139 @@
             "morphemes": [
                 "へっ|感動詞|へっ|ヘッ",
                 "へ|助詞|へ|ヘ"
+            ]
+        },
+        {
+            "kanji": "何分にも",
+            "ruby": "なにぶんにも",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "何|名詞|何|ナン",
+                "分|名詞|分|フン",
+                "に|助詞|に|ニ",
+                "も|助詞|も|モ"
+            ]
+        },
+        {
+            "kanji": "憎気",
+            "ruby": "ニクゲ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "憎|形容詞|憎い|ニク",
+                "気|名詞|気|キ"
+            ]
+        },
+        {
+            "kanji": "晩く",
+            "ruby": "遅く",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "晩|名詞|晩|バン",
+                "く|動詞|くる|ク"
+            ]
+        },
+        {
+            "kanji": "年が多い",
+            "ruby": "トシが多い",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "年|名詞|年|トシ",
+                "が|助詞|が|ガ",
+                "多い|形容詞|多い|オオイ"
+            ]
+        },
+        {
+            "kanji": "僕等",
+            "ruby": "僕ら",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "僕|名詞|僕|ボク",
+                "等|名詞|等|トウ"
+            ]
+        },
+        {
+            "kanji": "一重の垣",
+            "ruby": "ヒトエの牡蠣",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一重|名詞|一重|ヒトエ",
+                "の|助詞|の|ノ",
+                "垣|名詞|垣|カキ"
+            ]
+        },
+        {
+            "kanji": "一パイ",
+            "ruby": "一杯",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一|名詞|一|イチ",
+                "パイ|名詞|パイ|パイ"
+            ]
+        },
+        {
+            "kanji": "皆例の",
+            "ruby": "皆、例の",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "皆|名詞|皆|ミナ",
+                "例|名詞|例|レイ",
+                "の|助詞|の|ノ"
+            ]
+        },
+        {
+            "kanji": "ロクロク話",
+            "ruby": "ロクロク、話し",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "ロクロク|名詞|ROKUROKU|ロクロク",
+                "話|名詞|話|バナシ"
+            ]
+        },
+        {
+            "kanji": "三言四言",
+            "ruby": "ミコトシコト",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "三|名詞|三|サン",
+                "言|名詞|言|コト",
+                "四|名詞|四|ヨン",
+                "言話|名詞|言話|ゲンワ"
+            ]
+        },
+        {
+            "kanji": "身振い",
+            "ruby": "ミブルイ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "身振|名詞|身振り|ミブリ",
+                "い|名詞|い|イ"
+            ]
+        },
+        {
+            "kanji": "真から",
+            "ruby": "シンから",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "真|名詞|真|シン",
+                "から|助詞|から|カラ"
+            ]
+        },
+        {
+            "kanji": "時には",
+            "ruby": "ときには",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "時には|副詞|時には|トキニハ"
+            ]
+        },
+        {
+            "kanji": "話をする",
+            "ruby": "、話をする",
+            "offset_from_first_morpheme": 1,
+            "morphemes": [
+                "言話|名詞|言話|ゲンワ",
+                "を|助詞|を|ヲ",
+                "する|動詞|する|スル"
             ]
         }
     ]
