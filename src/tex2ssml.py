@@ -96,19 +96,6 @@ def split_ruby(filename, line):
     plain_line = PATTERNS['ruby'].sub(r'\1', line)
     mecab_results = mecab(plain_line)
 
-    # consts['use_mecab_yomi_rubies']の処理(これに該当するものはmecabの読みを有効にする(pollyが間違えやすい漢字を入れる: "方|名詞|方|ホウ" とか)
-    for result in mecab_results:
-        for use_mecabu_yomi_ruby in consts['use_mecab_yomi_rubies']:
-            if tuple(use_mecabu_yomi_ruby.split('|')) == result['el']:
-                rubies.append({
-                    'ssml_filename': filename,
-                    'kanji': result['el'][0],
-                    'ruby': jaconv.kata2hira(result['el'][3]),
-                    'start': result['start'],
-                    'end': result['end'],
-                    'morphemes': [], 'first_in_morpheme': False, 'last_in_morpheme': False
-                })
-
     for ruby in rubies:
         for result in mecab_results:
             if len(set(range(ruby['start'], ruby['end'])) & set(range(result['start'], result['end']))) > 0:  # 出現箇所が重なる場所
@@ -189,6 +176,19 @@ def main():
     rubies.extend([load_special_ruby(x) for x in config.get('primary_special_rubies', []) + consts['primary_special_rubies']])  # 本文のルビより優先する
     rubies.extend(sorted(text_rubies, key=lambda x: len(x['morphemes']), reverse=True))  # 形態素数が長いルビから適用
     rubies.extend([load_special_ruby(x) for x in config.get('special_rubies', []) + consts['special_rubies']])
+
+    # consts['use_mecab_yomi_rubies']の処理(これに該当するものはmecabの読みを有効にする(pollyが間違えやすい漢字を入れる: "方|名詞|方|ホウ" とか)
+    for use_mecabu_yomi_ruby in consts['use_mecab_yomi_rubies']:
+        el = tuple(use_mecabu_yomi_ruby.split('|'))
+        rubies.append({
+            'ssml_filename': '_sperial_rubies',
+            'kanji': el[0],
+            'ruby': el[3],
+            'morphemes': [{'el': el}],
+            'offset_from_first_morpheme': 0,
+            'only_here': False,
+            'pos': '_sperial_rubies-00000',
+        })
 
     with open('rubies.json', 'w') as f:
         json.dump(rubies, f, ensure_ascii=False, indent=2)
