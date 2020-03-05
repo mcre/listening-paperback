@@ -55,7 +55,12 @@
         "いつの間に|副詞|いつの間に|イツノマニ",
         "時時|名詞|時時|トキドキ",
         "著しき|形容詞|著しい|イチジルシキ",
-        "嫂|名詞|嫂|アニヨメ"
+        "嫂|名詞|嫂|アニヨメ",
+        "山畑|名詞|山畑|ヤマバタ",
+        "素振り|名詞|素振り|ソブリ",
+        "露|名詞|露|ツユ",
+        "吉野紙|名詞|吉野紙|ヨシノガミ",
+        "詞|名詞|詞|コトバ"
     ],
     "force_katakana_ruby_starts_with": [
         "は",
@@ -3166,6 +3171,77 @@
                 "言話|名詞|言話|ゲンワ",
                 "を|助詞|を|ヲ",
                 "する|動詞|する|スル"
+            ]
+        },
+        {
+            "kanji": "お菜",
+            "ruby": "オカズ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "お菜|名詞|お菜|オサイ"
+            ]
+        },
+        {
+            "kanji": "打伏した",
+            "ruby": "打ち伏した",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "打|接頭詞|打|ダ",
+                "伏|名詞|伏|フク",
+                "し|動詞|する|シ",
+                "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "詞数",
+            "ruby": "コトバカズ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "詞|名詞|詞|コトバ",
+                "数|名詞|数|スウ"
+            ]
+        },
+        {
+            "kanji": "画中",
+            "ruby": "ガチュウ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "画|名詞|画|ガ",
+                "中|名詞|中|チュウ"
+            ]
+        },
+        {
+            "kanji": "真に",
+            "ruby": "シンに",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "真に|副詞|真に|シンニ"
+            ]
+        },
+        {
+            "kanji": "明放して",
+            "ruby": "明け話して",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "明|名詞|明|メイ",
+                "放し|動詞|放す|ハナシ",
+                "て|助詞|て|テ"
+            ]
+        },
+        {
+            "kanji": "家中",
+            "ruby": "イエジュウ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "家中|名詞|家中|イエジュウ"
+            ]
+        },
+        {
+            "kanji": "一重",
+            "ruby": "ヒトエ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一重|名詞|一重|ヒトエ"
             ]
         }
     ]
