@@ -60,11 +60,11 @@ cp ./projects/${pj}/novel.txt ./work/ || exit 1
 cp ./projects/${pj}/config.json ./work/ || exit 1
 cp ./projects/${pj}/images/* ./work/
 
-cp ./materials/fonts/`cat ./projects/${pj}/config.json | jq -r .font` ./work/font.ttf || exit 1
-cp ./materials/fonts/ipaexg.ttf ./work/font_gothic.ttf || exit 1
-cp ./materials/covers/`cat ./projects/${pj}/config.json | jq -r .cover.file` ./work/cover.png || exit 1
-cp ./materials/musics/`cat ./projects/${pj}/config.json | jq -r .music.file` ./work/music.mp3 || exit 1
-cp ./materials/libs/* ./work/ || exit 1
+cp -p ./materials/fonts/`cat ./projects/${pj}/config.json | jq -r .font` ./work/font.ttf || exit 1
+cp -p ./materials/fonts/ipaexg.ttf ./work/font_gothic.ttf || exit 1
+cp -p ./materials/covers/`cat ./projects/${pj}/config.json | jq -r .cover.file` ./work/cover.png || exit 1
+cp -p ./materials/musics/`cat ./projects/${pj}/config.json | jq -r .music.file` ./work/music.mp3 || exit 1
+cp -p ./materials/libs/* ./work/ || exit 1
 
 echo '# az2tex'
 docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u az2tex.py" || exit 1
