@@ -16,9 +16,9 @@ build_movie() {
   echo '### copy_output_movies'
   strid=`printf "%05d" "${part_id}"` || exit 1
   mkdir -p ./projects/${pj}/output/${dir}/${strid}/ || exit 1
-  cp -r ./work/part_movies/${strid}/* ./projects/${pj}/output/${dir}/${strid}/ || exit 1
+  cp -rp ./work/part_movies/${strid}/* ./projects/${pj}/output/${dir}/${strid}/ || exit 1
   mkdir -p ./projects/${pj}/output/latest/${strid}/ || exit 1
-  cp -r ./work/part_movies/${strid}/* ./projects/${pj}/output/latest/${strid}/ || exit 1
+  cp -rp ./work/part_movies/${strid}/* ./projects/${pj}/output/latest/${strid}/ || exit 1
 }
 
 home=`pwd`
@@ -80,7 +80,7 @@ docker run --rm -v $PWD/work:/work lp-python-mecab /bin/sh -c "python -u tex2ssm
 if [ $stop = 'ssml' ]; then exit 0; fi
 echo '# ssml2voice'
 mkdir -p ./projects/${pj}/cache || exit 1
-cp -r ./projects/${pj}/cache/* ./work/cache
+cp -rp ./projects/${pj}/cache/* ./work/cache
 aws_access_key_id=`cat ./certs/aws_credentials.json | jq -r .aws_access_key_id`
 aws_secret_access_key=`cat ./certs/aws_credentials.json | jq -r .aws_secret_access_key`
 if [ $stop = 'voice' ]; then
@@ -88,7 +88,7 @@ if [ $stop = 'voice' ]; then
 else
   docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${pj} ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
 fi
-cp -r ./work/cache/* ./projects/${pj}/cache || exit 1
+cp -rp ./work/cache/* ./projects/${pj}/cache || exit 1
 if [ $stop = 'voice' ]; then exit 0; fi
 echo '# pdf2png'
 hash=`docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "tail -n +2 /work/novel.log | md5sum | cut -d ' ' -f 1"` || exit 1
@@ -130,7 +130,7 @@ if [ $stop = 'before_movie' ]; then
 else
   docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${pj} ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
 fi
-cp -r ./work/cache/* ./projects/${pj}/cache || exit 1
+cp -rp ./work/cache/* ./projects/${pj}/cache || exit 1
 if [ $stop = 'before_movie' ]; then exit 0; fi
 
 echo '# prepare_output_directory'

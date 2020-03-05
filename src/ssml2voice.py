@@ -88,7 +88,7 @@ def main(project_name, aws_access_key_id, aws_secret_access_key):
             print('自動実行、もしくはy以外が入力されたため変換せずに終了します。変換対象はpending_polly_tasks.jsonを参照ください。')
             print('\n手動実行方法↓')
             print('---------------------------')
-            print(f'docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python ssml2voice.py {project_name} {aws_access_key_id} {aws_secret_access_key}" && cp -r ./work/cache/* ./projects/{project_name}/cache')
+            print(f'docker run --rm -it -v $PWD/work:/work lp-python /bin/sh -c "python ssml2voice.py {project_name} {aws_access_key_id} {aws_secret_access_key}" && cp -rp ./work/cache/* ./projects/{project_name}/cache')
             print('---------------------------\n')
             sys.exit(1)
 
