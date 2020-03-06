@@ -382,6 +382,16 @@
             ]
         },
         {
+            "kanji": "五六本",
+            "ruby": "ゴロッポン",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "五|名詞|五|ゴ",
+                "六|名詞|六|ロク",
+                "本|名詞|本|ホン"
+            ]
+        },
+        {
             "kanji": "五六",
             "ruby": "ゴロク",
             "offset_from_first_morpheme": 0,
@@ -3242,6 +3252,82 @@
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 "一重|名詞|一重|ヒトエ"
+            ]
+        },
+        {
+            "kanji": "三方林",
+            "ruby": "サンポウ、ハヤシ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "三方|名詞|三方|ミカタ",
+                "林|名詞|林|リン"
+            ]
+        },
+        {
+            "kanji": "様に",
+            "ruby": "ように",
+            "offset_from_first_morpheme": 1,
+            "morphemes": [
+                "い様|名詞|異様|イヨウ",
+                "に|助詞|に|ニ"
+            ]
+        },
+        {
+            "kanji": "七分通り",
+            "ruby": "シチブドオリ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "七分|名詞|七分|シチブ",
+                "通り|名詞|通り|ドオリ"
+            ]
+        },
+        {
+            "kanji": "足を展して",
+            "ruby": "脚を伸ばして",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "足|名詞|足|アシ",
+                "を|助詞|を|ヲ",
+                "展し|名詞|展し|テンシ",
+                "て|助詞|て|テ"
+            ]
+        },
+        {
+            "kanji": "後生だから",
+            "ruby": "ゴショウだから",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "後生|名詞|後生|ゴショウ",
+                "だ|助動詞|だ|ダ",
+                "から|助詞|から|カラ"
+            ]
+        },
+        {
+            "kanji": "樹の根",
+            "ruby": "木の根",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "樹|名詞|樹|ジュ",
+                "の|助詞|の|ノ",
+                "根|名詞|根|ネ"
+            ]
+        },
+        {
+            "kanji": "町場",
+            "ruby": "マチバ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "町場|名詞|町場|チョウバ"
+            ]
+        },
+        {
+            "kanji": "品のよい",
+            "ruby": "ヒンの良い",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "品|名詞|品|シナ",
+                "の|助詞|の|ノ",
+                "よい|形容詞|よい|ヨイ"
             ]
         }
     ]
