@@ -60,7 +60,11 @@
         "素振り|名詞|素振り|ソブリ",
         "露|名詞|露|ツユ",
         "吉野紙|名詞|吉野紙|ヨシノガミ",
-        "詞|名詞|詞|コトバ"
+        "詞|名詞|詞|コトバ",
+        "行末|名詞|行末|ユクスエ",
+        "隠立て|名詞|隠し立て|カクシダテ",
+        "当こすり|動詞|当こする|アテコスリ",
+        "致方|名詞|致方|イタシカタ"
     ],
     "force_katakana_ruby_starts_with": [
         "は",
@@ -296,6 +300,43 @@
             "morphemes": [
                 "疚しい|形容詞|疚しい|ヤマシイ",
                 "所|名詞|所|トコロ"
+            ]
+        },
+        {
+            "kanji": "往った",
+            "ruby": "行った",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "往|名詞||",
+                "っ|動詞|く|ッ",
+                "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "年甲斐",
+            "ruby": "トシガイ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "年甲斐|名詞|年甲斐|トシガイ"
+            ]
+        },
+        {
+            "kanji": "温和しい人",
+            "ruby": "おとなしいひと",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "温和|名詞|温和|オンワ",
+                "し|助動詞|き|シ",
+                "い人|名詞|異人|イジン"
+            ]
+        },
+        {
+            "kanji": "一日二日",
+            "ruby": "イチニチフツカ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一日|名詞|一日|ヒトイチ",
+                "二日|名詞|二日|ニノ"
             ]
         }
     ],
@@ -3328,6 +3369,424 @@
                 "品|名詞|品|シナ",
                 "の|助詞|の|ノ",
                 "よい|形容詞|よい|ヨイ"
+            ]
+        },
+        {
+            "kanji": "この間",
+            "ruby": "このあいだ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "この間|名詞|この間|コノカン"
+            ]
+        },
+        {
+            "kanji": "はかない",
+            "ruby": "は、かない",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "は|助詞|は|ハ",
+                "かない|動詞|かなう|カナイ"
+            ]
+        },
+        {
+            "kanji": "詰ら",
+            "ruby": "つまら",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "詰ら|動詞|詰る|ナジラ"
+            ]
+        },
+        {
+            "kanji": "面白い対",
+            "ruby": "面白いツイ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "面白い|形容詞|面白い|オモシロイ",
+                "対|名詞|対|タイ"
+            ]
+        },
+        {
+            "kanji": "半分道も",
+            "ruby": "半分、道も",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "半分|名詞|半分|ハンブン",
+                "道|名詞|道|ミチ",
+                "も|助詞|も|モ"
+            ]
+        },
+        {
+            "kanji": "申訣",
+            "ruby": "申し訳",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "申|名詞|申|サル",
+                "訣|名詞||"
+            ]
+        },
+        {
+            "kanji": "私共一同",
+            "ruby": "わたくしども、一同",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "私共|名詞|私共|ワタクシドモ",
+                "一同|名詞|一同|イチドウ"
+            ]
+        },
+        {
+            "kanji": "斜に",
+            "ruby": "斜めに",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "斜|名詞|斜|ハス",
+                "に|助詞|に|ニ"
+            ]
+        },
+        {
+            "kanji": "七八間",
+            "ruby": "シチハチケン",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "七|名詞|七|ナナ",
+                "八|名詞|八|ハチ",
+                "間|名詞|間|ケン"
+            ]
+        },
+        {
+            "kanji": "年の至らぬ",
+            "ruby": "トシの至らぬ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "年|名詞|年|トシ",
+                "の|助詞|の|ノ",
+                "至ら|動詞|至る|イタラ",
+                "ぬ|助動詞|ぬ|ヌ"
+            ]
+        },
+        {
+            "kanji": "今夕飯",
+            "ruby": "今、夕飯",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "今|接頭詞|今|コン",
+                "夕飯|名詞|夕飯|ユウハン"
+            ]
+        },
+        {
+            "kanji": "小支度",
+            "ruby": "コジタク",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "小|接頭詞|小|ショウ",
+                "支度|名詞|支度|シタク"
+            ]
+        },
+        {
+            "kanji": "はア",
+            "ruby": "ハァ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "は|助詞|は|ハ",
+                "ア|名詞||"
+            ]
+        },
+        {
+            "kanji": "百分の一",
+            "ruby": "ヒャクブンノイチ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "百|名詞|百|ヒャク",
+                "分の|名詞|分の|ブンノ",
+                "一だ|名詞|一打ち|イチダ"
+            ]
+        },
+        {
+            "kanji": "笑声",
+            "ruby": "笑い声",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "笑声|名詞|笑声|ショウセイ"
+            ]
+        },
+        {
+            "kanji": "話声",
+            "ruby": "話し声",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "話|名詞|話|ハナシ",
+                "声|名詞|声|ゴエ"
+            ]
+        },
+        {
+            "kanji": "行末のこと",
+            "ruby": "行く末のこと",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "行末|名詞|行末|ギョウマツ",
+                "の|助詞|の|ノ",
+                "こと|名詞|こと|コト"
+            ]
+        },
+        {
+            "kanji": "年をとって",
+            "ruby": "トシをとって",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "年|名詞|年|トシ",
+                "を|助詞|を|ヲ",
+                "とっ|動詞|とる|トッ",
+                "て|助詞|て|テ"
+            ]
+        },
+        {
+            "kanji": "人中",
+            "ruby": "ジンチュウ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "人中|名詞|人中|ヒトナカ"
+            ]
+        },
+        {
+            "kanji": "三晩",
+            "ruby": "ミバン",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "三|名詞|三|サン",
+                "晩|名詞|晩|バン"
+            ]
+        },
+        {
+            "kanji": "仲好い風",
+            "ruby": "仲良いふう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "仲|名詞|仲|ナカ",
+                "好い|名詞|好意|コウイ",
+                "風|名詞|風|フウ"
+            ]
+        },
+        {
+            "kanji": "執念深い性",
+            "ruby": "執念深いサガ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "執念深い|形容詞|執念深い|シュウネンブカイ",
+                "性|名詞|性|セイ"
+            ]
+        },
+        {
+            "kanji": "に詫び",
+            "ruby": "に、詫び",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "に|助詞|に|ニ",
+                "詫び|動詞|詫びる|ワビ"
+            ]
+        },
+        {
+            "kanji": "なア",
+            "ruby": "なぁ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "な|助動詞|だ|ナ",
+                "ア|名詞||"
+            ]
+        },
+        {
+            "kanji": "御尤も",
+            "ruby": "ごもっとも",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "尤も|名詞|尤も|モットモ"
+            ]
+        },
+        {
+            "kanji": "永年",
+            "ruby": "長年",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "永年|名詞|永年|エイネン"
+            ]
+        },
+        {
+            "kanji": "人です",
+            "ruby": "ヒトです",
+            "offset_from_first_morpheme": 1,
+            "morphemes": [
+                "い人|名詞|異人|イジン",
+                "です|助動詞|です|デス"
+            ]
+        },
+        {
+            "kanji": "言訣",
+            "ruby": "言い訳",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "言|名詞|言|ゲン",
+                "訣|名詞||"
+            ]
+        },
+        {
+            "kanji": "にャ",
+            "ruby": "にゃ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "に|助詞|に|ニ",
+                "ャ|名詞||"
+            ]
+        },
+        {
+            "kanji": "あア",
+            "ruby": "あぁ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "あ|フィラー|あ|ア",
+                "ア|名詞||"
+            ]
+        },
+        {
+            "kanji": "はア",
+            "ruby": "はぁ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "は|助詞|は|ハ",
+                "ア|名詞||"
+            ]
+        },
+        {
+            "kanji": "元日一日",
+            "ruby": "ガンジツイチニチ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "元日|名詞|元日|ガンジツ",
+                "一日|名詞|一日|ヒトイチ"
+            ]
+        },
+        {
+            "kanji": "親だてら",
+            "ruby": "オヤダテラ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "親|名詞|親|オヤ",
+                "だて|名詞|だて|ダテ",
+                "ら|名詞|ら|ラ"
+            ]
+        },
+        {
+            "kanji": "今一目",
+            "ruby": "いま、ヒトメ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "今|接頭詞|今|コン",
+                "一目|名詞|一目|イチモク"
+            ]
+        },
+        {
+            "kanji": "思う様に",
+            "ruby": "思うように",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "思う|動詞|思う|オモウ",
+                "様|名詞|様|ヨウ",
+                "に|助詞|に|ニ"
+            ]
+        },
+        {
+            "kanji": "未だ",
+            "ruby": "まだ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "未|接頭詞|未|ミ",
+                "だほ|名詞|だほ|ダホ"
+            ]
+        },
+        {
+            "kanji": "まア",
+            "ruby": "まぁ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "まア|感動詞|まア|マア"
+            ]
+        },
+        {
+            "kanji": "済して",
+            "ruby": "済まして",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "済し|動詞|済す|ナシ",
+                "て|助詞|て|テ"
+            ]
+        },
+        {
+            "kanji": "大そう早く",
+            "ruby": "大層速く",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "大|接頭詞|大|ダイ",
+                "そう|副詞|そう|ソウ",
+                "早く|形容詞|早い|ハヤク"
+            ]
+        },
+        {
+            "kanji": "区別けして",
+            "ruby": "区わけして",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "区別|名詞|区別|クベツ",
+                "けして|副詞|けして|ケシテ"
+            ]
+        },
+        {
+            "kanji": "後に居た",
+            "ruby": "後ろに居た",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "後|名詞|後|ゴ",
+                "に|助詞|に|ニ",
+                "居|動詞|居る|イ",
+                "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "居ても起っても",
+            "ruby": "イテモタッテモ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "居|動詞|居る|イ",
+                "て|助詞|て|テ",
+                "も|助詞|も|モ",
+                "起っ|動詞|起る|オコッ",
+                "て|助詞|て|テ",
+                "も|助詞|も|モ"
+            ]
+        },
+        {
+            "kanji": "家中",
+            "ruby": "イエジュウ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "家|名詞|家|カ",
+                "中|名詞|中|チュウ"
+            ]
+        },
+        {
+            "kanji": "今日中",
+            "ruby": "今日じゅう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "今日|名詞|今日|キョウ",
+                "中|名詞|中|チュウ"
+            ]
+        },
+        {
+            "kanji": "家の母",
+            "ruby": "うちの母",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "家|名詞|家|イエ",
+                "の|助詞|の|ノ",
+                "母|名詞|母|ハハ"
             ]
         }
     ]
