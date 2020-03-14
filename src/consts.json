@@ -3788,6 +3788,69 @@
                 "の|助詞|の|ノ",
                 "母|名詞|母|ハハ"
             ]
+        },
+        {
+            "kanji": "来る間",
+            "ruby": "来るあいだ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "来る|動詞|来る|クル",
+                "間|名詞|間|マ"
+            ]
+        },
+        {
+            "kanji": "役目の表",
+            "ruby": "役目のオモテ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "役目|名詞|役目|ヤクメ",
+                "の|助詞|の|ノ",
+                "表|名詞|表|ヒョウ"
+            ]
+        },
+        {
+            "kanji": "額は晴れやか",
+            "ruby": "ヒタイは晴れやか",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "額|名詞|額|ガク",
+                "は|助詞|は|ハ",
+                "晴れやか|名詞|晴れやか|ハレヤカ"
+            ]
+        },
+        {
+            "kanji": "こん度",
+            "ruby": "今度",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "こん度|名詞|こん度|コンド"
+            ]
+        },
+        {
+            "kanji": "何心なく",
+            "ruby": "ナニゴコロナク",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "何|名詞|何|ナン",
+                "心|名詞|心|ココロ",
+                "なく|形容詞|ない|ナク"
+            ]
+        },
+        {
+            "kanji": "平生",
+            "ruby": "ヘイゼイ、",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "平生|名詞|平生|ヒラオ"
+            ]
+        },
+        {
+            "kanji": "七五三",
+            "ruby": "シチゴサン",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "七五三|名詞|七五三|シメ"
+            ]
         }
     ]
 }
