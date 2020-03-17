@@ -64,7 +64,11 @@
         "行末|名詞|行末|ユクスエ",
         "隠立て|名詞|隠し立て|カクシダテ",
         "当こすり|動詞|当こする|アテコスリ",
-        "致方|名詞|致方|イタシカタ"
+        "致方|名詞|致方|イタシカタ",
+        "種|名詞|種|タネ",
+        "肉付き|名詞|肉付き|ニクヅキ",
+        "意気込み|名詞|意気込み|イキゴミ",
+        "実に|副詞|実に|ジツニ"
     ],
     "force_katakana_ruby_starts_with": [
         "は",
@@ -3850,6 +3854,181 @@
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 "七五三|名詞|七五三|シメ"
+            ]
+        },
+        {
+            "kanji": "その箱",
+            "ruby": "そのハコ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "その|連体詞|その|ソノ",
+                "箱|名詞|箱|ハコ"
+            ]
+        },
+        {
+            "kanji": "更らに",
+            "ruby": "更に",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "更|名詞|更|サラ",
+                "ら|名詞|ら|ラ",
+                "に|助詞|に|ニ"
+            ]
+        },
+        {
+            "kanji": "一と通り",
+            "ruby": "ヒトトオリ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一|名詞|一|イチ",
+                "と|助詞|と|ト",
+                "通り|名詞|通り|トオリ"
+            ]
+        },
+        {
+            "kanji": "度の弱い",
+            "ruby": "ドの弱い",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "度|名詞|度|ド",
+                "の|助詞|の|ノ",
+                "弱い|形容詞|弱い|ヨワイ"
+            ]
+        },
+        {
+            "kanji": "二、三カ月",
+            "ruby": "ニサンカゲツ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "二|名詞|二|ニ",
+                "、|記号|、|、",
+                "三|名詞|三|サン",
+                "カ月|名詞|カ月|カゲツ"
+            ]
+        },
+        {
+            "kanji": "一枚板",
+            "ruby": "イチマイイタ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一|名詞|一|イチ",
+                "枚|名詞|枚|マイ",
+                "板|名詞|板|イタ"
+            ]
+        },
+        {
+            "kanji": "数限り",
+            "ruby": "カズカギリ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "数|名詞|数|スウ",
+                "限り|名詞|限り|カギリ"
+            ]
+        },
+        {
+            "kanji": "類のない",
+            "ruby": "ルイノナイ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "類|名詞|類|ルイ",
+                "の|助詞|の|ノ",
+                "ない|形容詞|ない|ナイ"
+            ]
+        },
+        {
+            "kanji": "室一杯",
+            "ruby": "部屋一杯",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "室|名詞|室|シツ",
+                "一|名詞|一|イチ",
+                "杯|名詞|杯|ハイ"
+            ]
+        },
+        {
+            "kanji": "数十尺",
+            "ruby": "スウジッシャク",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "数|名詞|数|スウ",
+                "十|名詞|十|ジュウ",
+                "尺|名詞|尺|シャク"
+            ]
+        },
+        {
+            "kanji": "一とまわり",
+            "ruby": "ヒトマワリ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一|名詞|一|イチ",
+                "と|助詞|と|ト",
+                "まわり|名詞|まわり|マワリ"
+            ]
+        },
+        {
+            "kanji": "生あるもの",
+            "ruby": "セイあるもの",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "生|名詞|生|ナマ",
+                "ある|動詞|ある|アル",
+                "もの|名詞|もの|モノ"
+            ]
+        },
+        {
+            "kanji": "気味わるい",
+            "ruby": "キミワルイ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "気味|名詞|気味|キミ",
+                "わるい|形容詞|わるい|ワルイ"
+            ]
+        },
+        {
+            "kanji": "二た目",
+            "ruby": "フタメ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "二|名詞|二|ニ",
+                "た目|名詞|多目|タモク"
+            ]
+        },
+        {
+            "kanji": "矢つぎ早や",
+            "ruby": "ヤツギバヤ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "矢|名詞|矢|ヤ",
+                "つぎ|名詞|つぎ|ツギ",
+                "早や|副詞|早や|ハヤ"
+            ]
+        },
+        {
+            "kanji": "一カ所",
+            "ruby": "イッカショ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一|名詞|一|イチ",
+                "カ所|名詞|カ所|カショ"
+            ]
+        },
+        {
+            "kanji": "心の臓",
+            "ruby": "シンノゾウ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "心|名詞|心|ココロ",
+                "の|助詞|の|ノ",
+                "臓|名詞||"
+            ]
+        },
+        {
+            "kanji": "球壁",
+            "ruby": "キュウ僻",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "球|名詞|球|タマ",
+                "壁|名詞|壁|カベ"
             ]
         }
     ]
