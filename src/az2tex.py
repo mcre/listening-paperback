@@ -336,13 +336,14 @@ def main():
     body_text = body_text.translate(REPLACE_CHAR)
     for k, v in REPLACE_STR.items():
         body_text = body_text.replace(k, v)
-    for k, v in config.get('tex_replaces', {}).items():
-        body_text = body_text.replace(k, v)
 
     for manual_chapter in config['manual_chapters']:
         body_text = re.sub(r'\n(' + manual_chapter + r')', r'\n\\clearpage % manual_chapter\n\n\1', body_text, 1)
     if config.get('clearpage_on_blank_line', True):  # tex上の空行で改頁
         body_text = PATTERNS['blank_line'].sub(r'\n\n\\clearpage % blank_line\n\n', body_text)
+
+    for k, v in config.get('tex_replaces', {}).items():
+        body_text = body_text.replace(k, v)
 
     tex = Template(template).substitute({
         'text_color': consts['text_color'],
