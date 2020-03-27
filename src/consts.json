@@ -78,7 +78,12 @@
         "一寸|副詞|一寸|チョット",
         "少い|形容詞|少い|スクナイ",
         "真逆様|名詞|真逆様|マッサカサマ",
-        "薄気味悪く|形容詞|薄気味悪い|ウスキミワルク"
+        "薄気味悪く|形容詞|薄気味悪い|ウスキミワルク",
+        "錐|名詞|錐|キリ",
+        "飯|名詞|飯|メシ",
+        "めだる|名詞|メダル|メダル",
+        "方々|名詞|方々|カタガタ",
+        "女学校|名詞|女学校|ジョガッコウ"
     ],
     "force_katakana_ruby_starts_with": [
         "は",
@@ -381,6 +386,32 @@
                 "惹起|名詞|惹起|ジャッキ",
                 "し|動詞|する|シ",
                 "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "逼った",
+            "ruby": "迫った",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "逼|名詞||",
+                "っ|動詞|く|ッ",
+                "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "恐れ入り",
+            "ruby": "恐れ入り",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "恐れ入り|動詞|恐れ入る|オソレイリ"
+            ]
+        },
+        {
+            "kanji": "お尋ね",
+            "ruby": "お尋ね",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "お尋ね|名詞|お尋ね|オタズネ"
             ]
         }
     ],
@@ -4486,6 +4517,128 @@
                 "置き|動詞|置く|オキ",
                 "度|名詞|度|ド",
                 "いと|副詞|いと|イト"
+            ]
+        },
+        {
+            "kanji": "輔仁会",
+            "ruby": "ホジンカイ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "輔仁|名詞|輔仁|ヤスヒト",
+                "会|名詞|会|カイ"
+            ]
+        },
+        {
+            "kanji": "において述",
+            "ruby": "において述べる",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "において|助詞|において|ニオイテ",
+                "述|名詞|述|ジュツ"
+            ]
+        },
+        {
+            "kanji": "一カ月",
+            "ruby": "一ヶ月",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一|名詞|一|イチ",
+                "カ月|名詞|カ月|カゲツ"
+            ]
+        },
+        {
+            "kanji": "目黒辺",
+            "ruby": "目黒あたり",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "目黒|名詞|目黒|メグロ",
+                "辺|名詞|辺|アタリ"
+            ]
+        },
+        {
+            "kanji": "所々方々",
+            "ruby": "ショショホウボウ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "所々|名詞|所々|トコロドコロ",
+                "方々|名詞|方々|カタガタ"
+            ]
+        },
+        {
+            "kanji": "料理方",
+            "ruby": "料理法",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "料理|名詞|料理|リョウリ",
+                "方|名詞|方|カタ"
+            ]
+        },
+        {
+            "kanji": "大学を出られた方",
+            "ruby": "大学を出られたかた",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "大学|名詞|大学|ダイガク",
+                "を|助詞|を|ヲ",
+                "出|動詞|出る|デ",
+                "られ|動詞|られる|ラレ",
+                "た|助動詞|た|タ",
+                "方|名詞|方|ホウ"
+            ]
+        },
+        {
+            "kanji": "あなたがたより",
+            "ruby": "アナタガタより",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "あなた|名詞|あなた|アナタ",
+                "が|助詞|が|ガ",
+                "たより|名詞|たより|タヨリ"
+            ]
+        },
+        {
+            "kanji": "年の若い",
+            "ruby": "トシの若い",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "年|名詞|年|トシ",
+                "の|助詞|の|ノ",
+                "若い|形容詞|若い|ワカイ"
+            ]
+        },
+        {
+            "kanji": "一カ年",
+            "ruby": "一ヵ年",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一|名詞|一|イチ",
+                "カ年|名詞|カ年|カネン"
+            ]
+        },
+        {
+            "kanji": "坊ちゃん",
+            "ruby": "ボッちゃん",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "坊ちゃん|名詞|坊ちゃん|ボッチャン"
+            ]
+        },
+        {
+            "kanji": "昔し",
+            "ruby": "ムカシ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "昔|名詞|昔|ムカシ",
+                "し|動詞|する|シ"
+            ]
+        },
+        {
+            "kanji": "幸に",
+            "ruby": "幸いに",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "幸|名詞|幸|コウ",
+                "に|助詞|に|ニ"
             ]
         }
     ]
