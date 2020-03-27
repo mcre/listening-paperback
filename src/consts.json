@@ -83,7 +83,11 @@
         "飯|名詞|飯|メシ",
         "めだる|名詞|メダル|メダル",
         "方々|名詞|方々|カタガタ",
-        "女学校|名詞|女学校|ジョガッコウ"
+        "女学校|名詞|女学校|ジョガッコウ",
+        "気に入る|動詞|気に入る|キニイル",
+        "元来|名詞|元来|ガンライ",
+        "同人|名詞|同人|ドウジン",
+        "大勢|名詞|大勢|タイセイ"
     ],
     "force_katakana_ruby_starts_with": [
         "は",
@@ -412,6 +416,16 @@
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 "お尋ね|名詞|お尋ね|オタズネ"
+            ]
+        },
+        {
+            "kanji": "儲けた金",
+            "ruby": "儲けたカネ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "儲け|動詞|儲ける|モウケ",
+                "た|助動詞|た|タ",
+                "金|名詞|金|キム"
             ]
         }
     ],
@@ -4639,6 +4653,207 @@
             "morphemes": [
                 "幸|名詞|幸|コウ",
                 "に|助詞|に|ニ"
+            ]
+        },
+        {
+            "kanji": "性の合う",
+            "ruby": "ショウの合う",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "性|名詞|性|セイ",
+                "の|助詞|の|ノ",
+                "合う|動詞|合う|アウ"
+            ]
+        },
+        {
+            "kanji": "出来上る",
+            "ruby": "出来上がる",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "出来|動詞|出来る|デキ",
+                "上る|動詞|上る|ノボル"
+            ]
+        },
+        {
+            "kanji": "昔し",
+            "ruby": "昔",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "昔|名詞|昔|ムカシ",
+                "しこ|名詞|しこ|シコ"
+            ]
+        },
+        {
+            "kanji": "気に喰わない",
+            "ruby": "キニクワナイ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "気|名詞|気|キ",
+                "に|助詞|に|ニ",
+                "喰わ|動詞|喰う|クワ",
+                "ない|助動詞|ない|ナイ"
+            ]
+        },
+        {
+            "kanji": "救う途",
+            "ruby": "救う道",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "救う|動詞|救う|スクウ",
+                "途|名詞|途|ト"
+            ]
+        },
+        {
+            "kanji": "大分",
+            "ruby": "だいぶ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "大分|名詞|大分|オオイタ"
+            ]
+        },
+        {
+            "kanji": "持っている方",
+            "ruby": "持っているかた",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "持っ|動詞|持つ|モッ",
+                "て|助詞|て|テ",
+                "いる|動詞|いる|イル",
+                "方|名詞|方|ホウ"
+            ]
+        },
+        {
+            "kanji": "感投詞",
+            "ruby": "カントウシ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "感|名詞|感|カン",
+                "投|名詞|投|トウ",
+                "詞|名詞|詞|コトバ"
+            ]
+        },
+        {
+            "kanji": "達している方",
+            "ruby": "達しているかた",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "達し|動詞|達す|タッシ",
+                "て|助詞|て|テ",
+                "いる|動詞|いる|イル",
+                "方|名詞|方|ホウ"
+            ]
+        },
+        {
+            "kanji": "第一篇",
+            "ruby": "第一編",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "第|接頭詞|第|ダイ",
+                "一|名詞|一|イチ",
+                "篇|名詞|篇|ヘン"
+            ]
+        },
+        {
+            "kanji": "あなた方",
+            "ruby": "あなタガタ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "あな|名詞|あな|アナ",
+                "た方|名詞|他方|タホウ"
+            ]
+        },
+        {
+            "kanji": "あなたがた",
+            "ruby": "あなタガタ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "あなた|名詞|あなた|アナタ",
+                "が|助詞|が|ガ",
+                "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "その実",
+            "ruby": "ソノジツ、",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "その|連体詞|その|ソノ",
+                "実|接頭詞|実|ジツ"
+            ]
+        },
+        {
+            "kanji": "担が",
+            "ruby": "かつが",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "担が|動詞|担ぐ|カツガ"
+            ]
+        },
+        {
+            "kanji": "国と国",
+            "ruby": "クニトクニ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "国|名詞|国|コク",
+                "と|助詞|と|ト",
+                "国|名詞|国|クニ"
+            ]
+        },
+        {
+            "kanji": "所置",
+            "ruby": "ショチ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "所|名詞|所|トコロ",
+                "置|名詞|置|オキ"
+            ]
+        },
+        {
+            "kanji": "放っておく",
+            "ruby": "ほうっておく",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "放っ|動詞|放つ|ハナッ",
+                "て|助詞|て|テ",
+                "おく|動詞|おく|オク"
+            ]
+        },
+        {
+            "kanji": "働らかない",
+            "ruby": "働かない",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "働|名詞|働|ハタラキ",
+                "ら|名詞|ら|ラ",
+                "か|助詞|か|カ",
+                "ない|形容詞|ない|ナイ"
+            ]
+        },
+        {
+            "kanji": "働らく",
+            "ruby": "働く",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "働|名詞|働|ハタラキ",
+                "らく|名詞|らく|ラク"
+            ]
+        },
+        {
+            "kanji": "一言し",
+            "ruby": "イチゲンし",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一言|名詞|一言|イチゲン",
+                "し|動詞|する|シ"
+            ]
+        },
+        {
+            "kanji": "その前",
+            "ruby": "そのまえ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "その|連体詞|その|ソノ",
+                "前|名詞|前|マエ"
             ]
         }
     ]
