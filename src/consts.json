@@ -87,7 +87,13 @@
         "気に入る|動詞|気に入る|キニイル",
         "元来|名詞|元来|ガンライ",
         "同人|名詞|同人|ドウジン",
-        "大勢|名詞|大勢|タイセイ"
+        "大勢|名詞|大勢|タイセイ",
+        "親不知|名詞|親不知|オヤシラズ",
+        "額|名詞|額|ガク",
+        "一目|副詞|一目|ヒトメ",
+        "魔法使|名詞|魔法使|マホウツカイ",
+        "掛茶屋|名詞|掛茶屋|カケヂャヤ",
+        "お七|名詞|お七|オシチ"
     ],
     "force_katakana_ruby_starts_with": [
         "は",
@@ -519,6 +525,15 @@
                 "五|名詞|五|ゴ",
                 "六|名詞|六|ロク",
                 "本|名詞|本|ホン"
+            ]
+        },
+        {
+            "kanji": "五六歩",
+            "ruby": "ゴロッポ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "五六|名詞|五六|フノボリ",
+                "歩|名詞|歩|アユミ"
             ]
         },
         {
@@ -4854,6 +4869,235 @@
             "morphemes": [
                 "その|連体詞|その|ソノ",
                 "前|名詞|前|マエ"
+            ]
+        },
+        {
+            "kanji": "積重なっ",
+            "ruby": "積み重なっ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "積重なっ|動詞|積重なる|ツミカサナッ"
+            ]
+        },
+        {
+            "kanji": "顔中",
+            "ruby": "顔じゅう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "顔|名詞|顔|カオ",
+                "中|名詞|中|チュウ"
+            ]
+        },
+        {
+            "kanji": "表を向けて",
+            "ruby": "オモテを向けて",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "表|名詞|表|ヒョウ",
+                "を|助詞|を|ヲ",
+                "向け|動詞|向ける|ムケ",
+                "て|助詞|て|テ"
+            ]
+        },
+        {
+            "kanji": "主とした",
+            "ruby": "シュとした",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "主|名詞|主|オモ",
+                "と|助詞|と|ト",
+                "し|動詞|する|シ",
+                "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "何百本",
+            "ruby": "ナンビャッポン",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "何|名詞|何|ナン",
+                "百|名詞|百|ヒャク",
+                "本|名詞|本|ホン"
+            ]
+        },
+        {
+            "kanji": "する様に",
+            "ruby": "するように",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "する|動詞|する|スル",
+                "様|名詞|様|ヨウ",
+                "に|助詞|に|ニ"
+            ]
+        },
+        {
+            "kanji": "異国物",
+            "ruby": "イコクモノ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "異国|名詞|異国|イコク",
+                "物|名詞|物|ブツ"
+            ]
+        },
+        {
+            "kanji": "東京中",
+            "ruby": "東京じゅう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "東京|名詞|東京|トウキョウ",
+                "中|名詞|中|チュウ"
+            ]
+        },
+        {
+            "kanji": "兄め",
+            "ruby": "アニめ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "兄|名詞|兄|アニ",
+                "め|名詞|め|メ"
+            ]
+        },
+        {
+            "kanji": "一間にとじ籠って",
+            "ruby": "ヒトマに閉じこもって",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一間|名詞|一間|イッケン",
+                "に|助詞|に|ニ",
+                "とじ|動詞|とじる|トジ",
+                "籠っ|動詞|籠る|コモッ",
+                "て|助詞|て|テ"
+            ]
+        },
+        {
+            "kanji": "一月程",
+            "ruby": "ヒトツキホド",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一月|名詞|一月|イチガツ",
+                "程|助詞|程|ホド"
+            ]
+        },
+        {
+            "kanji": "出掛る",
+            "ruby": "出掛ける",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "出|動詞|出る|デ",
+                "掛る|動詞|掛る|カカル"
+            ]
+        },
+        {
+            "kanji": "おっかな相",
+            "ruby": "おっかなそう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "おっかな|形容詞|おっかない|オッカナ",
+                "相|名詞|相|ショウ"
+            ]
+        },
+        {
+            "kanji": "た相です",
+            "ruby": "たそうです",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "た|助動詞|た|タ",
+                "相|名詞|相|ソウ",
+                "です|助動詞|です|デス"
+            ]
+        },
+        {
+            "kanji": "だ相で",
+            "ruby": "だそうで",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "だ|助動詞|だ|ダ",
+                "相|名詞|相|ショウ",
+                "で|助動詞|だ|デ"
+            ]
+        },
+        {
+            "kanji": "一目",
+            "ruby": "ヒトメ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一目|名詞|一目|イチモク"
+            ]
+        },
+        {
+            "kanji": "お話した",
+            "ruby": "お話しした",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "お話|名詞|お話|オハナシ",
+                "し|動詞|する|シ",
+                "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "夫婦者",
+            "ruby": "フウフモノ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "夫婦|名詞|夫婦。|フウフ",
+                "者|名詞|者|シャ"
+            ]
+        },
+        {
+            "kanji": "しわがれ声",
+            "ruby": "シワガレゴエ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "しわがれ|動詞|しわがれる|シワガレ",
+                "声|名詞|声|ゴエ"
+            ]
+        },
+        {
+            "kanji": "洋服姿丈け",
+            "ruby": "洋服姿だけ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "洋服|名詞|洋服|ヨウフク",
+                "姿|名詞|姿|スガタ",
+                "丈|名詞|丈|タケ",
+                "けが|名詞|けが|ケガ"
+            ]
+        },
+        {
+            "kanji": "嬉し相",
+            "ruby": "嬉しそう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "嬉し|形容詞|嬉しい|ウレシ",
+                "相|名詞|相|ショウ"
+            ]
+        },
+        {
+            "kanji": "恥かし相",
+            "ruby": "恥かしそう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "恥|名詞|恥|ハジ",
+                "かし|名詞|かし|カシ",
+                "相|名詞|相|ショウ"
+            ]
+        },
+        {
+            "kanji": "度い",
+            "ruby": "たい",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "度|名詞|度|タビ",
+                "いと|副詞|いと|イト"
+            ]
+        },
+        {
+            "kanji": "苦し相",
+            "ruby": "苦しそう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "苦し|形容詞|苦しい|クルシ",
+                "相|名詞|相|ショウ"
             ]
         }
     ]
