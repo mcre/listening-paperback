@@ -12,10 +12,12 @@ if [ -e ./projects/${pj}/cache/page_images/${hash}.zip ]; then
 else
   echo '## processing...'
   mkdir -p ./work/page_images
-  docker run --rm -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r 200 /work/novel.pdf /work/page_images/novel" 2>&1 | tee -a ${log}
-  rm -rf ./projects/${pj}/cache/page_images/
-  mkdir ./projects/${pj}/cache/page_images/
-  zip -r -q "./projects/${pj}/cache/page_images/${hash}.zip" ./work/page_images
+  # timekeeperのためには画像数とファイル名だけあればいいので、時間短縮のため簡易処理にする。キャッシュにも残さない。
+  docker run --rm -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r 1 /work/novel.pdf /work/page_images/novel" 2>&1 | tee -a ${log}
+  # docker run --rm -v $PWD/work:/work gkmr/pdf-tools /bin/sh -c "pdftocairo -png -r 200 /work/novel.pdf /work/page_images/novel" 2>&1 | tee -a ${log}
+  # rm -rf ./projects/${pj}/cache/page_images/
+  # mkdir ./projects/${pj}/cache/page_images/
+  # zip -r -q "./projects/${pj}/cache/page_images/${hash}.zip" ./work/page_images
 fi
 if [[ "${PIPESTATUS[0]}" == 1 ]] || [[ "$pipestatus[1]" == 1 ]]; then exit 0; fi;
 echo '# build_timekeeper' 2>&1 | tee -a ${log}
