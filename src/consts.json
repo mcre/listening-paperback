@@ -95,7 +95,10 @@
         "掛茶屋|名詞|掛茶屋|カケヂャヤ",
         "お七|名詞|お七|オシチ",
         "廻り|動詞|廻る|マワリ",
-        "大飯|名詞|大飯|オオメシ"
+        "大飯|名詞|大飯|オオメシ",
+        "不器量|名詞|不器量|ブキリョウ",
+        "平生|名詞|平生|ヘイゼイ",
+        "好く|形容詞|好い|ヨク"
     ],
     "force_katakana_ruby_starts_with": [
         "は",
@@ -5129,6 +5132,64 @@
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 "大飯|名詞|大飯|オオイ"
+            ]
+        },
+        {
+            "kanji": "一幅",
+            "ruby": "イップク",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一|名詞|一|イチ",
+                "幅|名詞|幅|ハバ"
+            ]
+        },
+        {
+            "kanji": "催うして",
+            "ruby": "もよおして",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "催|名詞||",
+                "うし|形容詞|うい|ウシ",
+                "て|助詞|て|テ"
+            ]
+        },
+        {
+            "kanji": "御めえ",
+            "ruby": "オメー",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "め|名詞|め|メ",
+                "え|フィラー|え|エ"
+            ]
+        },
+        {
+            "kanji": "言葉付",
+            "ruby": "コトバツキ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "言葉|名詞|言葉|コトバ",
+                "付|名詞|付|ヅケ"
+            ]
+        },
+        {
+            "kanji": "一と月",
+            "ruby": "ヒトツキ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一|名詞|一|イチ",
+                "と|助詞|と|ト",
+                "月|名詞|月|ツキ"
+            ]
+        },
+        {
+            "kanji": "日の当る",
+            "ruby": "ヒノアタル",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "日|名詞|日|ヒ",
+                "の|助詞|の|ノ",
+                "当る|動詞|当る|アタル"
             ]
         }
     ]
