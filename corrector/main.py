@@ -39,6 +39,7 @@ class MainApp(kivy.app.App):
 
 class W(kivy.uix.widget.Widget):
     def __init__(self, **kwargs):
+        print(f'init {self.__class__.__name__} ...')
         super().__init__(**kwargs)
 
     def init(self):
@@ -50,6 +51,7 @@ class RootWidget(W):
     pages_widget = ObjectProperty(None)
     voice_widget = ObjectProperty(None)
     controller_widget = ObjectProperty(None)
+    ime_widget = ObjectProperty(None)
     texts_widget = ObjectProperty(None)
     ruby_widget = ObjectProperty(None)
     sentences_widget = ObjectProperty(None)
@@ -70,6 +72,7 @@ class RootWidget(W):
         self.pages_widget.init()
         self.voice_widget.init()
         self.controller_widget.init()
+        self.ime_widget.init()
         self.texts_widget.init()
         self.ruby_widget.init()
         self.sentences_widget.init()
@@ -188,7 +191,8 @@ class PagesWidget(ImagesViewerWidget):
 
 
 class SWTreeViewLabel(kivy.uix.treeview.TreeViewLabel):
-    pass
+    def on_label_touch_down(self, text):
+        root().sentences_widget.on_select(text)
 
 
 class SentencesWidget(W):
@@ -260,6 +264,7 @@ class SentencesWidget(W):
 class TextsWidget(W):
     plain_text_box = ObjectProperty(None)
     ssml_box = ObjectProperty(None)
+    tab = ObjectProperty(None)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -279,17 +284,43 @@ class TextsWidget(W):
         self.times_by_cursor = texts['times_by_cursor']
         self.plain_text_box.text = texts['plain']
         self.plain_text_box.cursor = (0, 0)
+        self.plain_text_box.cancel_selection()
         self.morphemes = texts['morphemes']
         self.ssml_box.text = texts['ssml']
         self.ssml_box.cursor = (0, 0)
+        self.ssml_box.cancel_selection()
+
+    def find(self, prev=False):
+        box = self.tab.current_tab.content
+        f = box.selection_from or -1
+        q = root().ime_widget.text
+        if q == '':
+            return
+        if prev:
+            index = box.text.rfind(q, 0, f)
+        else:
+            index = box.text.find(q, f + 1)
+        if index == -1:
+            box.cancel_selection()
+            self.on_touch_up_box(0, 0, '', force=True)
+        else:
+            f, t = index, index + len(q)
+            box.select_text(f, t)
+            self.on_touch_up_box(f, t, q, force=True)
+
+    def on_find_prev_button(self):
+        self.find(prev=True)
+
+    def on_find_next_button(self):
+        self.find()
 
     def on_touch_down(self, touch):
         super().on_touch_down(touch)
         if self.collide_point(*touch.pos):
             self.touch_text_box = True
 
-    def on_touch_up_box(self, selection_from, selection_to, text):
-        if self.touch_text_box and selection_from is not None and selection_to is not None:
+    def on_touch_up_box(self, selection_from, selection_to, text, force=False):
+        if force or (self.touch_text_box and selection_from is not None and selection_to is not None):
             f, t = min(selection_from, selection_to), max(selection_from, selection_to)
             if self.times_by_cursor:
                 vw = root().voice_widget
@@ -346,7 +377,9 @@ class VoiceWidget(W):
     def set_voice(self, file_path):
         if self.voice:
             self.voice.stop()
+        print(f'load start: {file_path}')
         self.voice = kivy.core.audio.SoundLoader.load(file_path)
+        print(f'load end: {file_path}')
         self.slider_max = self.voice.length
         self.voice.on_play = self.__on_play
         self.voice.on_stop = self.__on_stop
@@ -393,6 +426,7 @@ class VoiceWidget(W):
     def on_play_button(self):
         if self.voice:
             if self.voice.state == 'stop':
+                print('voice play')
                 self.voice.play()
             else:
                 self.voice.stop()
@@ -437,7 +471,6 @@ class RWPopup(kivy.uix.popup.Popup):
 
 class RubyWidget(W):
     ruby_text_box = ObjectProperty(None)
-    tv = ObjectProperty(None)
     disable_buttons = BooleanProperty(True)
     disable_mekabu_yomi_button = BooleanProperty(True)
 
@@ -454,6 +487,7 @@ class RubyWidget(W):
         self.update_ruby()
 
     def update_ruby(self):
+        self.ruby = root().ime_widget.text if root() else ''
         if self.ruby_text_box is None:
             return
 
@@ -474,19 +508,6 @@ class RubyWidget(W):
             self.ruby_text_box.text = ''
         self.disable_buttons = dis
         self.disable_mekabu_yomi_button = dis_m
-
-    def on_enter(self, romaji):
-        if len(romaji) > 0:
-            ls = u.kkc(romaji.strip(), 20)
-            for node in self.tv.children:
-                self.tv.remove_node(node)
-            for s in ls:
-                self.tv.add_node(RWTreeViewLabel(text=s))
-            self.tv.deselect_node()
-
-    def on_select(self, text):
-        self.ruby = text
-        self.update_ruby()
 
     def on_append_ruby_button(self, file_type, ruby_type, message_text):
         if file_type == 'consts':
@@ -533,6 +554,7 @@ class CWPopup(kivy.uix.popup.Popup):
             self.sound = kivy.core.audio.SoundLoader.load('./corrector/done.mp3')
             self.batch = u.Batch(f'./batch_first_timekeeper.sh {root().project_name}')
             for line in self.batch.start():
+                print(line)
                 self.log += line
             self.sound.play()
             self.executing = False
@@ -558,6 +580,43 @@ class ControllerWidget(W):
 
     def on_refresh_button(self):
         root().reload()
+
+
+class IWPopup(kivy.uix.popup.Popup):
+    pop = ObjectProperty(None)
+    tv = ObjectProperty(None)
+
+    def on_enter(self, romaji):
+        if len(romaji) > 0:
+            ls = u.kkc(romaji.strip(), 20)
+            for node in self.tv.children:
+                self.tv.remove_node(node)
+            for s in ls:
+                self.tv.add_node(kivy.uix.treeview.TreeViewLabel(text=s))
+            self.tv.deselect_node()
+
+    def on_button(self):
+        if self.tv.selected_node:
+            text = self.tv.selected_node.text
+        else:
+            text = ''
+        root().ime_widget.text = text
+        root().ruby_widget.update_ruby()
+        self.pop.dismiss()
+
+
+class ImeWidget(W):
+    text = StringProperty()
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.init()
+
+    def init(self):
+        self.text = ''
+
+    def on_button(self):
+        IWPopup().open()
 
 
 if __name__ == '__main__':

@@ -1,0 +1,42 @@
+#:kivy 2.0.0
+
+<IWTextInput@TextInput>:
+
+<IWButton@Button>:
+
+<IWPopup@Popup>:
+    id: pop
+    pop: pop
+    tv: tv
+    size_hint: (None, None)
+    size: (1200, 800)
+    auto_dismiss: False
+    title: 'IME'
+    BoxLayout:
+        orientation: 'vertical'
+        IWTextInput:
+            size_hint_y: None
+            multiline: False
+            height: self.font_size + 25
+            on_text_validate:
+                root.on_enter(self.text)
+                self.text = ''
+        ScrollView:
+            scroll_type: ['bars', 'content']
+            TreeView:
+                id: tv
+                size_hint: (1, None)
+                height: self.minimum_height
+                hide_root: True
+        IWButton:
+            size_hint_y: 0.1
+            text: 'OK'
+            on_release: root.on_button()
+
+<ImeWidget>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        IWButton:
+            text: root.text if root.text != '' else '漢字入力'
+            on_release: root.on_button()

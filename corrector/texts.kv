@@ -1,21 +1,38 @@
 #:kivy 2.0.0
 
+<TWButton@Button>:
+
 <TWTextInput@TextInput>:
     readonly: True
+    unfocus_on_touch: False
 
 <TextsWidget>:
     plain_text_box: plain_text_box
     ssml_box: ssml_box
-    TabbedPanel:
+    tab: tab
+    BoxLayout:
         size: root.size
         pos: root.pos
-        do_default_tab: False
-        TabbedPanelItem:
-            text: 'Plain'
-            TWTextInput:
-                id: plain_text_box
-                on_touch_up: root.on_touch_up_box(self.selection_from, self.selection_to, self.selection_text)
-        TabbedPanelItem:
-            text: 'SSML'
-            TWTextInput:
-                id: ssml_box
+        orientation: 'vertical'
+        TabbedPanel:
+            id: tab
+            do_default_tab: False
+            TabbedPanelItem:
+                text: 'Plain'
+                TWTextInput:
+                    id: plain_text_box
+                    on_touch_up: root.on_touch_up_box(self.selection_from, self.selection_to, self.selection_text)
+            TabbedPanelItem:
+                text: 'SSML'
+                TWTextInput:
+                    id: ssml_box
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: 0.1
+            TWButton:
+                text: '〈 前検索'
+                on_release: root.on_find_prev_button()
+            TWButton:
+                text: '次検索 〉'
+                on_release: root.on_find_next_button()
+

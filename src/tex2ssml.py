@@ -24,6 +24,7 @@ PATTERNS = {
     'break_marks': re.compile(r'[『』（）]'),  # subを回避したthinkが詰まるのを回避する
     'double_odoriji': re.compile(r'([\p{Han}]{2})々々(?!</sub>)'),  # ルビ付きは一旦除外
     'time_break': re.compile(r'([―…])'),
+    'tag': re.compile(r'''<("[^"]*"|'[^']*'|[^'">])*>'''),
 }
 gomi_list = ['{', '}']
 ignore_list = [
@@ -247,7 +248,7 @@ def main():
         json.dump([{
             'id': line['id'],
             'filename': line['ssml_filename'],
-            'plain': line['plain_text'],
+            'plain': PATTERNS['tag'].sub('', line['plain_text']),
             'ssml': line['ssml_ruby_text'],
             'morphemes': [{'start': m['start'], 'end': m['end'], 'el': '|'.join(m['el'])} for m in line['morphemes']],
         } for line in lines], f, ensure_ascii=False, indent=2)

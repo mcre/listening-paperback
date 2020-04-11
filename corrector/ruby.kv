@@ -26,7 +26,6 @@
             on_release: pop.dismiss()
 
 <RubyWidget>:
-    tv: tv
     ruby_text_box: ruby_text_box
     BoxLayout:
         size: root.size
@@ -41,19 +40,6 @@
                 size: self.size
         RWLabel:
             text: 'Ruby'
-        RWTextInput:
-            size_hint_y: None
-            multiline: False
-            height: self.font_size + 25
-            on_text_validate:
-                root.on_enter(self.text)
-                self.text = ''
-        ScrollView:
-            TreeView:
-                id: tv
-                size_hint: (1, None)
-                height: self.minimum_height
-                hide_root: True
         RWTextInput:
             id: ruby_text_box
             readonly: True

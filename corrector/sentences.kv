@@ -1,7 +1,7 @@
 #:kivy 2.0.0
 
 <SWTreeViewLabel@TreeViewLabel>:
-    on_touch_down: root.parent.parent.parent.parent.parent.on_select(self.text)
+    on_touch_down: root.on_label_touch_down(self.text)
 
 <SWTreeView@TreeView>:
     size_hint: (1, None)
@@ -20,6 +20,7 @@
             ScrollView:
                 size: root.size
                 pos: root.pos
+                scroll_type: ['bars', 'content']
                 SWTreeView:
                     id: tv_all
         TabbedPanelItem:
@@ -27,5 +28,6 @@
             ScrollView:
                 size: root.size
                 pos: root.pos
+                scroll_type: ['bars', 'content']
                 SWTreeView:
                     id: tv_new
