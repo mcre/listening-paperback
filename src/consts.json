@@ -98,7 +98,9 @@
         "大飯|名詞|大飯|オオメシ",
         "不器量|名詞|不器量|ブキリョウ",
         "平生|名詞|平生|ヘイゼイ",
-        "好く|形容詞|好い|ヨク"
+        "好く|形容詞|好い|ヨク",
+        "近付|名詞|近付き|チカヅキ",
+        "得意気|名詞|得意気|トクイゲ"
     ],
     "force_katakana_ruby_starts_with": [
         "は",
@@ -5190,6 +5192,71 @@
                 "日|名詞|日|ヒ",
                 "の|助詞|の|ノ",
                 "当る|動詞|当る|アタル"
+            ]
+        },
+        {
+            "kanji": "御茶",
+            "ruby": "お茶",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "茶|名詞|茶|チャ"
+            ]
+        },
+        {
+            "kanji": "年が年",
+            "ruby": "トシガトシ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "年|名詞|年|トシ",
+                "が|助詞|が|ガ",
+                "年|名詞|年|トシ"
+            ]
+        },
+        {
+            "kanji": "一てえ",
+            "ruby": "イッテエ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一|名詞|一|イチ",
+                "てえ|助動詞|たい|テエ"
+            ]
+        },
+        {
+            "kanji": "○○",
+            "ruby": "マルマル",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "○|記号|○|○",
+                "○|記号|○|○"
+            ]
+        },
+        {
+            "kanji": "君注意",
+            "ruby": "君、注意",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "君|名詞|君|キミ",
+                "注意|名詞|注意|チュウイ"
+            ]
+        },
+        {
+            "kanji": "著るしく",
+            "ruby": "著しく",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "著|形容詞|著い|シル",
+                "るし|名詞|僂指|ルシ",
+                "く|動詞|く|ク"
+            ]
+        },
+        {
+            "kanji": "三間半",
+            "ruby": "サンゲンハン",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "三間|名詞|三間|サンゲン",
+                "半|名詞|半|ハン"
             ]
         }
     ]
