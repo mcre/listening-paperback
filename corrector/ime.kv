@@ -18,6 +18,7 @@
             size_hint_y: None
             multiline: False
             height: self.font_size + 25
+            focus: True
             on_text_validate:
                 root.on_enter(self.text)
                 self.text = ''
@@ -28,10 +29,16 @@
                 size_hint: (1, None)
                 height: self.minimum_height
                 hide_root: True
-        IWButton:
+        BoxLayout:
             size_hint_y: 0.1
-            text: 'OK'
-            on_release: root.on_button()
+            orientation: 'horizontal'
+            IWButton:
+                text: 'OK'
+                on_release: root.on_button()
+            IWButton:
+                text: 'Cancel'
+                on_release: pop.dismiss()
+
 
 <ImeWidget>:
     BoxLayout:

@@ -18,6 +18,12 @@ from kivy.properties import ObjectProperty, StringProperty, BooleanProperty, Num
 
 import util as u
 
+try:
+    with open('corrector/config/config.json', 'r') as f:
+        config = json.load(f)
+except Exception:
+    config = {}
+
 kivy.lang.Builder.load_file('root.kv')
 kivy.config.Config.set('graphics', 'width', '1440')
 kivy.config.Config.set('graphics', 'height', '900')
@@ -234,12 +240,15 @@ class SentencesWidget(W):
             sentence['morphemes'] = [{'range': range(m['start'], m['end']), 'el': m['el']} for m in sentence['morphemes']]
 
         def init_worker():
+            rng = range(len(self.sentences))[config.get('st_sentence'):config.get('en_sentence')]
+
             while True:
                 if self.tv_all is not None:
                     for node in self.tv_all.children:
                         self.tv_all.remove_node(node)
                     for s in self.sentences:
-                        self.tv_all.add_node(SWTreeViewLabel(text=f"{s['id']}:{s['plain'][:10]}"))
+                        if s['id'] in rng:
+                            self.tv_all.add_node(SWTreeViewLabel(text=f"{s['id']}:{s['plain'][:10]}"))
                     break
                 time.sleep(0.1)
             while True:
@@ -554,7 +563,6 @@ class CWPopup(kivy.uix.popup.Popup):
             self.sound = kivy.core.audio.SoundLoader.load('./corrector/done.mp3')
             self.batch = u.Batch(f'./batch_first_timekeeper.sh {root().project_name}')
             for line in self.batch.start():
-                print(line)
                 self.log += line
             self.sound.play()
             self.executing = False

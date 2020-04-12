@@ -6,12 +6,10 @@ __pycache__/
 .vscode/
 tmp.md
 test.py
-tmp.zip
-tmp.tar
-tmp.tar.xz
 batch_tmp_*.sh
 
 /corrector/markers/*
+/corrector/config/*
 
 /cache/
 /projects/
