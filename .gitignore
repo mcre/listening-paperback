@@ -6,6 +6,7 @@ __pycache__/
 .vscode/
 tmp.md
 test.py
+tmp.zip
 batch_tmp_*.sh
 
 /corrector/markers/*
