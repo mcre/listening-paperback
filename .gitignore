@@ -7,7 +7,7 @@ __pycache__/
 tmp.md
 test.py
 tmp.zip
-tmp.xz
+tmp.tar.xz
 batch_tmp_*.sh
 
 /corrector/markers/*
