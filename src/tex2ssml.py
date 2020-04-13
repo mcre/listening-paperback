@@ -255,7 +255,7 @@ def main():
         b = line['ssml_ruby_text']
         for op in difflib.SequenceMatcher(None, a, b).get_opcodes():
             o = op[0]
-            p = op[3]
+            p = f'{op[3] / len(b) * 100}%:.0f'
             x = a[op[1]:op[2]].replace('</sub>', '').replace('<sub alias="', '').replace('">', '')
             y = b[op[3]:op[4]].replace('</sub>', '').replace('<sub alias="', '').replace('">', '')
             if o == 'replace':

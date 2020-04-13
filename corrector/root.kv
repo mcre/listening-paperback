@@ -2,8 +2,8 @@
 #:include images_viewer.kv
 #:include voice.kv
 #:include controller.kv
-#:include ime.kv
 #:include texts.kv
+#:include ime.kv
 #:include ruby.kv
 #:include sentences.kv
 
@@ -12,8 +12,8 @@
     pages_widget: pages_widget
     voice_widget: voice_widget
     controller_widget: controller_widget
-    ime_widget: ime_widget
     texts_widget: texts_widget
+    ime_widget: ime_widget
     ruby_widget: ruby_widget
     sentences_widget: sentences_widget
     BoxLayout:
@@ -30,11 +30,11 @@
             VoiceWidget:
                 id: voice_widget
                 size_hint_y: 0.15
+            TextsWidget:
+                id: texts_widget
             ImeWidget:
                 id: ime_widget
                 size_hint_y: 0.08
-            TextsWidget:
-                id: texts_widget
             RubyWidget:
                 id: ruby_widget
                 size_hint_y: 0.5
