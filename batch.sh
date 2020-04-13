@@ -54,11 +54,12 @@ echo '# preprocessing'
 rm -rf ./work || exit 1
 mkdir ./work || exit 1
 mkdir -p ./work/cache || exit 1
-mkdir -p ./work/ || exit 1
+mkdir -p ./work/ssml_before || exit 1
 cp ./src/* ./work/ || exit 1
 cp ./projects/${pj}/novel.txt ./work/ || exit 1
 cp ./projects/${pj}/config.json ./work/ || exit 1
 cp ./projects/${pj}/images/* ./work/
+cp ./projects/${pj}/cache/ssml/* ./work/ssml_before
 
 cp -p ./materials/fonts/`cat ./projects/${pj}/config.json | jq -r .font` ./work/font.ttf || exit 1
 cp -p ./materials/fonts/ipaexg.ttf ./work/font_gothic.ttf || exit 1
@@ -89,6 +90,9 @@ else
   docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "python -u ssml2voice.py ${pj} ${aws_access_key_id} ${aws_secret_access_key}" || exit 1
 fi
 cp -rp ./work/cache/* ./projects/${pj}/cache || exit 1
+rm -rf ./projects/${pj}/cache/ssml/ || exit 1
+mkdir ./projects/${pj}/cache/ssml/ || exit 1
+cp -r ./work/ssml/* ./projects/${pj}/cache/ssml/ || exit 1
 if [ $stop = 'voice' ]; then exit 0; fi
 echo '# pdf2png'
 hash=`docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "tail -n +2 /work/novel.log | md5sum | cut -d ' ' -f 1"` || exit 1

@@ -273,6 +273,7 @@ class SentencesWidget(W):
 class TextsWidget(W):
     plain_text_box = ObjectProperty(None)
     ssml_box = ObjectProperty(None)
+    diff_box = ObjectProperty(None)
     tab = ObjectProperty(None)
 
     def __init__(self, **kwargs):
@@ -285,6 +286,8 @@ class TextsWidget(W):
             self.plain_text_box.text = ''
         if self.ssml_box:
             self.ssml_box.text = ''
+        if self.diff_box:
+            self.diff_box.text = ''
         self.touch_text_box = False
         self.times_by_cursor = None
         self.morphemes = None
@@ -298,6 +301,9 @@ class TextsWidget(W):
         self.ssml_box.text = texts['ssml']
         self.ssml_box.cursor = (0, 0)
         self.ssml_box.cancel_selection()
+        self.diff_box.text = texts['ssml_diff']
+        self.diff_box.cursor = (0, 0)
+        self.diff_box.cancel_selection()
 
     def find(self, prev=False):
         box = self.tab.current_tab.content
@@ -628,4 +634,7 @@ class ImeWidget(W):
 
 
 if __name__ == '__main__':
-    MainApp().run()
+    try:
+        MainApp().run()
+    except AssertionError:
+        print('起動に失敗しました。もう一度起動してください。')

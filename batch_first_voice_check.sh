@@ -6,3 +6,4 @@ log="./projects/${pj}/tmp/batch_first_voice_check.log"
 cp ./work/novel.pdf ./projects/${pj}/tmp/novel.pdf
 cp ./work/novel.tex ./projects/${pj}/tmp/novel.tex
 cp ./work/fast_check_movie.mp4 ./projects/${pj}/tmp/fast_check_movie.mp4
+echo '# done !!!'

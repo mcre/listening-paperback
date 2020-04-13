@@ -9,6 +9,7 @@
 <TextsWidget>:
     plain_text_box: plain_text_box
     ssml_box: ssml_box
+    diff_box: diff_box
     tab: tab
     BoxLayout:
         size: root.size
@@ -26,6 +27,10 @@
                 text: 'SSML'
                 TWTextInput:
                     id: ssml_box
+            TabbedPanelItem:
+                text: 'DIFF'
+                TWTextInput:
+                    id: diff_box
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: 0.1
