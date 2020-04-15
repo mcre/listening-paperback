@@ -322,6 +322,7 @@ class TextsWidget(W):
         else:
             f, t = index, index + len(q)
             box.select_text(f, t)
+            box.cursor = box.get_cursor_from_index(f)
             self.on_touch_up_box(f, t, q, force=True)
 
     def on_find_prev_button(self):
