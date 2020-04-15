@@ -222,7 +222,8 @@ class SentencesWidget(W):
         for sentence in self.sentences:
             with open(f'work/marks/{sentence["filename"]}.json') as f:
                 marks = json.load(f)
-            marks = [{'text': u.remove_tag(mark['value']), 'time': mark['time'] / 1000} for mark in marks if mark['type'] == 'word']
+            # marks = [{'text': u.remove_tag(mark['value']), 'time': mark['time'] / 1000} for mark in marks if mark['type'] == 'word']
+            marks = [{'text': mark['value'], 'time': mark['time'] / 1000} for mark in marks if mark['type'] == 'word']
 
             st_hist = []
             cursor = 0

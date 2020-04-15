@@ -255,7 +255,7 @@ def main():
         b = line['ssml_ruby_text']
         for op in difflib.SequenceMatcher(None, a, b).get_opcodes():
             o = op[0]
-            p = f'{op[3] / len(b) * 100}%:.0f'
+            p = f'{op[3] / len(b) * 100:.0f}%'
             x = a[op[1]:op[2]].replace('</sub>', '').replace('<sub alias="', '').replace('">', '')
             y = b[op[3]:op[4]].replace('</sub>', '').replace('<sub alias="', '').replace('">', '')
             if o == 'replace':
@@ -272,7 +272,7 @@ def main():
         json.dump([{
             'id': line['id'],
             'filename': line['ssml_filename'],
-            'plain': PATTERNS['tag'].sub('', line['plain_text']),
+            'plain': line['plain_text'],
             'ssml': line['ssml_ruby_text'],
             'ssml_diff': get_diff(line),
             'morphemes': [{'start': m['start'], 'end': m['end'], 'el': '|'.join(m['el'])} for m in line['morphemes']],
