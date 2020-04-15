@@ -448,6 +448,14 @@
                 "た|助動詞|た|タ",
                 "金|名詞|金|キム"
             ]
+        },
+        {
+            "kanji": "一辺",
+            "ruby": "イッペン",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一辺|名詞|一辺|イッペン"
+            ]
         }
     ],
     "special_rubies": [
@@ -5358,6 +5366,43 @@
                 "り|助動詞|り|リ",
                 "ど|助詞|ど|ド",
                 "ぼり|動詞|ぼる|ボリ"
+            ]
+        },
+        {
+            "kanji": "実を云うと",
+            "ruby": "ジツを言うと",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "実|名詞|実|ミ",
+                "を|助詞|を|ヲ",
+                "云う|動詞|云う|イウ",
+                "と|助詞|と|ト"
+            ]
+        },
+        {
+            "kanji": "歯答え",
+            "ruby": "ハゴタエ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "歯|名詞|歯|ハ",
+                "答え|名詞|答え|コタエ"
+            ]
+        },
+        {
+            "kanji": "危き",
+            "ruby": "危うき",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "危き|名詞|危き|キキ"
+            ]
+        },
+        {
+            "kanji": "御雑煮",
+            "ruby": "お雑煮",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "雑煮|名詞|雑煮|ゾウニ"
             ]
         }
     ]
