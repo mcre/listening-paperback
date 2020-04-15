@@ -11,6 +11,7 @@ import kivy.lang
 import kivy.properties
 import kivy.uix.button
 import kivy.uix.popup
+import kivy.uix.textinput
 import kivy.uix.treeview
 import kivy.uix.widget
 
@@ -605,6 +606,14 @@ class ControllerWidget(W):
         root().reload()
 
 
+class IWTreeViewLabel(kivy.uix.treeview.TreeViewLabel):
+    def on_touch_down(self, touch):
+        super().on_touch_down(touch)
+        if self.collide_point(*touch.pos):
+            if touch.is_double_tap:
+                root().ime_widget.pop.on_button()
+
+
 class IWPopup(kivy.uix.popup.Popup):
     pop = ObjectProperty(None)
     tv = ObjectProperty(None)
@@ -615,7 +624,7 @@ class IWPopup(kivy.uix.popup.Popup):
             for node in self.tv.children:
                 self.tv.remove_node(node)
             for s in ls:
-                self.tv.add_node(kivy.uix.treeview.TreeViewLabel(text=s))
+                self.tv.add_node(IWTreeViewLabel(text=s))
             self.tv.deselect_node()
 
     def on_button(self):
@@ -630,6 +639,7 @@ class IWPopup(kivy.uix.popup.Popup):
 
 class ImeWidget(W):
     text = StringProperty()
+    pop = ObjectProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -639,7 +649,8 @@ class ImeWidget(W):
         self.text = ''
 
     def on_button(self):
-        IWPopup().open()
+        self.pop = IWPopup()
+        self.pop.open()
 
 
 if __name__ == '__main__':
