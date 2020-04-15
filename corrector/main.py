@@ -308,15 +308,22 @@ class TextsWidget(W):
 
     def find(self, prev=False):
         box = self.tab.current_tab.content
-        f = box.selection_from or -1
+        if box.selection_from == 0 and box.selection_to == 0:  # 何も選択されていない、カーソルが最初にある状態
+            f = -1
+        else:
+            f = box.selection_from
         q = root().ime_widget.text
         if q == '':
             return
         if prev:
             index = box.text.rfind(q, 0, f)
         else:
-            index = box.text.find(q, f + 1)
+            if f is None:
+                index = box.text.find(q)
+            else:
+                index = box.text.find(q, f + 1)
         if index == -1:
+            box.cursor = (0, 0)
             box.cancel_selection()
             self.on_touch_up_box(0, 0, '', force=True)
         else:
