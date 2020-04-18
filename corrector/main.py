@@ -229,9 +229,13 @@ class SentencesWidget(W):
             st_hist = []
             cursor = 0
             for mark in marks:
-                st = {'cursor': sentence['plain'].find(mark['text'], cursor), 'time': mark['time']}
-                st_hist.append(st)
-                cursor = st['cursor'] + len(mark['text'])
+                loc = sentence['plain'].find(mark['text'], cursor)
+                if loc > 0:
+                    st = {'cursor': loc, 'time': mark['time']}
+                    st_hist.append(st)
+                    cursor = st['cursor'] + len(mark['text'])
+                else:
+                    cursor += 1
 
             times_by_cursor = {}
             for vid, st in enumerate(st_hist):
