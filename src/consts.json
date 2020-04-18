@@ -112,7 +112,14 @@
         "姫小松|名詞|姫小松|ヒメコマツ",
         "名なし|名詞|名無し|ナナシ",
         "年が年中|副詞|年が年中|ネンガネンジュウ",
-        "小突き|動詞|小突く|コヅキ"
+        "小突き|動詞|小突く|コヅキ",
+        "御客|名詞|客|オキャク",
+        "大兄|名詞|大兄|タイケイ",
+        "ひま人|名詞|暇人|ヒマジン",
+        "意気込|名詞|意気込み|イキゴミ",
+        "知らぬが仏|名詞|知らぬが仏|シラヌガホトケ",
+        "世話物|名詞|世話物|セワモノ",
+        "土手下|名詞|土手下|ドテシタ"
     ],
     "force_katakana_ruby_starts_with": [
         "は",
@@ -5517,6 +5524,167 @@
             "morphemes": [
                 "二|名詞|二|ニ",
                 "切|名詞|切|セツ"
+            ]
+        },
+        {
+            "kanji": "御話し",
+            "ruby": "オハナシ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "話し|動詞|話す|ハナシ"
+            ]
+        },
+        {
+            "kanji": "御向き",
+            "ruby": "お向き",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "向き|名詞|向き|ムキ"
+            ]
+        },
+        {
+            "kanji": "版で圧した",
+            "ruby": "ハンで押した",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "版|名詞|版|バン",
+                "で|助詞|で|デ",
+                "圧し|動詞|圧す|オシ",
+                "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "冷めたく",
+            "ruby": "冷たく",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "冷め|動詞|冷める|サメ",
+                "たく|助動詞|たい|タク"
+            ]
+        },
+        {
+            "kanji": "のが主で",
+            "ruby": "のがシュで",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "の|名詞|の|ノ",
+                "が|助詞|が|ガ",
+                "主|名詞|主|オモ",
+                "で|助動詞|だ|デ"
+            ]
+        },
+        {
+            "kanji": "御世辞",
+            "ruby": "お世辞",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "世辞|名詞|世辞|セジ"
+            ]
+        },
+        {
+            "kanji": "柔か",
+            "ruby": "柔らか",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "柔|名詞|柔|ヤワラ",
+                "か|助詞|か|カ"
+            ]
+        },
+        {
+            "kanji": "致さん",
+            "ruby": "いたさん",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "致さ|動詞|致す|イタサ",
+                "ん|助動詞|ん|ン"
+            ]
+        },
+        {
+            "kanji": "舌肉",
+            "ruby": "シタニク",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "舌|名詞|舌|シタ",
+                "肉|名詞|肉|ニク"
+            ]
+        },
+        {
+            "kanji": "御気の毒様",
+            "ruby": "オキノドクサマ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "気の毒|名詞|気の毒|キノドク",
+                "様|名詞|様|サマ"
+            ]
+        },
+        {
+            "kanji": "表へ出る",
+            "ruby": "オモテへ出る",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "表|名詞|表|ヒョウ",
+                "へ|助詞|へ|ヘ",
+                "出る|動詞|出る|デル"
+            ]
+        },
+        {
+            "kanji": "御客",
+            "ruby": "お客",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "客|名詞|客|キャク"
+            ]
+        },
+        {
+            "kanji": "御医者様",
+            "ruby": "お医者様",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "医者|名詞|医者|イシャ",
+                "様|名詞|様|サマ"
+            ]
+        },
+        {
+            "kanji": "御医者",
+            "ruby": "お医者",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "医者|名詞|医者|イシャ"
+            ]
+        },
+        {
+            "kanji": "仕合せ者",
+            "ruby": "シアワセモノ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "仕合せ|名詞|仕合せ|シアワセ",
+                "者|名詞|者|シャ"
+            ]
+        },
+        {
+            "kanji": "から風",
+            "ruby": "カラッカゼ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "から|助詞|から|カラ",
+                "風|名詞|風|カゼ"
+            ]
+        },
+        {
+            "kanji": "は到底吾輩",
+            "ruby": "わ、到底ワガハイ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "は|助詞|は|ハ",
+                "到底|副詞|到底|トウテイ",
+                "吾輩|名詞|吾輩|ワガハイ"
             ]
         }
     ]
