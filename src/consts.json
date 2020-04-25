@@ -129,7 +129,10 @@
         "貧乏性|名詞|貧乏性|ビンボウショウ",
         "真一文字|名詞|真一文字|マイチモンジ",
         "不平|名詞|不平|フヘイ",
-        "十文字|名詞|十文字|ジュウモンジ"
+        "十文字|名詞|十文字|ジュウモンジ",
+        "時に|副詞|時に|トキニ",
+        "前置|名詞|前置き|マエオキ",
+        "申し込|名詞|申し込み|モウシコミ"
     ],
     "force_katakana_ruby_starts_with": [
         "は",
@@ -6020,6 +6023,174 @@
             "morphemes": [
                 "云|名詞|云|ウン",
                 "や|助詞|や|ヤ"
+            ]
+        },
+        {
+            "kanji": "一文も引かない",
+            "ruby": "一問も引かない",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一文|名詞|一文|イチブン",
+                "も|助詞|も|モ",
+                "引か|動詞|引く|ヒカ",
+                "ない|助動詞|ない|ナイ"
+            ]
+        },
+        {
+            "kanji": "御金",
+            "ruby": "お金",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "金|名詞|金|キン"
+            ]
+        },
+        {
+            "kanji": "二で割ると",
+            "ruby": "二でわると",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "二|名詞|二|ニ",
+                "で|助詞|で|デ",
+                "割る|動詞|割る|ワル",
+                "と|助詞|と|ト"
+            ]
+        },
+        {
+            "kanji": "今君の",
+            "ruby": "今、君の",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "今|名詞|今|イマ",
+                "君|名詞|君|クン",
+                "の|助詞|の|ノ"
+            ]
+        },
+        {
+            "kanji": "なあ君",
+            "ruby": "なあキミ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "なあ|助詞|なあ|ナア",
+                "君|名詞|君|キミ"
+            ]
+        },
+        {
+            "kanji": "釣し上げた",
+            "ruby": "吊るし上げた",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "釣|名詞|釣|ツリ",
+                "し|動詞|する|シ",
+                "上げ|動詞|上げる|アゲ",
+                "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "釣したような",
+            "ruby": "吊るしたような",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "釣|名詞|釣|ツリ",
+                "し|動詞|する|シ",
+                "た|助動詞|た|タ",
+                "よう|名詞|よう|ヨウ",
+                "な|助動詞|だ|ナ"
+            ]
+        },
+        {
+            "kanji": "違ない",
+            "ruby": "違いない",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "違|名詞|違|チガイ",
+                "ないと|名詞|ナイト|ナイト"
+            ]
+        },
+        {
+            "kanji": "年は四十",
+            "ruby": "トシは四十",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "年|名詞|年|トシ",
+                "は|助詞|は|ハ",
+                "四十|名詞|四十|ヨト"
+            ]
+        },
+        {
+            "kanji": "抜け上った",
+            "ruby": "抜け上がった",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "抜け|動詞|抜ける|ヌケ",
+                "上っ|動詞|上る|ノボッ",
+                "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "二分の一",
+            "ruby": "ニブンノイチ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "二|名詞|二|ニ",
+                "分の|名詞|分の|ブンノ",
+                "一|名詞|一|イチ"
+            ]
+        },
+        {
+            "kanji": "尊敬の度",
+            "ruby": "ソンケイノド",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "尊敬|名詞|尊敬|ソンケイ",
+                "の|助詞|の|ノ",
+                "度|名詞|度|タビ"
+            ]
+        },
+        {
+            "kanji": "御世話",
+            "ruby": "お世話",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "世話|名詞|世話|セワ"
+            ]
+        },
+        {
+            "kanji": "言葉使",
+            "ruby": "言葉遣い",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "言葉|名詞|言葉|コトバ",
+                "使|名詞|使|シ"
+            ]
+        },
+        {
+            "kanji": "御嬢さん",
+            "ruby": "お嬢さん",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "嬢|名詞|嬢|ジョウ",
+                "さん|名詞|さん|サン"
+            ]
+        },
+        {
+            "kanji": "御二人",
+            "ruby": "お二人",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "二人|名詞|二人|フタリ"
+            ]
+        },
+        {
+            "kanji": "御辞儀",
+            "ruby": "お辞儀",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "辞儀|名詞|辞儀|ジギ"
             ]
         }
     ]
