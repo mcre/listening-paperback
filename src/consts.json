@@ -132,7 +132,13 @@
         "十文字|名詞|十文字|ジュウモンジ",
         "時に|副詞|時に|トキニ",
         "前置|名詞|前置き|マエオキ",
-        "申し込|名詞|申し込み|モウシコミ"
+        "申し込|名詞|申し込み|モウシコミ",
+        "御礼|名詞|御礼|オレイ",
+        "不器用|名詞|不器用|ブキヨウ",
+        "小間使|名詞|小間使|コマヅカイ",
+        "十二分|名詞|十二分|ジュウニブン",
+        "他言|名詞|他言|タゴン",
+        "一足飛|名詞|一足飛び|イッソクトビ"
     ],
     "force_katakana_ruby_starts_with": [
         "は",
@@ -6191,6 +6197,209 @@
             "morphemes": [
                 "御|接頭詞|御|ゴ",
                 "辞儀|名詞|辞儀|ジギ"
+            ]
+        },
+        {
+            "kanji": "御宅",
+            "ruby": "お宅",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "宅|名詞|宅|タク"
+            ]
+        },
+        {
+            "kanji": "御気に入り",
+            "ruby": "お気に入り",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|オ",
+                "気に入り|動詞|気に入る|キニイリ"
+            ]
+        },
+        {
+            "kanji": "波の底",
+            "ruby": "ナミノソコ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "波|名詞|波|ハ",
+                "の|助詞|の|ノ",
+                "底|名詞|底|ソコ"
+            ]
+        },
+        {
+            "kanji": "第一気に喰わん",
+            "ruby": "第一、気に食わん",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "第|接頭詞|第|ダイ",
+                "一気|名詞|一気|イッキ",
+                "に|助詞|に|ニ",
+                "喰わ|動詞|喰う|クワ",
+                "ん|助動詞|ん|ン"
+            ]
+        },
+        {
+            "kanji": "帽子を被る",
+            "ruby": "帽子をかぶる",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "帽子|名詞|帽子|ボウシ",
+                "を|助詞|を|ヲ",
+                "被る|動詞|被る|コウムル"
+            ]
+        },
+        {
+            "kanji": "大間違",
+            "ruby": "大間違い",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "大間|名詞|大間|オオマ",
+                "違|名詞|違|チガイ"
+            ]
+        },
+        {
+            "kanji": "御上手",
+            "ruby": "オジョウズ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "上手|名詞|上手|ジョウズ"
+            ]
+        },
+        {
+            "kanji": "抱え車夫",
+            "ruby": "カカエシャフ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "抱え|名詞|抱え|カカエ",
+                "車夫|名詞|車夫|シャフ"
+            ]
+        },
+        {
+            "kanji": "三分の一",
+            "ruby": "サンブンノイチ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "三|名詞|三|サン",
+                "分の|名詞|分の|ブンノ",
+                "一|名詞|一|イチ"
+            ]
+        },
+        {
+            "kanji": "眼がくらむ",
+            "ruby": "目がくらむ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "眼|名詞|眼|メ",
+                "が|助詞|が|ガ",
+                "くらむ|動詞|くらむ|クラム"
+            ]
+        },
+        {
+            "kanji": "何てえ",
+            "ruby": "ナンテエ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "何|名詞|何|ナニ",
+                "てえ|助動詞|たい|テエ"
+            ]
+        },
+        {
+            "kanji": "御嬢様",
+            "ruby": "お嬢様",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "嬢|名詞|嬢|ジョウ",
+                "様|名詞|様|サマ"
+            ]
+        },
+        {
+            "kanji": "御正月",
+            "ruby": "お正月",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "正月|名詞|正月|ショウガツ"
+            ]
+        },
+        {
+            "kanji": "事局",
+            "ruby": "ジキョク",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "事|名詞|事|コト",
+                "局|名詞|局|キョク"
+            ]
+        },
+        {
+            "kanji": "御話し",
+            "ruby": "お話",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|オ",
+                "話し|動詞|話す|ハナシ"
+            ]
+        },
+        {
+            "kanji": "大違",
+            "ruby": "大違い",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "大|接頭詞|大|ダイ",
+                "違|名詞|違|チガイ"
+            ]
+        },
+        {
+            "kanji": "何喰わぬ",
+            "ruby": "何食わぬ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "何|名詞|何|ナニ",
+                "喰わ|動詞|喰う|クワ",
+                "ぬ|助動詞|ぬ|ヌ"
+            ]
+        },
+        {
+            "kanji": "鼻筋が通って",
+            "ruby": "鼻筋がとおって",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "鼻筋|名詞|鼻筋|ハナスジ",
+                "が|助詞|が|ガ",
+                "通っ|動詞|通う|カヨッ",
+                "て|助詞|て|テ"
+            ]
+        },
+        {
+            "kanji": "私にもちと",
+            "ruby": "私にも、ちと",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "私|名詞|私|ワタシ",
+                "に|助詞|に|ニ",
+                "もち|名詞|もち|モチ",
+                "と|助詞|と|ト"
+            ]
+        },
+        {
+            "kanji": "今の中",
+            "ruby": "イマノナカ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "今|名詞|今|イマ",
+                "の|助詞|の|ノ",
+                "中|名詞|中|ナカ"
+            ]
+        },
+        {
+            "kanji": "御気の毒",
+            "ruby": "お気の毒",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "御|接頭詞|御|ゴ",
+                "気の毒|名詞|気の毒|キノドク"
             ]
         }
     ]
