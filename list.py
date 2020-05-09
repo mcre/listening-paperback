@@ -6,7 +6,11 @@ import youtube_util as yu
 
 
 def dateformat(date_str):
-    return dt.datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%S.%f%z').astimezone(pytz.timezone('Asia/Tokyo')).strftime('%Y-%m-%d %H:%M')
+    try:
+        d = dt.datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%S.%f%z')
+    except ValueError:
+        d = dt.datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%S%z')
+    return d.astimezone(pytz.timezone('Asia/Tokyo')).strftime('%Y-%m-%d %H:%M')
 
 
 def main():
@@ -25,7 +29,7 @@ def main():
                     'title': item['snippet']['title'],
                     'version': item['snippet']['description'][-16:],
                     'status': item['status']['privacyStatus'],
-                    'publish_at': dateformat(item['snippet']['publishedAt']) if item['status']['privacyStatus'] == 'public' else None,
+                    'publish_at': dateformat(item['snippet']['publishedAt']) if item['status']['privacyStatus'] == 'public' else '9999-99-99 99:99',
                 }
             playlist_req = youtube.playlistItems().list_next(playlist_req, playlist_res)
 
