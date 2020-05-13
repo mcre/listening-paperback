@@ -1,4 +1,3 @@
-import collections
 import difflib
 import json
 import os
@@ -159,20 +158,29 @@ def main():
         p, r, m = split_ruby(line['fn'], line['line'])
         lines.append({'id': line['id'], 'ssml_filename': line['fn'], 'plain_text': p, 'tex_ruby_text': line['line'], 'morphemes': m, 'ssml_rubies': []})
         text_rubies.extend(r)
+
+    # 同じ漢字で読みが違うものがある場合すべてonly_hereにする
+    a_rubies = {}
+    for ruby in text_rubies:
+        a_key = ruby['ambiguous_key']
+        if a_key not in a_rubies:
+            a_rubies[a_key] = set()
+        a_rubies[a_key].add(ruby['ruby'])
+    ambiguous_keys = [key for key in a_rubies if len(a_rubies[key]) >= 2]
+
+    for ruby in text_rubies:
+        for ambiguous_key in ambiguous_keys:
+            if ruby['ambiguous_key'] == ambiguous_key:
+                ruby['only_here'] = True
+                ruby['dup_key'] += '|' + ruby['pos']  # 重複削除で消えないようにする
+                print(f"読みが複数あるため only_here に設定: {ruby['kanji']} {ruby['ruby']}")
+
     # 重複削除 本の頭からの順にtext_rubiesに入っているはずなので、最初に登場したほうが残るはず
     dic = {}
     for ruby in text_rubies:
         if ruby['dup_key'] not in dic:
             dic[ruby['dup_key']] = ruby
     text_rubies = dic.values()
-    # 同じ漢字で読みが違うものはonly_hereにする
-    counts = collections.Counter([ruby['ambiguous_key'] for ruby in text_rubies if not ruby['only_here']])
-    ambiguous_keys = [key for key, count in counts.items() if count >= 2]
-    for ruby in text_rubies:
-        for ambiguous_key in ambiguous_keys:
-            if ruby['ambiguous_key'] == ambiguous_key:
-                ruby['only_here'] = True
-                print(f"読みが複数あるため only_here に設定: {ruby['kanji']} {ruby['ruby']}")
 
     rubies = []
     rubies.extend([load_special_ruby(x) for x in config.get('primary_special_rubies', []) + consts['primary_special_rubies']])  # 本文のルビより優先する
