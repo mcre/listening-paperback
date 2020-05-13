@@ -29,7 +29,7 @@ def main():
                     'title': item['snippet']['title'],
                     'version': item['snippet']['description'][-16:],
                     'status': item['status']['privacyStatus'],
-                    'publish_at': dateformat(item['snippet']['publishedAt']) if item['status']['privacyStatus'] == 'public' else None,
+                    'publish_at': dateformat(item['snippet']['publishedAt']) if item['status']['privacyStatus'] == 'public' else '9999-99-99 99:99',
                 }
             playlist_req = youtube.playlistItems().list_next(playlist_req, playlist_res)
 
