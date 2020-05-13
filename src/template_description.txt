@@ -7,6 +7,11 @@
 【プレイリスト】${playlist}
 「第一回」集：https://www.youtube.com/playlist?list=PLaSpnMH0vy2FcAUNkaaXRd4P9uV1YBCqf
 
+#青空文庫
+#名著
+#オーディオブック
+#朗読
+
 【素材】
 ・文章：青空文庫 https://www.aozora.gr.jp/
 ・音声：Amazon Polly https://aws.amazon.com/jp/polly/
