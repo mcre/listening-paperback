@@ -7,6 +7,8 @@
 【プレイリスト】${playlist}
 「第一回」集：https://www.youtube.com/playlist?list=PLaSpnMH0vy2FcAUNkaaXRd4P9uV1YBCqf
 
+#${author}
+#${title}
 #青空文庫
 #名著
 #オーディオブック
