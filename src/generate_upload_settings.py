@@ -29,6 +29,8 @@ def main(part_id, version):
         json.dump(settings_json, f, ensure_ascii=False, indent=4)
 
     description = string.Template(t_description).substitute({
+        'title': config['title'],
+        'author': config['author'],
         'playlist': f"\n{config['title']}：https://www.youtube.com/playlist?list=${{playlist_id}}" if len(timekeeper['parts']) > 1 else '',
         'music_author': config['music']['author'],
         'music_url': config['music']['url'],
