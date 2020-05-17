@@ -173,7 +173,12 @@ def main():
             if ruby['ambiguous_key'] == ambiguous_key:
                 ruby['only_here'] = True
                 ruby['dup_key'] += '|' + ruby['pos']  # 重複削除で消えないようにする
-                print(f"読みが複数あるため only_here に設定: {ruby['kanji']} {ruby['ruby']}")
+                # print(f"読みが複数あるため only_here に設定: {ruby['kanji']} {ruby['ruby']}")
+        for foh_ruby in config.get('force_only_here_rubies', []):
+            if foh_ruby['kanji'] == ruby['kanji'] and foh_ruby['ruby'] == ruby['ruby']:
+                ruby['only_here'] = True
+                ruby['dup_key'] += '|' + ruby['pos']  # 重複削除で消えないようにする
+                print(f"config の force_only_here_rubies 設定により only_here に設定: {ruby['kanji']} {ruby['ruby']}")
 
     # 重複削除 本の頭からの順にtext_rubiesに入っているはずなので、最初に登場したほうが残るはず
     dic = {}
