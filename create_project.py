@@ -56,6 +56,7 @@ def create_project(book_id):
         'tex_replaces': {},
         'manual_chapters': [],
         'force_only_here_rubies': [],
+        'ignore_rubies': [],
         'primary_special_rubies': [],
         'special_rubies': [],
         'book_info': {k: v for k, v in book.items() if v != ''},

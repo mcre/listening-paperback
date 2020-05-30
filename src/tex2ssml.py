@@ -187,6 +187,19 @@ def main():
             dic[ruby['dup_key']] = ruby
     text_rubies = dic.values()
 
+    # 無視ルビ除外(普通の感じにふりがなしてあることにより発音が変になる場合にそのふりがなを無視できる)
+    ig_rubies = config.get('ignore_rubies', [])
+    if len(ig_rubies) > 0:
+        new_text_rubies = []
+        for ruby in text_rubies:
+            ig = False
+            for ig_ruby in ig_rubies:
+                if ruby['kanji'] == ig_ruby['kanji'] and ruby['ruby'] == ig_ruby['ruby']:
+                    ig = True
+            if not ig:
+                new_text_rubies.append(ruby)
+        text_rubies = new_text_rubies
+
     rubies = []
     rubies.extend([load_special_ruby(x) for x in config.get('primary_special_rubies', []) + consts['primary_special_rubies']])  # 本文のルビより優先する
     rubies.extend(sorted(text_rubies, key=lambda x: len(x['morphemes']), reverse=True))  # 形態素数が長いルビから適用
