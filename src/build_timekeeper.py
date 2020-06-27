@@ -322,13 +322,14 @@ def main():
     parts = [{
         'part_id': part_id,
         'duration': sum([chapters[chapter_id]['duration'] for chapter_id in chapter_ids_in_part]),
+        'start_page': chapters[chapter_ids_in_part[0]]['pages'][0]['serial_page_id'] + 1,
         'chapters': [chapters[chapter_id] for chapter_id in chapter_ids_in_part],
     } for part_id, chapter_ids_in_part in enumerate(optimal_penalty['parts'])]
 
     print('\n== optimal parts ==')
     for part in parts:
         chapter_ids = ', '.join([str(chapter['chapter_id']) for chapter in part['chapters']])
-        print(f'part_id: {part["part_id"]:>3}, duration: {u.seconds_to_str(part["duration"])}, chapter_ids: [{chapter_ids}]')
+        print(f'part_id: {part["part_id"]:>3}, duration: {u.seconds_to_str(part["duration"])}, page: {part["start_page"]:>3}, chapter_ids: [{chapter_ids}]')
     print(optimal_penalty)
 
     # 書き込み
