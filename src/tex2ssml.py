@@ -8,9 +8,12 @@ import MeCab
 import regex as re
 import util as u
 
+MASU = '〼'
 PATTERNS = {
     'ruby': re.compile(r'\\ruby{(.+?)}{(.+?)}'),
     'zspace': re.compile(r'\\　'),
+    'masu': re.compile(MASU),
+    'masu_sub': re.compile(MASU + r'</sub>'),
     'newline': re.compile(r'\\\\'),
     # \hoge{aaa} でaaaを読まないようなコマンド
     'ignore_command': re.compile(r'(?:\\fontsize{[0-9\.]+?}{[0-9\.]+?}\s*?\\selectfont|\\kentensubmarkintate{.+?}|\\stretch{.+?})|\\kaeriten{.+?}'),
@@ -47,7 +50,7 @@ def plain_except_ruby(line):
     for ig in ignore_list:
         if ret.startswith(ig):
             return None
-    ret = PATTERNS['zspace'].sub(r'<break time="800ms"/>', ret)
+    ret = PATTERNS['zspace'].sub(MASU, ret)
     ret = PATTERNS['newline'].sub(r'', ret)
     ret = PATTERNS['ignore_command'].sub(r'', ret)
     for i in range(3):  # 入れ子コマンドのために複数回実施しておく
@@ -251,12 +254,14 @@ def main():
         for ruby in reversed(line['ssml_rubies']):
             st, en = ruby['start'], ruby['end']
             t = f'{t[:st]}<sub alias="{ruby["ruby"]}">{t[st:en]}</sub>{t[en:]}'
+        t = PATTERNS['masu_sub'].sub(r'</sub>〼', t)  # 〼</sub> を </sub>〼 に置換(breakを外に出さないとエラーになるので)
         t = PATTERNS['dialogue'].sub(r'<break strength="weak"/><prosody pitch="+10%">\1</prosody><break strength="weak"/>', t)
         t = PATTERNS['think'].sub(r'<break strength="weak"/>\1\2<break strength="weak"/>', t)
         t = PATTERNS['remove_marks'].sub('', t)  # pollyのバグで、「<sub alias=\"カスケ\">加助"」等でmarksで余分なものが出るので記号系を置換しておく
         t = PATTERNS['break_marks'].sub('<break strength="weak"/>', t)
         t = PATTERNS['double_odoriji'].sub(r'\1<sub alias="\1">々々</sub>', t)
         t = PATTERNS['time_break'].sub(r'<break time="0.5s"/>\1', t)
+        t = PATTERNS['masu'].sub(r'<break time="800ms"/>', t)
         line['ssml_ruby_text'] = t
 
     for line in lines:
