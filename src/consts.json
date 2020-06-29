@@ -713,6 +713,55 @@
                 "を|助詞|を|ヲ",
                 "食え|動詞|食う|クエ"
             ]
+        },
+        {
+            "kanji": "裹まれ",
+            "ruby": "包まれ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "裹|名詞||",
+                "まれ|名詞|まれ|マレ"
+            ]
+        },
+        {
+            "kanji": "鹹はゆい",
+            "ruby": "シオハユイ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "鹹|形容詞|鹹い|カラ",
+                "は|助詞|は|ハ",
+                "ゆい|動詞|ゆう|ユイ"
+            ]
+        },
+        {
+            "kanji": "由井が浜",
+            "ruby": "由比ヶ浜",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "由井|名詞|由井|ユイ",
+                "が|助詞|が|ガ",
+                "浜|名詞|浜|ハマ"
+            ]
+        },
+        {
+            "kanji": "或る時",
+            "ruby": "あるとき",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "或|連体詞|或|アル",
+                "る|助動詞|り|ル",
+                "時|名詞|時|トキ"
+            ]
+        },
+        {
+            "kanji": "勧まない",
+            "ruby": "進まない",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "勧|名詞|勧|ススム",
+                "ま|フィラー|ま|マ",
+                "ない|形容詞|ない|ナイ"
+            ]
         }
     ],
     "special_rubies": [
@@ -9213,6 +9262,44 @@
             "morphemes": [
                 "上|名詞|上|ウエ",
                 "〼|記号||"
+            ]
+        },
+        {
+            "kanji": "金の工面",
+            "ruby": "カネの工面",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "金|名詞|金|キン",
+                "の|助詞|の|ノ",
+                "工面|名詞|工面|クメン"
+            ]
+        },
+        {
+            "kanji": "気に入ら",
+            "ruby": "気にいら",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "気に入ら|動詞|気に入る|キニイラ"
+            ]
+        },
+        {
+            "kanji": "車で行って",
+            "ruby": "車でいって",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "車|名詞|車|クルマ",
+                "で|助詞|で|デ",
+                "行っ|動詞|行う|オコナッ",
+                "て|助詞|て|テ"
+            ]
+        },
+        {
+            "kanji": "突ッ込んで",
+            "ruby": "突っ込んで",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "突ッ込|名詞|突っ込み|ツッコミ",
+                "んで|助詞|んで|ンデ"
             ]
         }
     ]
