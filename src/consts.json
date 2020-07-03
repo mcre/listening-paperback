@@ -762,6 +762,50 @@
                 "ま|フィラー|ま|マ",
                 "ない|形容詞|ない|ナイ"
             ]
+        },
+        {
+            "kanji": "一丁",
+            "ruby": "一丁",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一|名詞|一|イチ",
+                "丁|名詞|丁|チョウ"
+            ]
+        },
+        {
+            "kanji": "賑か",
+            "ruby": "賑やか",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "賑|名詞|賑|ニギワイ",
+                "か|助詞|か|カ"
+            ]
+        },
+        {
+            "kanji": "一町",
+            "ruby": "一丁",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一町|名詞|一町|カズチョウ"
+            ]
+        },
+        {
+            "kanji": "或る時",
+            "ruby": "あるとき",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "或|連体詞|或|アル",
+                "る|助動詞|り|ル",
+                "時花|名詞|時花|トキカ"
+            ]
+        },
+        {
+            "kanji": "一丁",
+            "ruby": "一丁",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一丁|名詞|一丁|イッチョウ"
+            ]
         }
     ],
     "special_rubies": [
@@ -9300,6 +9344,51 @@
             "morphemes": [
                 "突ッ込|名詞|突っ込み|ツッコミ",
                 "んで|助詞|んで|ンデ"
+            ]
+        },
+        {
+            "kanji": "その時",
+            "ruby": "そのとき",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "その|連体詞|その|ソノ",
+                "時|名詞|時|トキ"
+            ]
+        },
+        {
+            "kanji": "証拠立て",
+            "ruby": "証拠だて",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "証拠立て|動詞|証拠立てる|ショウコダテ"
+            ]
+        },
+        {
+            "kanji": "あすこいら",
+            "ruby": "アスコイラ",
+            "offset_from_first_morpheme": 2,
+            "morphemes": [
+                "ょにあすこいらが|名詞||"
+            ]
+        },
+        {
+            "kanji": "二、三度",
+            "ruby": "ニサンド",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "二|名詞|二|ニ",
+                "、|記号|、|、",
+                "三度|名詞|三度|サンド"
+            ]
+        },
+        {
+            "kanji": "表へ出",
+            "ruby": "オモテへ出",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "表|名詞|表|ヒョウ",
+                "へ|助詞|へ|ヘ",
+                "出|動詞|出る|デ"
             ]
         }
     ]
