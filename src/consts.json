@@ -194,7 +194,10 @@
         "悪事千里|名詞|悪事千里|アクジセンリ",
         "天長節|名詞|天長節|テンチョウセツ",
         "一挙手一投足|名詞|一挙手一投足|イッキョシュイットウソク",
-        "鐘|名詞|鐘|カネ"
+        "鐘|名詞|鐘|カネ",
+        "目的物|名詞|目的物|モクテキブツ",
+        "不調法|名詞|不調法|ブチョウホウ",
+        "年格好|名詞|年格好|トシカッコウ"
     ],
     "force_katakana_ruby_starts_with": [
         "は",
@@ -805,6 +808,32 @@
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 "一丁|名詞|一丁|イッチョウ"
+            ]
+        },
+        {
+            "kanji": "お上手",
+            "ruby": "おじょうず",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "お|接頭詞|お|オ",
+                "上手|名詞|上手|ジョウズ"
+            ]
+        },
+        {
+            "kanji": "出はいり",
+            "ruby": "デハイリ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "出はいり|名詞|出入り|デハイリ"
+            ]
+        },
+        {
+            "kanji": "取り扱われがち",
+            "ruby": "取り扱われがち",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "取り扱|名詞|取り扱い|トリアツカイ",
+                "われがち|名詞|我勝ち|ワレガチ"
             ]
         }
     ],
@@ -9389,6 +9418,106 @@
                 "表|名詞|表|ヒョウ",
                 "へ|助詞|へ|ヘ",
                 "出|動詞|出る|デ"
+            ]
+        },
+        {
+            "kanji": "二ッつ",
+            "ruby": "ふたっつ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "二|名詞|二|ニ",
+                "ッ|名詞||",
+                "つ|助動詞|つ|ツ"
+            ]
+        },
+        {
+            "kanji": "偶然国へ",
+            "ruby": "偶然、国へ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "偶然|名詞|偶然|グウゼン",
+                "国|名詞|国|コク",
+                "へ|助詞|へ|ヘ"
+            ]
+        },
+        {
+            "kanji": "引ッ繰り",
+            "ruby": "ヒックリ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "引|名詞|引|イン",
+                "ッ|名詞||",
+                "繰り|動詞|繰る|クリ"
+            ]
+        },
+        {
+            "kanji": "引ッ繰り",
+            "ruby": "ヒックリ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "引|名詞|引|ヒキ",
+                "ッ|名詞||",
+                "繰り|動詞|繰る|クリ"
+            ]
+        },
+        {
+            "kanji": "金の無心",
+            "ruby": "カネの無心",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "金|名詞|金|キン",
+                "の|助詞|の|ノ",
+                "無心|名詞|無心|ムシン"
+            ]
+        },
+        {
+            "kanji": "床を上げ",
+            "ruby": "トコをあげ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "床|名詞|床|ユカ",
+                "を|助詞|を|ヲ",
+                "上げ|動詞|上げる|アゲ"
+            ]
+        },
+        {
+            "kanji": "無精者",
+            "ruby": "ブショウモノ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "無精|名詞|無精|ブショウ",
+                "者|名詞|者|シャ"
+            ]
+        },
+        {
+            "kanji": "父とも母とも",
+            "ruby": "チチともハハとも",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "父|名詞|父|チチ",
+                "とも|助詞|とも|トモ",
+                "母|名詞|母|ハハ",
+                "とも|助詞|とも|トモ"
+            ]
+        },
+        {
+            "kanji": "月々国",
+            "ruby": "月々、国",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "月々|名詞|月々|ツキヅキ",
+                "国|名詞|国|コク"
+            ]
+        },
+        {
+            "kanji": "二、三人",
+            "ruby": "ニサンニン",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "二|名詞|二|ニ",
+                "、|記号|、|、",
+                "三|名詞|三|サン",
+                "人|名詞|人|ニン"
             ]
         }
     ]
