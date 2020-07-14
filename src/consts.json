@@ -197,7 +197,8 @@
         "鐘|名詞|鐘|カネ",
         "目的物|名詞|目的物|モクテキブツ",
         "不調法|名詞|不調法|ブチョウホウ",
-        "年格好|名詞|年格好|トシカッコウ"
+        "年格好|名詞|年格好|トシカッコウ",
+        "日本中|名詞|日本中|ニホンジュウ"
     ],
     "force_katakana_ruby_starts_with": [
         "は",
@@ -834,6 +835,43 @@
             "morphemes": [
                 "取り扱|名詞|取り扱い|トリアツカイ",
                 "われがち|名詞|我勝ち|ワレガチ"
+            ]
+        },
+        {
+            "kanji": "顫え",
+            "ruby": "震え",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "顫|名詞||",
+                "え|動詞|える|エ"
+            ]
+        },
+        {
+            "kanji": "訐いて",
+            "ruby": "暴いて",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "訐|名詞||",
+                "い|動詞|いる|イ",
+                "て|助詞|て|テ"
+            ]
+        },
+        {
+            "kanji": "訐く",
+            "ruby": "暴く",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "訐|名詞||",
+                "くと|副詞|くと|クト"
+            ]
+        },
+        {
+            "kanji": "憶い",
+            "ruby": "思い",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "憶|名詞|憶|オモウ",
+                "い|動詞|いる|イ"
             ]
         }
     ],
@@ -9518,6 +9556,54 @@
                 "、|記号|、|、",
                 "三|名詞|三|サン",
                 "人|名詞|人|ニン"
+            ]
+        },
+        {
+            "kanji": "金の問題",
+            "ruby": "カネの問題",
+            "offset_from_first_morpheme": 1,
+            "morphemes": [
+                "か金|名詞|課金|カキン",
+                "の|助詞|の|ノ",
+                "問題|名詞|問題|モンダイ"
+            ]
+        },
+        {
+            "kanji": "され通し",
+            "ruby": "されどおし",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "さ|動詞|す|サ",
+                "れ|動詞|れる|レ",
+                "通し|動詞|通す|トオシ"
+            ]
+        },
+        {
+            "kanji": "暑い盛り",
+            "ruby": "暑いさかり",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "暑い|形容詞|暑い|アツイ",
+                "盛り|名詞|盛り|モリ"
+            ]
+        },
+        {
+            "kanji": "中〼",
+            "ruby": "チュウ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "中|名詞|中|ナカ",
+                "〼|記号||"
+            ]
+        },
+        {
+            "kanji": "時には",
+            "ruby": "ときには",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "時|名詞|時|トキ",
+                "に|助詞|に|ニ",
+                "は|助詞|は|ハ"
             ]
         }
     ]
