@@ -37,6 +37,7 @@ def create_project(book_id):
         'project_name': f'{author}/{title}',
         'title': title,
         'author': author,
+        'special_description': '',
         'font': 'aokin-mincho.ttf',
         'cover': {
             'file': 'framedesign_book02_black.png',

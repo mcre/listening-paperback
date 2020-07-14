@@ -9,6 +9,9 @@
     - `python create_project.py {book_id}`
     - `./projects/{作者名}/{作品名}/` に `novel.txt` と `config.json` が生成される
 * `config.json` は適宜調整する
+    - `special_description`
+        - 記載すると概要欄の一番上に、一行あけてこの文字列が記載される。
+        - `夏目漱石/こころ` 参照
     - `title_yomi`
         - titleそのままだと読み間違うときに追加すると、こっちを読んでくれる。
         - `江戸川乱歩/お勢登場` 参照

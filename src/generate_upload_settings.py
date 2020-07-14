@@ -33,6 +33,7 @@ def main(part_id, version):
         'author': config['author'],
         'playlist': f"\n{config['title']}：https://www.youtube.com/playlist?list=${{playlist_id}}" if len(timekeeper['parts']) > 1 else '',
         'music_author': config['music']['author'],
+        'special_description': config['special_description'] + '\n\n' if 'special_description' in config and len(config['special_description']) > 0 else '',
         'music_url': config['music']['url'],
         'cover_author': config['cover']['author'],
         'cover_url': config['cover']['url'],
