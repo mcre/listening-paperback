@@ -45,6 +45,10 @@
     - `primary_special_rubies`
         - `special_rubies` と同様、ただしspecial_rubiesよりふりがなが優先されるが、こちらはふりがなより優先される。
         - `芥川竜之介/羅生門` 参照
+    - `chapter_interval`
+        - デフォルト値はconsts.jsonで設定されているが、`build_chapter_moives.py` で `IndexError: list index out of range` が発生する場合に値を調整するとエラーを回避できる場合がある。
+        - `夏目漱石/こころ` 参照
+
 * 画像がある場合は、`./projects/{作者名}/{作品名}/images` に画像をいれて、縦書きに対応するため↓のコマンドで90度回転させる
     - `docker run -v $PWD/projects/{作者名}/{作品名}/images:/images --rm -it rendertoolbox/imagemagick bash -c "mogrify -rotate -90 /images/*.png"`
 
@@ -133,20 +137,4 @@ youtube-upload --title="test" --client-secret='./certs/youtube_client_secrets.js
 ```
 docker tag ec141d2a9de9 mcre/mecab-bottle:20190822
 docker push mcre/mecab-bottle:20190822
-```
-
-* build_chapter_moviesで下記のようなエラーが出る場合は、consts.jsonのchapter_intervalを変えればうまくいくかもしれない。
-    - 注文の多い料理店の場合、2.0から2.1に変更したら動いた。頻発する場合は作品ごとに変えられるようにする。
-
-```
-前略中略。
-  File "build_chapter_movies.py", line 61, in main
-    vu.write_raw_video(chapter['movie_path'], video_clip)
-  File "/work/video_util.py", line 13, in write_raw_video
-    video_clip.write_videofile(path, codec='utvideo', fps=30, audio_codec='pcm_s32le')
-  File "/usr/lib/python3.6/site-packages/moviepy/Clip.py", line 95, in get_frame
-    return self.make_frame(t)
-  File "/usr/lib/python3.6/site-packages/moviepy/video/compositing/concatenate.py", line 83, in make_frame
-    return clips[i].get_frame(t - tt[i])
-IndexError: list index out of range
 ```

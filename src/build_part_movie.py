@@ -7,12 +7,13 @@ from moviepy.editor import (AudioFileClip, CompositeAudioClip, ImageClip,
                             VideoFileClip, concatenate_audioclips,
                             concatenate_videoclips)
 
+config = u.load_config()
 consts = u.load_consts()
 timekeeper = u.load_timekeeper()
 
 
 cft = consts['cross_fade_time']
-ci = consts['chapter_interval'] / 2
+ci = config['chapter_interval'] / 2 if 'chapter_interval' in config else consts['chapter_interval'] / 2
 vi = consts['voice_interval']
 bg = u.hex_to_rgb(consts['background_color'])
 end_adj_time = 0.1  # エンドカードをくっつけるときに原因不明で「clips[i].get_frame(t - tt[i]) list index out of range」が出るのを回避するために適当に足す

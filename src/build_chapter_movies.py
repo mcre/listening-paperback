@@ -8,6 +8,7 @@ from moviepy.editor import (AudioFileClip, CompositeAudioClip,
                             CompositeVideoClip, ImageClip, VideoFileClip,
                             concatenate_videoclips)
 
+config = u.load_config()
 consts = u.load_consts()
 timekeeper = u.load_timekeeper()
 
@@ -27,7 +28,7 @@ def main(part_id):
     os.makedirs('chapter_movies', exist_ok=True)
 
     cft = consts['cross_fade_time']
-    ci = consts['chapter_interval'] / 2
+    ci = config['chapter_interval'] / 2 if 'chapter_interval' in config else consts['chapter_interval'] / 2
     chapters = timekeeper['parts'][part_id]['chapters']
     for chapter in chapters:
         first_page = chapter['pages'][0]
