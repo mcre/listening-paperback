@@ -198,7 +198,9 @@
         "目的物|名詞|目的物|モクテキブツ",
         "不調法|名詞|不調法|ブチョウホウ",
         "年格好|名詞|年格好|トシカッコウ",
-        "日本中|名詞|日本中|ニホンジュウ"
+        "日本中|名詞|日本中|ニホンジュウ",
+        "幾日|名詞|幾日|イクニチ",
+        "義理堅い|形容詞|義理堅い|ギリガタイ"
     ],
     "force_katakana_ruby_starts_with": [
         "は",
@@ -873,6 +875,82 @@
                 "憶|名詞|憶|オモウ",
                 "い|動詞|いる|イ"
             ]
+        },
+        {
+            "kanji": "好かろう",
+            "ruby": "よかろう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "好かろ|形容詞|好い|ヨカロ",
+                "う|助動詞|う|ウ"
+            ]
+        },
+        {
+            "kanji": "偉い方",
+            "ruby": "偉いかた",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "偉い|形容詞|偉い|エライ",
+                "方|名詞|方|ホウ"
+            ]
+        },
+        {
+            "kanji": "空いた方の",
+            "ruby": "あいたほうの",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "空い|名詞|空位|クウイ",
+                "た方|名詞|他方|タホウ",
+                "の|助詞|の|ノ"
+            ]
+        },
+        {
+            "kanji": "禿げ上った",
+            "ruby": "禿げあがった",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "禿げ|動詞|禿げる|ハゲ",
+                "上っ|動詞|上る|ノボッ",
+                "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "寛くり",
+            "ruby": "ゆっくり",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "寛|名詞|寛|ヒロシ",
+                "くり|名詞|くり|クリ"
+            ]
+        },
+        {
+            "kanji": "自烈たそう",
+            "ruby": "じれったそう",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "自|接頭詞|自|ジ",
+                "烈|名詞|烈|レツ",
+                "たそう|名詞|多層|タソウ"
+            ]
+        },
+        {
+            "kanji": "首肯いた",
+            "ruby": "頷いた",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "首肯い|動詞|首肯く|ウナズイ",
+                "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "藻掻き廻る",
+            "ruby": "藻掻きまわる",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "藻|名詞|藻|モ",
+                "掻き|動詞|掻く|カキ",
+                "廻る|動詞|廻る|メグル"
+            ]
         }
     ],
     "special_rubies": [
@@ -1082,7 +1160,7 @@
         },
         {
             "kanji": "二、三日",
-            "ruby": "にさんニチ、",
+            "ruby": "ニサンニチ、",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 "二|名詞|二|ニ",
@@ -6981,7 +7059,7 @@
         },
         {
             "kanji": "一行も読まぬ",
-            "ruby": "イチギョウも読まぬ",
+            "ruby": "１行も読まぬ",
             "offset_from_first_morpheme": 0,
             "morphemes": [
                 "一行|名詞|一行|イッコウ",
@@ -9604,6 +9682,236 @@
                 "時|名詞|時|トキ",
                 "に|助詞|に|ニ",
                 "は|助詞|は|ハ"
+            ]
+        },
+        {
+            "kanji": "五、六日",
+            "ruby": "ゴロクニチ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "五|名詞|五|ゴ",
+                "、|記号|、|、",
+                "六日|名詞|六日|ムイカ"
+            ]
+        },
+        {
+            "kanji": "広い都",
+            "ruby": "広いみやこ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "広|接頭詞|広|ヒロ",
+                "い都|名詞|異都|イト"
+            ]
+        },
+        {
+            "kanji": "強いて",
+            "ruby": "恣意て",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "強い|形容詞|強い|ツヨイ",
+                "て|助詞|て|テ"
+            ]
+        },
+        {
+            "kanji": "強いて",
+            "ruby": "恣意て",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "強い|動詞|強いる|シイ",
+                "て|助詞|て|テ"
+            ]
+        },
+        {
+            "kanji": "三、四日",
+            "ruby": "サンヨッカ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "三|名詞|三|サン",
+                "、|記号|、|、",
+                "四日|名詞|四日|ヨッカ"
+            ]
+        },
+        {
+            "kanji": "何通",
+            "ruby": "ナンツウ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "何|名詞|何|ナン",
+                "通|名詞|通|ツウ"
+            ]
+        },
+        {
+            "kanji": "一行の手紙",
+            "ruby": "１行の手紙",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一行|名詞|一行|イッコウ",
+                "の|助詞|の|ノ",
+                "手紙|名詞|手紙|テガミ"
+            ]
+        },
+        {
+            "kanji": "突ッついた",
+            "ruby": "つっついた",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "突|名詞||",
+                "ッ|名詞||",
+                "つい|動詞|つく|ツイ",
+                "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "年の少ない",
+            "ruby": "歳の少ない",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "年|名詞|年|トシ",
+                "の|助詞|の|ノ",
+                "少ない|形容詞|少ない|スクナイ"
+            ]
+        },
+        {
+            "kanji": "驚いて立ち上った",
+            "ruby": "驚いて立ちあがった",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "驚い|動詞|驚く|オドロイ",
+                "て|助詞|て|テ",
+                "立ち上っ|動詞|立ち上る|タチノボッ",
+                "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "下〼",
+            "ruby": "ゲ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "下|名詞|下|シタ",
+                "〼|記号||"
+            ]
+        },
+        {
+            "kanji": "一行も書かず",
+            "ruby": "１行も書かず",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "一行|名詞|一行|イッコウ",
+                "も|助詞|も|モ",
+                "書か|動詞|書く|カカ",
+                "ず|助動詞|ぬ|ズ"
+            ]
+        },
+        {
+            "kanji": "向いつつ",
+            "ruby": "向かいつつ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "向い|動詞|向く|ムイ",
+                "つつ|助詞|つつ|ツツ"
+            ]
+        },
+        {
+            "kanji": "死に断えた",
+            "ruby": "死に絶えた",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "死|名詞|死|シ",
+                "に|助詞|に|ニ",
+                "断|名詞|断|ダン",
+                "え|動詞|える|エ",
+                "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "三、四回",
+            "ruby": "サンヨンカイ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "三|名詞|三|サン",
+                "、|記号|、|、",
+                "四|名詞|四|ヨン",
+                "回|名詞|回|カイ"
+            ]
+        },
+        {
+            "kanji": "四、五日",
+            "ruby": "シゴニチ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "四|名詞|四|ヨン",
+                "、|記号|、|、",
+                "五日|名詞|五日|イツカ"
+            ]
+        },
+        {
+            "kanji": "十六、七",
+            "ruby": "ジュウロクシチ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "十六|名詞|十六|ジュウロク",
+                "、|記号|、|、",
+                "七|名詞|七|ナナ"
+            ]
+        },
+        {
+            "kanji": "二、三年来",
+            "ruby": "ニサンネンライ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "二|名詞|二|ニ",
+                "、|記号|、|、",
+                "三|名詞|三|サン",
+                "年来|名詞|年来|ネンライ"
+            ]
+        },
+        {
+            "kanji": "割って",
+            "ruby": "わって",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "割っ|動詞|割る|ワッ",
+                "て|助詞|て|テ"
+            ]
+        },
+        {
+            "kanji": "眼を通す",
+            "ruby": "目を通す",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "眼|名詞|眼|メ",
+                "を|助詞|を|ヲ",
+                "通す|動詞|通す|トオス"
+            ]
+        },
+        {
+            "kanji": "二、三歩",
+            "ruby": "ニサンポ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "二|名詞|二|ニ",
+                "、|記号|、|、",
+                "三歩|名詞|三歩|サンブ"
+            ]
+        },
+        {
+            "kanji": "申し出しました",
+            "ruby": "モウシデしました",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "申し出|名詞|申し出|モウシデ",
+                "し|動詞|する|シ",
+                "まし|助動詞|ます|マシ",
+                "た|助動詞|た|タ"
+            ]
+        },
+        {
+            "kanji": "理否",
+            "ruby": "リヒ",
+            "offset_from_first_morpheme": 0,
+            "morphemes": [
+                "理|名詞|理|リ",
+                "否|名詞|否|イナ"
             ]
         }
     ]
