@@ -45,22 +45,26 @@
             orientation: 'horizontal'
             size_hint_y: 0.2
             RWButton:
-                text: '〉全作品'
+                text: '共通'
                 disabled: root.disable_buttons
-                on_release: root.on_append_ruby_button('consts', 'normal', '全作品対象のルビに追加しました')
+                on_release: root.on_append_ruby_button('consts', 'normal', '全作品共通のルビに追加しました')
             RWButton:
-                text: '〉全作品優先'
+                text: '共通優先'
                 disabled: root.disable_buttons
-                on_release: root.on_append_ruby_button('consts', 'primary', '全作品対象の優先ルビに追加しました')
+                on_release: root.on_append_ruby_button('consts', 'primary', '全作品共通の優先ルビに追加しました')
             RWButton:
-                text: '〉全作品簡易'
+                text: '共通簡易'
                 disabled: root.disable_mekabu_yomi_button
-                on_release: root.on_append_ruby_button('consts', 'mekabu_yomi', '全作品対象の簡易ルビ(use_mecab_yomi_rubies)に追加しました')
+                on_release: root.on_append_ruby_button('consts', 'mekabu_yomi', '全作品共通の簡易ルビ(use_mecab_yomi_rubies)に追加しました')
             RWButton:
-                text: '〉本作品'
+                text: '共通無視'
+                disabled: root.disable_ignore_button
+                on_release: root.on_append_ruby_button('consts', 'ignore', '全作品共通の無視ルビに追加しました')
+            RWButton:
+                text: '本作'
                 disabled: root.disable_buttons
                 on_release: root.on_append_ruby_button('config', 'normal', 'この作品のみ対象のルビに追加しました')
             RWButton:
-                text: '〉本作品優先'
+                text: '本作優先'
                 disabled: root.disable_buttons
                 on_release: root.on_append_ruby_button('config', 'primary', 'この作品のみ対象の優先ルビに追加しました')

@@ -1,6 +1,7 @@
 import glob
 import json
 import os
+import re
 import threading
 import time
 
@@ -382,6 +383,17 @@ class TextsWidget(W):
                 rw.update_ruby()
         self.touch_text_box = False
 
+    def on_touch_up_ssml_box(self, text):
+        if self.touch_text_box and text is not None:
+            if (obj := re.search(r'<sub alias="(.*?)">(.*?)</sub>', text)):
+                rw = root().ruby_widget
+                rw.target = {
+                    'kanji': obj.group(2),
+                    'ruby': obj.group(1),
+                }
+                rw.update_ruby(ssml=True)
+        self.touch_text_box = False
+
 
 class VoiceWidget(W):
     play_button_text = StringProperty()
@@ -502,6 +514,7 @@ class RubyWidget(W):
     ruby_text_box = ObjectProperty(None)
     disable_buttons = BooleanProperty(True)
     disable_mekabu_yomi_button = BooleanProperty(True)
+    disable_ignore_button = BooleanProperty(True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -513,30 +526,37 @@ class RubyWidget(W):
         self.ruby_obj = None
         self.disable_buttons = True
         self.disable_mekabu_yomi_button = True
+        self.disable_ignore_button = True
         self.update_ruby()
 
-    def update_ruby(self):
+    def update_ruby(self, ssml=False):
         self.ruby = root().ime_widget.text if root() else ''
         if self.ruby_text_box is None:
             return
 
         dis = True
         dis_m = True
+        dis_i = True
         if self.target is not None:
             tg = self.target
-            tg['ruby'] = self.ruby
+            if not ssml:
+                tg['ruby'] = self.ruby
             self.ruby_obj = tg
             self.ruby_text_box.text = json.dumps(tg, ensure_ascii=False, indent=4)
             self.ruby_text_box.cursor = (0, 0)
-            if len(self.ruby) > 0:
-                dis = False
-            if len(self.ruby_obj['morphemes']) == 1:
-                dis_m = False
+            if not ssml:
+                if len(self.ruby) > 0:
+                    dis = False
+                if len(self.ruby_obj.get('morphemes', [])) == 1:
+                    dis_m = False
+            else:
+                dis_i = False
         else:
             self.ruby_obj = None
             self.ruby_text_box.text = ''
         self.disable_buttons = dis
         self.disable_mekabu_yomi_button = dis_m
+        self.disable_ignore_button = dis_i
 
     def on_append_ruby_button(self, file_type, ruby_type, message_text):
         if file_type == 'consts':
@@ -554,6 +574,8 @@ class RubyWidget(W):
             settings['special_rubies'].append(self.ruby_obj)
         elif ruby_type == 'mekabu_yomi':
             settings['use_mecab_yomi_rubies'].append(self.ruby_obj['morphemes'][0])
+        elif ruby_type == 'ignore':
+            settings['ignore_rubies'].append(self.ruby_obj)
 
         with open(file_name, 'w') as f:
             json.dump(settings, f, ensure_ascii=False, indent=4)

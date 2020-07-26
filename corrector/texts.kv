@@ -27,6 +27,7 @@
                 text: 'SSML'
                 TWTextInput:
                     id: ssml_box
+                    on_touch_up: root.on_touch_up_ssml_box(self.selection_text)
             TabbedPanelItem:
                 text: 'DIFF'
                 TWTextInput:
