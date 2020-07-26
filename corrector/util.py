@@ -28,6 +28,36 @@ def kkc(romaji, num):
     return ret
 
 
+def json_formatter(text):
+    ret = text
+
+    for x in ['morphemes', 'force_katakana_ruby_starts_with']:  # 文字列配列
+        ptn = re.compile(r'("' + x + r'": \[[^\]\s]*?)\s+?', re.MULTILINE)
+        while ptn.search(ret):  # subだと8個くらいまでしか置換しないから繰り返す
+            ret = ptn.sub(r'\1', ret)
+
+    for x in ['kanji']:  # 最初の要素
+        ptn = re.compile(r'\{\s+?("' + x + r'")', re.MULTILINE)
+        while ptn.search(ret):
+            ret = ptn.sub(r'{\1', ret)
+
+    for x in ['ruby', 'kanji', 'offset_from_first_morpheme', 'morphemes', 'memo']:  # 最初以外の要素
+        ptn = re.compile(r',\s{2,}?("' + x + r'")', re.MULTILINE)
+        while ptn.search(ret):
+            ret = ptn.sub(r', \1', ret)
+
+    for x in ['ruby', 'morphemes', 'memo']:  # 最後の要素
+        ptn = re.compile(r'("' + x + r'": .*?)\s+?}', re.MULTILINE)
+        while ptn.search(ret):
+            ret = ptn.sub(r'\1}', ret)
+
+    ptn = re.compile(r',"')  # [,"]を[, "]に置換
+    while ptn.search(ret):
+        ret = ptn.sub(r', "', ret)
+
+    return ret
+
+
 class Batch:
     def __init__(self, command):
         self.command = command

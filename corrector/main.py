@@ -577,8 +577,9 @@ class RubyWidget(W):
         elif ruby_type == 'ignore':
             settings['ignore_rubies'].append(self.ruby_obj)
 
-        with open(file_name, 'w') as f:
-            json.dump(settings, f, ensure_ascii=False, indent=4)
+        with open(file_name, 'w') as f:  # これ
+            json_text = json.dumps(settings, ensure_ascii=False, indent=4)
+            f.write(u.json_formatter(json_text))
 
         if ruby_type == 'mekabu_yomi':
             detail = f'{self.ruby_obj["kanji"]}'
