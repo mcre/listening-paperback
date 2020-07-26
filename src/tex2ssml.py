@@ -191,7 +191,7 @@ def main():
     text_rubies = dic.values()
 
     # 無視ルビ除外(普通の感じにふりがなしてあることにより発音が変になる場合にそのふりがなを無視できる)
-    ig_rubies = config.get('ignore_rubies', [])
+    ig_rubies = consts.get('ignore_rubies', [])
     if len(ig_rubies) > 0:
         new_text_rubies = []
         for ruby in text_rubies:

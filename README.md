@@ -34,9 +34,6 @@
     - `force_only_here_rubies`
         - 変な読み方が不要なところまで拡散する場合に強制的にonly_hereにできる。
         - 例: `{"kanji": "近", "ruby": "ちかづ"}`
-    - `ignore_rubies`
-        - 普通の感じにふりがなしてあることにより発音が変になる場合にそのふりがなを無視できる。
-        - 例: `{"kanji": "覗", "ruby": "のぞ"}`
     - `special_rubies`
         - 読み間違い等を調整できる。他の本にも通用する読み間違いは `./src/consts.json` に記述する。
         - 読み間違いは完成した動画や、voice_checkのアウトプットで確認できる
@@ -48,6 +45,11 @@
     - `chapter_interval`
         - デフォルト値はconsts.jsonで設定されているが、`build_chapter_moives.py` で `IndexError: list index out of range` が発生する場合に値を調整するとエラーを回避できる場合がある。
         - `夏目漱石/こころ` 参照
+
+* const.json
+    - `ignore_rubies`
+        - 普通の感じにふりがなしてあることにより発音が変になる場合にそのふりがなを無視できる。
+        - 例: `{"kanji": "覗", "ruby": "のぞ"}`
 
 * 画像がある場合は、`./projects/{作者名}/{作品名}/images` に画像をいれて、縦書きに対応するため↓のコマンドで90度回転させる
     - `docker run -v $PWD/projects/{作者名}/{作品名}/images:/images --rm -it rendertoolbox/imagemagick bash -c "mogrify -rotate -90 /images/*.png"`
