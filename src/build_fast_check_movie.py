@@ -1,9 +1,13 @@
 import os
 import subprocess
 
-import util as u
+import mutagen.mp3
+import numpy as np
 import video_util as vu
 from moviepy.editor import AudioFileClip, CompositeAudioClip, CompositeVideoClip, ImageClip, concatenate_videoclips
+
+import util as u
+
 
 consts = u.load_consts()
 timekeeper = u.load_timekeeper()
@@ -25,6 +29,14 @@ def main():
     os.makedirs('fast_check_movie_tmp', exist_ok=True)
 
     for_concat_movies = []
+
+    vopath = 'voices/title.mp3'
+    title_video_clip = ImageClip(np.zeros((360, 640))).set_fps(FPS).set_duration(mutagen.mp3.MP3(vopath).info.length)
+    title_video_clip = title_video_clip.set_audio(AudioFileClip(vopath))
+    path = 'fast_check_movie_tmp/title.mp4'
+    vu.write_video(path, title_video_clip, fps=FPS, bitrate='16k', audio_bitrate='32k')
+    for_concat_movies.append(f'file {path}\n')
+
     for part in timekeeper['parts']:
         chapter_video_clips = []
         for chapter in part['chapters']:

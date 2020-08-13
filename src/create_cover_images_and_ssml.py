@@ -69,7 +69,6 @@ def main():
     ssml_texts = []
     for part in timekeeper['parts']:
         ssml_texts.append({'fn': f'part{part["part_id"]:0>5}', 'text': f'第{part["part_id"] + 1}回'})
-    ssml_texts.append({'fn': 'title', 'text': config.get('title_yomi', config['title'])})
     ssml_texts.append({'fn': 'channel', 'text': '聴く、名作文庫'})
     ssml_texts.append({'fn': 'next', 'text': 'つづく'})
     ssml_texts.append({'fn': 'end', 'text': '終わり'})

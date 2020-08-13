@@ -5,8 +5,6 @@ WORKDIR /work
 RUN \
     apk add --no-cache python3 && \
     if [ ! -e /usr/bin/python ]; then ln -sf python3 /usr/bin/python ; fi && \
-    python3 -m ensurepip && \
-    rm -r /usr/lib/python*/ensurepip && \
     pip3 install --no-cache --upgrade pip setuptools wheel && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi
 RUN \
@@ -17,7 +15,7 @@ RUN \
     # moviepy dependecies
     apk add --update jpeg-dev && \
     # app install
-    pip3 install moviepy && \
+    pip3 install moviepy mutagen && \
     # clean
     apk del .build-deps gcc g++ musl-dev linux-headers build-base python3-dev zlib-dev
 

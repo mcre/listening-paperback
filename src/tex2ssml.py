@@ -275,6 +275,12 @@ def main():
             print(f'日本語が存在しないか、英字含めて1文字以下のssmlがあります: {fn}.xml')
             raise Exception()
 
+    # タイトルのssmlを出力(fast_checkに含めるためcreate_cover_images_and_ssmlではなくここで生成)
+    with open(f'ssml/title.xml', 'w') as fw:
+        fw.write(u.ssml_prefix)
+        fw.write(config.get('title_yomi', config['title']))
+        fw.write(u.ssml_postfix)
+
     # corrector用にテキストデータを整形
     def get_diff(line):
         bpath = f'ssml_before/{line["ssml_filename"]}.xml'
