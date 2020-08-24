@@ -15,12 +15,24 @@
     - `title_yomi`
         - titleそのままだと読み間違うときに追加すると、こっちを読んでくれる。
         - `江戸川乱歩/お勢登場` 参照
+    - `music`
+        - この項目を消したら、BGM無し版となる。
+        - `file`
+            - `./materials/musics/` からの相対PATHでmp3ファイルを指定する。
+        - `author`, `url`
+            - 概要欄に反映される。
+    - `cover`
+        - musicと同様。消すと表紙が画像なしとなる。
+        - `file`
+            - `./materials/covers/` からの相対PATHで幅1280, 高さ720のpngファイルを指定する。
     - `part_configuration_settings`
         - 同じものが`consts.json`にもある。`config.json`が優先。
         - `optimal_duration_in_sec`
             - 各パートがこの時間にできるだけ近くなるようにする。(これより短い場合は長い場合よりペナルティが4倍になる)
         - `time_penalty_coef`
             - この値を大きくすると、時間ペナルティの影響が大きくなり、結合ペナルティの影響が小さくなる。
+        - `lump`
+            - trueにすると、パート分けされない。その場合`optimal_duration_in_sec`と`time_penalty_coef`は無視される。
     - `clearpage_on_blank_line`
         - デフォルトはTrue。Trueの場合、chapter中の空行で改ページを入れる。
         - azテキストのフォーマットにより空行は多発するような場合はFalseにする。あるいはaz2texのblank_lineの正規表現を直す。
@@ -75,6 +87,7 @@
         - `./batch.sh -c {設定名} {作者名}/{作品名}`
 2. プロジェクトの`./output/{git_commit_id}_{part_id_or_range}`以下に一部の中間ファイル、出力ファイルが出力される。
     - `./output/latest` には出力ファイルが上書きされる
+    - {設定名}を指定した場合は、`./output/{設定名}_{git_commit_id}_{part_id_or_range}`, `./output/{設定名}_latest` に出力される。
 
 * `./batch_first_pdf.sh {作者名}/{作品名}` を使うとpdfを生成し、ログを`./projects/{作者名}/{作品名}/tmp/batch_first_pdf.log` に保存できる。
     - 最初はこれかな。tex処理漏れ等を手軽に確認するために使う。

@@ -16,8 +16,13 @@ PATTERNS = {
 config = u.load_config()
 consts = u.load_consts()
 pc, od, tp = 'part_configuration_settings', 'optimal_duration_in_sec', 'time_penalty_coef'
-optimal_duration = config[pc][od] if pc in config else consts[pc][od]
-time_penalty_coef = config[pc][tp] if pc in config else consts[pc][tp]
+
+if config.get(pc, {}).get('lump', False):
+    optimal_duration = sys.maxsize
+    time_penalty_coef = consts[pc][tp]
+else:
+    optimal_duration = config[pc][od] if pc in config else consts[pc][od]
+    time_penalty_coef = config[pc][tp] if pc in config else consts[pc][tp]
 
 global_chapters = None
 following_optimal_penalty = {}
