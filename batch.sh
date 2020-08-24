@@ -1,3 +1,5 @@
+#!/bin/bash
+
 build_movie() {
   part_id=$1
   echo "### < part_id: ${part_id} >"
