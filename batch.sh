@@ -96,8 +96,17 @@ cp ./projects/${pj}/cache/ssml/* ./work/ssml_before
 
 cp -p ./materials/fonts/`cat ./work/config.json | jq -r .font` ./work/font.ttf || exit 1
 cp -p ./materials/fonts/ipaexg.ttf ./work/font_gothic.ttf || exit 1
-cp -p ./materials/covers/`cat ./work/config.json | jq -r .cover.file` ./work/cover.png || exit 1
-cp -p ./materials/musics/`cat ./work/config.json | jq -r .music.file` ./work/music.mp3 || exit 1
+
+cv=`cat ./work/config.json | jq -r .cover.file`
+if [ "${cv}" != "null" ]; then
+  cp -p ./materials/covers/${cv} ./work/cover.png || exit 1
+fi
+
+mu=`cat ./work/config.json | jq -r .music.file`
+if [ "${mu}" != "null" ]; then
+  cp -p ./materials/musics/${mu} ./work/music.mp3 || exit 1
+fi
+
 cp -p ./materials/libs/* ./work/ || exit 1
 
 echo '# az2tex'

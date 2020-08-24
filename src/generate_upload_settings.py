@@ -32,11 +32,9 @@ def main(part_id, version):
         'title': config['title'],
         'author': config['author'],
         'playlist': f"\n{config['title']}：https://www.youtube.com/playlist?list=${{playlist_id}}" if len(timekeeper['parts']) > 1 else '',
-        'music_author': config['music']['author'],
         'special_description': config['special_description'] + '\n\n' if 'special_description' in config and len(config['special_description']) > 0 else '',
-        'music_url': config['music']['url'],
-        'cover_author': config['cover']['author'],
-        'cover_url': config['cover']['url'],
+        'music': f"・音楽：{config['music']['author']} {config['music']['url']}\n" if 'music' in config else '',
+        'cover': f"・表紙：{config['cover']['author']} {config['cover']['url']}\n" if 'cover' in config else '',
         'version': version,
     })
     with open(f'{path}/description.txt', 'w') as f:

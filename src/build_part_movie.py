@@ -61,11 +61,15 @@ def main(part_id):
         video_clips.append(VideoFileClip(chapter['movie_path']).fadein(cft, bg).fadeout(cft, bg))
     video_clips.append(build_end_clip('next' if part_id < len(parts) - 1 else 'end'))
     video_clip = concatenate_videoclips(video_clips)
-    music_clip = AudioFileClip('music.mp3') \
-        .audio_loop(duration=video_clip.duration) \
-        .audio_fadeout(duration=consts['music_fadeout_time']) \
-        .volumex(consts['music_volume'])
-    audio_clip = CompositeAudioClip([video_clip.audio, music_clip])
+
+    if 'music' in config:
+        music_clip = AudioFileClip('music.mp3') \
+            .audio_loop(duration=video_clip.duration) \
+            .audio_fadeout(duration=consts['music_fadeout_time']) \
+            .volumex(consts['music_volume'])
+        audio_clip = CompositeAudioClip([video_clip.audio, music_clip])
+    else:
+        audio_clip = CompositeAudioClip([video_clip.audio])
     video_clip = video_clip.set_audio(audio_clip)
     vu.write_video(f'part_movies/{part_id:0>5}/movie.mp4', video_clip)
 

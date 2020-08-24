@@ -17,7 +17,5 @@ ${special_description}著作権が切れた日本の名作を「聴きやすく�
 【素材】
 ・文章：青空文庫 https://www.aozora.gr.jp/
 ・音声：Amazon Polly https://aws.amazon.com/jp/polly/
-・音楽：${music_author} ${music_url}
-・表紙：${cover_author} ${cover_url}
-------
+${music}${cover}------
 version.${version}

@@ -47,9 +47,10 @@ def draw_text(im, text, loc=None, shadow=False):
 def main():
     os.makedirs('cover_images', exist_ok=True)
     size = (1280, 720)
+    bc = u.hex_to_rgb(consts['background_color'])
 
     for part in timekeeper['parts']:
-        back = PIL.Image.open('cover.png')
+        back = PIL.Image.open('cover.png') if 'cover' in config else PIL.Image.new('RGB', size, color=bc)
         draw_text(back, '「聴く」名作文庫', loc={'type': 'x_center', 'y': 80, 'size': 100})
         draw_text(back, config['title'], loc={'type': 'in_rect', 'rect': (180, 220, size[0] - 180, 450)}, shadow=True)
         if len(timekeeper['parts']) > 1:  # 1パートしかない場合は第1回と言わない
@@ -58,7 +59,6 @@ def main():
         back.save(f'cover_images/{part["part_id"]:0>5}.png')
 
     loc = {'type': 'right_bottom', 'right': size[0] - 50, 'bottom': size[1] - 50, 'size': 100}
-    bc = u.hex_to_rgb(consts['background_color'])
     back = PIL.Image.new('RGB', size, color=bc)
     draw_text(back, 'つづく', loc=loc)
     back.save(f'cover_images/next.png')
