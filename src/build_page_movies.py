@@ -6,6 +6,7 @@ import util as u
 import video_util as vu
 from moviepy.editor import CompositeVideoClip, ImageClip
 
+config = u.load_config()
 consts = u.load_consts()
 timekeeper = u.load_timekeeper()
 
@@ -28,7 +29,7 @@ def main(part_id):
                 clip = None
                 gc.collect()
             video_clip = CompositeVideoClip(video_clips)
-            vu.write_raw_video(page['movie_path'], video_clip)
+            vu.write_raw_video(page['movie_path'], video_clip, config.get('low_quarity_intermediate_video_file', False))
             video_clip = None
             gc.collect()
 

@@ -41,7 +41,7 @@ def main(part_id):
                 clip = ImageClip(page['image_path']).set_start(page['start'] - cft).set_duration(cft).crossfadein(cft)
                 video_clips.append(clip)
         video_clip_tmp = CompositeVideoClip(video_clips)
-        vu.write_raw_video('tmp.avi', video_clip_tmp)  # メモリ不足回避のため一旦ファイル化する
+        vu.write_raw_video('tmp.avi', video_clip_tmp, config.get('low_quarity_intermediate_video_file', False))  # メモリ不足回避のため一旦ファイル化する
 
         # おそうじ
         clip, video_clips, video_clip_tmp = None, None, None
@@ -59,7 +59,7 @@ def main(part_id):
         else:
             last_clip = ImageClip(last_page['words'][-1]['animation_image_path']).set_duration(ci).set_audio(vu.silence_clip(ci))  # 無音を入れないと雑音がはいる
         video_clip = concatenate_videoclips([first_clip, video_clip, last_clip])
-        vu.write_raw_video(chapter['movie_path'], video_clip)
+        vu.write_raw_video(chapter['movie_path'], video_clip, config.get('low_quarity_intermediate_video_file', False))
         os.remove('tmp.avi')
 
 

@@ -25,6 +25,9 @@
         - musicと同様。消すと表紙が画像なしとなる。
         - `file`
             - `./materials/covers/` からの相対PATHで幅1280, 高さ720のpngファイルを指定する。
+    - `low_quarity_intermediate_video_file`
+        - これにTrueを指定すると動画の中間ファイルが圧縮データになる。無圧縮でディスクサイズが足りない場合にのみ使用する。
+        - デフォルトはFalse
     - `part_configuration_settings`
         - 同じものが`consts.json`にもある。`config.json`が優先。
         - `optimal_duration_in_sec`
