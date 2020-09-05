@@ -2,7 +2,7 @@ echo $1
 pj=$1
 mkdir -p ./projects/${pj}/tmp
 log="./projects/${pj}/tmp/batch_first_timekeeper.log"
-./batch.sh ${pj} x x voice 2>&1 | tee ${log}
+./batch.sh -s voice ${pj} 2>&1 | tee ${log}
 if [[ "${PIPESTATUS[0]}" == 1 ]] || [[ "$pipestatus[1]" == 1 ]]; then exit 0; fi;
 echo '# pdf2png' 2>&1 | tee -a ${log}
 hash=`docker run --rm -v $PWD/work:/work lp-python /bin/sh -c "tail -n +2 /work/novel.log | md5sum | cut -d ' ' -f 1"`
