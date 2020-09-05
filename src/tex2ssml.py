@@ -26,7 +26,7 @@ PATTERNS = {
     'remove_marks': re.compile(r'[「」〔〕{}$_&]'),
     'break_marks': re.compile(r'[『』（）]'),  # subを回避したthinkが詰まるのを回避する
     'double_odoriji': re.compile(r'([\p{Han}]{2})々々(?!</sub>)'),  # ルビ付きは一旦除外
-    'time_break': re.compile(r'([―…])'),
+    'time_break': re.compile(r'(?<![一ニ三四五六七八九])([―…])(?![一ニ三四五六七八九])'),  # 江戸川乱歩/怪人二十面相 の ニ―三人を変換するのを回避
     'tag': re.compile(r'''<("[^"]*"|'[^']*'|[^'">])*>'''),
 }
 gomi_list = ['{', '}']
