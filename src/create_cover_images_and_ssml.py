@@ -72,7 +72,7 @@ def main():
     ssml_texts.append({'fn': 'channel', 'text': '聴く、名作文庫'})
     ssml_texts.append({'fn': 'next', 'text': 'つづく'})
     ssml_texts.append({'fn': 'end', 'text': '終わり'})
-    ssml_texts.append({'fn': 'please', 'text': 'チャンネル登録と、グッドボタン、是非お願いします。再生リストの「第一回集」から、他にもたくさんの作品をご覧になれます。では、また次回。'})
+    ssml_texts.append({'fn': 'please', 'text': 'チャンネル登録と、グッドボタン、是非お願いします。再生リストの「第一回集」から、他にもたくさんの作品をご覧になれます。では、またお会いしましょう。'})
     for text in ssml_texts:
         with open(f'ssml/{text["fn"]}.xml', 'w') as fw:
             fw.write(u.ssml_prefix)
