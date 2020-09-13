@@ -397,7 +397,10 @@
         {"kanji": "魔法使", "ruby": "まほうつか"},
         {"kanji": "盗奪", "ruby": "とうだつ"},
         {"kanji": "種明", "ruby": "たねあか"},
-        {"kanji": "化", "ruby": "ば"}
+        {"kanji": "化", "ruby": "ば"},
+        {"kanji": "恵那山", "ruby": "エナサン"},
+        {"kanji": "委", "ruby": "くわ"},
+        {"kanji": "暴", "ruby": "あば"}
     ],
     "primary_special_rubies": [
         {"kanji": "一軒", "ruby": "イッケン", "offset_from_first_morpheme": 0, "morphemes": ["一軒|名詞|一軒|イッケン"]},
@@ -1536,6 +1539,12 @@
         {"kanji": "古代仏像", "ruby": "コダイブツゾウ", "offset_from_first_morpheme": 0, "morphemes": ["古代|名詞|古代|コダイ", "仏像|名詞|仏像|ブツゾウ"]},
         {"kanji": "地だんだ", "ruby": "地団駄", "offset_from_first_morpheme": 0, "morphemes": ["地だんだ|名詞|地団駄|ジダンダ"]},
         {"kanji": "こんきょ", "ruby": "根拠", "offset_from_first_morpheme": 0, "morphemes": ["こんきょ|名詞|根拠|コンキョ"]},
-        {"kanji": "やといいれ", "ruby": "雇い入れ", "offset_from_first_morpheme": 0, "morphemes": ["やとい|動詞|やとう|ヤトイ", "いれ|動詞|いる|イレ"]}
+        {"kanji": "やといいれ", "ruby": "雇い入れ", "offset_from_first_morpheme": 0, "morphemes": ["やとい|動詞|やとう|ヤトイ", "いれ|動詞|いる|イレ"]},
+        {"kanji": "セメント樽", "ruby": "セメントダル", "offset_from_first_morpheme": 0, "morphemes": ["セメント|名詞|セメント|セメント", "樽|名詞|樽|タル"]},
+        {"kanji": "思わせ振り", "ruby": "思わせぶり", "offset_from_first_morpheme": 0, "morphemes": ["思わせ振り|名詞|思わせ振り|オモワセブリ"]},
+        {"kanji": "壊われ", "ruby": "壊れ", "offset_from_first_morpheme": 0, "morphemes": ["壊|名詞||", "われ|動詞|われる|ワレ"]},
+        {"kanji": "セメント会社", "ruby": "セメントガイシャ", "offset_from_first_morpheme": 0, "morphemes": ["セメント|名詞|セメント|セメント", "会社|名詞|会社|カイシャ"]},
+        {"kanji": "此樽", "ruby": "このたる", "offset_from_first_morpheme": 0, "morphemes": ["此|名詞|此|コノ", "樽|名詞|樽|タル"]},
+        {"kanji": "幾樽", "ruby": "いくたる", "offset_from_first_morpheme": 0, "morphemes": ["幾|名詞|幾|イク", "樽|名詞|樽|タル"]}
     ]
 }
