@@ -207,7 +207,8 @@
         "すてぜりふ|名詞|捨てぜりふ|ステゼリフ",
         "ただならぬ|連体詞|ただならぬ|タダナラヌ",
         "第一人者|名詞|第一人者|ダイイチニンシャ",
-        "年若い|形容詞|年若い|トシワカイ"
+        "年若い|形容詞|年若い|トシワカイ",
+        "帆前船|名詞|帆前船|ホマエセン"
     ],
     "force_katakana_ruby_starts_with": ["は", "も", "と"],
     "ignore_rubies": [
@@ -400,7 +401,16 @@
         {"kanji": "化", "ruby": "ば"},
         {"kanji": "恵那山", "ruby": "エナサン"},
         {"kanji": "委", "ruby": "くわ"},
-        {"kanji": "暴", "ruby": "あば"}
+        {"kanji": "暴", "ruby": "あば"},
+        {"kanji": "絵具", "ruby": "エノグ"},
+        {"kanji": "臆病", "ruby": "オクビョウ"},
+        {"kanji": "石板", "ruby": "セキバン"},
+        {"kanji": "手垢", "ruby": "テアカ"},
+        {"kanji": "無勢", "ruby": "ぶぜい"},
+        {"kanji": "多勢", "ruby": "たぜい"},
+        {"kanji": "頷", "ruby": "うなず"},
+        {"kanji": "慌", "ruby": "あわ"},
+        {"kanji": "叶", "ruby": "かな"}
     ],
     "primary_special_rubies": [
         {"kanji": "一軒", "ruby": "イッケン", "offset_from_first_morpheme": 0, "morphemes": ["一軒|名詞|一軒|イッケン"]},
@@ -558,7 +568,6 @@
         {"kanji": "少からず", "ruby": "少なからず", "offset_from_first_morpheme": 0, "morphemes": ["少から|形容詞|少い|スクナカラ", "ず|助動詞|ぬ|ズ"]},
         {"kanji": "玉手箱", "ruby": "タマテバコ", "offset_from_first_morpheme": 0, "morphemes": ["玉手箱|名詞|玉手箱|タマテバコ"]},
         {"kanji": "一そ", "ruby": "いっそ", "offset_from_first_morpheme": 0, "morphemes": ["一|名詞|一|イチ", "そ|名詞|そ|ソ"]},
-        {"kanji": "時々", "ruby": "トキドキ", "offset_from_first_morpheme": 0, "morphemes": ["時々|副詞|時々|トキドキ"]},
         {"kanji": "不気味", "ruby": "ブキミ", "offset_from_first_morpheme": 0, "morphemes": ["不気味|名詞|不気味|ブキミ"]},
         {"kanji": "怖わ", "ruby": "こわ", "offset_from_first_morpheme": 0, "morphemes": ["怖|形容詞|怖い|コワ", "わ|助詞|わ|ワ"]},
         {"kanji": "好き者", "ruby": "スキモノ", "offset_from_first_morpheme": 0, "morphemes": ["好き者|名詞|好き者|スキモノ"]},
@@ -1545,6 +1554,9 @@
         {"kanji": "壊われ", "ruby": "壊れ", "offset_from_first_morpheme": 0, "morphemes": ["壊|名詞||", "われ|動詞|われる|ワレ"]},
         {"kanji": "セメント会社", "ruby": "セメントガイシャ", "offset_from_first_morpheme": 0, "morphemes": ["セメント|名詞|セメント|セメント", "会社|名詞|会社|カイシャ"]},
         {"kanji": "此樽", "ruby": "このたる", "offset_from_first_morpheme": 0, "morphemes": ["此|名詞|此|コノ", "樽|名詞|樽|タル"]},
-        {"kanji": "幾樽", "ruby": "いくたる", "offset_from_first_morpheme": 0, "morphemes": ["幾|名詞|幾|イク", "樽|名詞|樽|タル"]}
+        {"kanji": "幾樽", "ruby": "いくたる", "offset_from_first_morpheme": 0, "morphemes": ["幾|名詞|幾|イク", "樽|名詞|樽|タル"]},
+        {"kanji": "幾日", "ruby": "イクニチ", "offset_from_first_morpheme": 0, "morphemes": ["幾日か|副詞|幾日か|イクニチカ"]},
+        {"kanji": "休時間", "ruby": "ヤスミジカン", "offset_from_first_morpheme": 0, "morphemes": ["休|名詞|休|キュウ", "時間|名詞|時間|ジカン"]},
+        {"kanji": "多勢に無勢", "ruby": "タゼイニブゼイ", "offset_from_first_morpheme": 0, "morphemes": ["多勢に無勢|名詞|多勢に無勢|タゼイニブゼイ"]}
     ]
 }
