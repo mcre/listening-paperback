@@ -86,7 +86,6 @@
         "元来|名詞|元来|ガンライ",
         "同人|名詞|同人|ドウジン",
         "親不知|名詞|親不知|オヤシラズ",
-        "額|名詞|額|ガク",
         "一目|副詞|一目|ヒトメ",
         "魔法使|名詞|魔法使|マホウツカイ",
         "掛茶屋|名詞|掛茶屋|カケヂャヤ",
@@ -410,7 +409,22 @@
         {"kanji": "多勢", "ruby": "たぜい"},
         {"kanji": "頷", "ruby": "うなず"},
         {"kanji": "慌", "ruby": "あわ"},
-        {"kanji": "叶", "ruby": "かな"}
+        {"kanji": "叶", "ruby": "かな"},
+        {"kanji": "皿", "ruby": "サラ"},
+        {"kanji": "楽譜", "ruby": "ガクフ"},
+        {"kanji": "汗", "ruby": "アセ"},
+        {"kanji": "云", "ruby": "い"},
+        {"kanji": "床", "ruby": "ユカ"},
+        {"kanji": "肩", "ruby": "カタ"},
+        {"kanji": "尖", "ruby": "トガ"},
+        {"kanji": "叫", "ruby": "さけ"},
+        {"kanji": "叩", "ruby": "たた"},
+        {"kanji": "恨", "ruby": "うら"},
+        {"kanji": "砕", "ruby": "くだ"},
+        {"kanji": "居", "ruby": "お"},
+        {"kanji": "小太鼓", "ruby": "コダイコ"},
+        {"kanji": "拍子", "ruby": "ヒョウシ"},
+        {"kanji": "拍手", "ruby": "ハクシュ"}
     ],
     "primary_special_rubies": [
         {"kanji": "一軒", "ruby": "イッケン", "offset_from_first_morpheme": 0, "morphemes": ["一軒|名詞|一軒|イッケン"]},
@@ -665,7 +679,6 @@
         {"kanji": "ご遠慮", "ruby": "御遠慮", "offset_from_first_morpheme": 0, "morphemes": ["ご|接頭詞|ご|ゴ", "遠慮|名詞|遠慮|エンリョ"]},
         {"kanji": "ご生ですから", "ruby": "ゴショウですから", "offset_from_first_morpheme": 0, "morphemes": ["ご生|名詞|後生|ゴショウ", "です|助動詞|です|デス", "から|助詞|から|カラ"]},
         {"kanji": "何気ない風", "ruby": "何気ないフウ", "offset_from_first_morpheme": 0, "morphemes": ["何気ない|形容詞|何気ない|ナニゲナイ", "風|名詞|風|カゼ"]},
-        {"kanji": "かっこう鳥", "ruby": "カッコウドリ", "offset_from_first_morpheme": 0, "morphemes": ["かっこう|名詞|かっこう|カッコウ", "鳥|名詞|鳥|トリ"]},
         {"kanji": "ねどこ", "ruby": "寝床", "offset_from_first_morpheme": 0, "morphemes": ["ねどこ|名詞|ねどこ|ネドコ"]},
         {"kanji": "ああこの", "ruby": "ああ、この", "offset_from_first_morpheme": 0, "morphemes": ["ああ|感動詞|ああ|アア", "この|連体詞|この|コノ"]},
         {"kanji": "お慈悲", "ruby": "オジヒ", "offset_from_first_morpheme": 0, "morphemes": ["お|接頭詞|お|オ", "慈悲|名詞|慈悲|ジヒ"]},
@@ -1557,6 +1570,10 @@
         {"kanji": "幾樽", "ruby": "いくたる", "offset_from_first_morpheme": 0, "morphemes": ["幾|名詞|幾|イク", "樽|名詞|樽|タル"]},
         {"kanji": "幾日", "ruby": "イクニチ", "offset_from_first_morpheme": 0, "morphemes": ["幾日か|副詞|幾日か|イクニチカ"]},
         {"kanji": "休時間", "ruby": "ヤスミジカン", "offset_from_first_morpheme": 0, "morphemes": ["休|名詞|休|キュウ", "時間|名詞|時間|ジカン"]},
-        {"kanji": "多勢に無勢", "ruby": "タゼイニブゼイ", "offset_from_first_morpheme": 0, "morphemes": ["多勢に無勢|名詞|多勢に無勢|タゼイニブゼイ"]}
+        {"kanji": "多勢に無勢", "ruby": "タゼイニブゼイ", "offset_from_first_morpheme": 0, "morphemes": ["多勢に無勢|名詞|多勢に無勢|タゼイニブゼイ"]},
+        {"kanji": "セロ弾き", "ruby": "セロ疋", "offset_from_first_morpheme": 0, "morphemes": ["セロ|名詞|セロ|セロ", "弾き|動詞|弾く|ハジキ"]},
+        {"kanji": "楽手", "ruby": "ガクシュ", "offset_from_first_morpheme": 0, "morphemes": ["楽|名詞|楽|ラク", "手|名詞|手|シュ"]},
+        {"kanji": "いいかげん", "ruby": "イーカ減", "offset_from_first_morpheme": 0, "morphemes": ["いいかげん|副詞|いいかげん|イイカゲン"]},
+        {"kanji": "小太鼓", "ruby": "古代湖", "offset_from_first_morpheme": 0, "morphemes": ["小太鼓|名詞|小太鼓|コダイコ"]}
     ]
 }
