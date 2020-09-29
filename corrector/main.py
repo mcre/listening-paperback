@@ -185,7 +185,7 @@ class PagesWidget(ImagesViewerWidget):
                     voice_ids = [word['voice_id'] for word in page['words']]
                     pages.append({
                         'serial_page_id': page['serial_page_id'],
-                        'voice_id_list': list(range(min(voice_ids), max(voice_ids) + 1)),
+                        'voice_id_list': list(range(min(voice_ids), max(voice_ids) + 1)) if len(voice_ids) > 0 else [],
                     })
         self.voice_id_page_map = {}
         for i in range(pages[-1]['voice_id_list'][-1] + 1):
