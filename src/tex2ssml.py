@@ -21,7 +21,9 @@ PATTERNS = {
     'command': re.compile(r'\\(?!ruby)\S*?(?<rec>{((?:[^{}]+|(?&rec))*)})'),
     'command_no_params': re.compile(r'\\(?!ruby)\S*?(?=[\s}]|$)'),
     'chu_kakko_space': re.compile(r'{\s+(.*?)}'),
-    'dialogue': re.compile(r'「(.*?)」'),
+    'dialogue_1': re.compile(r'^「(.*?)」'),  # 文頭の発言の場合は高くする
+    'dialogue_2': re.compile(r'(?!^)「(.{20,}?)」'),  # 文中の発言が連続すると音声がどんどん高くなるバグがあるっぽいので、長い文字の場合のみ高くする
+    'dialogue_s': re.compile(r'(?!^)「(.{,10}?)」'),  # 短い文字は間隔だけ入れる、そもそもこういうのは発言じゃない場合も多いし。
     'think': re.compile(r'(?<!<sub alias=.*?>)(?:（(.*?)）|『(.*?)』)'),
     'remove_marks': re.compile(r'[「」〔〕{}$_&]'),
     'break_marks': re.compile(r'[『』（）]'),  # subを回避したthinkが詰まるのを回避する
@@ -255,7 +257,11 @@ def main():
             st, en = ruby['start'], ruby['end']
             t = f'{t[:st]}<sub alias="{ruby["ruby"]}">{t[st:en]}</sub>{t[en:]}'
         t = PATTERNS['masu_sub'].sub(r'</sub>〼', t)  # 〼</sub> を </sub>〼 に置換(breakを外に出さないとエラーになるので)
-        t = PATTERNS['dialogue'].sub(r'<break strength="weak"/><prosody pitch="+10%">\1</prosody><break strength="weak"/>', t)
+
+        t = PATTERNS['dialogue_s'].sub(r'<break strength="weak"/>\1<break strength="weak"/>', t)
+        ds = r'<break strength="weak"/><prosody pitch="+10%">\1</prosody><break strength="weak"/>'
+        t = PATTERNS['dialogue_1'].sub(ds, t)
+        t = PATTERNS['dialogue_2'].sub(ds, t)
         t = PATTERNS['think'].sub(r'<break strength="weak"/>\1\2<break strength="weak"/>', t)
         t = PATTERNS['remove_marks'].sub('', t)  # pollyのバグで、「<sub alias=\"カスケ\">加助"」等でmarksで余分なものが出るので記号系を置換しておく
         t = PATTERNS['break_marks'].sub('<break strength="weak"/>', t)

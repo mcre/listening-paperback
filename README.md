@@ -158,3 +158,6 @@ youtube-upload --title="test" --client-secret='./certs/youtube_client_secrets.js
 docker tag ec141d2a9de9 mcre/mecab-bottle:20190822
 docker push mcre/mecab-bottle:20190822
 ```
+
+* 声が高くなるとき
+    - 一文があまりにも長いと高くなる傾向がある。途中の「〜〜、」などを「〜〜。」に変換しておけばうまくいく。
