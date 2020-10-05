@@ -23,7 +23,7 @@ PATTERNS = {
     'chu_kakko_space': re.compile(r'{\s+(.*?)}'),
     'dialogue_1': re.compile(r'^「(.*?)」'),  # 文頭の発言の場合は高くする
     'dialogue_2': re.compile(r'(?!^)「(.{20,}?)」'),  # 文中の発言が連続すると音声がどんどん高くなるバグがあるっぽいので、長い文字の場合のみ高くする
-    'dialogue_s': re.compile(r'(?!^)「(.{,10}?)」'),  # 短い文字は間隔だけ入れる、そもそもこういうのは発言じゃない場合も多いし。
+    'dialogue_s': re.compile(r'(?!^)「(.{,19}?)」'),  # 短い文字は間隔だけ入れる、そもそもこういうのは発言じゃない場合も多いし。
     'think': re.compile(r'(?<!<sub alias=.*?>)(?:（(.*?)）|『(.*?)』)'),
     'remove_marks': re.compile(r'[「」〔〕{}$_&]'),
     'break_marks': re.compile(r'[『』（）]'),  # subを回避したthinkが詰まるのを回避する
