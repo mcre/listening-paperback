@@ -61,7 +61,7 @@
         - デフォルト値はconsts.jsonで設定されているが、`build_chapter_moives.py` で `IndexError: list index out of range` が発生する場合に値を調整するとエラーを回避できる場合がある。
         - `夏目漱石/こころ` 参照
 
-* const.json
+* consts.json
     - `ignore_rubies`
         - 普通の感じにふりがなしてあることにより発音が変になる場合にそのふりがなを無視できる。
         - 例: `{"kanji": "覗", "ruby": "のぞ"}`
