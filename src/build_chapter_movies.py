@@ -53,13 +53,19 @@ def main(part_id):
         video_clip = video_clip.set_audio(generate_voice_clip(chapter['voices'], video_clip.duration))
 
         # 前後に chapter_interval 分の静止画を挟んでおく
-        first_clip = ImageClip(first_page['image_path']).set_duration(ci).set_audio(vu.silence_clip(ci))
-        if len(last_page['words']) == 0:  # 最後が空ページの場合
-            last_clip = ImageClip(last_page['image_path']).set_duration(ci).set_audio(vu.silence_clip(ci))
-        else:
-            last_clip = ImageClip(last_page['words'][-1]['animation_image_path']).set_duration(ci).set_audio(vu.silence_clip(ci))  # 無音を入れないと雑音がはいる
-        video_clip = concatenate_videoclips([first_clip, video_clip, last_clip])
-        vu.write_raw_video(chapter['movie_path'], video_clip, config.get('low_quarity_intermediate_video_file', False))
+        for i in range(10):
+            ci_offset = ci + i / 100  # ci が特定の値の場合にwrite_raw_videoが落ちる場合があるため、その場合は数値を少し変えて書き出し直す
+            first_clip = ImageClip(first_page['image_path']).set_duration(ci_offset).set_audio(vu.silence_clip(ci_offset))
+            if len(last_page['words']) == 0:  # 最後が空ページの場合
+                last_clip = ImageClip(last_page['image_path']).set_duration(ci_offset).set_audio(vu.silence_clip(ci_offset))
+            else:
+                last_clip = ImageClip(last_page['words'][-1]['animation_image_path']).set_duration(ci_offset).set_audio(vu.silence_clip(ci_offset))  # 無音を入れないと雑音がはいる
+            write_video_clip = concatenate_videoclips([first_clip, video_clip, last_clip])
+            try:
+                vu.write_raw_video(chapter['movie_path'], write_video_clip, config.get('low_quarity_intermediate_video_file', False))
+            except IndexError:
+                continue
+            break
         os.remove('tmp.avi')
 
 
