@@ -64,6 +64,7 @@ def main(part_id):
             try:
                 vu.write_raw_video(chapter['movie_path'], write_video_clip, config.get('low_quarity_intermediate_video_file', False))
             except IndexError:
+                print(f'{i + 1}回目の処理失敗(chapter_interval{ci_offset})。10回以内の場合chapter_intervalを変えて再度実行します。')
                 continue
             break
         os.remove('tmp.avi')
