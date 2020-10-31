@@ -216,7 +216,8 @@
         "万世一系|名詞|万世一系|バンセイイッケイ",
         "出で立ち|名詞|出で立ち|イデタチ",
         "影ぼうし|名詞|影ぼうし|カゲボウシ",
-        "月長石|名詞|月長石|ゲッチョウセキ"
+        "月長石|名詞|月長石|ゲッチョウセキ",
+        "正義|名詞|正義|セイギ"
     ],
     "force_katakana_ruby_starts_with": ["は", "も", "と"],
     "ignore_rubies": [
@@ -523,7 +524,27 @@
         {"kanji": "喧嘩", "ruby": "ケンカ"},
         {"kanji": "濃", "ruby": "こ"},
         {"kanji": "点", "ruby": "つ"},
-        {"kanji": "綴", "ruby": "つづ"}
+        {"kanji": "綴", "ruby": "つづ"},
+        {"kanji": "世嗣", "ruby": "ヨツギ"},
+        {"kanji": "呆", "ruby": "あき"},
+        {"kanji": "下賤", "ruby": "ゲセン"},
+        {"kanji": "詫", "ruby": "わ"},
+        {"kanji": "自惚", "ruby": "うぬぼ"},
+        {"kanji": "騙", "ruby": "だま"},
+        {"kanji": "呑気", "ruby": "ノンキ"},
+        {"kanji": "氾濫", "ruby": "ハンラン"},
+        {"kanji": "橋桁", "ruby": "ハシゲタ"},
+        {"kanji": "浚", "ruby": "さら"},
+        {"kanji": "煽", "ruby": "あお"},
+        {"kanji": "棍棒", "ruby": "コンボウ"},
+        {"kanji": "截", "ruby": "た"},
+        {"kanji": "囁", "ruby": "ささや"},
+        {"kanji": "掬", "ruby": "すく"},
+        {"kanji": "跳", "ruby": "ハ"},
+        {"kanji": "齧", "ruby": "かじ"},
+        {"kanji": "微笑", "ruby": "ほほえ"},
+        {"kanji": "唸", "ruby": "うな"},
+        {"kanji": "溜息", "ruby": "タメイキ"}
     ],
     "primary_special_rubies": [
         {"kanji": "一軒", "ruby": "イッケン", "offset_from_first_morpheme": 0, "morphemes": ["一軒|名詞|一軒|イッケン"]},
@@ -610,7 +631,8 @@
         {"kanji": "思わく", "ruby": "思惑", "offset_from_first_morpheme": 0, "morphemes": ["思|名詞|思|オモイ", "わく|名詞|わく|ワク"]},
         {"kanji": "憚かる", "ruby": "憚る", "offset_from_first_morpheme": 0, "morphemes": ["憚|名詞||", "かる|動詞|かる|カル"]},
         {"kanji": "一騎うち", "ruby": "一騎討ち", "offset_from_first_morpheme": 0, "morphemes": ["一騎|名詞|一騎|カズキ", "うち|名詞|うち|ウチ"]},
-        {"kanji": "一日千秋", "ruby": "イチジツセンシュウ", "offset_from_first_morpheme": 0, "morphemes": ["一日千秋|名詞|一日千秋|イチジツセンシュウ"]}
+        {"kanji": "一日千秋", "ruby": "イチジツセンシュウ", "offset_from_first_morpheme": 0, "morphemes": ["一日千秋|名詞|一日千秋|イチジツセンシュウ"]},
+        {"kanji": "木葉微塵", "ruby": "コッパ微塵", "offset_from_first_morpheme": 0, "morphemes": ["木葉|名詞|木葉|コノハ", "微塵|名詞|微塵|ミジン"]}
     ],
     "special_rubies": [
         {"kanji": "三四人", "ruby": "サンヨニン", "offset_from_first_morpheme": 0, "morphemes": ["三|名詞|三|サン", "四|名詞|四|ヨン", "人|名詞|人|ニン"]},
@@ -791,7 +813,6 @@
         {"kanji": "日附", "ruby": "日付", "offset_from_first_morpheme": 0, "morphemes": ["日|名詞|日|ニチ", "附|名詞|附|ツケタリ"]},
         {"kanji": "気持", "ruby": "気持ち", "offset_from_first_morpheme": 0, "morphemes": ["気|名詞|気|キ", "持っ|動詞|持つ|モッ"]},
         {"kanji": "生地獄", "ruby": "生き地獄", "offset_from_first_morpheme": 0, "morphemes": ["生地獄|名詞|生地獄|イキジゴク"]},
-        {"kanji": "抱いて", "ruby": "だいて", "offset_from_first_morpheme": 0, "morphemes": ["抱い|動詞|抱く|ダイ", "て|助詞|て|テ"]},
         {"kanji": "年とって", "ruby": "歳取って", "offset_from_first_morpheme": 0, "morphemes": ["年|名詞|年|トシ", "とっ|動詞|とる|トッ", "て|助詞|て|テ"]},
         {"kanji": "無さ", "ruby": "なさ", "offset_from_first_morpheme": 0, "morphemes": ["無|形容詞|無い|ナ", "さ|名詞|さ|サ"]},
         {"kanji": "一月ばかり", "ruby": "ヒトツキばかり", "offset_from_first_morpheme": 0, "morphemes": ["一月|名詞|一月|イチガツ", "ばかり|助詞|ばかり|バカリ"]},
@@ -1773,6 +1794,13 @@
         {"kanji": "けぁ", "ruby": "きゃ", "offset_from_first_morpheme": 1, "morphemes": ["なけ|動詞|なける|ナケ", "ぁ|名詞||"]},
         {"kanji": "百ぺん", "ruby": "ヒャッペン", "offset_from_first_morpheme": 0, "morphemes": ["百|名詞|百|ヒャク", "ぺん|名詞|ぺん|ペン"]},
         {"kanji": "見たまえ", "ruby": "見給え", "offset_from_first_morpheme": 0, "morphemes": ["見|動詞|見る|ミ", "たまえ|名詞|たまえ|タマエ"]},
-        {"kanji": "こさえなけぁ", "ruby": "こさえなきゃ", "offset_from_first_morpheme": 0, "morphemes": ["こさえ|動詞|こさえる|コサエ", "なけ|動詞|なける|ナケ", "ぁいけないって|名詞||"]}
+        {"kanji": "こさえなけぁ", "ruby": "こさえなきゃ", "offset_from_first_morpheme": 0, "morphemes": ["こさえ|動詞|こさえる|コサエ", "なけ|動詞|なける|ナケ", "ぁいけないって|名詞||"]},
+        {"kanji": "石工", "ruby": "イシク", "offset_from_first_morpheme": 0, "morphemes": ["石工|名詞|石工|セッコウ"]},
+        {"kanji": "腹綿", "ruby": "腹わた", "offset_from_first_morpheme": 0, "morphemes": ["腹|名詞|腹|ハラ", "綿|名詞|綿|メン"]},
+        {"kanji": "立ち上る事", "ruby": "立ち上がること", "offset_from_first_morpheme": 0, "morphemes": ["立ち上る|動詞|立ち上る|タチノボル", "事|名詞|事|コト"]},
+        {"kanji": "精一ぱい", "ruby": "精一杯", "offset_from_first_morpheme": 0, "morphemes": ["精|名詞|精|セイ", "一ぱい|名詞|一ぱい|イッパイ"]},
+        {"kanji": "精も根も", "ruby": "セイもコンも", "offset_from_first_morpheme": 0, "morphemes": ["精|名詞|精|セイ", "も|助詞|も|モ", "根|名詞|根|ネ", "も|助詞|も|モ"]},
+        {"kanji": "裏切り者", "ruby": "裏切りもの", "offset_from_first_morpheme": 0, "morphemes": ["裏切り者|名詞|裏切り者|ウラギリモノ"]},
+        {"kanji": "一くち", "ruby": "一口", "offset_from_first_morpheme": 0, "morphemes": ["一|名詞|一|イチ", "くち|動詞|くちる|クチ"]}
     ]
 }
