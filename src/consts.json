@@ -222,7 +222,9 @@
         "二方|名詞|二方|フタカタ",
         "維管束|名詞|維管束|イカンソク",
         "悪鬼|名詞|悪鬼|アッキ",
-        "駄菓子屋|名詞|駄菓子屋|ダガシヤ"
+        "駄菓子屋|名詞|駄菓子屋|ダガシヤ",
+        "罰|名詞|罰|バチ",
+        "鉄格子|名詞|鉄格子|テツゴウシ"
     ],
     "force_katakana_ruby_starts_with": ["は", "も", "と"],
     "ignore_rubies": [
@@ -691,7 +693,18 @@
         {"kanji": "晒", "ruby": "さら"},
         {"kanji": "慌", "ruby": "あわただ"},
         {"kanji": "埃", "ruby": "ほこり"},
-        {"kanji": "彩", "ruby": "いろど"}
+        {"kanji": "彩", "ruby": "いろど"},
+        {"kanji": "彼方", "ruby": "カナタ"},
+        {"kanji": "止", "ruby": "トマ"},
+        {"kanji": "籠", "ruby": "こも"},
+        {"kanji": "顛覆", "ruby": "テンプク"},
+        {"kanji": "溺", "ruby": "おぼ"},
+        {"kanji": "戴", "ruby": "いただ"},
+        {"kanji": "手許", "ruby": "テモト"},
+        {"kanji": "貝殻", "ruby": "カイガラ"},
+        {"kanji": "罹", "ruby": "かか"},
+        {"kanji": "怨", "ruby": "うら"},
+        {"kanji": "亡", "ruby": "ほろ"}
     ],
     "primary_special_rubies": [
         {"kanji": "一軒", "ruby": "イッケン", "offset_from_first_morpheme": 0, "morphemes": ["一軒|名詞|一軒|イッケン"]},
@@ -724,6 +737,7 @@
         {"kanji": "年甲斐", "ruby": "トシガイ", "offset_from_first_morpheme": 0, "morphemes": ["年甲斐|名詞|年甲斐|トシガイ"]},
         {"kanji": "温和しい人", "ruby": "おとなしいひと", "offset_from_first_morpheme": 0, "morphemes": ["温和|名詞|温和|オンワ", "し|助動詞|き|シ", "い人|名詞|異人|イジン"]},
         {"kanji": "一日二日", "ruby": "イチニチフツカ", "offset_from_first_morpheme": 0, "morphemes": ["一日|名詞|一日|ヒトイチ", "二日|名詞|二日|ニノ"]},
+        {"kanji": "二三本", "ruby": "ニサンボン", "offset_from_first_morpheme": 0, "morphemes": ["二|名詞|二|ニ", "三|名詞|三|サン", "本|名詞|本|ホン"]},
         {"kanji": "二三百本", "ruby": "ニサンビャッポン", "offset_from_first_morpheme": 0, "morphemes": ["二|名詞|二|ニ", "三|名詞|三|サン", "百|名詞|百|ヒャク", "本|名詞|本|ホン"]},
         {"kanji": "二三度", "ruby": "ニサンド", "offset_from_first_morpheme": 0, "morphemes": ["二|名詞|二|ニ", "三度|名詞|三度|サンド"]},
         {"kanji": "二三間", "ruby": "ニサンケン", "offset_from_first_morpheme": 0, "morphemes": ["二|名詞|二|ニ", "三|名詞|三|サン", "間|名詞|間|ケン"]},
@@ -1996,6 +2010,15 @@
         {"kanji": "寺町通", "ruby": "寺町通り", "offset_from_first_morpheme": 0, "morphemes": ["寺町通|名詞|寺町通|テラマチドオリ"]},
         {"kanji": "冠った", "ruby": "かぶった", "offset_from_first_morpheme": 0, "morphemes": ["冠|名詞|冠|カンムリ", "っ|動詞|く|ッ", "た|助動詞|た|タ"]},
         {"kanji": "売柑者之言", "ruby": "倍感謝の減", "offset_from_first_morpheme": 0, "morphemes": ["売|名詞|売|ウリ", "柑者|名詞||", "之|助詞|之|ノ", "言|名詞|言|ゲン"]},
-        {"kanji": "跳りあがる", "ruby": "踊り上がる", "offset_from_first_morpheme": 0, "morphemes": ["跳|名詞|跳|チョウ", "り|助動詞|り|リ", "あがる|動詞|あがる|アガル"]}
+        {"kanji": "跳りあがる", "ruby": "踊り上がる", "offset_from_first_morpheme": 0, "morphemes": ["跳|名詞|跳|チョウ", "り|助動詞|り|リ", "あがる|動詞|あがる|アガル"]},
+        {"kanji": "照す", "ruby": "照らす", "offset_from_first_morpheme": 0, "morphemes": ["照|名詞|照|アキラ", "す|接頭詞|す|ス"]},
+        {"kanji": "二たび", "ruby": "再び", "offset_from_first_morpheme": 0, "morphemes": ["二|名詞|二|ニ", "たび|名詞|たび|タビ"]},
+        {"kanji": "憧がれ", "ruby": "憧れ", "offset_from_first_morpheme": 0, "morphemes": ["憧|名詞||", "が|助詞|が|ガ", "れ|動詞|れる|レ"]},
+        {"kanji": "有がたい", "ruby": "ありがたい", "offset_from_first_morpheme": 0, "morphemes": ["有|名詞|有|ユウ", "が|助詞|が|ガ", "たいと|名詞|タイト|タイト"]},
+        {"kanji": "おお", "ruby": "おお、", "offset_from_first_morpheme": 0, "morphemes": ["おお|感動詞|おお|オオ"]},
+        {"kanji": "お授け子", "ruby": "オサヅケゴ", "offset_from_first_morpheme": 0, "morphemes": ["お|接頭詞|お|オ", "授け|動詞|授ける|サヅケ", "子|名詞|子|コ"]},
+        {"kanji": "話合い", "ruby": "話し合い", "offset_from_first_morpheme": 0, "morphemes": ["話合い|名詞|話合い|ハナシアイ"]},
+        {"kanji": "年より夫婦", "ruby": "年寄り夫婦", "offset_from_first_morpheme": 0, "morphemes": ["年|名詞|年|トシ", "より|助詞|より|ヨリ", "夫婦|名詞|夫婦。|フウフ"]},
+        {"kanji": "この箱", "ruby": "このハコ", "offset_from_first_morpheme": 0, "morphemes": ["この|連体詞|この|コノ", "箱|名詞|箱|ハコ"]}
     ]
 }
