@@ -1178,7 +1178,30 @@
         {"kanji": "塊", "ruby": "カタマリ"},
         {"kanji": "腥", "ruby": "なまぐさ"},
         {"kanji": "囀", "ruby": "さえず"},
-        {"kanji": "薄闇", "ruby": "ウスヤミ"}
+        {"kanji": "薄闇", "ruby": "ウスヤミ"},
+        {"kanji": "佳", "ruby": "よ"},
+        {"kanji": "飛出", "ruby": "トビダ"},
+        {"kanji": "荷拵", "ruby": "にごしら"},
+        {"kanji": "西瓜", "ruby": "スイカ"},
+        {"kanji": "跨", "ruby": "また"},
+        {"kanji": "雑沓", "ruby": "ザットウ"},
+        {"kanji": "倅", "ruby": "セガレ"},
+        {"kanji": "攫", "ruby": "つか"},
+        {"kanji": "喚", "ruby": "よ"},
+        {"kanji": "股引穿", "ruby": "モモヒキバ"},
+        {"kanji": "不平", "ruby": "フヘイ"},
+        {"kanji": "行李", "ruby": "コウリ"},
+        {"kanji": "松皮", "ruby": "マツカワ"},
+        {"kanji": "工合", "ruby": "グアイ"},
+        {"kanji": "入用", "ruby": "イリヨウ"},
+        {"kanji": "退", "ruby": "しりぞ"},
+        {"kanji": "睡", "ruby": "ネム"},
+        {"kanji": "西施", "ruby": "セイシ"},
+        {"kanji": "啄", "ruby": "ついば"},
+        {"kanji": "嵌", "ruby": "ハ"},
+        {"kanji": "閊", "ruby": "つか"},
+        {"kanji": "凡", "ruby": "すべ"},
+        {"kanji": "然", "ruby": "シカ"}
     ],
     "primary_special_rubies": [
         {"kanji": "一軒", "ruby": "イッケン", "offset_from_first_morpheme": 0, "morphemes": ["一軒|名詞|一軒|イッケン"]},
@@ -1279,6 +1302,7 @@
         {"kanji": "穿め", "ruby": "嵌め", "offset_from_first_morpheme": 0, "morphemes": ["穿|名詞||", "め|名詞|め|メ"]}
     ],
     "special_rubies": [
+        {"kanji": "一人きり", "ruby": "ヒトリキリ", "offset_from_first_morpheme": 0, "morphemes": ["一人|名詞|一人|ヒトリ", "きり|名詞|きり|キリ"]},
         {"kanji": "三四人", "ruby": "サンヨニン", "offset_from_first_morpheme": 0, "morphemes": ["三|名詞|三|サン", "四|名詞|四|ヨン", "人|名詞|人|ニン"]},
         {"kanji": "一二", "ruby": "イチニ", "offset_from_first_morpheme": 0, "morphemes": ["一|名詞|一|イチ", "二|名詞|二|ニ"]},
         {"kanji": "二三", "ruby": "ニサン", "offset_from_first_morpheme": 0, "morphemes": ["二|名詞|二|ニ", "三|名詞|三|サン"]},
@@ -2556,6 +2580,19 @@
         {"kanji": "一思い", "ruby": "ひと思い", "offset_from_first_morpheme": 0, "morphemes": ["一|名詞|一|イチ", "思い|名詞|思い|オモイ"]},
         {"kanji": "お供します", "ruby": "おともします", "offset_from_first_morpheme": 0, "morphemes": ["お|接頭詞|お|オ", "供|名詞|供|キョウ", "し|動詞|する|シ", "ます|助動詞|ます|マス"]},
         {"kanji": "一ぱい", "ruby": "いっぱい", "offset_from_first_morpheme": 0, "morphemes": ["一ぱい|名詞|一ぱい|イッパイ"]},
-        {"kanji": "腰を下した", "ruby": "腰を下ろした", "offset_from_first_morpheme": 0, "morphemes": ["腰|名詞|腰|コシ", "を|助詞|を|ヲ", "下し|動詞|下す|クダシ", "た|助動詞|た|タ"]}
+        {"kanji": "腰を下した", "ruby": "腰を下ろした", "offset_from_first_morpheme": 0, "morphemes": ["腰|名詞|腰|コシ", "を|助詞|を|ヲ", "下し|動詞|下す|クダシ", "た|助動詞|た|タ"]},
+        {"kanji": "正月元日", "ruby": "ショーガツガンジツ", "offset_from_first_morpheme": 0, "morphemes": ["正月|名詞|正月|ショウガツ", "元日|名詞|元日|ガンジツ"]},
+        {"kanji": "老屋", "ruby": "ロー億", "offset_from_first_morpheme": 0, "morphemes": ["老|名詞|老|ロウ", "屋|名詞|屋|ヤ"]},
+        {"kanji": "よそ国", "ruby": "ヨソグニ", "offset_from_first_morpheme": 0, "morphemes": ["よそ|名詞|よそ|ヨソ", "国|名詞|国|コク"]},
+        {"kanji": "黒目勝ち", "ruby": "黒目がち", "offset_from_first_morpheme": 0, "morphemes": ["黒目勝ち|名詞|黒目勝ち|クロメガチ"]},
+        {"kanji": "日取", "ruby": "日取り", "offset_from_first_morpheme": 0, "morphemes": ["日取|名詞|日取り|ヒドリ"]},
+        {"kanji": "おつかつ", "ruby": "オツカツ", "offset_from_first_morpheme": 1, "morphemes": ["とお|動詞|とう|トオ", "つ|助動詞|つ|ツ", "かつ|接続詞|かつ|カツ"]},
+        {"kanji": "身の丈け", "ruby": "身の丈", "offset_from_first_morpheme": 0, "morphemes": ["身の丈|名詞|身の丈|ミノタケ", "け|助詞|け|ケ"]},
+        {"kanji": "身顫い", "ruby": "身震い", "offset_from_first_morpheme": 0, "morphemes": ["身|名詞|身|ミ", "顫|名詞||", "い|名詞|い|イ"]},
+        {"kanji": "元気づいて", "ruby": "げんきづいて", "offset_from_first_morpheme": 0, "morphemes": ["元気|名詞|元気|ゲンキ", "づい|動詞|づく|ヅイ", "て|助詞|て|テ"]},
+        {"kanji": "長煙管", "ruby": "なが煙管", "offset_from_first_morpheme": 0, "morphemes": ["長|接頭詞|長|チョウ", "煙管|名詞|煙管|キセル"]},
+        {"kanji": "飢饉年", "ruby": "飢饉どし", "offset_from_first_morpheme": 0, "morphemes": ["飢饉|名詞|飢饉|キキン", "年|名詞|年|ネン"]},
+        {"kanji": "積取って", "ruby": "摘み取って", "offset_from_first_morpheme": 0, "morphemes": ["積|名詞|積|セキ", "取っ|動詞|取る|トッ", "て|助詞|て|テ"]},
+        {"kanji": "股引穿き", "ruby": "股引ばき", "offset_from_first_morpheme": 0, "morphemes": ["股引|名詞|股引|モモヒキ", "穿き|動詞|穿く|ハキ"]}
     ]
 }
