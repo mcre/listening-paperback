@@ -449,6 +449,8 @@ class VoiceWidget(W):
         threading.Thread(target=playing_worker).start()
 
     def __on_stop(self):
+        if self.voice.length - self.voice.get_pos() < 0.5:
+            self.voice.seek(0)
         self.update_slider(0)
         self.__update_button_text()
 
