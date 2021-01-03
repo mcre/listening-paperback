@@ -6,24 +6,18 @@
     BoxLayout:
         size: root.size
         pos: root.pos
-        orientation: 'vertical'
+        orientation: 'horizontal'
+        CWButton:
+            size_hint_x: 0.1
+            text: root.play_button_text
+            on_release: root.on_play_button()
+        CWButton:
+            size_hint_x: 0.1
+            text: '□'
+            on_release: root.on_stop_button()
         Slider:
             max: root.slider_max
             value: root.slider_value
             value_track: True
             step: 0.01
             on_touch_up: root.on_touch_up_slider(self.value)
-        BoxLayout:
-            orientation: 'horizontal'
-            CWButton:
-                text: '<< 5'
-                on_release: root.on_back_button()
-            CWButton:
-                text: root.play_button_text
-                on_release: root.on_play_button()
-            CWButton:
-                text: '□'
-                on_release: root.on_stop_button()
-            CWButton:
-                text: '5 >>'
-                on_release: root.on_forward_button()

@@ -10,31 +10,21 @@
     plain_text_box: plain_text_box
     ssml_box: ssml_box
     diff_box: diff_box
-    tab: tab
     BoxLayout:
         size: root.size
         pos: root.pos
         orientation: 'vertical'
-        TabbedPanel:
-            id: tab
-            do_default_tab: False
-            TabbedPanelItem:
-                text: 'Plain'
-                TWTextInput:
-                    id: plain_text_box
-                    on_touch_up: root.on_touch_up_box(self.selection_from, self.selection_to, self.selection_text)
-            TabbedPanelItem:
-                text: 'SSML'
-                TWTextInput:
-                    id: ssml_box
-                    on_touch_up: root.on_touch_up_ssml_box(self.selection_text)
-            TabbedPanelItem:
-                text: 'DIFF'
-                TWTextInput:
-                    id: diff_box
+        TWTextInput:
+            id: plain_text_box
+            on_touch_up: root.on_touch_up_box(self.selection_from, self.selection_to, self.selection_text)
+        TWTextInput:
+            id: ssml_box
+            on_touch_up: root.on_touch_up_ssml_box(self.selection_text)
+        TWTextInput:
+            id: diff_box
         BoxLayout:
             orientation: 'horizontal'
-            size_hint_y: 0.1
+            size_hint_y: 0.15
             TWButton:
                 text: '〈 前検索'
                 on_release: root.on_find_prev_button()

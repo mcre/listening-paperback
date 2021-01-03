@@ -281,7 +281,6 @@ class TextsWidget(W):
     plain_text_box = ObjectProperty(None)
     ssml_box = ObjectProperty(None)
     diff_box = ObjectProperty(None)
-    tab = ObjectProperty(None)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -313,7 +312,7 @@ class TextsWidget(W):
         self.diff_box.cancel_selection()
 
     def find(self, prev=False):
-        box = self.tab.current_tab.content
+        box = self.plain_text_box
         if box.selection_from == 0 and box.selection_to == 0:  # 何も選択されていない、カーソルが最初にある状態
             f = -1
         else:
@@ -354,7 +353,9 @@ class TextsWidget(W):
             f, t = min(selection_from, selection_to), max(selection_from, selection_to)
             if self.times_by_cursor:
                 vw = root().voice_widget
-                if f in self.times_by_cursor:
+                if f == 0:
+                    sec = 0
+                elif f in self.times_by_cursor:
                     sec = self.times_by_cursor[f]
                 else:
                     sec = vw.voice.length
@@ -384,7 +385,7 @@ class TextsWidget(W):
         self.touch_text_box = False
 
     def on_touch_up_ssml_box(self, text):
-        if self.touch_text_box and text is not None:
+        if text is not None:
             if (obj := re.search(r'<sub alias="(.*?)">(.*?)</sub>', text)):
                 rw = root().ruby_widget
                 rw.target = {
@@ -392,7 +393,6 @@ class TextsWidget(W):
                     'ruby': obj.group(1),
                 }
                 rw.update_ruby(ssml=True)
-        self.touch_text_box = False
 
 
 class VoiceWidget(W):
@@ -449,8 +449,6 @@ class VoiceWidget(W):
         threading.Thread(target=playing_worker).start()
 
     def __on_stop(self):
-        if self.voice.length - self.voice.get_pos() < 0.5:
-            self.voice.seek(0)
         self.update_slider(0)
         self.__update_button_text()
 
