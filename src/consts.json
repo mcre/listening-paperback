@@ -232,7 +232,8 @@
         "火山島|名詞|火山島|カザントウ",
         "きびだんご|名詞|きびだんご|キビダンゴ",
         "喘ぎ喘ぎ|副詞|喘ぎ喘ぎ|アエギアエギ",
-        "京|名詞|京|キョウ"
+        "京|名詞|京|キョウ",
+        "恐か|形容詞|恐い|コワカ"
     ],
     "force_katakana_ruby_starts_with": ["は", "も", "と"],
     "ignore_rubies": [
@@ -1570,7 +1571,32 @@
         {"kanji": "本望", "ruby": "ホンモウ"},
         {"kanji": "亦", "ruby": "マタ"},
         {"kanji": "眩暈", "ruby": "メマイ"},
-        {"kanji": "陽炎", "ruby": "カゲロウ"}
+        {"kanji": "陽炎", "ruby": "カゲロウ"},
+        {"kanji": "或朝", "ruby": "アルアサ"},
+        {"kanji": "洞穴", "ruby": "ホラアナ"},
+        {"kanji": "抑", "ruby": "おさ"},
+        {"kanji": "狐", "ruby": "キツネ"},
+        {"kanji": "思出", "ruby": "おもいだ"},
+        {"kanji": "或", "ruby": "ア"},
+        {"kanji": "坊", "ruby": "ぼう"},
+        {"kanji": "抓", "ruby": "つね"},
+        {"kanji": "隙間", "ruby": "スキマ"},
+        {"kanji": "頂戴", "ruby": "チョウダイ"},
+        {"kanji": "探", "ruby": "さが"},
+        {"kanji": "眩", "ruby": "まぶ"},
+        {"kanji": "柔", "ruby": "やわら"},
+        {"kanji": "真綿", "ruby": "マワタ"},
+        {"kanji": "虹", "ruby": "ニジ"},
+        {"kanji": "粉雪", "ruby": "コナユキ"},
+        {"kanji": "樅", "ruby": "モミ"},
+        {"kanji": "霜焼", "ruby": "シモヤケ"},
+        {"kanji": "風呂敷", "ruby": "フロシキ"},
+        {"kanji": "檻", "ruby": "オリ"},
+        {"kanji": "掴", "ruby": "つか"},
+        {"kanji": "恐", "ruby": "こわ"},
+        {"kanji": "閉", "ruby": "し"},
+        {"kanji": "人差指", "ruby": "ヒトサシユビ"},
+        {"kanji": "啼", "ruby": "な"}
     ],
     "primary_special_rubies": [
         {"kanji": "一軒", "ruby": "イッケン", "offset_from_first_morpheme": 0, "morphemes": ["一軒|名詞|一軒|イッケン"]},
@@ -1671,7 +1697,8 @@
         {"kanji": "賑か", "ruby": "賑やか", "offset_from_first_morpheme": 0, "morphemes": ["賑|名詞|賑|ニギワイ", "かな|名詞|かな|カナ"]},
         {"kanji": "穿め", "ruby": "嵌め", "offset_from_first_morpheme": 0, "morphemes": ["穿|名詞||", "め|名詞|め|メ"]},
         {"kanji": "晩い", "ruby": "遅い", "offset_from_first_morpheme": 0, "morphemes": ["晩|名詞|晩|バン", "い|名詞|い|イ"]},
-        {"kanji": "御釈迦様", "ruby": "お釈迦さま", "offset_from_first_morpheme": 0, "morphemes": ["御釈迦|名詞|御釈迦|オシャカ", "様|名詞|様|サマ"]}
+        {"kanji": "御釈迦様", "ruby": "お釈迦さま", "offset_from_first_morpheme": 0, "morphemes": ["御釈迦|名詞|御釈迦|オシャカ", "様|名詞|様|サマ"]},
+        {"kanji": "照して", "ruby": "照らして", "offset_from_first_morpheme": 0, "morphemes": ["照|名詞|照|アキラ", "し|動詞|する|シ", "て|助詞|て|テ"]}
     ],
     "special_rubies": [
         {"kanji": "一人きり", "ruby": "ヒトリキリ", "offset_from_first_morpheme": 0, "morphemes": ["一人|名詞|一人|ヒトリ", "きり|名詞|きり|キリ"]},
@@ -3004,6 +3031,7 @@
         {"kanji": "くッつく", "ruby": "くっつく", "offset_from_first_morpheme": 1, "morphemes": ["とく|副詞|とく|トク", "ッ|名詞||", "つく|動詞|つく|ツク"]},
         {"kanji": "糸切歯", "ruby": "イトキリバ", "offset_from_first_morpheme": 0, "morphemes": ["糸切歯|名詞|糸切歯|イトキリバ"]},
         {"kanji": "一体全体", "ruby": "いったいぜんたい", "offset_from_first_morpheme": 0, "morphemes": ["一体全体|副詞|一体全体|イッタイゼンタイ"]},
-        {"kanji": "行手", "ruby": "行くて", "offset_from_first_morpheme": 0, "morphemes": ["行手|名詞|行手|ユクテ"]}
+        {"kanji": "行手", "ruby": "行くて", "offset_from_first_morpheme": 0, "morphemes": ["行手|名詞|行手|ユクテ"]},
+        {"kanji": "ともって", "ruby": "灯って", "offset_from_first_morpheme": 0, "morphemes": ["ともっ|動詞|ともる|トモッ", "て|助詞|て|テ"]}
     ]
 }
