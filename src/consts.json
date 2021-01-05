@@ -233,7 +233,8 @@
         "きびだんご|名詞|きびだんご|キビダンゴ",
         "喘ぎ喘ぎ|副詞|喘ぎ喘ぎ|アエギアエギ",
         "京|名詞|京|キョウ",
-        "恐か|形容詞|恐い|コワカ"
+        "恐か|形容詞|恐い|コワカ",
+        "花園|名詞|花園|ハナゾノ"
     ],
     "force_katakana_ruby_starts_with": ["は", "も", "と"],
     "ignore_rubies": [
@@ -1596,7 +1597,21 @@
         {"kanji": "恐", "ruby": "こわ"},
         {"kanji": "閉", "ruby": "し"},
         {"kanji": "人差指", "ruby": "ヒトサシユビ"},
-        {"kanji": "啼", "ruby": "な"}
+        {"kanji": "啼", "ruby": "な"},
+        {"kanji": "曖昧", "ruby": "アイマイ"},
+        {"kanji": "緻密", "ruby": "チミツ"},
+        {"kanji": "闡明", "ruby": "センメイ"},
+        {"kanji": "必須", "ruby": "ヒッス"},
+        {"kanji": "田舎者", "ruby": "イナカモノ"},
+        {"kanji": "朴念仁", "ruby": "ボクネンジン"},
+        {"kanji": "茶飯事", "ruby": "サハンジ"},
+        {"kanji": "赤裸", "ruby": "アカハダカ"},
+        {"kanji": "泡沫", "ruby": "ホウマツ"},
+        {"kanji": "孔子", "ruby": "コウシ"},
+        {"kanji": "老子", "ruby": "ロウシ"},
+        {"kanji": "芭蕉", "ruby": "バショウ"},
+        {"kanji": "広重", "ruby": "ヒロシゲ"},
+        {"kanji": "笑", "ruby": "え"}
     ],
     "primary_special_rubies": [
         {"kanji": "一軒", "ruby": "イッケン", "offset_from_first_morpheme": 0, "morphemes": ["一軒|名詞|一軒|イッケン"]},
@@ -3032,6 +3047,8 @@
         {"kanji": "糸切歯", "ruby": "イトキリバ", "offset_from_first_morpheme": 0, "morphemes": ["糸切歯|名詞|糸切歯|イトキリバ"]},
         {"kanji": "一体全体", "ruby": "いったいぜんたい", "offset_from_first_morpheme": 0, "morphemes": ["一体全体|副詞|一体全体|イッタイゼンタイ"]},
         {"kanji": "行手", "ruby": "行くて", "offset_from_first_morpheme": 0, "morphemes": ["行手|名詞|行手|ユクテ"]},
-        {"kanji": "ともって", "ruby": "灯って", "offset_from_first_morpheme": 0, "morphemes": ["ともっ|動詞|ともる|トモッ", "て|助詞|て|テ"]}
+        {"kanji": "ともって", "ruby": "灯って", "offset_from_first_morpheme": 0, "morphemes": ["ともっ|動詞|ともる|トモッ", "て|助詞|て|テ"]},
+        {"kanji": "のみ込み", "ruby": "飲み込み", "offset_from_first_morpheme": 0, "morphemes": ["の|助詞|の|ノ", "み込み|名詞|見込み|ミコミ"]},
+        {"kanji": "いくぶん", "ruby": "幾分", "offset_from_first_morpheme": 0, "morphemes": ["いくぶん|名詞|幾分|イクブン"]}
     ]
 }
