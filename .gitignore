@@ -7,6 +7,7 @@ __pycache__/
 tmp.md
 test.py
 batch_tmp_*.sh
+current
 
 /corrector/markers/*
 /corrector/config/*
