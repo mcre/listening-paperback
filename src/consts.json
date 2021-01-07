@@ -234,7 +234,11 @@
         "喘ぎ喘ぎ|副詞|喘ぎ喘ぎ|アエギアエギ",
         "京|名詞|京|キョウ",
         "恐か|形容詞|恐い|コワカ",
-        "花園|名詞|花園|ハナゾノ"
+        "花園|名詞|花園|ハナゾノ",
+        "恥知らず|名詞|恥知らず|ハジシラズ",
+        "川せみ|名詞|川蝉|カワセミ",
+        "よぼよぼ|副詞|よぼよぼ|ヨボヨボ",
+        "かぶとむし|名詞|かぶとむし|カブトムシ"
     ],
     "force_katakana_ruby_starts_with": ["は", "も", "と"],
     "ignore_rubies": [
@@ -1611,7 +1615,31 @@
         {"kanji": "老子", "ruby": "ロウシ"},
         {"kanji": "芭蕉", "ruby": "バショウ"},
         {"kanji": "広重", "ruby": "ヒロシゲ"},
-        {"kanji": "笑", "ruby": "え"}
+        {"kanji": "笑", "ruby": "え"},
+        {"kanji": "味噌", "ruby": "ミソ"},
+        {"kanji": "鷹", "ruby": "タカ"},
+        {"kanji": "蜜", "ruby": "ミツ"},
+        {"kanji": "爪", "ruby": "ツメ"},
+        {"kanji": "翔", "ruby": "か"},
+        {"kanji": "為", "ruby": "タメ"},
+        {"kanji": "口上", "ruby": "コウジョウ"},
+        {"kanji": "披露", "ruby": "ヒロウ"},
+        {"kanji": "襲", "ruby": "おそ"},
+        {"kanji": "吸殻", "ruby": "スイガラ"},
+        {"kanji": "一軒", "ruby": "イッケン"},
+        {"kanji": "巣", "ruby": "ス"},
+        {"kanji": "一杯", "ruby": "イッパイ"},
+        {"kanji": "餓", "ruby": "う"},
+        {"kanji": "弟", "ruby": "オトウト"},
+        {"kanji": "遭", "ruby": "あ"},
+        {"kanji": "呉", "ruby": "く"},
+        {"kanji": "羊歯", "ruby": "シダ"},
+        {"kanji": "霧", "ruby": "キリ"},
+        {"kanji": "灼", "ruby": "や"},
+        {"kanji": "紫", "ruby": "ムラサキ"},
+        {"kanji": "浮", "ruby": "う"},
+        {"kanji": "霜", "ruby": "シモ"},
+        {"kanji": "燐", "ruby": "リン"}
     ],
     "primary_special_rubies": [
         {"kanji": "一軒", "ruby": "イッケン", "offset_from_first_morpheme": 0, "morphemes": ["一軒|名詞|一軒|イッケン"]},
@@ -1713,7 +1741,8 @@
         {"kanji": "穿め", "ruby": "嵌め", "offset_from_first_morpheme": 0, "morphemes": ["穿|名詞||", "め|名詞|め|メ"]},
         {"kanji": "晩い", "ruby": "遅い", "offset_from_first_morpheme": 0, "morphemes": ["晩|名詞|晩|バン", "い|名詞|い|イ"]},
         {"kanji": "御釈迦様", "ruby": "お釈迦さま", "offset_from_first_morpheme": 0, "morphemes": ["御釈迦|名詞|御釈迦|オシャカ", "様|名詞|様|サマ"]},
-        {"kanji": "照して", "ruby": "照らして", "offset_from_first_morpheme": 0, "morphemes": ["照|名詞|照|アキラ", "し|動詞|する|シ", "て|助詞|て|テ"]}
+        {"kanji": "照して", "ruby": "照らして", "offset_from_first_morpheme": 0, "morphemes": ["照|名詞|照|アキラ", "し|動詞|する|シ", "て|助詞|て|テ"]},
+        {"kanji": "生はんか", "ruby": "生半可", "offset_from_first_morpheme": 0, "morphemes": ["生はんか|名詞|生半可|ナマハンカ"]}
     ],
     "special_rubies": [
         {"kanji": "一人きり", "ruby": "ヒトリキリ", "offset_from_first_morpheme": 0, "morphemes": ["一人|名詞|一人|ヒトリ", "きり|名詞|きり|キリ"]},
@@ -3049,6 +3078,10 @@
         {"kanji": "行手", "ruby": "行くて", "offset_from_first_morpheme": 0, "morphemes": ["行手|名詞|行手|ユクテ"]},
         {"kanji": "ともって", "ruby": "灯って", "offset_from_first_morpheme": 0, "morphemes": ["ともっ|動詞|ともる|トモッ", "て|助詞|て|テ"]},
         {"kanji": "のみ込み", "ruby": "飲み込み", "offset_from_first_morpheme": 0, "morphemes": ["の|助詞|の|ノ", "み込み|名詞|見込み|ミコミ"]},
-        {"kanji": "いくぶん", "ruby": "幾分", "offset_from_first_morpheme": 0, "morphemes": ["いくぶん|名詞|幾分|イクブン"]}
+        {"kanji": "いくぶん", "ruby": "幾分", "offset_from_first_morpheme": 0, "morphemes": ["いくぶん|名詞|幾分|イクブン"]},
+        {"kanji": "ただの", "ruby": "只の", "offset_from_first_morpheme": 0, "morphemes": ["ただ|名詞|ただ|タダ", "の|助詞|の|ノ"]},
+        {"kanji": "よあけ", "ruby": "夜明け", "offset_from_first_morpheme": 0, "morphemes": ["よ|形容詞|よい|ヨ", "あけ|名詞|あけ|アケ"]},
+        {"kanji": "おじぎ", "ruby": "お辞儀", "offset_from_first_morpheme": 0, "morphemes": ["おじぎ|名詞|おじぎ|オジギ"]},
+        {"kanji": "一たい", "ruby": "いったい", "offset_from_first_morpheme": 0, "morphemes": ["一|名詞|一|イチ", "たい|名詞|たい|タイ"]}
     ]
 }
