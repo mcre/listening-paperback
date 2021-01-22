@@ -176,7 +176,7 @@ class PagesWidget(ImagesViewerWidget):
         self.__create_voice_id_page_map()
 
     def __create_voice_id_page_map(self):
-        with open(f'work/timekeeper.json', 'r') as f:
+        with open('work/timekeeper.json', 'r') as f:
             timekeeper = json.load(f)
         pages = []
         for part in timekeeper['parts']:
@@ -214,9 +214,9 @@ class SentencesWidget(W):
 
     def init(self):
         super().init()
-        with open(f'work/sentences.json') as f:
+        with open('work/sentences.json') as f:
             self.sentences = json.load(f)
-        with open(f'work/polly_tasks.json') as f:
+        with open('work/polly_tasks.json') as f:
             tasks = json.load(f)
         tasks = [task['name'] for task in tasks if task['format'] == 'json']
         self.new_count = len(tasks)
