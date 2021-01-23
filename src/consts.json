@@ -1957,7 +1957,23 @@
         {"kanji": "土堤", "ruby": "ドテ"},
         {"kanji": "汚", "ruby": "よご"},
         {"kanji": "較", "ruby": "くら"},
-        {"kanji": "蝙蝠傘", "ruby": "コウモリガサ"}
+        {"kanji": "蝙蝠傘", "ruby": "コウモリガサ"},
+        {"kanji": "窮迫", "ruby": "キュウハク"},
+        {"kanji": "場末", "ruby": "バスエ"},
+        {"kanji": "逞", "ruby": "たくま"},
+        {"kanji": "心持", "ruby": "ココロモチ"},
+        {"kanji": "茲", "ruby": "ここ"},
+        {"kanji": "法螺", "ruby": "ホラ"},
+        {"kanji": "快", "ruby": "こころよ"},
+        {"kanji": "埃及", "ruby": "エジプト"},
+        {"kanji": "口髭", "ruby": "クチヒゲ"},
+        {"kanji": "折鞄", "ruby": "オリカバン"},
+        {"kanji": "儘", "ruby": "ママ"},
+        {"kanji": "応接間", "ruby": "オウセツマ"},
+        {"kanji": "抛", "ruby": "ほう"},
+        {"kanji": "隙", "ruby": "スキ"},
+        {"kanji": "便", "ruby": "たよ"},
+        {"kanji": "応接間", "ruby": "オウセツマ"}
     ],
     "primary_special_rubies": [
         {"kanji": "堪え得る", "ruby": "耐えうる", "offset_from_first_morpheme": 0, "morphemes": ["堪え|動詞|堪える|コタエ", "得る|動詞|得る|エル"]},
@@ -2064,7 +2080,8 @@
         {"kanji": "生はんか", "ruby": "生半可", "offset_from_first_morpheme": 0, "morphemes": ["生はんか|名詞|生半可|ナマハンカ"]},
         {"kanji": "羞しい", "ruby": "恥ずかしい", "offset_from_first_morpheme": 0, "morphemes": ["羞|名詞||", "し|動詞|する|シ", "い|動詞|いる|イ"]},
         {"kanji": "嗤って", "ruby": "笑って", "offset_from_first_morpheme": 0, "morphemes": ["嗤|名詞||", "って|助詞|って|ッテ"]},
-        {"kanji": "穏か", "ruby": "穏やか", "offset_from_first_morpheme": 0, "morphemes": ["穏|名詞||", "か|助詞|か|カ"]}
+        {"kanji": "穏か", "ruby": "穏やか", "offset_from_first_morpheme": 0, "morphemes": ["穏|名詞||", "か|助詞|か|カ"]},
+        {"kanji": "夫々", "ruby": "それぞれ", "offset_from_first_morpheme": 0, "morphemes": ["夫々|名詞|夫々|ソレゾレ"]}
     ],
     "special_rubies": [
         {"kanji": "一人きり", "ruby": "ヒトリキリ", "offset_from_first_morpheme": 0, "morphemes": ["一人|名詞|一人|ヒトリ", "きり|名詞|きり|キリ"]},
@@ -3421,6 +3438,7 @@
         {"kanji": "七、八歳", "ruby": "シチハッサイ", "offset_from_first_morpheme": 0, "morphemes": ["七|名詞|七|ナナ", "、|記号|、|、", "八|名詞|八|ハチ", "歳|名詞|歳|サイ"]},
         {"kanji": "森寒", "ruby": "震撼", "offset_from_first_morpheme": 0, "morphemes": ["森|名詞|森|モリ", "寒|名詞|寒|カン"]},
         {"kanji": "関雲長", "ruby": "カンウンチョウ", "offset_from_first_morpheme": 0, "morphemes": ["関|名詞|関|セキ", "雲|名詞|雲|クモ", "長|名詞|長|チョウ"]},
-        {"kanji": "金毘羅様", "ruby": "金比羅さま", "offset_from_first_morpheme": 0, "morphemes": ["金毘羅|名詞|金毘羅|コンピラ", "様|名詞|様|サマ"]}
+        {"kanji": "金毘羅様", "ruby": "金比羅さま", "offset_from_first_morpheme": 0, "morphemes": ["金毘羅|名詞|金毘羅|コンピラ", "様|名詞|様|サマ"]},
+        {"kanji": "大人気ない", "ruby": "大人げない", "offset_from_first_morpheme": 0, "morphemes": ["大人気ない|形容詞|大人気ない|オトナゲナイ"]}
     ]
 }
