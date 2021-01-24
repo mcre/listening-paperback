@@ -60,6 +60,10 @@
     - `chapter_interval`
         - デフォルト値はconsts.jsonで設定されているが、`build_chapter_moives.py` で `IndexError: list index out of range` が発生する場合に値を調整するとエラーを回避できる場合がある。
         - `夏目漱石/こころ` 参照
+    - `ssml_final_overall_replaces`
+        - 同じものが`consts.json`にもある。両方をマージしたものが使われる。
+        - ssml作成処理の最後に、SSMLの一文を任意の一文に置換する。
+        - カギカッコとかの兼ね合いとか、短い文字を置換したい場合に使用。
 
 * consts.json
     - `ignore_rubies`

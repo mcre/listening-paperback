@@ -234,6 +234,8 @@ def main():
             rubies_map[key] = []
         rubies_map[key].append(ruby)
 
+    ssml_final_overall_replaces = {**config.get('ssml_final_overall_replaces', {}), **consts.get('ssml_final_overall_replaces', {})}
+
     for line_id, line in enumerate(lines):
         offset = 0  # lineのうちのこの文字まで処理済み(なので再処理しない)
         for morpheme_id, morpheme in enumerate(line['morphemes']):
@@ -268,6 +270,10 @@ def main():
         t = PATTERNS['double_odoriji'].sub(r'\1<sub alias="\1">々々</sub>', t)
         t = PATTERNS['time_break'].sub(r'<break time="0.5s"/>\1', t)
         t = PATTERNS['masu'].sub(r'<break time="800ms"/>', t)
+
+        for k, v in ssml_final_overall_replaces.items():
+            if t == k:
+                t = v
         line['ssml_ruby_text'] = t
 
     for line in lines:
@@ -282,7 +288,7 @@ def main():
             raise Exception()
 
     # タイトルのssmlを出力(fast_checkに含めるためcreate_cover_images_and_ssmlではなくここで生成)
-    with open(f'ssml/title.xml', 'w') as fw:
+    with open('ssml/title.xml', 'w') as fw:
         fw.write(u.ssml_prefix)
         fw.write(config.get('title_yomi', config['title']))
         fw.write(u.ssml_postfix)

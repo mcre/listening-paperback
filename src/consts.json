@@ -14,6 +14,11 @@
         "optimal_duration_in_sec": 600,
         "time_penalty_coef": 0.3
     },
+    "ssml_final_overall_replaces": {
+        "上": "<sub alias=\"ジョウ\">上</sub>",
+        "中": "<sub alias=\"チュウ\">中</sub>",
+        "下": "<sub alias=\"ゲ\">下</sub>"
+    },
     "use_mecab_yomi_rubies": [
         "方|名詞|方|ホウ",
         "二人|名詞|二人|フタリ",
