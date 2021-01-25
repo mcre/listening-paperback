@@ -21,6 +21,9 @@ ignore_width = [  # この幅に一致する場合は既読の対象にしない
 replace_chars = {  # テキストからPDFになると自動変換されている文字リスト
     "'": '’'
 }
+ignore_chars = [  # テキストを無視するリスト
+    ' '
+]
 PATTERNS = {
     'alphabet': re.compile(r'[A-Za-z]'),
     'alphabet_lower': re.compile(r'[a-z]'),
@@ -85,6 +88,8 @@ def main(part_id):
                 if word['start_index_in_page'] < 0:  # ページ切り替えで前ページに余った文字を既読にするとずれるので、調整する
                     w = w[- word['start_index_in_page']:]
                 for char in w:
+                    if char in ignore_chars:
+                        continue
                     if char in replace_chars:
                         char = replace_chars[char]
                     rects = pdf_page.searchFor(char, hit_max=100)
