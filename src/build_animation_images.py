@@ -22,11 +22,12 @@ replace_chars = {  # テキストからPDFになると自動変換されてい�
     "'": '’'
 }
 ignore_chars = [  # テキストを無視するリスト
-    ' '
+    ' ',
+    '.'
 ]
 PATTERNS = {
-    'alphabet': re.compile(r'[A-Za-z]'),
-    'alphabet_lower': re.compile(r'[a-z]'),
+    'alphabet': re.compile(r'[A-Za-z0-9]'),
+    'alphabet_lower': re.compile(r'[a-z0-9]'),
     'alphabet_upper': re.compile(r'[A-Z]'),
 }
 
