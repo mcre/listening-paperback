@@ -14,8 +14,8 @@ PATTERNS = {
     'accent': re.compile(r'\n.*?\\kern.*?\(for\saccent\)\n(.*?)\^\n.*?\\kern.*?\(for\saccent\)\n'),
     'char': re.compile(r'(?:\\J[TY]2/(?:mc|gt)/m/n/|\\OT1/lmr/m/n/|\\OML/lmm/m/it/)(?:7\.1|8\.40009|9\.79996|10\.8|13\.2|14|14\.8|15\.6|16\.4|17\.2|18|18\.8|19\.6|23\.8|35)\s(\S+?)(?:\s\(.*?\))?\n'),
     'ruby': re.compile(r'\\ruby{(.*?)}{(.*?)}'),
-    'command': re.compile(r'\\(?!(part|chapter|textgt)).*?{(.*?)}({.*?})?'),
-    'command_no_params': re.compile(r'\\(?!(part|chapter|textgt))\S*?\s'),
+    'command': re.compile(r'\\(?!(part|chapter|textgt|kenten)).*?{(.*?)}({.*?})?'),
+    'command_no_params': re.compile(r'\\(?!(part|chapter|textgt|kenten))\S*?\s'),
     'chapter': re.compile(r'(?:\\part{(.+?)}|\\chapter{(.+?)}\s*([^\\\n]{0,10})|%\smanual_chapter\s*([^\\\n]{0,10})|%\sblank_line\s*([^\\\n]{0,10}))'),
     'paragraphs': re.compile(r'^[^\\\n,%「]{20}', flags=re.MULTILINE),  # `「` は切れ目として不自然になりやすいから除く
 }
