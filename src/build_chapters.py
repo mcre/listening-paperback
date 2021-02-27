@@ -2,6 +2,12 @@ import json
 
 import regex as re
 
+import util as u
+
+
+config = u.load_config()
+consts = u.load_consts()
+
 PATTERNS = {
     'page': re.compile(r'Completed box being shipped out.*?\|\.\\special{'),
     'discretionaries': re.compile(r'\n([\.]*?)\\discretionary\n\1[\.]\\.*?\n|\n([\.]*?)\\discretionary\sreplacing\s2\n\2[\.]\\.*?\n\2[\.]\\.*?\n'),
@@ -27,14 +33,9 @@ REPLACES = {
 }
 
 # chapter分割の重み指定
-SPLIT_PRIORITIES = {
-    'first_page': 0,
-    'part': 0,
-    'chapter': 0,
-    'manual_chapter': 0,
-    'blank_line': 1,
-    'coincidentally_newpage': 2,
-}
+pcs = 'part_configuration_settings'
+sp = 'split_priorities'
+SPLIT_PRIORITIES = config[pcs][sp] if config.get(pcs, {}).get(sp) is not None else consts[pcs][sp]
 
 
 def plain(text):

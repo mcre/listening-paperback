@@ -11,6 +11,14 @@
     "music_volume": 0.01,
     "music_fadeout_time": 5,
     "part_configuration_settings": {
+        "split_priorities": {
+            "first_page": 0,
+            "part": 0,
+            "chapter": 0,
+            "manual_chapter": 0,
+            "blank_line": 30,
+            "coincidentally_newpage": 50
+        },
         "optimal_duration_in_sec": 600,
         "time_penalty_coef": 0.3
     },

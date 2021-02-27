@@ -30,6 +30,9 @@
         - デフォルトはFalse
     - `part_configuration_settings`
         - 同じものが`consts.json`にもある。`config.json`が優先。
+        - `split_priorities`
+            - それぞれのパラメータにペナルティ数を設定。最小は0で小さい方が分割されやすい。
+            - `first_page`, `part`, `chapter`, `manual_chapter`, `blank_line`, `coincidentally_newpage`
         - `optimal_duration_in_sec`
             - 各パートがこの時間にできるだけ近くなるようにする。(これより短い場合は長い場合よりペナルティが4倍になる)
         - `time_penalty_coef`
