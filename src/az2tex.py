@@ -32,6 +32,7 @@ PATTERNS = {
     ],
     'remaining_ruby': re.compile(r'《.*?》'),
     'remaining_command': re.compile(r'［＃.*?］'),
+    'headtext': re.compile(r'［＃.*］|《.*?》'),  # chapter_name / part_name からコマンドを消す
     'kunoji': re.compile(r'／＼'),
     'kunoji_dakuten': re.compile(r'／″＼'),
     'big': re.compile(r'((.*?)(?:《.*》)?(.*?)(?:《.*》)?(.*?)(?:《.*》)?(.*?))［＃「\2\3\4\5」は([１２３４５６７８９０]+)段階大きな文字］'),
@@ -202,12 +203,9 @@ def apply_only_text(line, command):
         return '\\' + command + r'{' + ls + r'}'
 
 
-# chapter_name / part_name からコマンドを消す
-ht_ptn = re.compile(r'［＃.*］')
-
-
 def ht(name):
-    return ht_ptn.sub('', name)
+    ret = PATTERNS['headtext'].sub('', name)
+    return ret
 
 
 def main():
