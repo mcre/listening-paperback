@@ -69,7 +69,7 @@ def plain_except_ruby(line):
 
 
 def mecab(line):
-    mt = MeCab.Tagger('-d /usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd --node-format=%m,%M,%H\\n')
+    mt = MeCab.Tagger('-r/etc/mecabrc -d /usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd --node-format=%m,%M,%H\\\n')
     columns = ['表層形', '空白付表層形', '品詞', '品詞細分類1', '品詞細分類2', '品詞細分類3', '活用型' ,'活用形', '原形', '読み', '発音']
     mecab_results = [dict(zip(columns, [result if result != '*' else '' for result in (results + ',*,*,*,*,*').split(',')])) for results in mt.parse(line).splitlines() if results != 'EOS']
 
