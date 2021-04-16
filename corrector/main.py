@@ -95,6 +95,8 @@ class ImagesViewerWidget(W):
     button_disabled_next = BooleanProperty(False)
     sub_image_path = StringProperty(None)
     enable_sub = BooleanProperty(False)
+    comment = StringProperty('')
+    enable_comment = BooleanProperty(False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -105,6 +107,7 @@ class ImagesViewerWidget(W):
         self.images = None
         self.cursor = 0
         self.darks = []
+        self.comments = {}
 
     def set_images(self, images):
         self.images = images
@@ -123,6 +126,7 @@ class ImagesViewerWidget(W):
             self.label += f'   ({len(self.darks)})'
         self.image_path = self.images[self.cursor]
         self.image_darker = self.image_path in self.darks
+        self.comment = self.comments.get(self.image_path, '')
         if self.enable_sub:
             self.sub_image_path = self.images[self.cursor + 1] if self.cursor + 1 < len(self.images) else ''
 
@@ -137,6 +141,7 @@ class ImagesViewerWidget(W):
 
 class MarkersWidget(ImagesViewerWidget):
     __darks_path = 'corrector/markers/darks.json'
+    __comments_path = 'corrector/markers/comments.json'
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -144,10 +149,15 @@ class MarkersWidget(ImagesViewerWidget):
 
     def init(self):
         super().init()
+        self.enable_comment = True
         self.set_images(sorted(glob.glob('corrector/markers/*[!json]')))
         if os.path.exists(self.__darks_path):
             with open(self.__darks_path) as f:
                 self.darks = json.load(f)
+            self.update_image()
+        if os.path.exists(self.__comments_path):
+            with open(self.__comments_path) as f:
+                self.comments = json.load(f)
             self.update_image()
 
     def on_touch_down(self, touch):
@@ -162,6 +172,12 @@ class MarkersWidget(ImagesViewerWidget):
                 self.update_image()
                 with open(self.__darks_path, 'w') as f:
                     json.dump(self.darks, f, ensure_ascii=False, indent=4)
+
+    def on_enter(self, text):
+        self.comments[self.image_path] = text
+        with open(self.__comments_path, 'w') as f:
+            json.dump(self.comments, f, ensure_ascii=False, indent=4)
+        self.comment = text
 
 
 class PagesWidget(ImagesViewerWidget):
