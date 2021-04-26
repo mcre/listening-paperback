@@ -46,6 +46,11 @@
                 on_release: root.on_button(-1)
                 disabled: root.button_disabled_prev
             IVWButton:
+                size_hint_x: 0.3
+                text: '★'
+                on_release: root.on_jump_button()
+                disabled: root.button_disabled_next
+            IVWButton:
                 text: '>'
                 on_release: root.on_button(1)
                 disabled: root.button_disabled_next

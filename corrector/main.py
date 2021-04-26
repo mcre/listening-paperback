@@ -134,6 +134,13 @@ class ImagesViewerWidget(W):
         self.cursor += count
         self.update_image()
 
+    def on_jump_button(self):
+        for i in range(self.cursor + 1, len(self.images)):
+            if self.images[i] not in self.darks:
+                self.cursor = i
+                self.update_image()
+                return
+
     def jump(self, image_id):
         self.cursor = image_id
         self.update_image()
