@@ -15,6 +15,7 @@ import kivy.uix.popup
 import kivy.uix.textinput
 import kivy.uix.treeview
 import kivy.uix.widget
+import mutagen.mp3
 
 from kivy.properties import ObjectProperty, StringProperty, BooleanProperty, NumericProperty
 
@@ -381,7 +382,7 @@ class TextsWidget(W):
                 elif f in self.times_by_cursor:
                     sec = self.times_by_cursor[f]
                 else:
-                    sec = vw.voice.length
+                    sec = vw.slider_max
                 if vw.voice:
                     vw.voice.seek(sec)
                     vw.update_slider(sec)
@@ -444,7 +445,8 @@ class VoiceWidget(W):
         print(f'load start: {file_path}')
         self.voice = kivy.core.audio.SoundLoader.load(file_path)
         print(f'load end: {file_path}')
-        self.slider_max = self.voice.length
+
+        self.slider_max = mutagen.mp3.MP3(file_path).info.length  # self.voice.lengthが-1になるのでmutagenを使う
         self.voice.on_play = self.__on_play
         self.voice.on_stop = self.__on_stop
         self.update_slider()
@@ -472,7 +474,7 @@ class VoiceWidget(W):
         threading.Thread(target=playing_worker).start()
 
     def __on_stop(self):
-        if self.voice.length - self.voice.get_pos() < 0.5:
+        if self.slider_max - self.voice.get_pos() < 0.5:
             self.voice.seek(0)
         self.update_slider(0)
         self.__update_button_text()
@@ -480,8 +482,8 @@ class VoiceWidget(W):
     def __seek(self, seconds):
         if self.voice:
             p = self.voice.get_pos() + seconds
-            if p > self.voice.length:
-                p = self.voice.length
+            if p > self.slider_max:
+                p = self.slider_max
             elif p < 0:
                 p = 0
             self.voice.seek(p)
