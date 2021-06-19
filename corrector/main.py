@@ -438,6 +438,7 @@ class VoiceWidget(W):
         self.slider_max = 0
         self.slider_value = 0
         self.play_button_text = '▷'
+        self.slider_update_wait = False
 
     def set_voice(self, file_path):
         if self.voice:
@@ -453,6 +454,8 @@ class VoiceWidget(W):
         self.__update_button_text()
 
     def update_slider(self, value=None):
+        if self.slider_update_wait:
+            return
         if self.touch_slider:
             return
         if value:
@@ -493,11 +496,13 @@ class VoiceWidget(W):
         if self.voice:
             if self.voice.state == 'stop':
                 print('voice play')
+                self.slider_update_wait = True
                 self.voice.play()
+                self.voice.seek(self.slider_value)  # play中にseekしないとうまく行かない場合がある
             else:
                 self.voice.stop()
-            self.update_slider()
             self.__update_button_text()
+            self.slider_update_wait = False
 
     def on_stop_button(self):
         if self.voice:
