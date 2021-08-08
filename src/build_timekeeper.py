@@ -15,14 +15,16 @@ PATTERNS = {
 
 config = u.load_config()
 consts = u.load_consts()
-pc, od, tp = 'part_configuration_settings', 'optimal_duration_in_sec', 'time_penalty_coef'
+pc, od, tp, pcs = 'part_configuration_settings', 'optimal_duration_in_sec', 'time_penalty_coef', 'penalty_chapters'
 
 if config.get(pc, {}).get('lump', False):
     optimal_duration = sys.maxsize
     time_penalty_coef = consts[pc][tp]
+    penalty_chapters = consts[pc][pcs]
 else:
     optimal_duration = config[pc][od] if pc in config else consts[pc][od]
     time_penalty_coef = config[pc][tp] if pc in config else consts[pc][tp]
+    penalty_chapters = config[pc][pcs] if pc in config else consts[pc][pcs]
 
 global_chapters = None
 following_optimal_penalty = {}
@@ -59,6 +61,12 @@ def calc_penalty(parts):
     for part in parts:
         connection_penalty += global_chapters[part[0]]['split_priority']
         duration = sum([global_chapters[chapter_id]['duration'] for chapter_id in part])
+
+        tx = global_chapters[part[0]]['pages'][0]['text']
+        for penalty_text in penalty_chapters:
+            if tx.startswith(penalty_text):
+                time_penalty = sys.maxsize
+
         if duration < optimal_duration:  # 短い場合はペナルティ4倍
             time_penalty += (optimal_duration - duration) * 4
         else:

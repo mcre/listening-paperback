@@ -37,6 +37,8 @@
             - 各パートがこの時間にできるだけ近くなるようにする。(これより短い場合は長い場合よりペナルティが4倍になる)
         - `time_penalty_coef`
             - この値を大きくすると、時間ペナルティの影響が大きくなり、結合ペナルティの影響が小さくなる。
+        - `penalty_chapters`(リスト)
+            - `manual_chapters` とは逆で、指定した文字列で始まるchapterはpartわけしないようにする。
         - `lump`
             - trueにすると、パート分けされない。その場合`optimal_duration_in_sec`と`time_penalty_coef`は無視される。
     - `clearpage_on_blank_line`
