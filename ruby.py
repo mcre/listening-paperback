@@ -6,17 +6,24 @@ import re
 import MeCab
 
 
+MECAB_OPTION = '-d /usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd --node-format=%m,%M,%H\\n'
+try:
+    MeCab.Tagger(MECAB_OPTION)
+except RuntimeError:
+    MECAB_OPTION = '-r/etc/mecabrc -d /usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd --node-format=%m,%M,%H\\\n'
+
+
 def mecab(line):
-    mt = MeCab.Tagger('-d /usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd')
-    columns = ['表層形', '品詞', '品詞細分類1', '品詞細分類2', '品詞細分類3', '活用型' ,'活用形', '原形', '読み', '発音']
-    mecab_results = [dict(zip(columns, [result if result != '*' else None for result in re.split(',|\t', results + ',*,*,*,*,*')])) for results in mt.parse(line).splitlines() if results != 'EOS']
+    mt = MeCab.Tagger(MECAB_OPTION)
+    columns = ['表層形', '空白付表層形', '品詞', '品詞細分類1', '品詞細分類2', '品詞細分類3', '活用型' ,'活用形', '原形', '読み', '発音']
+    mecab_results = [dict(zip(columns, [result if result != '*' else '' for result in (results + ',*,*,*,*,*').split(',')])) for results in mt.parse(line).splitlines() if results != 'EOS']
 
     s = 0
     ret = []
     for result in mecab_results:
-        len_ = len(result['表層形'])
+        len_ = len(result['空白付表層形'])
         ret.append({
-            'el': (result['表層形'], result['品詞'], result['原形'] or '', result['読み'] or ''),
+            'el': (result['表層形'], result['品詞'], result['原形'], result['読み']),
             'start': s,
             'end': s + len_
         })
@@ -50,7 +57,7 @@ def main():
         'ruby': ruby,
         'offset_from_first_morpheme': offset_from_first_morpheme,
         'morphemes': ['|'.join(m['el']) for m in morphemes],
-    }, ensure_ascii=False, indent=4)
+    }, ensure_ascii=False)
     js = re.sub(r'\[\n\s{12}"(.*)?"', r'["\1"', js)
     js = re.sub(r',\n\s{12}"(.*)?"', r', "\1"', js)
     js = re.sub(r'\n\s{8}]', ']', js)
