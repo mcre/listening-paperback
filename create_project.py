@@ -24,7 +24,7 @@ def create_project(book_id):
 
     response = requests.get(f'http://pubserver2.herokuapp.com/api/v0.1/books/{book_id}/content?format=txt')
     if response.status_code != 200:
-        print(f'テキストが見つかりません')
+        print('テキストが見つかりません')
         sys.exit(1)
 
     response.encoding = 'sjis'
@@ -48,10 +48,6 @@ def create_project(book_id):
             'file': 'bgm_maoudamashii_piano35.mp3',
             'author': '魔王魂',
             'url': 'https://maoudamashii.jokersounds.com/'
-        },
-        'part_configuration_settings': {
-            'optimal_duration_in_sec': 600,
-            'time_penalty_coef': 0.3
         },
         'clearpage_on_blank_line': True,
         'tex_replaces': {},
