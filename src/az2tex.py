@@ -72,7 +72,7 @@ PATTERNS = {
     'latin_double_quote_begin': re.compile(r'“(' + LATIN + r'+?)$'),
     'latin_double_quote_end': re.compile(r'^(' + LATIN + r'+?)”'),
     'many_spaces': re.compile(r'^　{3,}'),
-    'many_symbols': re.compile(r'(…|？|！){13,}'),
+    'many_symbols': re.compile(r'(…|、){4,}'),
     'blank_line': re.compile(r'(?<!((\n|^)[^\n]{1,10}|\n|\\renewcommand{.*?}{.*?}|(\n|^)\\[^\n]{1,}))\n{4,}(?!(\n|\\chapter|\\part|(\\|{| \\)[^　\n]{1,}\n))'),  # chapterの前後や、短い行(コマンドなしタイトルに使われがち)の後、コマンド程度の長さのバクスラで始まる文字列の前後(バクスラスペース除く)は無視する
     'ignores': [
         re.compile(r'［＃ここから(' + N + r')字詰め］'),
@@ -123,8 +123,14 @@ def get_gaiji(s):
         return gaiji_table.get(key, s)
     if s == '※［＃小書き平仮名ん、168-12］':
         return 'ん'
+    if s == '※［＃小書き片仮名ン、484-3］':
+        return 'ン'
     if s == '※［＃「孛＋鳥」、105-11］':
         return '勃'  # 鵓はフォントにないので適当なのに変える
+    if s == '※［＃始め二重括弧、1-2-54］':
+        return '｟'
+    if s == '※［＃終わり二重括弧、1-2-55］':
+        return '｠'
     # unknown format
     return s
 
@@ -236,7 +242,7 @@ def main():
                 if part_name != '':
                     show_part_name = part_name + '\\quad '
                 chapter_name = obj.group(1)
-                body_lines[index] = f'\\chapter{{{chapter_name}}}\n\\renewcommand{{\\headtext}}{{{show_part_name}{ht(chapter_name)}}}\n\n{obj.group(2)}'
+                body_lines[index] = f'\\chapter{{{chapter_name}}}\n\\renewcommand{{\\headtext}}{{{ht(show_part_name)}{ht(chapter_name)}}}\n\n{obj.group(2)}'
 
     for index in range(len(body_lines)):
         body_lines[index] = PATTERNS['accent'].sub(lambda x: accent(x.group(1)), body_lines[index])
@@ -265,7 +271,7 @@ def main():
         body_lines[index] = PATTERNS['latin_double_quote_begin'].sub(r'"\1', body_lines[index])
         body_lines[index] = PATTERNS['latin_double_quote_end'].sub(r'\1"', body_lines[index])
         body_lines[index] = PATTERNS['many_spaces'].sub(r'　　', body_lines[index])  # 行頭3つ以上の全角スペースは２つに減らす
-        body_lines[index] = PATTERNS['many_symbols'].sub(lambda x: x.group()[:12], body_lines[index])  # 記号が並んでると改行されないので(ドグラ・マグラ用)
+        body_lines[index] = PATTERNS['many_symbols'].sub(lambda x: x.group()[:5], body_lines[index])  # 記号が並んでると改行されないので(ドグラ・マグラ用)
         body_lines[index] = PATTERNS['fig'].sub(
             lambda x: '\\clearpage\n\n（' + x.group(1) + '）\n\n\\vspace*{\\stretch{1}}\\begin{center}\\includegraphics[' + image_width(x.group(4), x.group(3)) + ']{' + x.group(2) + '}\\vspace*{\\stretch{1}}\\end{center}\n\n\\clearpage\n\n',
             body_lines[index]
