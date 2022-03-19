@@ -314,7 +314,7 @@ def main():
         body_text
     )
     body_text = PATTERNS['page_center_multiline'].sub(
-        r'\n\\vspace*{\\stretch{1}}\n\1\n\\vspace{\stretch{1}}\\clearpage\n',
+        r'\n\\vspace*{\\stretch{1}}\n\1\n\\vspace{\\stretch{1}}\\clearpage\n',
         body_text
     )
     body_text = PATTERNS['big_multiline'].sub(
