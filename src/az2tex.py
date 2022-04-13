@@ -210,7 +210,7 @@ def apply_only_text(line, command):
 
 
 def ht(name):
-    ret = PATTERNS['headtext'].sub('', name)
+    ret = PATTERNS['headtext'].sub('', name).replace('｜', '')
     return ret
 
 
