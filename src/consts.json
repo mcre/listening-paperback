@@ -357,7 +357,9 @@
         "人相書|名詞|人相書|ニンソウガキ",
         "失礼千万|名詞|失礼千万|シツレイセンバン",
         "町奉行|名詞|町奉行|マチブギョウ",
-        "原版|名詞|原版|ゲンバン"
+        "原版|名詞|原版|ゲンバン",
+        "思う存分|副詞|思う存分|オモウゾンブン",
+        "横木|名詞|横木|ヨコギ"
     ],
     "force_katakana_ruby_starts_with": ["は", "も", "と"],
     "ignore_rubies": [
@@ -3951,7 +3953,21 @@
         {"kanji": "瘋癲", "ruby": "フウテン"},
         {"kanji": "落伍者", "ruby": "ラクゴシャ"},
         {"kanji": "神妙", "ruby": "シンミョウ"},
-        {"kanji": "故", "ruby": "ユエ"}
+        {"kanji": "故", "ruby": "ユエ"},
+        {"kanji": "筋", "ruby": "スジ"},
+        {"kanji": "催促", "ruby": "サイソク"},
+        {"kanji": "閑", "ruby": "かん"},
+        {"kanji": "頓智", "ruby": "トンチ"},
+        {"kanji": "授", "ruby": "さず"},
+        {"kanji": "陀仏", "ruby": "だぶつ"},
+        {"kanji": "馳走", "ruby": "ちそう"},
+        {"kanji": "唐突", "ruby": "トウトツ"},
+        {"kanji": "裂目", "ruby": "サケメ"},
+        {"kanji": "鼠色", "ruby": "ネズミイロ"},
+        {"kanji": "斧", "ruby": "オノ"},
+        {"kanji": "縊死者", "ruby": "イシシャ"},
+        {"kanji": "煩悶", "ruby": "ハンモン"},
+        {"kanji": "低廉", "ruby": "テイレン"}
     ],
     "primary_special_rubies": [
         {"kanji": "堪え得る", "ruby": "耐えうる", "offset_from_first_morpheme": 0, "morphemes": ["堪え|動詞|堪える|コタエ", "得る|動詞|得る|エル"]},
@@ -4126,7 +4142,8 @@
         {"kanji": "兎や角", "ruby": "とやかく", "offset_from_first_morpheme": 0, "morphemes": ["兎|名詞|兎|ウサギ", "や|助詞|や|ヤ", "角|名詞|角|カク"]},
         {"kanji": "行われ様と", "ruby": "行なわれようと", "offset_from_first_morpheme": 0, "morphemes": ["行わ|動詞|行う|オコナワ", "れ|動詞|れる|レ", "様|名詞|様|サマ", "と|助詞|と|ト"]},
         {"kanji": "阿鼻地獄", "ruby": "アビジゴク", "offset_from_first_morpheme": 0, "morphemes": ["阿鼻地獄|名詞|阿鼻地獄|アビジゴク"]},
-        {"kanji": "叫喚地獄", "ruby": "キョーカンジゴク", "offset_from_first_morpheme": 0, "morphemes": ["叫喚地獄|名詞|叫喚地獄|キョウカンジゴク"]}
+        {"kanji": "叫喚地獄", "ruby": "キョーカンジゴク", "offset_from_first_morpheme": 0, "morphemes": ["叫喚地獄|名詞|叫喚地獄|キョウカンジゴク"]},
+        {"kanji": "丸の内", "ruby": "丸の内", "offset_from_first_morpheme": 0, "morphemes": ["丸の内|名詞|丸の内|マルノウチ"]}
     ],
     "special_rubies": [
         {"kanji": "一人きり", "ruby": "ヒトリキリ", "offset_from_first_morpheme": 0, "morphemes": ["一人|名詞|一人|ヒトリ", "きり|名詞|きり|キリ"]},
@@ -5537,6 +5554,7 @@
         {"kanji": "うだつの上らない", "ruby": "うだつのあがらない", "offset_from_first_morpheme": 0, "morphemes": ["うだつ|名詞|うだつ|ウダツ", "の|助詞|の|ノ", "上ら|動詞|上る|ノボラ", "ない|助動詞|ない|ナイ"]},
         {"kanji": "夜一夜", "ruby": "よひとよ", "offset_from_first_morpheme": 0, "morphemes": ["夜|名詞|夜|ヨル", "一|名詞|一|イチ", "夜|名詞|夜|ヤ"]},
         {"kanji": "向こう側", "ruby": "向こう側", "offset_from_first_morpheme": 0, "morphemes": ["向こう|名詞|向こう|ムコウ", "側|名詞|側|ガワ"]},
+        {"kanji": "うしろ側", "ruby": "後ろがわ", "offset_from_first_morpheme": 0, "morphemes": ["うしろ|名詞|うしろ|ウシロ", "側|名詞|側|ガワ"]},
         {"kanji": "側", "ruby": "ソバ", "offset_from_first_morpheme": 0, "morphemes": ["側|名詞|側|ガワ"]},
         {"kanji": "あちら側", "ruby": "あちらがわ", "offset_from_first_morpheme": 0, "morphemes": ["あちら|名詞|あちら|アチラ", "側|名詞|側|ガワ"]},
         {"kanji": "満一昼夜", "ruby": "マン、イッチュウヤ", "offset_from_first_morpheme": 0, "morphemes": ["満|接頭詞|満|マン", "一昼夜|名詞|一昼夜|イッチュウヤ"]},
@@ -5661,6 +5679,7 @@
         {"kanji": "ふにおちない", "ruby": "腑に落ちない", "offset_from_first_morpheme": 0, "morphemes": ["ふ|動詞|ふる|フ", "に|助詞|に|ニ", "おち|動詞|おちる|オチ", "ない|助動詞|ない|ナイ"]},
         {"kanji": "かくされて", "ruby": "隠されて", "offset_from_first_morpheme": 0, "morphemes": ["かくさ|動詞|かくす|カクサ", "れ|動詞|れる|レ", "て|助詞|て|テ"]},
         {"kanji": "空き部屋", "ruby": "空きべや", "offset_from_first_morpheme": 0, "morphemes": ["空き|名詞|空き|アキ", "部屋|名詞|部屋|ヘヤ"]},
+        {"kanji": "空部屋", "ruby": "空きべや", "offset_from_first_morpheme": 0, "morphemes": ["空|名詞|空|ソラ", "部屋|名詞|部屋|ヘヤ"]},
         {"kanji": "三十五、六", "ruby": "サンジュウゴロク", "offset_from_first_morpheme": 0, "morphemes": ["三十五|名詞|三十五|サンジュウゴ", "、|記号|、|、", "六|名詞|六|ロク"]},
         {"kanji": "年うえ", "ruby": "年上", "offset_from_first_morpheme": 0, "morphemes": ["年うえ|名詞|年上|トシウエ"]},
         {"kanji": "りっぱ", "ruby": "立派", "offset_from_first_morpheme": 0, "morphemes": ["りっぱ|名詞|りっぱ|リッパ"]},
@@ -6658,6 +6677,13 @@
         {"kanji": "下っている", "ruby": "下がっている", "offset_from_first_morpheme": 0, "morphemes": ["下っ|動詞|下る|クダッ", "て|助詞|て|テ", "いる|動詞|いる|イル"]},
         {"kanji": "馬鹿ッ", "ruby": "バカ！", "offset_from_first_morpheme": 0, "morphemes": ["馬鹿|名詞|馬鹿|バカ", "ッ|名詞||"]},
         {"kanji": "ご用だッ", "ruby": "御用だ！", "offset_from_first_morpheme": 0, "morphemes": ["ご用|名詞|ご用|ゴヨウ", "だ|助動詞|だ|ダ", "ッ|名詞||"]},
-        {"kanji": "駈昇って行った", "ruby": "駆け登っていった", "offset_from_first_morpheme": 0, "morphemes": ["駈|動詞|駈る|カ", "昇っ|動詞|昇る|ノボッ", "て|助詞|て|テ", "行っ|動詞|行く|イッ", "た|助動詞|た|タ"]}
+        {"kanji": "駈昇って行った", "ruby": "駆け登っていった", "offset_from_first_morpheme": 0, "morphemes": ["駈|動詞|駈る|カ", "昇っ|動詞|昇る|ノボッ", "て|助詞|て|テ", "行っ|動詞|行く|イッ", "た|助動詞|た|タ"]},
+        {"kanji": "見はらす", "ruby": "見晴らす", "offset_from_first_morpheme": 0, "morphemes": ["見|動詞|見る|ミ", "はらす|動詞|はらす|ハラス"]},
+        {"kanji": "たち割った", "ruby": "断ち割った", "offset_from_first_morpheme": 0, "morphemes": ["たち|動詞|たつ|タチ", "割っ|動詞|割る|ワッ", "た|助動詞|た|タ"]},
+        {"kanji": "Ｓ通り", "ruby": "エスどおり", "offset_from_first_morpheme": 0, "morphemes": ["Ｓ|記号|Ｓ|エス", "通り|名詞|通り|ドオリ"]},
+        {"kanji": "怪まれる", "ruby": "怪しまれる", "offset_from_first_morpheme": 0, "morphemes": ["怪|名詞|怪|カイ", "ま|フィラー|ま|マ", "れる|動詞|れる|レル"]},
+        {"kanji": "電線引込用", "ruby": "電線引き込み用", "offset_from_first_morpheme": 0, "morphemes": ["電線|名詞|電線|デンセン", "引込|名詞|引っ込み|ヒッコミ", "用|名詞|用|ヨウ"]},
+        {"kanji": "沈み勝ちな", "ruby": "沈みがちな", "offset_from_first_morpheme": 0, "morphemes": ["沈み|名詞|沈み|シズミ", "勝ち|名詞|勝ち|ガチ", "な|助詞|な|ナ"]},
+        {"kanji": "部屋借り人", "ruby": "ヘヤカリニン", "offset_from_first_morpheme": 0, "morphemes": ["部屋|名詞|部屋|ヘヤ", "借り|動詞|借りる|カリ", "人|名詞|人|ジン"]}
     ]
 }
